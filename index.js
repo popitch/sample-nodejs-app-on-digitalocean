@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express';
 const app = express()
 const port = process.env.PORT || 3000
 
-var LoremIpsum = require('lorem-ipsum').LoremIpsum;
+import { LoremIpsum } from 'lorem-ipsum';
 
 var lorem = new LoremIpsum({
   sentencesPerParagraph: {
