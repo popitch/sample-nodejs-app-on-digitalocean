@@ -26,6 +26,6 @@
     "uglify-js": "^2.6.0",
     
     "pg": "^8.7.1",
-    "sequelize": "^2.6.0s"
+    "sequelize": "^2.6.0"
   }
 }
