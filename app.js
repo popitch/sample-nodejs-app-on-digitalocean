@@ -19,8 +19,8 @@ const
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
     
-    dbConnCert = require('fs').readFileSync(__dirname + '/ca-certificate.crt')
-        .toString()
+    dbConnCert = require('fs').readFileSync(__dirname + '/ca-certificate.crt').toString(),
+    dbConnCertBase64 = dbConnCert
         .replace(/^-*BEGIN CERTIFICATE-*\s*(.*)\s*-*END CERTIFICATE-*\s*$/, '$1'),
     
     Sequelize = require('sequelize'),
@@ -43,7 +43,7 @@ const
                 require: true,
                 rejectUnauthorized: false,
                 ca: dbConnCert,
-                caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
+                //caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
             },
             /*
             
@@ -55,6 +55,10 @@ const
 
 13. Unable to connect to the database. ConnectionError 
 [SequelizeConnectionError]: self signed certificate in certificate chain
+
+14. Unable to connect to the database. ConnectionError 
+[SequelizeConnectionError]: self signed certificate in certificate chain
+
 
             
             dialect: "postgres",
