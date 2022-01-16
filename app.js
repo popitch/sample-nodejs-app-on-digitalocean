@@ -77,9 +77,10 @@ const
         }
     );
 
-console.log('dbConnURL', dbConnURL);
+//console.log('dbConnString', dbConnString);
+//console.log('dbConnURL', dbConnURL);
 console.log('connOpts', JSON.stringify(connOpts, null, 4));
-console.log('parsed dbConnCert', dbConnCert);
+//console.log('parsed dbConnCert', dbConnCert);
 
 // test db connection
 try {
