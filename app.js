@@ -37,7 +37,7 @@ const
             ssl: {
                 require: true,
                 rejectUnauthorized: false,
-                ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
+                ca: ca = require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
             },
             /*
             
@@ -68,6 +68,7 @@ const
     );
 
 console.log('dbConnURL', dbConnURL);
+console.log('ca', ca);
 
 // test db connection
 try {
