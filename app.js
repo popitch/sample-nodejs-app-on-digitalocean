@@ -13,7 +13,9 @@ var indexRouter = require('./routes/index');
 
 // trying to use Postgres db
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+const sequelize = new Sequelize(/*process.env.DATABASE_URL, */{
+	connectionString: process.env.DATABASE_URL,
+
     //host: process.env.DB_HOST || 'localhost',
     //port: process.env.DB_PORT || 5432,
     
@@ -22,6 +24,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //    ssl: process.env.DB_SSL == "true"
     //}
     
+    ssl: {
+        rejectUnauthorized: false,
+    },
+    /*
     dialect: "postgres",
     dialectOptions: {
         ssl: {
@@ -34,6 +40,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
         rejectUnauthorized: false,
         //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
     }
+    */
 });
 
 // test db connection
