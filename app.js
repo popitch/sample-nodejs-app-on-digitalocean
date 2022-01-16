@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 
 
 
-// pre db, fixing #1234 O_o
+// pre db, fixing #99 O_o
 // https://github.com/knex/knex/issues/852#issuecomment-229502678
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -19,7 +19,7 @@ const
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
     
-    dbConnCert = require('fs').readFileSync(__dirname + '/ca-certificate.crt').toString(),
+    dbConnCert = process.env[ "DB_CERTIFICATE" ], // require('fs').readFileSync(__dirname + '/ca-certificate.crt').toString(),
     dbConnCertBase64 = dbConnCert
         .replace(/^-*BEGIN CERTIFICATE-*\s*(.*)\s*-*END CERTIFICATE-*\s*$/, '$1'),
     
