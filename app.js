@@ -35,9 +35,14 @@ const
             port: dbConnURL.port,
             
             dialect: 'postgres',
-            //dialectOptions: {
-            //    ssl: process.env.DB_SSL == "true"
-            //}
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false,
+                    ca: dbConnCert,
+                    //caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
+                },
+            },
             
             ssl: {
                 require: true,
@@ -59,20 +64,6 @@ const
 14. Unable to connect to the database. ConnectionError 
 [SequelizeConnectionError]: self signed certificate in certificate chain
 
-
-            
-            dialect: "postgres",
-            dialectOptions: {
-                ssl: {
-                    require: true,
-                    rejectUnauthorized: false // <<<<<<< YOU NEED THIS
-                }
-            },
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
-                //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
-            }
             */
         }
     );
