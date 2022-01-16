@@ -13,18 +13,24 @@ var indexRouter = require('./routes/index');
 
 // trying to use Postgres db
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(
-	process.env.DATABASE_URL, {
-	    //host: process.env.DB_HOST || 'localhost',
-	    //port: process.env.DB_PORT || 5432,
-	    //dialect: 'postgres',
-	    //dialectOptions: {
-	    //    ssl: process.env.DB_SSL == "true"
-	    //}
-	}
-);
-console.log('process.env', JSON.stringify(sequelize));
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    //host: process.env.DB_HOST || 'localhost',
+    //port: process.env.DB_PORT || 5432,
+    //dialect: 'postgres',
+    //dialectOptions: {
+    //    ssl: process.env.DB_SSL == "true"
+    //}
+});
 
+// test connection
+try {
+    console.log('Connect to db...', process.env.DATABASE_URL);
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+}
+catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
 
 
 
