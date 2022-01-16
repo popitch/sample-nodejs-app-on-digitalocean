@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "echo \"${JWT_CERT}\" > jwt.cer && node ./bin/www"
+        "start": "node ./bin/www"
     },
     "dependencies": {
 	"typescript": "~3.3.3",
