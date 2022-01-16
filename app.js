@@ -16,11 +16,21 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //host: process.env.DB_HOST || 'localhost',
     //port: process.env.DB_PORT || 5432,
+    
     //dialect: 'postgres',
     //dialectOptions: {
     //    ssl: process.env.DB_SSL == "true"
     //}
+    
+    dialect: "postgres",
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+        }
+    },
     ssl: {
+        require: true,
         rejectUnauthorized: false,
         //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
     }
