@@ -16,15 +16,16 @@ pg.defaults.ssl = true;
 
 // use postgres db
 const 
-    dbConnURL = new URL(process.env.DATABASE_URL),
+    dbConnString = process.env.DATABASE_URL + "&ssl=true",
+    dbConnURL = new URL(dbConnString),
     
     Sequelize = require('sequelize'),
     sequelize = new Sequelize(
         dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;)
         dbConnURL.username,
         dbConnURL.password,
-        {
-            connectionString: process.env.DATABASE_URL + "&ssl=true",
+        connOpts = {
+            connectionString: dbConnString,
         
             host: dbConnURL.hostname,
             port: dbConnURL.port,
@@ -68,7 +69,8 @@ const
     );
 
 console.log('dbConnURL', dbConnURL);
-console.log('ca', ca);
+console.log('connOpts', JSON.stringify(connOpts, null, 4));
+console.log('parsed base64 connOpts.ssl.ca', btoa(connOpts.ssl.ca));
 
 // test db connection
 try {
