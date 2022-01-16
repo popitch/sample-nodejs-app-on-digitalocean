@@ -17,9 +17,9 @@ const
     
     Sequelize = require('sequelize'),
     sequelize = new Sequelize(
-        dbConnURL.pathname.sub(1), // database, "/defaultdb" => "defaultdb" ;)
-        dbConnURL.username, // username
-        dbConnURL.password, // password
+        dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;)
+        dbConnURL.username,
+        dbConnURL.password,
         {
             //connectionString: process.env.DATABASE_URL,
         
@@ -36,7 +36,9 @@ const
             },
             /*
             
-            Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+            11. Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+            
+            12. Unable to connect to the database. ConnectionError [SequelizeConnectionError]: no pg_hba.conf entry for host "174.138.104.209", user "doadmin", database "<sub>/defaultdb</sub>", SSL off
             
             dialect: "postgres",
             dialectOptions: {
