@@ -20,6 +20,9 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //dialectOptions: {
     //    ssl: process.env.DB_SSL == "true"
     //}
+    ssl: {
+        ca: fs.readFileSync(__dirname + '/ca-certificate.crt'),
+    }
 });
 
 // test db connection
