@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 var router = express.Router();
 
 /* GET home page. */
@@ -8,7 +8,8 @@ var router = express.Router();
 
 
 // import { LoremIpsum } from 'lorem-ipsum';
-const LoremIpsum = require('lorem-ipsum').LoremIpsum;
+//const LoremIpsum = require('lorem-ipsum').LoremIpsum;
+var LoremIpsum = require('lorem-ipsum').LoremIpsum;
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
