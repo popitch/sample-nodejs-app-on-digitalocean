@@ -22,7 +22,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //}
     ssl: {
         rejectUnauthorized: false,
-        ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
+        //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
     }
 });
 
