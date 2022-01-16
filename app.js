@@ -9,7 +9,10 @@ var indexRouter = require('./routes/index');
 
 
 
-
+// pre db, fixing O_o
+// https://github.com/knex/knex/issues/852#issuecomment-229502678
+var pg = require('pg');
+pg.defaults.ssl = true;
 
 // use postgres db
 const 
