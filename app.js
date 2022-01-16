@@ -21,7 +21,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //    ssl: process.env.DB_SSL == "true"
     //}
     ssl: {
-        ca: fs.readFileSync(__dirname + '/ca-certificate.crt'),
+        ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
     }
 });
 
