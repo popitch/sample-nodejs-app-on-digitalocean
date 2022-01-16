@@ -8,12 +8,6 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 
-
-// pre db, fixing #99 O_o
-// https://github.com/knex/knex/issues/852#issuecomment-229502678
-//var pg = require('pg');
-//pg.defaults.ssl = true;
-
 // use postgres db
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
@@ -43,20 +37,19 @@ const
                     //caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
                 },
             },
-            
+            /*
             ssl: {
                 require: true,
                 rejectUnauthorized: false,
                 ca: dbConnCert,
                 //caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
             },
+            */
         }
     );
 
-//console.log('dbConnString', dbConnString);
-//console.log('dbConnURL', dbConnURL);
 console.log('connOpts', JSON.stringify(connOpts, null, 4));
-//console.log('parsed dbConnCert', dbConnCert);
+
 
 // test db connection
 try {
