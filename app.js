@@ -19,6 +19,10 @@ const
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
     
+    dbConnCert = require('fs').readFileSync(__dirname + '/ca-certificate.crt')
+        .toString()
+        .replace(/^-*BEGIN CERTIFICATE-*\s*(.*)\s*-*END CERTIFICATE-*\s*$/, '$1'),
+    
     Sequelize = require('sequelize'),
     sequelize = new Sequelize(
         dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;)
@@ -38,7 +42,8 @@ const
             ssl: {
                 require: true,
                 rejectUnauthorized: false,
-                ca: ca = require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
+                ca: dbConnCert,
+                caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
             },
             /*
             
@@ -70,7 +75,7 @@ const
 
 console.log('dbConnURL', dbConnURL);
 console.log('connOpts', JSON.stringify(connOpts, null, 4));
-console.log('parsed base64 connOpts.ssl.ca', btoa(connOpts.ssl.ca));
+console.log('parsed dbConnCert', dbConnCert);
 
 // test db connection
 try {
