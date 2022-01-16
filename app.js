@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 
 
 
-// pre db, fixing O_o
+// pre db, fixing #1234 O_o
 // https://github.com/knex/knex/issues/852#issuecomment-229502678
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -24,10 +24,10 @@ const
         dbConnURL.username,
         dbConnURL.password,
         {
-            //connectionString: process.env.DATABASE_URL,
+            connectionString: process.env.DATABASE_URL,
         
-            host: dbConnURL.hostname || process.env.DB_HOST || 'db-postgresql-ams3-69375-do-user-10580711-0.b.db.ondigitalocean.com' || 'localhost',
-            port: dbConnURL.port || process.env.DB_PORT || 25060 || 5432,
+            host: dbConnURL.hostname,
+            port: dbConnURL.port,
             
             dialect: 'postgres',
             //dialectOptions: {
@@ -35,7 +35,9 @@ const
             //}
             
             ssl: {
+                require: true,
                 rejectUnauthorized: false,
+                ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
             },
             /*
             
