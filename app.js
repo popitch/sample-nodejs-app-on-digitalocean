@@ -24,7 +24,7 @@ const
         dbConnURL.username,
         dbConnURL.password,
         {
-            connectionString: process.env.DATABASE_URL,
+            connectionString: process.env.DATABASE_URL + "&ssl=true",
         
             host: dbConnURL.hostname,
             port: dbConnURL.port,
@@ -41,9 +41,15 @@ const
             },
             /*
             
-            11. Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
-            
-            12. Unable to connect to the database. ConnectionError [SequelizeConnectionError]: no pg_hba.conf entry for host "174.138.104.209", user "doadmin", database "<sub>/defaultdb</sub>", SSL off
+11. Unable to connect to the database. ConnectionRefusedError 
+[SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+
+12. Unable to connect to the database. ConnectionError 
+[SequelizeConnectionError]: no pg_hba.conf entry for host "174.138.104.209", user "doadmin", database "<sub>/defaultdb</sub>", SSL off
+
+13. Unable to connect to the database. ConnectionError 
+[SequelizeConnectionError]: self signed certificate in certificate chain
+
             
             dialect: "postgres",
             dialectOptions: {
