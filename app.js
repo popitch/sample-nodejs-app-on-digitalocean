@@ -11,40 +11,50 @@ var indexRouter = require('./routes/index');
 
 
 
-// trying to use Postgres db
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(/*process.env.DATABASE_URL, */{
-	connectionString: process.env.DATABASE_URL,
-
-    host: process.env.DB_HOST || 'db-postgresql-ams3-69375-do-user-10580711-0.b.db.ondigitalocean.com' || 'localhost',
-    port: process.env.DB_PORT || 25060 || 5432,
+// use postgres db
+const 
+    dbConnURL = new URL(process.env.DATABASE_URL),
     
-    dialect: 'postgres',
-    //dialectOptions: {
-    //    ssl: process.env.DB_SSL == "true"
-    //}
-    
-    ssl: {
-        rejectUnauthorized: false,
-    },
-    /*
-    
-    Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
-    
-    dialect: "postgres",
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+    Sequelize = require('sequelize'),
+    sequelize = new Sequelize(
+        dbConnURL.pathname.sub(1), // database, "/defaultdb" => "defaultdb" ;)
+        dbConnURL.username, // username
+        dbConnURL.password, // password
+        {
+            //connectionString: process.env.DATABASE_URL,
+        
+            host: dbConnURL.hostname || process.env.DB_HOST || 'db-postgresql-ams3-69375-do-user-10580711-0.b.db.ondigitalocean.com' || 'localhost',
+            port: dbConnURL.port || process.env.DB_PORT || 25060 || 5432,
+            
+            dialect: 'postgres',
+            //dialectOptions: {
+            //    ssl: process.env.DB_SSL == "true"
+            //}
+            
+            ssl: {
+                rejectUnauthorized: false,
+            },
+            /*
+            
+            Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+            
+            dialect: "postgres",
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+                }
+            },
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+                //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
+            }
+            */
         }
-    },
-    ssl: {
-        require: true,
-        rejectUnauthorized: false,
-        //ca: require('fs').readFileSync(__dirname + '/ca-certificate.crt'),
-    }
-    */
-});
+    );
+
+console.log('dbConnURL', dbConnURL);
 
 // test db connection
 try {
