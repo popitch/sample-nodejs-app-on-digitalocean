@@ -16,8 +16,8 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(/*process.env.DATABASE_URL, */{
 	connectionString: process.env.DATABASE_URL,
 
-    //host: process.env.DB_HOST || 'localhost',
-    //port: process.env.DB_PORT || 5432,
+    host: process.env.DB_HOST || 'db-postgresql-ams3-69375-do-user-10580711-0.b.db.ondigitalocean.com' || 'localhost',
+    port: process.env.DB_PORT || 25060 || 5432,
     
     dialect: 'postgres',
     //dialectOptions: {
@@ -28,6 +28,9 @@ const sequelize = new Sequelize(/*process.env.DATABASE_URL, */{
         rejectUnauthorized: false,
     },
     /*
+    
+    Unable to connect to the database. ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+    
     dialect: "postgres",
     dialectOptions: {
         ssl: {
