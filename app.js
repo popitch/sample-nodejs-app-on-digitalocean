@@ -26,7 +26,7 @@ const sequelize = new Sequelize(
 	    }
 	}
 );
-
+console.log('process.env', JSON.stringify(process.env));
 
 
 
