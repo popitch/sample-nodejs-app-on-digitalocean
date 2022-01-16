@@ -22,11 +22,14 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     //}
 });
 
-// test connection
+// test db connection
 try {
     console.log('Connect to db...', process.env.DATABASE_URL);
-    /*await*/ sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    /*await*/ 
+    const dbConnPromise = sequelize.authenticate();
+    dbConnPromise
+        .then(console.log.bind(console, 'Connection has been established successfully.'))
+        .catch(console.error.bind(console, 'Unable to connect to the database.'));
 }
 catch (error) {
     console.error('Unable to connect to the database:', error);
