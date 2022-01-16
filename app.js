@@ -11,8 +11,8 @@ var indexRouter = require('./routes/index');
 
 // pre db, fixing #99 O_o
 // https://github.com/knex/knex/issues/852#issuecomment-229502678
-var pg = require('pg');
-pg.defaults.ssl = true;
+//var pg = require('pg');
+//pg.defaults.ssl = true;
 
 // use postgres db
 const 
@@ -20,8 +20,8 @@ const
     dbConnURL = new URL(dbConnString),
     
     dbConnCert = process.env[ "DB_CERTIFICATE" ], // require('fs').readFileSync(__dirname + '/ca-certificate.crt').toString(),
-    dbConnCertBase64 = dbConnCert
-        .replace(/^-*BEGIN CERTIFICATE-*\s*(.*)\s*-*END CERTIFICATE-*\s*$/, '$1'),
+    //dbConnCertBase64 = dbConnCert
+    //    .replace(/^-*BEGIN CERTIFICATE-*\s*(.*)\s*-*END CERTIFICATE-*\s*$/, '$1'),
     
     Sequelize = require('sequelize'),
     sequelize = new Sequelize(
@@ -50,21 +50,6 @@ const
                 ca: dbConnCert,
                 //caBase64Decoded: new Buffer(dbConnCert, 'base64').toString('ascii'),
             },
-            /*
-            
-11. Unable to connect to the database. ConnectionRefusedError 
-[SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
-
-12. Unable to connect to the database. ConnectionError 
-[SequelizeConnectionError]: no pg_hba.conf entry for host "174.138.104.209", user "doadmin", database "<sub>/defaultdb</sub>", SSL off
-
-13. Unable to connect to the database. ConnectionError 
-[SequelizeConnectionError]: self signed certificate in certificate chain
-
-14. Unable to connect to the database. ConnectionError 
-[SequelizeConnectionError]: self signed certificate in certificate chain
-
-            */
         }
     );
 
@@ -77,10 +62,14 @@ console.log('connOpts', JSON.stringify(connOpts, null, 4));
 try {
     console.log('Connect to db...', process.env.DATABASE_URL);
     /*await*/ 
-    const dbConnPromise = sequelize.authenticate();
-    dbConnPromise
-        .then(console.log.bind(console, 'Connection has been established successfully.'))
-        .catch(console.error.bind(console, 'Unable to connect to the database.'));
+    sequelize.authenticate()
+        .catch(console.error.bind(console, 'Unable to connect to the database.'))
+        .then(() => {
+        	console.log('Connection has been established successfully.');
+        	
+        	// test conn
+        	
+        });
 }
 catch (error) {
     console.error('Unable to connect to the database:', error);
