@@ -8,6 +8,12 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 
+
+// init sniffer
+const changerz = require('./xx/changerz');
+changerz.init(0);
+
+
 // use postgres db
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
