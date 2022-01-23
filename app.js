@@ -10,8 +10,15 @@ var indexRouter = require('./routes/index');
 
 
 // init sniffer
-const changerz = require('./xx/changerz');
-changerz.init(0);
+//const changerz = require('./xx/changerz');
+//changerz.init(0);
+const changers = ((initial) => {
+	console.log('Setup with', initial.length, 'changers, where with verified xml source:', initial.filter(c => c.xml && c.xmlVerified).length);
+	
+	return initial;
+})(
+	JSON.parse(process.env[ "DB_CHANGERS" ])
+);
 
 
 // use postgres db
