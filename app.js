@@ -13,11 +13,13 @@ var indexRouter = require('./routes/index');
 //const changerz = require('./xx/changerz');
 //changerz.init(0);
 const changers = ((initial) => {
-	console.log('Setup with', initial.length, 'changers, where with verified xml source:', initial.filter(c => c.xml && c.xmlVerified).length);
-	
-	return initial;
+    console.log('Setup with', initial.length, 'changers, where with verified xml source:', initial.filter(c => c.xml && c.xmlVerified).length);
+    
+    process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
+    
+    return initial;
 })(
-	JSON.parse(process.env[ "XX_CHANGERS" ])
+    JSON.parse(process.env[ "XX_CHANGERS" ])
 );
 
 
@@ -71,10 +73,10 @@ try {
     sequelize.authenticate()
         .catch(console.error.bind(console, 'Unable to connect to the database.'))
         .then(() => {
-        	console.log('Connection has been established successfully.');
-        	
-        	// test conn
-        	
+            console.log('Connection has been established successfully.');
+            
+            // test conn
+            
         });
 }
 catch (error) {
