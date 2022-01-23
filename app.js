@@ -13,9 +13,25 @@ var indexRouter = require('./routes/index');
 //const changerz = require('./xx/changerz');
 //changerz.init(0);
 const changers = ((initial) => {
-    console.log('Setup with', initial.length, 'changers, where with verified xml source:', initial.filter(c => c.xml && c.xmlVerified).length);
+    const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+        older = () => {
+            return changersWithXml.sort((a,b) => (a.xmlLastAt || 0) - (b.xmlLastAt || 0))[ 0 ]; // O(N^2)
+        },
+        updateOlder = () => {
+        	const ch = older();
+        	
+        	console.log('xml:', ch.xml);
+        	
+        	ch.xmlLastAt = +new Date;
+        	
+        	setTimeout(updateOlder, 5000);
+        };
     
-    process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
+    console.log('Setup with', initial.length, 'changers, where with verified xml source:', changersWithXml.length);
+    
+    //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
+    
+    
     
     return initial;
 })(
