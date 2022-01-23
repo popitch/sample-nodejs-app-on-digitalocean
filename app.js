@@ -17,7 +17,7 @@ const changers = ((initial) => {
 	
 	return initial;
 })(
-	JSON.parse(process.env[ "DB_CHANGERS" ])
+	JSON.parse(process.env[ "XX_CHANGERS" ])
 );
 
 
