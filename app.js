@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 // init sniffer
 (async (initial) => {
     const fetch = require('node-fetch'),
-        convert = require('xml-js')
+        convert = require('xml-js'),
               _ = require('underscorejs');
 
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
