@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
 (async (initial) => {
     const fetch = require('node-fetch'),
         convert = require('xml-js'),
-              _ = require('underscorejs');
+              _ = require('underscore');
 
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
     
