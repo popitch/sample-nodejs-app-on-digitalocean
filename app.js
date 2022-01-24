@@ -30,7 +30,7 @@ var indexRouter = require('./routes/index');
 
                 const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 }),
                     rates = jso.rates.item;
-                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', _.mapObject(rates[0], r => r._text));
+                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', _.transform(rates[0], (r, v, k) => r[k] = v._text));
             
                 ch.xmlLastAt = +new Date;
                 
