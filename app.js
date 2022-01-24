@@ -29,7 +29,7 @@ const fetch = require('node-fetch'),
 
                 const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 }),
                     rates = jso.rates.item;
-                console.log('xml:', ch.xml, '... xml parsed', rates.legth, 'rates', 'with one', rates[0]);
+                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', rates[0]);
             
                 ch.xmlLastAt = +new Date;
                 
