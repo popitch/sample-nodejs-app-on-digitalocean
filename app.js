@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
 const fetch = require('node-fetch'),
     convert = require('xml-js');
 
-const changers = ((initial) => {
+(async (initial) => {
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
     
         older = () => {
