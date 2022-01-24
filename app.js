@@ -23,10 +23,11 @@ const fetch = require('node-fetch'),
             const ch = older();
             
             try {
-                const response = await fetch(ch.xml).text();
-                console.log('xml:', ch.xml, '... xml ', response.length, 'B', response);
+                const response = await fetch(ch.xml),
+                    responseText = await response.text();
+                console.log('xml:', ch.xml, '... xml ', responseText.length, 'B', responseText);
 
-                const jso = convert.xml2js(response, { trim: true, compact: true, spaces: 4 });
+                const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 });
                 console.log('xml:', ch.xml, '... xml parsed', jso);
             } catch(e) {
                 console.log('xml:', ch.xml, '... ERROR:', e);
