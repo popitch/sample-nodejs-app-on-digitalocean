@@ -10,31 +10,37 @@ var indexRouter = require('./routes/index');
 
 
 // init sniffer
-//const changerz = require('./xx/changerz');
-//changerz.init(0);
+const fetch = require('node-fetch'),
+    convert = require('xml-js');
+
 const changers = ((initial) => {
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+    
         older = () => {
-            return changersWithXml.sort((a,b) => (a.xmlLastAt || 0) - (b.xmlLastAt || 0))[ 0 ]; // O(N^2)
+            return changersWithXml.sort((a,b) => (a.xmlLastAt || 0) - (b.xmlLastAt || 0))[ 0 ]; // O(N^log(N))
         },
         updateOlder = () => {
-        	const ch = older();
-        	
-        	console.log('xml:', ch.xml);
-        	
-        	ch.xmlLastAt = +new Date;
-        	
-        	setTimeout(updateOlder, 5000);
+            const ch = older();
+            
+            console.log('xml:', ch.xml, '...');
+            try {
+                const xml = await fetch(ch.xml);
+                console.log('xml:', ch.xml, '... ', xml);
+            } catch(e) {
+                console.log('xml:', ch.xml, '... ERROR:', e);
+            }
+            
+            ch.xmlLastAt = +new Date;
+            
+            setTimeout(updateOlder, 5000);
         };
     
+    // todo: setup from db
     console.log('Setup with', initial.length, 'changers, where with verified xml source:', changersWithXml.length);
     
     //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
     // start
     updateOlder();
-    
-    
-    return initial;
 })(
     JSON.parse(process.env[ "XX_CHANGERS" ])
 );
