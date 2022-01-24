@@ -19,7 +19,7 @@ const fetch = require('node-fetch'),
         older = () => {
             return changersWithXml.sort((a,b) => (a.xmlLastAt || 0) - (b.xmlLastAt || 0))[ 0 ]; // O(N^log(N))
         },
-        updateOlder = () => {
+        updateOlder = async () => {
             const ch = older();
             
             console.log('xml:', ch.xml, '...');
