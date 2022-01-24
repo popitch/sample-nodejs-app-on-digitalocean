@@ -24,8 +24,10 @@ const fetch = require('node-fetch'),
             
             console.log('xml:', ch.xml, '...');
             try {
-                const xml = await fetch(ch.xml);
-                console.log('xml:', ch.xml, '... ', xml);
+                const response = await fetch(ch.xml);
+                const xml = await response.xml();
+                const json = await response.json();
+                console.log('xml:', ch.xml, '... ', xml, json);
             } catch(e) {
                 console.log('xml:', ch.xml, '... ERROR:', e);
             }
