@@ -28,6 +28,7 @@
         
         "node-fetch": "^2.6.0",
         "xml-js": "^1.6.11",
+        "underscorejs": "@latest",
         
         "pg": "~8.7.1",
         "sequelize": "~6.12.4"
