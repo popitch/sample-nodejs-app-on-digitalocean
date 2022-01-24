@@ -10,10 +10,11 @@ var indexRouter = require('./routes/index');
 
 
 // init sniffer
-const fetch = require('node-fetch'),
-    convert = require('xml-js');
-
 (async (initial) => {
+    const fetch = require('node-fetch'),
+        convert = require('xml-js')
+              _ = require('underscorejs');
+
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
     
         older = () => {
@@ -29,12 +30,15 @@ const fetch = require('node-fetch'),
 
                 const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 }),
                     rates = jso.rates.item;
-                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', rates[0]);
+                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', _.mapObject(rates[0], r => r._text));
             
                 ch.xmlLastAt = +new Date;
                 
                 setTimeout(updateOlder, 5000);
             } catch(e) {
+	
+	           
+	
                 console.log('xml:', ch.xml, '... ERROR:', e);
             }
         };
