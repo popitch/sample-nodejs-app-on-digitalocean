@@ -25,17 +25,17 @@ const fetch = require('node-fetch'),
             try {
                 const response = await fetch(ch.xml),
                     responseText = await response.text();
-                console.log('xml:', ch.xml, '... xml ', responseText.length, 'B', responseText);
+                console.log('xml:', ch.xml, '... xml ', responseText.length, 'bytes');
 
                 const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 });
-                console.log('xml:', ch.xml, '... xml parsed', jso);
+                console.log('xml:', ch.xml, '... xml parsed[0]', jso[0]);
+            
+                ch.xmlLastAt = +new Date;
+                
+                setTimeout(updateOlder, 5000);
             } catch(e) {
                 console.log('xml:', ch.xml, '... ERROR:', e);
             }
-            
-            ch.xmlLastAt = +new Date;
-            
-            setTimeout(updateOlder, 5000);
         };
     
     // todo: setup from db
