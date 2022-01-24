@@ -27,7 +27,7 @@ const fetch = require('node-fetch'),
                 const response = await fetch(ch.xml);
                 //const xml = await response.xml();
                 //const json = await response.json();
-                const jso = convert.xml2json(response.text(), { compact: true, spaces: 4 });
+                const jso = convert.xml2js(response.text(), { trim: true, compact: true, spaces: 4 });
                 console.log('xml:', ch.xml, '... xml ', response.text().length, 'bytes, resp', jso);
             } catch(e) {
                 console.log('xml:', ch.xml, '... ERROR:', e);
