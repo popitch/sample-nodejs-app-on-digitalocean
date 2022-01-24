@@ -30,7 +30,8 @@ const changers = ((initial) => {
     console.log('Setup with', initial.length, 'changers, where with verified xml source:', changersWithXml.length);
     
     //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
-    
+    // start
+    updateOlder();
     
     
     return initial;
