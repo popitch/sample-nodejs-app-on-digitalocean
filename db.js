@@ -38,11 +38,13 @@ const
 
 
 // create tables
-connThen(db => {
+connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
     
-    queryInterface.createTable('Person', {
-        name: DataTypes.STRING,
+    await queryInterface.dropTable('Person');
+    
+    await queryInterface.createTable('Person', {
+        name: DataTypes.FLOAT,
         isBetaMember: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
