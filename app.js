@@ -52,8 +52,8 @@ var indexRouter = require('./routes/index');
     	                    r[k] = v._text;
 	                    }
 	                });
-                    rate.param = _.transform(rate.param ? rate.param.split(',').sort() : [],
-                        (r, v) => r[v] = true, {}); // rate flags as plain object
+                    rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
+                        (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
                     return rate;
                 });
                 
@@ -88,11 +88,11 @@ var indexRouter = require('./routes/index');
 );
 
 
-// use postgres db
+// db
 const db = require('./db');
 //db.then(db => console.log('db.then((db => #1 ..)', !! db));
-db.then(db => console.log('db.then((db => #2 ..)', !! db));
-db.then(db => console.log('db.then((db => #3 ..)', !! db));
+//db.then(db => console.log('db.then((db => #2 ..)', !! db));
+//db.then(db => console.log('db.then((db => #3 ..)', !! db));
 
 
 

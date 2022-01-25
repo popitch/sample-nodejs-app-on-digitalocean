@@ -7,7 +7,7 @@ const
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
     
     sequelize = new Sequelize(
-        dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;)
+        dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;^]
         dbConnURL.username,
         dbConnURL.password,
         connOpts = {
@@ -37,9 +37,16 @@ const
     connThen = then => connReady.then(() => then(sequelize));
 
 
-// create tables (aka db init)
+// postgres setup
+require('pg').types.setTypeParser(1114, stringValue => {
+    return new Date(stringValue + '+0000');
+    // e.g., UTC offset. Use any offset that you would like.
+});
+
+
+// create tables (aka db setup)
 connThen(async (db) => {
-    const { Sequelize, DataTypes } = require('sequelize');
+    //const { Sequelize, DataTypes } = require('sequelize');
     
     const queryInterface = db.getQueryInterface();
     
@@ -88,6 +95,70 @@ connThen(async (db) => {
         },
         xmlStartedAt: {
             type: DataTypes.INTEGER,
+            defaultValue: null,
+            allowNull: true,
+        },
+    });
+    
+    await queryInterface.dropTable('ExchangeRate');    
+    await queryInterface.createTable('ExchangerRate', {
+        from: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        to: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        in: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        out: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        amount: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        minamount: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        maxamount: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        param: {
+            type: DataTypes.JSON,
+            defaultValue: '{}',
+            allowNull: false,
+        },
+        minfee: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        fromfee: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        tofee: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        city: {
+            type: DataTypes.STRING,
             defaultValue: null,
             allowNull: true,
         },
