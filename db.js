@@ -26,20 +26,33 @@ const
             }
         }
     );
-
-console.log('connOpts', JSON.stringify(connOpts, null, 4));
+//console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
 
 // connect
-const connReady = sequelize.authenticate()
-    .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
-    .then((arg) => {
-        console.log('DB...', 'Connection has been established successfully.');
-        
-        //ready.resolve(sequelize);
+const
+    connReady = sequelize.authenticate()
+        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
+        .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
+    connThen = then => connReady.then(() => then(sequelize));
+
+
+// create tables
+connThen(db => {
+    const queryInterface = db.getQueryInterface();
+    
+    queryInterface.createTable('Person', {
+        name: DataTypes.STRING,
+        isBetaMember: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
+        }
     });
+});
+
 
 // exports
 module.exports = {
-    then: then => connReady.then(() => then(sequelize))
+    then: then => connThen
 };
