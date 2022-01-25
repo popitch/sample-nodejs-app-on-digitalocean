@@ -1,4 +1,5 @@
 const sequelizemo = require('sequelize');
+const schema = require('./db.schema');
 
 // setup postgres
 require('pg').types.setTypeParser(1114, stringValue => {
@@ -58,9 +59,6 @@ sequelizemo.define('ExchangeRate', schema.ExchangeRate.fields, {
 
 // create tables (aka db setup)
 connThen(async (db) => {
-    const schema = require('./db.schema');
-    //console.log('db.schema', schema);
-    
     const queryInterface = db.getQueryInterface();
     
     await queryInterface.dropTable('Exchanger');    
