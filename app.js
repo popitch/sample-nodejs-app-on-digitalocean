@@ -70,7 +70,7 @@ var indexRouter = require('./routes/index');
             }
             
             
-            const db = require('./db');
+            //const db = require('./db');
             db.then(db => console.log("require('./db').then(db => #N-th ", !! db));
             
             // tick
@@ -90,7 +90,7 @@ var indexRouter = require('./routes/index');
 
 // use postgres db
 const db = require('./db');
-db.then(db => console.log('db.then((db => #1 ..)', !! db));
+//db.then(db => console.log('db.then((db => #1 ..)', !! db));
 db.then(db => console.log('db.then((db => #2 ..)', !! db));
 db.then(db => console.log('db.then((db => #3 ..)', !! db));
 
