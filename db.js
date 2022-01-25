@@ -37,24 +37,65 @@ const
     connThen = then => connReady.then(() => then(sequelize));
 
 
-// create tables
+// create tables (aka db init)
 connThen(async (db) => {
+    const { Sequelize, DataTypes } = require('sequelize');
+    
     const queryInterface = db.getQueryInterface();
     
-    await queryInterface.dropTable('Person');
-    
-    await queryInterface.createTable('Person', {
-        name: DataTypes.FLOAT,
-        isBetaMember: {
+    await queryInterface.dropTable('Exchanger');    
+    await queryInterface.createTable('Exchanger', {
+        /* id: {
+            primaryKey: true,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+        }, */
+  
+        bcId: {
+            type: DataTypes.INTEGER,
+            defaultValue: null,
+            allowNull: false,
+        },
+        name: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: false,
+        },
+        param: {
+            type: DataTypes.JSON,
+            defaultValue: '{}',
+            allowNull: false,
+        },
+        
+        xml: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        xmlVerified: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
-            allowNull: false
-        }
+        },
+        xmlStage: {
+            type: DataTypes.STRING,
+            defaultValue: null,
+            allowNull: true,
+        },
+        xmlParsedAt: {
+            type: DataTypes.INTEGER,
+            defaultValue: null,
+            allowNull: true,
+        },
+        xmlStartedAt: {
+            type: DataTypes.INTEGER,
+            defaultValue: null,
+            allowNull: true,
+        },
     });
 });
 
 
 // exports
 module.exports = {
-    then: then => connThen
+    then: then => connThen(then),
 };

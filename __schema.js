@@ -1,5 +1,5 @@
 DB_SCHEMA = {
-    "ExchangeActor": {
+    "Exchanger": {
         "bcId": {
             "sample": 743,
             "type": "Natural",
