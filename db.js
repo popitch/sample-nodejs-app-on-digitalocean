@@ -44,14 +44,14 @@ const
     connThen = then => connReady.then(() => then(sequelize));
 
 // define models
-sequelizemo.define('Exchanger', schema.Exchanger.fields, {
+sequelize.define('Exchanger', schema.Exchanger.fields, {
     indexes: schema.Exchanger.indexes,
     createdAt: true,
     updatedAt: true,
     charset: 'UTF8',
     initialAutoIncrement: 1e6,
 });
-sequelizemo.define('ExchangeRate', schema.ExchangeRate.fields, {
+sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
     createdAt: true,
     charset: 'UTF8',
