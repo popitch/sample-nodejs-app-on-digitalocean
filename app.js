@@ -50,7 +50,8 @@ var indexRouter = require('./routes/index');
 	                    if (!i && ! v._text) console.warn("Can't parse", k, 'with', v);
 	                    r[k] = v._text;
 	                });
-                    rate.param = rate.param ? rate.param.split(',') : [];
+                    rate.param = _.transform(rate.param ? rate.param.split(',').sort() : [],
+                        (r, v) => r[v] = true); // rate flags as plain object
                     return rate;
                 });
                 
