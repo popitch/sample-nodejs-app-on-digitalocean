@@ -52,13 +52,19 @@ var indexRouter = require('./routes/index');
     	                    r[k] = v._text;
 	                    }
 	                });
+	                
                     rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
                         (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
                     return rate;
                 });
                 
-                // mark as parsed
+                // set ids / parsedAt / updatedAt
                 ch.xmlParsedAt = +new Date;
+                rates.forEach(rate => {
+                    rate.id = ch.bcId;
+                    rate.bcId = ch.bcId;
+                    rate.updatedAt = ch.xmlParsedAt;
+                });
                 
                 ch.xmlStage = 'parsed';
                 console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms');
@@ -66,12 +72,13 @@ var indexRouter = require('./routes/index');
                 // unmark as started
                 ch.xmlStartedAt = null;
             } catch(e) {
-                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no subject>'), 'with', e);
+                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
             }
             
             
-            //const db = require('./db');
-            db.then(db => console.log("require('./db').then(db => #N-th ", !! db));
+            db.then(db => {
+                db
+            });
             
             // tick
             setTimeout(updateOlderOne, 5000);

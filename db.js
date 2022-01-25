@@ -1,4 +1,4 @@
-const { Sequelize/*, DataTypes*/ } = require('sequelize');
+const sequelize = require('sequelize');
 
 // setup postgres
 require('pg').types.setTypeParser(1114, stringValue => {
@@ -6,13 +6,14 @@ require('pg').types.setTypeParser(1114, stringValue => {
     // e.g., UTC offset. Use any offset that you would like.
 });
 
+// setup connection
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
     
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
     
-    sequelize = new Sequelize(
+    sequelize = new sequelize.Sequelize(
         dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;^]
         dbConnURL.username,
         dbConnURL.password,
@@ -34,7 +35,6 @@ const
     );
 //console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
-
 // connect
 const
     connReady = sequelize.authenticate()
@@ -42,6 +42,18 @@ const
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
     connThen = then => connReady.then(() => then(sequelize));
 
+// define models
+sequelize.define('Exchanger', schema.Exchanger.fields, {
+    indexes: schema.Exchanger.indexes,
+    createdAt: true,
+    charset: 'UTF8',
+    initialAutoIncrement: 1e6,
+});
+sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
+    indexes: schema.ExchangeRate.indexes,
+    createdAt: true,
+    charset: 'UTF8',
+});
 
 // create tables (aka db setup)
 connThen(async (db) => {
