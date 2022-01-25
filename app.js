@@ -70,7 +70,7 @@ var indexRouter = require('./routes/index');
 
                     ch.xmlStage = 'bulk ' + ratesBulk.length + ' rate(s)';
                     db.models.ExchangeRate
-                        .bulkCreate(ratesBulk, {
+                        .bulkCreate(ratesBulk.slice(0, 6), {
                             validate: true,
                             updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
                         })
