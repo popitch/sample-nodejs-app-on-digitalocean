@@ -67,11 +67,13 @@ module.exports = {
             { unique: true, fields: ['exchangerId', 'from', 'to'] },
         ],
         fields: {
+            /* auto
             updatedAt: {
                 type: DataTypes.BIGINT,
                 defaultValue: null,
                 allowNull: false,
             },
+            */
             exchangerId: {
                 type: DataTypes.INTEGER,
                 defaultValue: null,
