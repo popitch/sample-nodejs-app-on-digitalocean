@@ -37,11 +37,10 @@ let connectedSeq;
 // exports
 module.exports = {
     sequelize: sequelize,
-    connect: () => {
+    connect: (then, fail) => {
         console.log('DB auth...', process.env.DATABASE_URL);
         
-        return connectedSeq = connectedSeq ||
-            sequelize.authenticate()
+        connectedSeq = connectedSeq || sequelize.authenticate()
                 .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db'))
                 .then((arg) => {
                     console.log('DB...', 'Connection has been established successfully.', arg);
@@ -49,5 +48,7 @@ module.exports = {
                     // test conn
                     //return sequelize;
                 });
+        
+        connectedSeq.then(then).catch(fail);
     }
 };

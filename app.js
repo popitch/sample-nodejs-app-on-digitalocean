@@ -69,6 +69,9 @@ var indexRouter = require('./routes/index');
                 console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no subject>'), 'with', e);
             }
             
+            
+            require('./db').connect(db => console.log('db.connect() #4..', !! db));
+            
             // tick
             setTimeout(updateOlderOne, 5000);
         };
@@ -86,9 +89,9 @@ var indexRouter = require('./routes/index');
 
 // use postgres db
 const db = require('./db');
-db.connect().then((arg) => console.log('db.connect().then() #0..', arg, db));
-db.connect().then((arg) => console.log('db.connect().then() #1..', arg, db));
-db.connect().then((arg) => console.log('db.connect().then() #2..', arg, db));
+db.connect(db => console.log('db.connect() #0..', db));
+db.connect(db => console.log('db.connect() #1..', db));
+db.connect(db => console.log('db.connect() #2..', db));
 
 
 
