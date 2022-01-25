@@ -1,3 +1,5 @@
 node_modules
 /__process.env.js
 /ca-certificate.crt
+
+.project
