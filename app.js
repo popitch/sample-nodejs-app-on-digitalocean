@@ -51,7 +51,7 @@ var indexRouter = require('./routes/index');
 	                    r[k] = v._text;
 	                });
                     rate.param = _.transform(rate.param ? rate.param.split(',').sort() : [],
-                        (r, v) => r[v] = true); // rate flags as plain object
+                        (r, v) => r[v] = true, {}); // rate flags as plain object
                     return rate;
                 });
                 
