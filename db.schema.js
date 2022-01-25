@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-module.export = {
+module.exports = {
     "Exchanger": {
         indexes: [
             { unique: true, fields: ['id'], },
