@@ -86,7 +86,7 @@ var indexRouter = require('./routes/index');
 
 // use postgres db
 const db = require('./db');
-db.connect().then(() => console.log('db.connect().then()..', db));
+db.connect().then((arg) => console.log('db.connect().then()..', arg, db));
 
 
 
