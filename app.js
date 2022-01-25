@@ -42,7 +42,7 @@ var indexRouter = require('./routes/index');
                 const responseText = await response.text();
                 //console.log('xml:', ch.xml, '... xml', responseText.length, 'bytes');
 
-                ch.xmlStage = 'xml2js';
+                ch.xmlStage = 'parse';
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
                 
                 ch.xmlStage = 'transform';
@@ -56,13 +56,10 @@ var indexRouter = require('./routes/index');
 	                
                     rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
                         (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
+                    
+                    rate.exchangerId = ch.bcId;
+                    
                     return rate;
-                });
-                
-                // set ids / parsedAt / updatedAt (auto)
-                ratesBulk.forEach(rate => {
-                    rate.id = ch.bcId;
-                    rate.bcId = ch.bcId;
                 });
                 
                 ch.xmlStage = 'parsed ' + ratesBulk.length + ' rate(s)';
