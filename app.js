@@ -69,6 +69,8 @@ var indexRouter = require('./routes/index');
                 
                 // update db rates
                 db.then(db => {
+                    const schema = require('./db.schema');
+
                     ch.xmlStage = 'bulk ' + ratesBulk.length + ' rate(s)';
                     db.models.ExchangeRate
                         .bulkCreate(ratesBulk, {
