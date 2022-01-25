@@ -31,17 +31,15 @@ console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
 
 // connect
-let ready = new Promise;
-sequelize.authenticate()
+const connReady = sequelize.authenticate()
     .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
     .then((arg) => {
         console.log('DB...', 'Connection has been established successfully.');
         
-        ready.resolve(sequelize);
-    })
+        //ready.resolve(sequelize);
+    });
 
 // exports
 module.exports = {
-    //sequelize: sequelize,
-    ready: ready
+    then: then => connReady.then(() => then(sequelize))
 };
