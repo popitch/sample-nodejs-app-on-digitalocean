@@ -25,26 +25,31 @@ var indexRouter = require('./routes/index');
             try {
                 const ch = olderLoaded();
                 
-	            ch.xmlStage = null;
+	            ch.xmlStage = 'new';
                 ch.xmlLoadedAt = null;
                 ch.xmlStartedAt = +new Date;
                 
-                ch.xmlState = 'fetch()';
+                ch.xmlState = 'fetch';
                 const response = await fetch(ch.xml);
                 
-                ch.xmlStage = 'response.text()';
+                ch.xmlStage = 'text';
                 const responseText = await response.text();
                 //console.log('xml:', ch.xml, '... xml', responseText.length, 'bytes');
 
-                ch.xmlStage = 'convert.xml2js()';
+                ch.xmlStage = 'xml2js';
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
                 
-                ch.xmlStage = 'transform(rates)';
-                const rates = _.transform(jso.rates.item || [], (r, v, k) => {
-                    r[k] = v._text;
+                ch.xmlStage = 'transform';
+                const rates = (jso.rates.item || []).map(rate => {
+                    rate = _.transform(rate, (r, v, k) => r[k] = v._text);
+                    rate.param = rate.param ? rate.param.split(',') : [];
+                    return rate;
                 });
                 
-                console.log('xml', ch.xml, '... parsed', rates.length, 'rates', 'with one', rates[0]);
+                ch.xmlStage = 'parsed';
+                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlLoadedAt - ch.xmlStartedAt), 'ms with one', rates[0]);
+                
+                ch.xmlLoadedAt = +new Date;
                 
                 // tick
                 setTimeout(updateOlder, 5000);
