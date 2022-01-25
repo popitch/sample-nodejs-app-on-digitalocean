@@ -61,7 +61,7 @@ var indexRouter = require('./routes/index');
                 ch.xmlParsedAt = +new Date;
                 
                 ch.xmlStage = 'parsed';
-                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms with one', rates[0]);
+                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms');
                 
                 // unmark as started
                 ch.xmlStartedAt = null;
@@ -90,8 +90,8 @@ var indexRouter = require('./routes/index');
 
 // db
 const db = require('./db');
-//db.then(db => console.log('db.then((db => #1 ..)', !! db));
-//db.then(db => console.log('db.then((db => #2 ..)', !! db));
+db.then(db => console.log('db.then((db => #1 ..)', !! db));
+db.then(db => console.log('db.then((db => #2 ..)', !! db));
 //db.then(db => console.log('db.then((db => #3 ..)', !! db));
 
 
