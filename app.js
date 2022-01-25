@@ -47,8 +47,10 @@ var indexRouter = require('./routes/index');
                 ch.xmlStage = 'transform';
                 const rates = (jso.rates.item || []).map((rate, i) => {
                     rate = _.transform(rate, (r, v, k) => {
-	                    if (!i && ! v._text) console.warn("Can't parse", k, 'with', v);
-	                    r[k] = v._text;
+                        if (! _.isEmpty(v)) { // igrore <empty/>
+    	                    if (0 === i && ! v._text) console.warn("Can't parse", k, 'with', v);
+    	                    r[k] = v._text;
+	                    }
 	                });
                     rate.param = _.transform(rate.param ? rate.param.split(',').sort() : [],
                         (r, v) => r[v] = true, {}); // rate flags as plain object
@@ -83,7 +85,8 @@ var indexRouter = require('./routes/index');
 
 
 // use postgres db
-const db = require('./db');
+const db = require('./db').auth();
+db.then((...args) => console.log('dn.auth().then...', ...args));
 
 
 

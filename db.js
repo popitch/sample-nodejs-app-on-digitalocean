@@ -1,4 +1,3 @@
-
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
@@ -42,16 +41,22 @@ console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
 
 // connect
-console.log('Connect to db...', process.env.DATABASE_URL);
-/*await*/ 
-sequelize.authenticate()
-    .catch(console.error.bind(console, 'Unable to connect to the database.'))
-    .then(() => {
-        console.log('Connection has been established successfully.');
-        
-        // test conn
-        
-    });
+let connectedSeq;
+
+
 
 // exports
-module.exports = sequelize;
+module.exports = {
+    auth: async () => {
+        console.log('Connect to db...', process.env.DATABASE_URL);
+        
+        return connectedSeq = connectedSeq || await sequelize.authenticate()
+            .catch(console.warn.bind(console, 'Connect to db...', 'Unable to connect to the db'))
+            .then(() => {
+                console.log('Connect to db...', 'Connection has been established successfully.');
+                
+                // test conn
+                
+            });
+    }
+};
