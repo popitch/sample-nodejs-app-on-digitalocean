@@ -47,6 +47,7 @@ require('pg').types.setTypeParser(1114, stringValue => {
 // create tables (aka db setup)
 connThen(async (db) => {
     const schema = require('./db.schema');
+    console.log('db.schema', schema);
     
     const queryInterface = db.getQueryInterface();
     
