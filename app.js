@@ -40,8 +40,11 @@ var indexRouter = require('./routes/index');
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
                 
                 ch.xmlStage = 'transform';
-                const rates = (jso.rates.item || []).map(rate => {
-                    rate = _.transform(rate, (r, v, k) => r[k] = v._text);
+                const rates = (jso.rates.item || []).map((rate, i) => {
+                    rate = _.transform(rate, (r, v, k) => {
+	                    if (!i && ! v._text) console.warn("Can't parse", k, 'with', v);
+	                    r[k] = v._text;
+	                });
                     rate.param = rate.param ? rate.param.split(',') : [];
                     return rate;
                 });
