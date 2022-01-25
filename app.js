@@ -83,7 +83,7 @@ var indexRouter = require('./routes/index');
 
 
 // use postgres db
-const db = require('db');
+const db = require('./db');
 
 
 
