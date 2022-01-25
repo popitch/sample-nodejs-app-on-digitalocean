@@ -71,7 +71,7 @@ var indexRouter = require('./routes/index');
             
             
             const db = require('./db');
-            db.then(db => console.log("require('./db').then(db => ", db);
+            db.then(db => console.log("require('./db').then(db => ", db));
             
             // tick
             setTimeout(updateOlderOne, 5000);
