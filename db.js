@@ -1,5 +1,11 @@
 const { Sequelize/*, DataTypes*/ } = require('sequelize');
 
+// setup postgres
+require('pg').types.setTypeParser(1114, stringValue => {
+    return new Date(stringValue + '+0000');
+    // e.g., UTC offset. Use any offset that you would like.
+});
+
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
     dbConnURL = new URL(dbConnString),
@@ -21,7 +27,7 @@ const
                 ssl: {
                     require: true,
                     rejectUnauthorized: false,
-                    ca: DB_CERTIFICATE
+                    ca: DB_CERTIFICATE,
                 },
             }
         }
@@ -37,17 +43,10 @@ const
     connThen = then => connReady.then(() => then(sequelize));
 
 
-// postgres setup
-require('pg').types.setTypeParser(1114, stringValue => {
-    return new Date(stringValue + '+0000');
-    // e.g., UTC offset. Use any offset that you would like.
-});
-
-
 // create tables (aka db setup)
 connThen(async (db) => {
     const schema = require('./db.schema');
-    console.log('db.schema', schema);
+    //console.log('db.schema', schema);
     
     const queryInterface = db.getQueryInterface();
     
