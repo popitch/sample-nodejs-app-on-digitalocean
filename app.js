@@ -16,30 +16,40 @@ var indexRouter = require('./routes/index');
               _ = require('lodash');
 
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
-    
-        older = () => {
-            return changersWithXml.sort((a,b) => (a.xmlLastAt || 0) - (b.xmlLastAt || 0))[ 0 ]; // O(N^log(N))
+        // give a next as oldest updated
+        olderLoaded = () => {
+            return changersWithXml.sort((a,b) => (a.xmlLoadedAt || 0) - (b.xmlLoadedAt || 0))[ 0 ]; // O(N^log(N))
         },
+        
         updateOlder = async () => {
-            const ch = older();
-            
             try {
-                const response = await fetch(ch.xml),
-                    responseText = await response.text();
-                console.log('xml:', ch.xml, '... xml', responseText.length, 'bytes');
-
-                const jso = convert.xml2js(responseText, { trim: true, compact: true, spaces: 4 }),
-                    rates = jso.rates.item;
-                console.log('xml:', ch.xml, '... xml parsed', rates.length, 'rates', 'with one', _.transform(rates[0], (r, v, k) => r[k] = v._text));
-            
-                ch.xmlLastAt = +new Date;
+                const ch = olderLoaded();
                 
+	            ch.xmlStage = null;
+                ch.xmlLoadedAt = null;
+                ch.xmlStartedAt = +new Date;
+                
+                ch.xmlState = 'fetch()';
+                const response = await fetch(ch.xml);
+                
+                ch.xmlStage = 'response.text()';
+                const responseText = await response.text();
+                //console.log('xml:', ch.xml, '... xml', responseText.length, 'bytes');
+
+                ch.xmlStage = 'convert.xml2js()';
+                const jso = convert.xml2js(responseText, { trim: true, compact: true });
+                
+                ch.xmlStage = 'transform(rates)';
+                const rates = _.transform(jso.rates.item || [], (r, v, k) => {
+                    r[k] = v._text;
+                });
+                
+                console.log('xml', ch.xml, '... parsed', rates.length, 'rates', 'with one', rates[0]);
+                
+                // tick
                 setTimeout(updateOlder, 5000);
             } catch(e) {
-	
-	           
-	
-                console.log('xml:', ch.xml, '... ERROR:', e);
+                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no subject>'), 'with', e);
             }
         };
     
