@@ -45,7 +45,7 @@ var indexRouter = require('./routes/index');
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
                 
                 ch.xmlStage = 'transform';
-                const rates = (jso.rates.item || []).map((rate, i) => {
+                const ratesBulk = (jso.rates.item || []).map((rate, i) => {
                     rate = _.transform(rate, (r, v, k) => {
                         if (! _.isEmpty(v)) { // igrore <empty/>
     	                    if (0 === i && ! v._text) console.warn("Can't parse", k, 'with', v);
@@ -60,14 +60,14 @@ var indexRouter = require('./routes/index');
                 
                 // set ids / parsedAt / updatedAt
                 ch.xmlParsedAt = +new Date;
-                rates.forEach(rate => {
+                ratesBulk.forEach(rate => {
                     rate.id = ch.bcId;
                     rate.bcId = ch.bcId;
                     rate.updatedAt = ch.xmlParsedAt;
                 });
                 
                 ch.xmlStage = 'parsed';
-                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms');
+                console.log('xml', ch.xml, 'parsed', ratesBulk.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms');
                 
                 // unmark as started
                 ch.xmlStartedAt = null;
@@ -77,7 +77,12 @@ var indexRouter = require('./routes/index');
             
             
             db.then(db => {
-                db
+                db.models.ExchangeRate
+                    .bulkCreate(ratesBulk, {
+                        validate: true,
+                        updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
+                    })
+                    .then();
             });
             
             // tick

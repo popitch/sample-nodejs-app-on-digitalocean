@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+const sequelizemo = require('sequelize');
 
 // setup postgres
 require('pg').types.setTypeParser(1114, stringValue => {
@@ -13,7 +13,7 @@ const
     
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
     
-    sequelize = new sequelize.Sequelize(
+    sequelize = new sequelizemo.Sequelize(
         dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;^]
         dbConnURL.username,
         dbConnURL.password,
@@ -43,13 +43,14 @@ const
     connThen = then => connReady.then(() => then(sequelize));
 
 // define models
-sequelize.define('Exchanger', schema.Exchanger.fields, {
+sequelizemo.define('Exchanger', schema.Exchanger.fields, {
     indexes: schema.Exchanger.indexes,
     createdAt: true,
+    updatedAt: true,
     charset: 'UTF8',
     initialAutoIncrement: 1e6,
 });
-sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
+sequelizemo.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
     createdAt: true,
     charset: 'UTF8',
