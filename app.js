@@ -75,6 +75,7 @@ var indexRouter = require('./routes/index');
                         .bulkCreate(ratesBulk.slice(0, 6), {
                             validate: true,
                             updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
+                            logging: false,
                         })
                         .then(() => {
                             // re-mark as finished
