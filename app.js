@@ -16,17 +16,22 @@ var indexRouter = require('./routes/index');
               _ = require('lodash');
 
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+        parsedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlParsedAt || 0),
+        
         // give a next as oldest updated
         olderLoaded = () => {
-            return changersWithXml.sort((a,b) => (a.xmlLoadedAt || 0) - (b.xmlLoadedAt || 0))[ 0 ]; // O(N^log(N))
+            return changersWithXml
+                .sort((a,b) => parsedAt(a) - parsedAt(b)) /* O(N * logN) */ [ 0 ]
         },
         
-        updateOlder = async () => {
+        updateOlderOne = async () => {
             try {
                 const ch = olderLoaded();
                 
+                if (ch.xmlStartedAt) throw 'already';
+                
 	            ch.xmlStage = 'new';
-                ch.xmlLoadedAt = null;
+                ch.xmlParsedAt = null;
                 ch.xmlStartedAt = +new Date;
                 
                 ch.xmlState = 'fetch';
@@ -49,16 +54,20 @@ var indexRouter = require('./routes/index');
                     return rate;
                 });
                 
+                // mark as parsed
+                ch.xmlParsedAt = +new Date;
+                
                 ch.xmlStage = 'parsed';
-                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlLoadedAt - ch.xmlStartedAt), 'ms with one', rates[0]);
+                console.log('xml', ch.xml, 'parsed', rates.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms with one', rates[0]);
                 
-                ch.xmlLoadedAt = +new Date;
-                
-                // tick
-                setTimeout(updateOlder, 5000);
+                // unmark as started
+                ch.xmlStartedAt = null;
             } catch(e) {
                 console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no subject>'), 'with', e);
             }
+            
+            // tick
+            setTimeout(updateOlderOne, 5000);
         };
     
     // todo: setup from db
@@ -66,7 +75,7 @@ var indexRouter = require('./routes/index');
     
     //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
     // start
-    updateOlder();
+    updateOlderOne();
 })(
     JSON.parse(process.env[ "XX_CHANGERS" ])
 );
