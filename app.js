@@ -91,12 +91,13 @@ var indexRouter = require('./routes/index');
             }
             
             function error(e) {
-                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
+                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'),
+                        'with', e && e.length > 5 ? e.slice(0, 5).concat(['........']) : e);
                 
                 ch.xmlStage = e;
                 
                 // lazy tick, after fail
-                setTimeout(updateOlderOne, 5000);
+                //setTimeout(updateOlderOne, 5000);
             }
         };
     

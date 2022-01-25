@@ -77,7 +77,7 @@ module.exports = {
             exchangerId: {
                 type: DataTypes.INTEGER,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
             from: {
                 type: DataTypes.STRING(16),
