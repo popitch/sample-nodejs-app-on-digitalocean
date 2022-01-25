@@ -36,17 +36,18 @@ let connectedSeq;
 
 // exports
 module.exports = {
-    auth: async (ok) => {
-        console.log('DB...', process.env.DATABASE_URL);
+    sequelize: sequelize,
+    connect: () => {
+        console.log('DB auth...', process.env.DATABASE_URL);
         
-        connectedSeq = connectedSeq || await sequelize.authenticate();
-            //.catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db'))
-            //.then(() => {
-            //    console.log('DB...', 'Connection has been established successfully.');
-                
-                // test conn
-                
-            //});
-        ok(connectedSeq);
+        return connectedSeq = connectedSeq ||
+            sequelize.authenticate()
+                .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db'))
+                .then(() => {
+                    console.log('DB...', 'Connection has been established successfully.');
+                    
+                    // test conn
+                    return sequelize;
+                });
     }
 };
