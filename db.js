@@ -54,6 +54,7 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
     createdAt: true,
+    updatedAt: true,
     charset: 'UTF8',
 });
 

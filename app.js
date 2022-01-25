@@ -16,22 +16,23 @@ var indexRouter = require('./routes/index');
               _ = require('lodash');
 
     const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
-        parsedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlParsedAt || 0),
+        updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
         // give a next as oldest updated
         olderLoaded = () => {
             return changersWithXml
-                .sort((a,b) => parsedAt(a) - parsedAt(b)) /* O(N * logN) */ [ 0 ]
+                .filter(ch => ! ch.xmlStartedAt)
+                .sort((a,b) => updatedAt(a) - updatedAt(b)) /* O(N * logN) */ [ 0 ]
         },
         
-        updateOlderOne = async () => {
+    updateOlderOne = async () => {
             const ch = olderLoaded();
                 
             try {
-                if (ch.xmlStartedAt) throw 'already';
+                if (ch.xmlStartedAt) throw 'already run';
                 
 	            ch.xmlStage = 'new';
-                ch.xmlParsedAt = null;
+                ch.xmlUpdatedAt = null;
                 ch.xmlStartedAt = +new Date;
                 
                 ch.xmlState = 'fetch';
@@ -58,35 +59,46 @@ var indexRouter = require('./routes/index');
                     return rate;
                 });
                 
-                // set ids / parsedAt / updatedAt
-                ch.xmlParsedAt = +new Date;
+                // set ids / parsedAt / updatedAt (auto)
                 ratesBulk.forEach(rate => {
                     rate.id = ch.bcId;
                     rate.bcId = ch.bcId;
-                    rate.updatedAt = ch.xmlParsedAt;
                 });
                 
-                ch.xmlStage = 'parsed';
-                console.log('xml', ch.xml, 'parsed', ratesBulk.length, 'rates at', (ch.xmlParsedAt - ch.xmlStartedAt), 'ms');
+                ch.xmlStage = 'parsed ' + ratesBulk.length + ' rate(s)';
                 
-                // unmark as started
-                ch.xmlStartedAt = null;
+                // update db rates
+                db.then(db => {
+                    ch.xmlStage = 'bulk ' + ratesBulk.length + ' rate(s)';
+                    db.models.ExchangeRate
+                        .bulkCreate(ratesBulk, {
+                            validate: true,
+                            updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
+                        })
+                        .then(() => {
+                            // re-mark as finished
+                            ch.xmlStartedAt = null;
+                            ch.xmlStage = null;
+                            ch.xmlUpdatedAt = +new Date;
+                            console.log('xml', ch.xml, 'load/parse/update', ratesBulk.length, 'rates /', (ch.xmlUpdatedAt - ch.xmlStartedAt), 'ms');
+                            
+                            // fast tick, if all right
+                            setTimeout(updateOlderOne, 3000);
+                        })
+                        .catch(error);
+                });
             } catch(e) {
-                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
+                error(e);
             }
             
-            
-            db.then(db => {
-                db.models.ExchangeRate
-                    .bulkCreate(ratesBulk, {
-                        validate: true,
-                        updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
-                    })
-                    .then();
-            });
-            
-            // tick
-            setTimeout(updateOlderOne, 5000);
+            function error(e) {
+                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
+                
+                ch.xmlStage = e;
+                
+                // lazy tick, after fail
+                setTimeout(updateOlderOne, 5000);
+            }
         };
     
     // todo: setup from db
