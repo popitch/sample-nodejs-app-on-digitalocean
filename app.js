@@ -85,7 +85,7 @@ var indexRouter = require('./routes/index');
 
 
 // use postgres db
-const db = require('./db').auth();
+const db = require('./db').auth((...args) => console.log('dn.auth()...', ...args));
 db.then((...args) => console.log('dn.auth().then...', ...args));
 
 

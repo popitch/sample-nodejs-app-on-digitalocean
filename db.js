@@ -36,7 +36,7 @@ let connectedSeq;
 
 // exports
 module.exports = {
-    auth: async () => {
+    auth: async (ok) => {
         console.log('DB...', process.env.DATABASE_URL);
         
         connectedSeq = connectedSeq || await sequelize.authenticate();
@@ -47,6 +47,6 @@ module.exports = {
                 // test conn
                 
             //});
-        return connectedSeq;
+        ok(connectedSeq);
     }
 };
