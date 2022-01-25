@@ -25,9 +25,9 @@ var indexRouter = require('./routes/index');
         },
         
         updateOlderOne = async () => {
-            try {
-                const ch = olderLoaded();
+            const ch = olderLoaded();
                 
+            try {
                 if (ch.xmlStartedAt) throw 'already';
                 
 	            ch.xmlStage = 'new';
