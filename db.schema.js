@@ -1,3 +1,5 @@
+const { DataTypes } = require('sequelize');
+
 module.export = {
     "Exchanger": {
         indexes: [
@@ -61,7 +63,7 @@ module.export = {
             updatedAt: {
                 type: DataTypes.BIGINT,
                 defaultValue: null,
-                allowNull: true,
+                allowNull: false,
             },
             exchangerId: {
                 type: DataTypes.INTEGER,

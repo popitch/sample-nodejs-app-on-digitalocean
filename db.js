@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize/*, DataTypes*/ } = require('sequelize');
 
 const 
     dbConnString = process.env.DATABASE_URL + "&ssl=true",
