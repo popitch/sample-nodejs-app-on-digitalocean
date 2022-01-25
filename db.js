@@ -30,24 +30,18 @@ const
 console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
 
-// connected
-let connectedSeq;
-
+// connect
+let ready = new Promise;
+sequelize.authenticate()
+    .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
+    .then((arg) => {
+        console.log('DB...', 'Connection has been established successfully.');
+        
+        ready.resolve(sequelize);
+    })
 
 // exports
 module.exports = {
     //sequelize: sequelize,
-    connect: async (then, fail) => {
-        return (connectedSeq = connectedSeq || sequelize.authenticate()
-            .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
-            .then((arg) => {
-                console.log('DB...', 'Connection has been established successfully.', arg);
-                
-                // test conn
-                //return sequelize;
-            })
-        )
-        .then(then)
-        .catch(fail);
-    }
+    ready: ready
 };

@@ -70,8 +70,8 @@ var indexRouter = require('./routes/index');
             }
             
             
-            const db = await require('./db').connect();
-            console.log("await require('./db').connect()", db);
+            const db = await require('./db').ready;
+            console.log("await require('./db').ready", db);
             
             // tick
             setTimeout(updateOlderOne, 5000);
@@ -90,7 +90,7 @@ var indexRouter = require('./routes/index');
 
 // use postgres db
 const db = require('./db');
-db.connect(db => console.log('db.connect(db => ..)', !! db));
+db.ready.then(db => console.log('db.ready.then((db => ..)', !! db));
 
 
 
