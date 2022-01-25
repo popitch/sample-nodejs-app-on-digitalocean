@@ -42,20 +42,16 @@ console.log('connOpts', JSON.stringify(connOpts, null, 4));
 
 
 // connect
-try {
-    console.log('Connect to db...', process.env.DATABASE_URL);
-    /*await*/ 
-    sequelize.authenticate()
-        .catch(console.error.bind(console, 'Unable to connect to the database.'))
-        .then(() => {
-            console.log('Connection has been established successfully.');
-            
-            // test conn
-            
-        });
-}
-catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
+console.log('Connect to db...', process.env.DATABASE_URL);
+/*await*/ 
+sequelize.authenticate()
+    .catch(console.error.bind(console, 'Unable to connect to the database.'))
+    .then(() => {
+        console.log('Connection has been established successfully.');
+        
+        // test conn
+        
+    });
 
+// exports
 module.exports = sequelize;
