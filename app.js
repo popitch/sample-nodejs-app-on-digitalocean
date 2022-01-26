@@ -64,6 +64,11 @@ var indexRouter = require('./routes/index');
                 
                 ch.xmlStage = 'parsed ' + ratesBulk.length + ' rate(s)';
                 
+                // test bulk without duplicates
+                const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()),
+                    ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
+                console.warn('Duplicates', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', ratesBulkNotUniq);
+                
                 // update db rates
                 db.then(db => {
                     const schema = require('./db.schema');
