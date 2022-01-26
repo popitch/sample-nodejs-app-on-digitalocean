@@ -46,16 +46,18 @@ const
 // define models
 sequelize.define('Exchanger', schema.Exchanger.fields, {
     indexes: schema.Exchanger.indexes,
-    createdAt: true,
-    updatedAt: true,
+    timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
     charset: 'UTF8',
     initialAutoIncrement: 1e6,
+    tableName: 'exchanger',
 });
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
-    createdAt: true,
-    updatedAt: true,
+    timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
+    //createdAt: true,
+    //updatedAt: true,
     charset: 'UTF8',
+    tableName: 'exchangeRate',
 });
 
 // create tables (aka db setup)
