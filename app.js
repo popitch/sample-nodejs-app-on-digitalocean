@@ -19,7 +19,18 @@ const fs = require('fs'),
     const
         exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
         
-        writeCachedJSON = (name, data) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), _.noop),
+        // whiter to /cached/*.json
+        cached = {
+            json: (name, data) => {
+                fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), _.noop);
+                return cached;
+            },
+            exchangers: () => cached.json('exchangers', exchangersWithXml),
+            pair: {
+                _touched: {},
+                
+            }
+        },
         
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
@@ -46,20 +57,28 @@ const fs = require('fs'),
                 const ms = { all: null }, starts = { all: now() };
                 let curr;
                 
-                return {
+                return stages = {
                     ms: ms,
+                    
                     begin: (stage, data) => {
                         curr && ch.xmlStage.end(curr);
                         ms[curr = stage] = null;
                         starts[curr] = now();
                         if (data) ch.xmlStage[curr] = data;
                     },
+                    
                     end: (stage, data) => {
                         ms[stage] = now() - starts[stage];
+                        delete starts[stage];
                         if (data) ch.xmlStage[curr] = 
                             typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
+                        curr = null;
                         return now();
                     },
+                    
+                    short: function() {
+                        return JSON.stringify(this).replace(/"/g, '')
+                    }
                 };
             }
                 
@@ -119,22 +138,24 @@ const fs = require('fs'),
                             validate: true,
                             updateOnDuplicate: _
                                 .chain(schema.ExchangeRate.fields).keys()
-                                .difference(schema.ExchangeRate.indexes[0].fields)
-                                .difference(["id"])
+                                //.difference(schema.ExchangeRate.indexes[0].fields)
+                                //.difference(["id"])
                                 .value(),
                             logging: false,
                         })
                         .then(() => {
                             // mark as finished
-                            end('bulk') && end('all');
+                            end('bulk');
+                            end('all');
                             ch.xmlUpdatedAt = now();
-                            console.log('xml', ch.xml, JSON.stringify(ch.xmlStage));
                             
                             // mark as not started
                             ch.xmlStartedAt = null;
-                
-                            // save cached/.exchangers.json
-                            writeCachedJSON('exchangers', exchangersWithXml);
+                            
+                            // fix
+                            cached.exchangers();
+                            
+                            console.log('xml', ch.xml, ch.xmlStage.short());
                             
                             // fast tick,
                             // if all right, 500..2000 ms interval
@@ -148,9 +169,7 @@ const fs = require('fs'),
             
             function error(e) {
                 end('all', e);
-                
-                // save cached/.exchangers.json
-                writeCachedJSON('exchangers', exchangersWithXml);
+                cached.exchangers();
                 
                 console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
