@@ -75,7 +75,7 @@ var indexRouter = require('./routes/index');
                         .bulkCreate(ratesBulk, {
                             validate: true,
                             updateOnDuplicate: _
-                                .chain(schema.ExchangeRate.fields)
+                                .chain(schema.ExchangeRate.fields).keys()
                                 .difference(schema.ExchangeRate.indexes[0].fields)
                                 .difference(["id"])
                                 .value(),
