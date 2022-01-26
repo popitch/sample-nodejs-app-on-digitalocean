@@ -2,10 +2,10 @@ const sequelizemo = require('sequelize');
 const schema = require('./db.schema');
 
 // setup postgres
-require('pg').types.setTypeParser(1114, stringValue => {
-    return new Date(stringValue + '+0000');
-    // e.g., UTC offset. Use any offset that you would like.
-});
+//require('pg').types.setTypeParser(1114, stringValue => {
+//    return new Date(stringValue + '+0000');
+//    // e.g., UTC offset. Use any offset that you would like.
+//});
 
 // setup connection
 const 
@@ -31,7 +31,7 @@ const
                     rejectUnauthorized: false,
                     ca: DB_CERTIFICATE,
                 },
-            }
+            },
         }
     );
 //console.log('connOpts', JSON.stringify(connOpts, null, 4));
