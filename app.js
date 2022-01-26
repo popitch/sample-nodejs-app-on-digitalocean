@@ -74,7 +74,11 @@ var indexRouter = require('./routes/index');
                     db.models.ExchangeRate
                         .bulkCreate(ratesBulk, {
                             validate: true,
-                            updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
+                            updateOnDuplicate: _
+                                .chain(schema.ExchangeRate.fields)
+                                .difference(schema.ExchangeRate.indexes[0].fields)
+                                .difference(["id"])
+                                .value(),
                             logging: false,
                         })
                         .then(() => {
