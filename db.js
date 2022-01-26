@@ -49,7 +49,8 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
     timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
     charset: 'UTF8',
     initialAutoIncrement: 1e6,
-    tableName: 'exchanger',
+    tableName: 'exchangers',
+    freezeTableName: true,
 });
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
@@ -57,7 +58,8 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     //createdAt: true,
     //updatedAt: true,
     charset: 'UTF8',
-    tableName: 'exchangeRate',
+    tableName: 'exchangeRates',
+    freezeTableName: true,
 });
 
 // create tables (aka db setup)
@@ -66,11 +68,13 @@ connThen(async (db) => {
     
     await queryInterface.dropTable('Exchanger');
     await queryInterface.dropTable('exchanger');
-    await queryInterface.createTable('exchanger', schema.Exchanger.fields);
+    await queryInterface.dropTable('exchangers');
+    await queryInterface.createTable('exchangers', schema.Exchanger.fields);
     
     await queryInterface.dropTable('ExchangeRate');
     await queryInterface.dropTable('exchangeRate');
-    await queryInterface.createTable('exchangerRate', schema.ExchangeRate.fields);
+    await queryInterface.dropTable('exchangeRates');
+    await queryInterface.createTable('exchangerRates', schema.ExchangeRate.fields);
 });
 
 
