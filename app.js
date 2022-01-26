@@ -26,6 +26,7 @@ const fs = require('fs'),
                 return cached;
             },
             exchangers: () => cached.json('exchangers', exchangersWithXml),
+            process: () => cached.json('process', process.memoryUsage()),
             pair: {
                 _touched: {},
                 
@@ -152,8 +153,8 @@ const fs = require('fs'),
                             // mark as not started
                             ch.xmlStartedAt = null;
                             
-                            // fix
-                            cached.exchangers();
+                            // fix cached
+                            cached.exchangers().process();
                             
                             console.log('xml', ch.xml, ch.xmlStage.short());
                             
@@ -169,7 +170,9 @@ const fs = require('fs'),
             
             function error(e) {
                 end('all', e);
-                cached.exchangers();
+                            
+                // fix cached
+                cached.exchangers().process();
                 
                 console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
