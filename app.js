@@ -67,7 +67,8 @@ var indexRouter = require('./routes/index');
                 // clear bulk without duplicates, to be updated
                 const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
                     ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
-                console.warn('Duplicates detected', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', 'REMOVING DUPLICATES', ratesBulkNotUniq.length);
+                ratesBulkNotUniq.length &&
+                    console.warn('Duplicates detected', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', 'REMOVE', ratesBulkNotUniq.length);
                 const ratesBulkClear = ratesBulkUniq;
                 
                 // update db rates
