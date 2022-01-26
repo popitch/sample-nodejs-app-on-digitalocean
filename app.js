@@ -174,8 +174,8 @@ const fs = require('fs'),
 
 var app = express();
 
-// my static, for cached/*.json
-app.use(express.static('public'));
+// my static, for /cached/*.json
+app.use('/cached', express.static(path.join(__dirname, 'public/cached')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
