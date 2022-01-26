@@ -127,7 +127,7 @@ const fs = require('fs'),
                         .then(() => {
                             // mark as finished
                             end('bulk') && end('all');
-                            ch.xmlUpdatedAt = ch.xmlStage.ms.all;
+                            ch.xmlUpdatedAt = now();
                             console.log('xml', ch.xml, JSON.stringify(ch.xmlStage));
                             
                             // mark as not started
