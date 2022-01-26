@@ -1,14 +1,14 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path'),
-    fs = require('fs');
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
-
+const fs = require('fs'),
+      db = require('./db');
 
 // init sniffer
 (async (initial) => {
@@ -19,7 +19,7 @@ var indexRouter = require('./routes/index');
     const
         exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
         
-        writeCachedJSON = (name, data) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data)),
+        writeCachedJSON = (name, data) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), _.noop),
         
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
@@ -169,13 +169,6 @@ var indexRouter = require('./routes/index');
 })(
     JSON.parse(process.env[ "XX_CHANGERS" ])
 );
-
-
-// db
-const db = require('./db');
-db.then(db => console.log('db.then((db => #1 ..)', !! db));
-db.then(db => console.log('db.then((db => #2 ..)', !! db));
-//db.then(db => console.log('db.then((db => #3 ..)', !! db));
 
 
 
