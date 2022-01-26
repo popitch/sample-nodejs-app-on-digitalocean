@@ -68,11 +68,11 @@ var indexRouter = require('./routes/index');
                 db.then(db => {
                     const schema = require('./db.schema');
                     
-                    console.log('bulk', ratesBulk.slice(0, 6));
+                    console.log('bulk', ratesBulk.slice(0, 2));
 
                     ch.xmlStage = 'bulk ' + ratesBulk.length + ' rate(s)';
                     db.models.ExchangeRate
-                        .bulkCreate(ratesBulk.slice(0, 6), {
+                        .bulkCreate(ratesBulk.slice(0, 2), {
                             validate: true,
                             updateOnDuplicate: Object.keys(schema.ExchangeRate.fields),
                             logging: false,

@@ -74,6 +74,7 @@ connThen(async (db) => {
     await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
     await queryInterface.addConstraint('exchangeRates', _.extend({
         name: 'pair_unique_constraints',
+        type: 'unique',
     }, schema.ExchangeRate.indexes[0]));
     await queryInterface.addIndex('exchangeRates', null, schema.ExchangeRate.indexes[0]);
     
