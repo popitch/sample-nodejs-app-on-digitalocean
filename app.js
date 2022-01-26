@@ -78,11 +78,13 @@ var indexRouter = require('./routes/index');
                             logging: false,
                         })
                         .then(() => {
-                            // re-mark as finished
-                            ch.xmlStartedAt = null;
+                            // mark as finished
                             ch.xmlStage = null;
                             ch.xmlUpdatedAt = +new Date;
                             console.log('xml', ch.xml, 'load/parse/update', ratesBulk.length, 'rates /', (ch.xmlUpdatedAt - ch.xmlStartedAt), 'ms');
+                            
+                            // mark as not started
+                            ch.xmlStartedAt = null;
                             
                             // fast tick, if all right
                             setTimeout(updateOlderOne, 3000);
