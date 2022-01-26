@@ -64,10 +64,11 @@ var indexRouter = require('./routes/index');
                 
                 ch.xmlStage = 'parsed ' + ratesBulk.length + ' rate(s)';
                 
-                // test bulk without duplicates
-                const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()),
+                // clear bulk without duplicates, to be updated
+                const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
                     ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
-                console.warn('Duplicates', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', ratesBulkNotUniq);
+                console.warn('Duplicates detected', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', 'REMOVING DUPLICATES', ratesBulkNotUniq.length);
+                const ratesBulkClear = ratesBulkUniq;
                 
                 // update db rates
                 db.then(db => {
@@ -75,9 +76,9 @@ var indexRouter = require('./routes/index');
                     
                     //console.log('bulk', ratesBulk.slice(0, 2));
 
-                    ch.xmlStage = 'bulk ' + ratesBulk.length + ' rate(s)';
+                    ch.xmlStage = 'bulk ' + ratesBulkClear.length + ' rate(s)';
                     db.models.ExchangeRate
-                        .bulkCreate(ratesBulk, {
+                        .bulkCreate(ratesBulkClear, {
                             validate: true,
                             updateOnDuplicate: _
                                 .chain(schema.ExchangeRate.fields).keys()
@@ -90,7 +91,7 @@ var indexRouter = require('./routes/index');
                             // mark as finished
                             ch.xmlStage = null;
                             ch.xmlUpdatedAt = +new Date;
-                            console.log('xml', ch.xml, 'load/parse/update', ratesBulk.length, 'rates /', (ch.xmlUpdatedAt - ch.xmlStartedAt), 'ms');
+                            console.log('xml', ch.xml, 'load/parse/update', ratesBulkClear.length, 'rates /', (ch.xmlUpdatedAt - ch.xmlStartedAt), 'ms');
                             
                             // mark as not started
                             ch.xmlStartedAt = null;
