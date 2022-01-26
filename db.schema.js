@@ -12,6 +12,17 @@ module.exports = {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
             },
+
+            createdAt: {
+                type: DataTypes.DATE,
+                defaultValue: null,
+                allowNull: false,
+            },
+            updatedAt: {
+                type: DataTypes.DATE,
+                defaultValue: null,
+                allowNull: false,
+            },
             
             bcId: {
                 type: DataTypes.INTEGER,
@@ -73,13 +84,18 @@ module.exports = {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
             },
-            /* auto
-            updatedAt: {
-                type: DataTypes.BIGINT,
+
+            createdAt: {
+                type: DataTypes.DATE,
                 defaultValue: null,
                 allowNull: false,
             },
-            */
+            updatedAt: {
+                type: DataTypes.DATE,
+                defaultValue: null,
+                allowNull: false,
+            },
+
             exchangerId: {
                 type: DataTypes.INTEGER,
                 defaultValue: null,
