@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
+var path = require('path'),
+    fs = require('fs');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -13,11 +14,13 @@ var indexRouter = require('./routes/index');
 (async (initial) => {
     const fetch = require('node-fetch'),
         convert = require('xml-js'),
-              _ = require('lodash'),
-        writeCachedJSON = (name, data, cb) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), 'utf8', cb);
+              _ = require('lodash');
 
     const
         exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+        
+        writeCachedJSON = (name, data, cb) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), 'utf8', cb),
+        
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
         // give a next as oldest updated
