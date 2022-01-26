@@ -1,5 +1,6 @@
 const sequelizemo = require('sequelize');
 const schema = require('./db.schema');
+const _ = require('lodash');
 
 // setup postgres
 //require('pg').types.setTypeParser(1114, stringValue => {
@@ -71,6 +72,9 @@ connThen(async (db) => {
     
     await queryInterface.dropTable('exchangeRates');
     await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
+    await queryInterface.addConstraint('exchangeRates', null, Object.assign({
+        name: 'pair_unique_constraints',
+    }, schema.ExchangeRate.indexes[0]));
     await queryInterface.addIndex('exchangeRates', null, schema.ExchangeRate.indexes[0]);
     
     return db;
