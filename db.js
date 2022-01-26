@@ -28,7 +28,7 @@ const
             dialectOptions: {
                 ssl: {
                     require: true,
-                    rejectUnauthorized: false,
+                    rejectUnauthorized: true,
                     ca: DB_CERTIFICATE,
                 },
             },
