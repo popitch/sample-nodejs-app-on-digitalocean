@@ -72,9 +72,11 @@ connThen(async (db) => {
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
     
     await queryInterface.dropTable('ExchangeRate');
+    await queryInterface.dropTable('ExchangerRate');
     await queryInterface.dropTable('exchangeRate');
+    await queryInterface.dropTable('exchangerRates');
     await queryInterface.dropTable('exchangeRates');
-    await queryInterface.createTable('exchangerRates', schema.ExchangeRate.fields);
+    await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
 });
 
 
