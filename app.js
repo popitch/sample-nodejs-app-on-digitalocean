@@ -15,7 +15,8 @@ var indexRouter = require('./routes/index');
         convert = require('xml-js'),
               _ = require('lodash');
 
-    const changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+    const
+        changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
         // give a next as oldest updated
@@ -25,27 +26,50 @@ var indexRouter = require('./routes/index');
                 .sort((a,b) => updatedAt(a) - updatedAt(b)) /* O(N * logN) */ [ 0 ]
         },
         
-    updateOlderOne = async () => {
-            const ch = olderLoaded();
-                
+        // request older exchanger's XML + deffered self calling
+        updateOlderOne = async () => {
+            const ch = olderLoaded(),
+                now = () => +new Date;
+            
             try {
-                if (ch.xmlStartedAt) throw 'already run';
+                if (ch.xmlStartedAt) throw 'already run | has no';
                 
-	            ch.xmlStage = 'new';
+                // stages routine
+                ch.xmlStage = (() => {
+                    let curr, ms = { all: null }, starts = { all: now() };
+                    
+                    return {
+                        ms: ms,
+                        begin: (stage, data) => {
+                            curr && ch.xmlStage.end(curr);
+                            ms[curr = stage] = null;
+                            starts[curr] = now();
+                            if (data) ch.xmlStage[curr] = data;
+                        },
+                        end: (stage, data) => {
+                            ms[stage] = now() - starts[stage];
+                            if (data) ch.xmlStage[curr] = typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
+                            return now();
+                        },
+                    };
+                })();
+                const end = ch.xmlState.end, // short-hand
+                    begin = ch.xmlState.begin;
+                
                 ch.xmlUpdatedAt = null;
                 ch.xmlStartedAt = +new Date;
                 
-                ch.xmlState = 'fetch';
+                begin('fetch');
                 const response = await fetch(ch.xml);
                 
-                ch.xmlStage = 'text';
+                begin('text');
                 const responseText = await response.text();
-                //console.log('xml:', ch.xml, '... xml', responseText.length, 'bytes');
+                end(responseText.length + ' bytes');
 
-                ch.xmlStage = 'parse';
+                begin('parse');
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
                 
-                ch.xmlStage = 'transform';
+                begin('rates');
                 const ratesBulk = (jso.rates.item || []).map((rate, i) => {
                     rate = _.transform(rate, (r, v, k) => {
                         if (! _.isEmpty(v)) { // igrore <empty/>
@@ -61,23 +85,22 @@ var indexRouter = require('./routes/index');
                     
                     return rate;
                 });
-                
-                ch.xmlStage = 'parsed ' + ratesBulk.length + ' rate(s)';
+                end('rates', ratesBulk.length);
                 
                 // clear bulk without duplicates, to be updated
+                begin('dups');
                 const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
-                    ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
-                ratesBulkNotUniq.length &&
-                    console.warn('Duplicates detected', ratesBulkNotUniq.length, '/', ratesBulk.length, 'rates', 'REMOVE', ratesBulkNotUniq.length);
+                   ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
+                
+                ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
+                
                 const ratesBulkClear = ratesBulkUniq;
                 
                 // update db rates
                 db.then(db => {
                     const schema = require('./db.schema');
                     
-                    //console.log('bulk', ratesBulk.slice(0, 2));
-
-                    ch.xmlStage = 'bulk ' + ratesBulkClear.length + ' rate(s)';
+                    begin('bulk', ratesBulkClear.length);
                     db.models.ExchangeRate
                         .bulkCreate(ratesBulkClear, {
                             validate: true,
@@ -90,15 +113,16 @@ var indexRouter = require('./routes/index');
                         })
                         .then(() => {
                             // mark as finished
-                            ch.xmlStage = null;
-                            ch.xmlUpdatedAt = +new Date;
-                            console.log('xml', ch.xml, 'load/parse/update', ratesBulkClear.length, 'rates /', (ch.xmlUpdatedAt - ch.xmlStartedAt), 'ms');
+                            end('bulk') && end('all');
+                            ch.xmlUpdatedAt = ch.xmlStage.ms.all;
+                            console.log('xml', ch.xml, JSON.stringify(ch.xmlStage));
                             
                             // mark as not started
                             ch.xmlStartedAt = null;
+                            //ch.xmlStage = null; // stay to see..
                             
-                            // fast tick, if all right
-                            setTimeout(updateOlderOne, 3000);
+                            // fast tick, if all right, 500..2000 ms interval
+                            setTimeout(updateOlderOne, Math.max(500, 2000 - ch.xmlStage.ms.all));
                         })
                         .catch(error);
                 });
@@ -107,13 +131,12 @@ var indexRouter = require('./routes/index');
             }
             
             function error(e) {
-                console.warn('XML', (ch && ch.xml), 'at', (ch ? ch.xmlStage : '<no exchanger>'),
-                        'with', e && e.length > 5 ? e.slice(0, 5).concat(['........']) : e);
+                end('all', e);
                 
-                ch.xmlStage = e;
+                console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
-                // lazy tick, after fail
-                //setTimeout(updateOlderOne, 5000);
+                // lazy tick, after fail, 5000 ms interval
+                setTimeout(updateOlderOne, Math.max(5000, 5000 - ch.xmlStage.ms.all));
             }
         };
     
