@@ -32,30 +32,40 @@ var indexRouter = require('./routes/index');
             const ch = olderLoaded(),
                 now = () => +new Date;
             
+            if (!ch) {
+                // no work
+                // super lazy tick, 7000 ms interval
+                return setTimeout(updateOlderOne, 7000);
+            }
+            
+            // stages routine
+            function stages() {
+                let curr, ms = { all: null }, starts = { all: now() };
+                
+                return {
+                    ms: ms,
+                    begin: (stage, data) => {
+                        curr && ch.xmlStage.end(curr);
+                        ms[curr = stage] = null;
+                        starts[curr] = now();
+                        if (data) ch.xmlStage[curr] = data;
+                    },
+                    end: (stage, data) => {
+                        ms[stage] = now() - starts[stage];
+                        if (data) ch.xmlStage[curr] = typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
+                        return now();
+                    },
+                };
+            }
+                
+            // stages start
+            ch.xmlStage = stages();
+            
+            const end = ch.xmlState.end, // stages short-hand
+                begin = ch.xmlState.begin;
+            
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
-                
-                // stages routine
-                ch.xmlStage = (() => {
-                    let curr, ms = { all: null }, starts = { all: now() };
-                    
-                    return {
-                        ms: ms,
-                        begin: (stage, data) => {
-                            curr && ch.xmlStage.end(curr);
-                            ms[curr = stage] = null;
-                            starts[curr] = now();
-                            if (data) ch.xmlStage[curr] = data;
-                        },
-                        end: (stage, data) => {
-                            ms[stage] = now() - starts[stage];
-                            if (data) ch.xmlStage[curr] = typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
-                            return now();
-                        },
-                    };
-                })();
-                const end = ch.xmlState.end, // short-hand
-                    begin = ch.xmlState.begin;
                 
                 ch.xmlUpdatedAt = null;
                 ch.xmlStartedAt = +new Date;
