@@ -19,7 +19,7 @@ var indexRouter = require('./routes/index');
     const
         exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
         
-        writeCachedJSON = (name, data, cb) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), 'utf8', cb),
+        writeCachedJSON = (name, data) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data)),
         
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
