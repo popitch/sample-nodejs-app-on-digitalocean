@@ -40,7 +40,8 @@ var indexRouter = require('./routes/index');
             
             // stages routine
             function stages() {
-                let curr, ms = { all: null }, starts = { all: now() };
+                const ms = { all: null }, starts = { all: now() };
+                let curr;
                 
                 return {
                     ms: ms,
@@ -52,17 +53,15 @@ var indexRouter = require('./routes/index');
                     },
                     end: (stage, data) => {
                         ms[stage] = now() - starts[stage];
-                        if (data) ch.xmlStage[curr] = typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
+                        if (data) ch.xmlStage[curr] = 
+                            typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
                         return now();
                     },
                 };
             }
                 
             // stages start
-            ch.xmlStage = stages();
-            
-            const end = ch.xmlState.end, // stages short-hand
-                begin = ch.xmlState.begin;
+            const { end, begin } = ch.xmlStage = stages(); // stages short-hand
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
