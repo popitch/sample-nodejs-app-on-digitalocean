@@ -77,7 +77,7 @@ connThen(async (db) => {
         type: 'unique',
         name: 'exchanger_pair_unique_constraints',
     });
-    await queryInterface.addIndex('exchangeRates', null, schema.ExchangeRate.indexes[0]);
+    await queryInterface.addIndex('exchangeRates', schema.ExchangeRate.indexes[0]);
     
     return db;
 });
