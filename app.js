@@ -57,7 +57,7 @@ var indexRouter = require('./routes/index');
                     rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
                         (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
                     
-                    rate.exchangerId = ch.bcId;
+                    rate.exchangerId = ch.bcId || ch.id;
                     
                     return rate;
                 });
