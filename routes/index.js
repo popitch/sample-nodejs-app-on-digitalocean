@@ -605,7 +605,7 @@ function randomPage(req, res) {
   });
 }
 
-router.all('*', randomPage);
+router.all('index', randomPage);
 
 // console.log(lorem.generateParagraphs(7));
 
