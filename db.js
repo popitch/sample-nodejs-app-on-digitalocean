@@ -71,6 +71,9 @@ connThen(async (db) => {
     
     await queryInterface.dropTable('exchangeRates');
     await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
+    await queryInterface.addIndex('exchangeRates', null, schema.ExchangeRate.indexes[0]);
+    
+    return db;
 });
 
 

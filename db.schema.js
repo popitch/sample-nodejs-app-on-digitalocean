@@ -62,9 +62,9 @@ module.exports = {
                 allowNull: true,
             },
             xmlStage: {
-                type: DataTypes.STRING(32),
-                defaultValue: null,
-                allowNull: true,
+                type: DataTypes.JSON,
+                defaultValue: '{}',
+                allowNull: false,
             },
             xmlParsedAt: {
                 type: DataTypes.BIGINT,
