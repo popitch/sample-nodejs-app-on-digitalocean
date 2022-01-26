@@ -13,15 +13,16 @@ var indexRouter = require('./routes/index');
 (async (initial) => {
     const fetch = require('node-fetch'),
         convert = require('xml-js'),
-              _ = require('lodash');
+              _ = require('lodash'),
+        writeCachedJSON = (name, data, cb) => fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), 'utf8', cb);
 
     const
-        changersWithXml = initial.filter(c => c.xml && c.xmlVerified),
+        exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
         updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
         // give a next as oldest updated
         olderLoaded = () => {
-            return changersWithXml
+            return exchangersWithXml
                 .filter(ch => ! ch.xmlStartedAt)
                 .sort((a,b) => updatedAt(a) - updatedAt(b)) /* O(N * logN) */ [ 0 ]
         },
@@ -119,9 +120,12 @@ var indexRouter = require('./routes/index');
                             
                             // mark as not started
                             ch.xmlStartedAt = null;
-                            //ch.xmlStage = null; // stay to see..
+                
+                            // save cached/.exchangers.json
+                            writeCachedJSON('.exchangers', exchangersWithXml);
                             
-                            // fast tick, if all right, 500..2000 ms interval
+                            // fast tick,
+                            // if all right, 500..2000 ms interval
                             setTimeout(updateOlderOne, Math.max(500, 2000 - ch.xmlStage.ms.all));
                         })
                         .catch(error);
@@ -133,15 +137,19 @@ var indexRouter = require('./routes/index');
             function error(e) {
                 end('all', e);
                 
+                // save cached/.exchangers.json
+                writeCachedJSON('.exchangers', exchangersWithXml);
+                
                 console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
-                // lazy tick, after fail, 5000 ms interval
+                // lazy tick,
+                // after fail, 5000 ms interval
                 setTimeout(updateOlderOne, Math.max(5000, 5000 - ch.xmlStage.ms.all));
             }
         };
     
     // todo: setup from db
-    console.log('Setup with', initial.length, 'changers, where with verified xml source:', changersWithXml.length);
+    console.log('Setup with', initial.length, 'changers, where with verified xml source:', exchangersWithXml.length);
     
     //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
     // start
