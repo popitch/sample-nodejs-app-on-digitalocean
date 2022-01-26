@@ -16,12 +16,12 @@ module.exports = {
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
             updatedAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
             
             bcId: {
@@ -88,12 +88,12 @@ module.exports = {
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
             updatedAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
 
             exchangerId: {
