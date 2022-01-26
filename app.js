@@ -134,7 +134,7 @@ const fs = require('fs'),
                             ch.xmlStartedAt = null;
                 
                             // save cached/.exchangers.json
-                            writeCachedJSON('.exchangers', exchangersWithXml);
+                            writeCachedJSON('exchangers', exchangersWithXml);
                             
                             // fast tick,
                             // if all right, 500..2000 ms interval
@@ -150,7 +150,7 @@ const fs = require('fs'),
                 end('all', e);
                 
                 // save cached/.exchangers.json
-                writeCachedJSON('.exchangers', exchangersWithXml);
+                writeCachedJSON('exchangers', exchangersWithXml);
                 
                 console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
@@ -184,8 +184,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // my static, for /cached/*.json
 app.use('/cached', express.static(path.join(__dirname, 'public/cached')));
+
 
 app.use('/*', indexRouter);
 // app.use('/users', usersRouter);
