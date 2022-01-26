@@ -66,15 +66,9 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
     
-    await queryInterface.dropTable('Exchanger');
-    await queryInterface.dropTable('exchanger');
     await queryInterface.dropTable('exchangers');
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
     
-    await queryInterface.dropTable('ExchangeRate');
-    await queryInterface.dropTable('ExchangerRate');
-    await queryInterface.dropTable('exchangeRate');
-    await queryInterface.dropTable('exchangerRates');
     await queryInterface.dropTable('exchangeRates');
     await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
 });

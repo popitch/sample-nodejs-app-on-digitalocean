@@ -18,6 +18,7 @@ module.exports = {
                 defaultValue: null,
                 allowNull: false,
             },
+            
             name: {
                 type: DataTypes.STRING(32),
                 defaultValue: null,
@@ -67,6 +68,11 @@ module.exports = {
             { unique: true, fields: ['exchangerId', 'from', 'to'] },
         ],
         fields: {
+            id: {
+                primaryKey: true,
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
+            },
             /* auto
             updatedAt: {
                 type: DataTypes.BIGINT,
