@@ -193,7 +193,6 @@ var indexRouter = require('./routes/index');
             const ratesBulkClean = ratesBulkUniq;
             
             // update db rates
-            begin('db');
             db.then(db => {
                 const schema = require('./db.schema');
                 
