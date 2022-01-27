@@ -28,9 +28,13 @@ var indexRouter = require('./routes/index');
         
         json: (name, data) => {
             const dirs = name.split('/').slice(0, -1);
+                
+                console.log('mkdirs', dirs);
             
             for (let i = 0; i < dirs.length - 1; i++) {
                 const dir = Cached.DIR + dirs.slice(0, i).join('/');
+                
+                console.log('mkdir', dir);
                 
                 if (! path.existsSync(dir)) {
                     fs.mkdirSync(dir, 0744);
@@ -167,11 +171,11 @@ var indexRouter = require('./routes/index');
             touch.updated = 0;
         });
         
-        if (0 === N % 10) console.log('updated', touches.length, "pairs json at", ~(+new Date - begints), 'ms (* 10 per second)');
+        if (0 === N % 10) console.log('updated', touches.length, "pairs json at ~", (+new Date - begints), 'ms (* 10 per second)');
         
         // too fast tick,
         // after fail, 100 ms interval
-        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(100, 100 - (+new Date - begints)));
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(1000, 1000 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
