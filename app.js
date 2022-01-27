@@ -163,7 +163,11 @@ var indexRouter = require('./routes/index');
                     .then(updatedPairs => {
                         // touch to pairs
                         begin('touch');
-                        Cache.pair.touch(ratesBulkClear);
+                        try {
+                            Cache.pair.touch(ratesBulkClear);
+                        } catch(e) {
+                            error(e);
+                        }
                         end('touch');
             
                         // mark as finished
@@ -194,7 +198,7 @@ var indexRouter = require('./routes/index');
             // fix cached
             Cached.fillAll();
             
-            console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
+            console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
             
             // lazy tick,
             // after fail, 9000 ms interval
