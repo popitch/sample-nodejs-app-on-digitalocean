@@ -163,7 +163,7 @@ var indexRouter = require('./routes/index');
                     .then(updatedPairs => {
                         // touch to pairs
                         begin('touch');
-                        Cache.pair.touch(updatedPairs);
+                        Cache.pair.touch(ratesBulkClear);
                         end('touch');
             
                         // mark as finished
@@ -190,15 +190,15 @@ var indexRouter = require('./routes/index');
         
         function error(e) {
             end('all', e);
-                        
+            
             // fix cached
             Cached.fillAll();
             
             console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
             
             // lazy tick,
-            // after fail, 5000 ms interval
-            setTimeout(updateOlderOne, Math.max(5000, 5000 - ch.xmlStage.ms.all));
+            // after fail, 9000 ms interval
+            setTimeout(updateOlderOne, Math.max(9000, 9000 - ch.xmlStage.ms.all));
         }
     }
 })(
