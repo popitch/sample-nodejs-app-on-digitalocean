@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 // init sniffer
-(async (exchangersWithXml) => {
+(async (Exchangers) => {
     const fetch = require('node-fetch'),
         convert = require('xml-js'),
               _ = require('lodash'),
@@ -18,15 +18,15 @@ var indexRouter = require('./routes/index');
              db = require('./db'),
 
         // whiter to /cached/*.json
-        cached = {
+        Cached = {
             json: (name, data) => {
                 fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
-                return cached;
+                return Cached;
             },
             exchangers: () => {
-                return cached.json('exchangers', exchangersWithXml.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
+                return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
             },
-            process: () => cached.json('process', {
+            process: () => Cached.json('process', {
                 now: new Date,
                 node: {
                     mem: process.memoryUsage(),
@@ -42,7 +42,7 @@ var indexRouter = require('./routes/index');
         
         // give a next as oldest updated
         olderLoaded = () => {
-            return exchangersWithXml
+            return Exchangers
                 .filter(ch => ! ch.xmlStartedAt)
                 .sort((a,b) => updatedAt(a) - updatedAt(b)) /* O(N * logN) */ [ 0 ]
         },
@@ -130,7 +130,7 @@ var indexRouter = require('./routes/index');
                             ch.xmlStartedAt = null;
                             
                             // fix cached
-                            cached.exchangers().process();
+                            Cached.exchangers().process();
                             
                             console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
                             
@@ -148,7 +148,7 @@ var indexRouter = require('./routes/index');
                 end('all', e);
                             
                 // fix cached
-                cached.exchangers().process();
+                Cached.exchangers().process();
                 
                 console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
                 
@@ -159,7 +159,7 @@ var indexRouter = require('./routes/index');
         };
     
     // todo: setup from db
-    console.log('Setup with', initial.length, 'changers, where with verified xml source:', exchangersWithXml.length);
+    console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
     //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
     // start
