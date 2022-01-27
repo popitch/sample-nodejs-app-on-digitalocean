@@ -129,34 +129,36 @@ var indexRouter = require('./routes/index');
     console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
     // start pairs json writer
-    updateOldestPairsTail();
+    updateOldestPairsTail(0);
     
     // start xml sniffer
     return updateOlderOne();
     
     
     // put oldest pairs jsons to fs + deffered self calling (queue)
-    function updateOldestPairsTail() {
+    function updateOldestPairsTail(N) {
         const begints = +new Date,
-              touches = Cached.pairs.touchedTail(50);
+              touches = Cached.pairs.touchedTail(100);
         
-        touches.forEach((touch, i) => {
-            i || console.log(touch);
+        touches.forEach((touch, M) => {
+            0 === M && console.log(touch);
+            
             Cached.json(touch.from + '/' + touch.to, {
                 time: new Date,
                 rates: touch.rates,
             });
+            
             touch.updated = 0;
         });
         
-        console.log(touches.map(pair => pair.rates.length).length, 'at', (+new Date - begints), 'ms');
+        0 === N % 10 && console.log(touches.map(pair => pair.rates.length).length, 'at', (+new Date - begints), 'ms');
         
         //console.log('pairs page of', pairsPage.length);
         
         
         // lazy tick,
         // after fail, 2000 ms interval
-        setTimeout(updateOldestPairsTail, Math.max(1000, 1000 - (+new Date - begints)));
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(200, 200 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
