@@ -50,6 +50,8 @@ module.exports = () => {
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
                     spaces[cat] = Math.max((spaces[cat] || 0) - .1, number.length + .4);
                     
+                    console.log(spaces[cat], 'for', number);
+                    
                     return ' ' + number + Array(
                         Math.floor(spaces[cat++] - number.length)
                     ).fill(' ').join('') + broker;
