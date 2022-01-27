@@ -132,6 +132,10 @@ var indexRouter = require('./routes/index');
                 
                 rate.exchangerId = ch.bcId || ch.id;
                 
+                // case from=108, to=129 pcs...
+                rate.from = rate.from.toUpperCase().trim();
+                rate.fix = rate.to.toUpperCase().trim();
+                
                 return rate;
             });
             end('rates', ratesBulk.length);
