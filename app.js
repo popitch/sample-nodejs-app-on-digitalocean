@@ -69,16 +69,24 @@ var indexRouter = require('./routes/index');
                     if (-1 !== rateIndex) {
                         if (! _.isEqual(touch.rates[rateIndex], rate)) {
                             touch.rates[rateIndex] = rate;
-                            touch.updated++;
+                            if (! touch.updated++) {
+                                touch.created = +new Date; // first
+                            }
                         }
                     } else {
                         touch.rates.unshift(rate);
                         touch.updated++;
+                        if (! touch.updated++) {
+                            touch.created = +new Date; // first
+                        }
                     }
                 },
                 
+                touchedAll: () => _.flatten(_.map(touched, _.values))
+                        .filter(touch => touch.updated > 0),
+                
                 processReport: () => {
-                    const all = _.flatten(_.values(touched).map(_.values)),
+                    const all = Cached.pairs.touchedAll(),
                         oldest = _.min(all, 'created'),
                         greedy = _.max(all, 'updated');
                     
@@ -90,8 +98,7 @@ var indexRouter = require('./routes/index');
                 },
                 
                 touchedTail: (size) => {
-                    const page = _.flatten(_.map(touched, _.values))
-                        .filter(touch => touch.updated > 0)
+                    const page = Cached.pairs.touchedAll()
                         .sort((a,b) =>
                             (a.created - b.created) || // how old
                             (a.updated - b.updated) // update requests
@@ -133,13 +140,13 @@ var indexRouter = require('./routes/index');
         const begints = +new Date,
               touches = Cached.pairs.touchedTail(50);
         
-        touches.forEach(touch => {
+        touches.forEach((touch, i) => {
+            i || console.log(touch);
             Cached.json(touch.from + '/' + touch.to, {
                 time: new Date,
                 rates: touch.rates,
             });
             touch.updated = 0;
-            touch.created = 0;
         });
         
         console.log(touches.map(pair => pair.rates.length).length, 'at', (+new Date - begints), 'ms');
