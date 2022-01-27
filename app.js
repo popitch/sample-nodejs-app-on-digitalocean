@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
            _ = require('lodash'),
        fetch = require('node-fetch'),
      convert = require('xml-js'),
-             
+        
       stages = require('./stages'), stagesLoggerSpaces = [],
           db = require('./db'),
           
@@ -31,13 +31,35 @@ var indexRouter = require('./routes/index');
         },
         process: () => Cached.json('process', {
             now: new Date,
+            queue: {
+                pair: Cached.pair.size(),
+            },
             node: {
                 mem: process.memoryUsage(),
             }
         }),
         pair: (() => {
-            const touched = {};
+            const touched = [];
             
+            return {
+                touch: (from, to) => {
+                    if (_.isArray(from))
+                        return pairs.forEach(ex => Cached.pair.touch(ex.from, ex.to));
+                    
+                    const touch = _.find(touched, { from: from, to: to }) || { from: from, to: to, times: 0 };
+                    
+                    if (0 === touch.times) touched.push(touch);
+                    
+                    touch++;
+                },
+                
+                size: () => touched.length,
+                
+                release: (pageSize) => {
+                    touched = _.sortBy(touched, 'times');
+                    return touched.splice(- pageSize, pageSize);
+                },
+            };
         })()
     };
     
