@@ -45,8 +45,7 @@ const fs = require('fs'),
         
         // request older exchanger's XML + deffered self calling
         updateOlderOne = async () => {
-            const ch = olderLoaded(),
-                now = () => +new Date;
+            const ch = olderLoaded();
             
             if (! ch) {
                 // have no work now, lazy tick, 4000 ms interval
@@ -118,7 +117,7 @@ const fs = require('fs'),
                             // mark as finished
                             end('bulk');
                             end('all');
-                            ch.xmlUpdatedAt = now();
+                            ch.xmlUpdatedAt = +new Date;
                             
                             // mark as not started
                             ch.xmlStartedAt = null;

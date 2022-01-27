@@ -1,3 +1,5 @@
+const now = () => +new Date;
+
 // stage logs producer
 module.exports = () => {
     const ms = { all: null }, starts = { all: now() };
