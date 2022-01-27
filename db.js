@@ -67,10 +67,10 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
     
-    await queryInterface.dropTable('exchangers');
+    //await queryInterface.dropTable('exchangers');
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
     
-    await queryInterface.dropTable('exchangeRates', { onDelete: 'cascade' });
+    //await queryInterface.dropTable('exchangeRates', { onDelete: 'cascade' });
     await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
     await queryInterface.addConstraint('exchangeRates', {
         fields: schema.ExchangeRate.indexes[0].fields,

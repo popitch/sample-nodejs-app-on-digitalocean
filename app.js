@@ -29,30 +29,32 @@ var indexRouter = require('./routes/index');
         
         putAll: () => Cached
             .putExchangers()
-            .putProcess()
-            .pair.put(),
+            .pairs.put()
+            // at end
+            .putProcessReport(),
         
         putExchangers: () => {
             return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
         
-        putProcess: () => Cached.json('process', {
+        putProcessReport: () => Cached.json('process', {
             now: new Date,
-            pair: Cached.pair.report(),
+            pairs: Cached.pairs.processReport(),
             node: {
                 mem: process.memoryUsage(),
             }
         }),
         
-        pair: (() => {
-            let touched = {};
+        pairs: (() => {
+            const touched = {};
             
             return {
-                HEAD_SIZE: 100,
+                TAIL_CHUNK_SIZE: 100,
                 
+                // saved in touched[from][to] 
                 touch: (from, to) => {
                     if (_.isArray(from))
-                        return from.forEach(ex => Cached.pair.touch(ex.from, ex.to));
+                        return from.forEach(ex => Cached.pairs.touch(ex.from, ex.to));
                     
                     const
                         fromBranch = touched[from] = touched[from] || {},
@@ -64,7 +66,7 @@ var indexRouter = require('./routes/index');
                     touch.times++;
                 },
                 
-                report: () => {
+                processReport: () => {
                     const all = _.flatten(_.values(touched).map(_.values)),
                         oldest = _.min(all, 'created'),
                         greedy = _.max(all, 'times');
@@ -76,16 +78,19 @@ var indexRouter = require('./routes/index');
                     };
                 },
                 
-                head: () => {
+                tail: () => {
                     const page = _.flatten(_.map(touched, _.values))
                         .sort((a,b) =>
-                            (a.created - b.created) || // oldly
-                            (a.times - b.times) // fastly
+                            (a.created - b.created) || // how old
+                            (a.times - b.times) // many requests
                         )
-                        .slice(0, Cached.pair.HEAD_SIZE);
+                        .slice(0, Cached.pairs.TAIL_CHUNK_SIZE);
                     
-                    // clean touched, todo: maybe do this after head has been applied?
+                    // clear touched, todo: maybe do this after head has been applied?
                     page.forEach(touch => {
+                        // hm, write to fs here?
+                        // Cached.json(touch.from + '/' + touch.to, )
+                        
                         delete touched[touch.from][touch.to];
                     });
                     
@@ -197,7 +202,7 @@ var indexRouter = require('./routes/index');
                         // touch to pairs
                         begin('touch');
                         //try {
-                            Cached.pair.touch(ratesBulkClear);
+                            Cached.pairs.touch(ratesBulkClear);
                         //} catch(e) {
                         //    error(e);
                         //}
