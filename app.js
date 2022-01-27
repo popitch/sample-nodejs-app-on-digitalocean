@@ -49,7 +49,7 @@ var indexRouter = require('./routes/index');
             const touched = {};
             
             return {
-                TAIL_CHUNK_SIZE: 100,
+                DEFAULT_TAIL_CHUNK_SIZE: 100,
                 
                 // saved in touched[from][to] 
                 touch: (from, to) => {
@@ -78,13 +78,13 @@ var indexRouter = require('./routes/index');
                     };
                 },
                 
-                tail: () => {
+                tail: (size) => {
                     const page = _.flatten(_.map(touched, _.values))
                         .sort((a,b) =>
                             (a.created - b.created) || // how old
                             (a.times - b.times) // many requests
                         )
-                        .slice(0, Cached.pairs.TAIL_CHUNK_SIZE);
+                        .slice(0, size || Cached.pairs.DEFAULT_TAIL_CHUNK_SIZE);
                     
                     // clear touched, todo: maybe do this after head has been applied?
                     page.forEach(touch => {
@@ -119,14 +119,14 @@ var indexRouter = require('./routes/index');
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail() {
         const begin = +new Date,
-            page = Cached.pairs.tail();
+            page = Cached.pairs.tail(400);
         
         console.log('pairs page of', page.length);
         
         
         // lazy tick,
-        // after fail, 5000 ms interval
-        setTimeout(updateOldestPairsTail, Math.max(15000, 15000 - (+new Date - begin)));
+        // after fail, 2000 ms interval
+        setTimeout(updateOldestPairsTail, Math.max(2000, 2000 - (+new Date - begin)));
     }
     
     // give a next as oldest updated
