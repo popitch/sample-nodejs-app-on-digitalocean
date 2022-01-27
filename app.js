@@ -63,6 +63,9 @@ const fs = require('fs'),
                     
                     begin: (stage, data) => {
                         
+                        // stage as value cather
+                        if (/\d+.*\w+/i.exec(stage)) error(stage);
+                        
                         // circus catcher
                         try { JSON.stringify(stage) && JSON.stringify(data) }
                         catch(e) { error(e) }
