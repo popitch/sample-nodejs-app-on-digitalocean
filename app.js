@@ -9,163 +9,163 @@ var indexRouter = require('./routes/index');
 
 // init sniffer
 (async (Exchangers) => {
-    const fetch = require('node-fetch'),
-        convert = require('xml-js'),
-              _ = require('lodash'),
-             fs = require('fs'),
+    const fs = require('fs'),
+           _ = require('lodash'),
+       fetch = require('node-fetch'),
+     convert = require('xml-js'),
              
-         stages = require('./stages'), stagesLoggerSpaces = [],
-             db = require('./db'),
+      stages = require('./stages'), stagesLoggerSpaces = [],
+          db = require('./db'),
+          
+        // short-hand
+        exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0);
 
-        // whiter to /cached/*.json
-        Cached = {
-            json: (name, data) => {
-                fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
-                return Cached;
-            },
-            exchangers: () => {
-                return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
-            },
-            process: () => Cached.json('process', {
-                now: new Date,
-                node: {
-                    mem: process.memoryUsage(),
-                }
-            }),
-            pair: {
-                _touched: {},
-                
-            }
+    // whiter to /cached/*.json
+    const Cached = {
+        json: (name, data) => {
+            fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
+            return Cached;
         },
-        
-        updatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
-        
-        // give a next as oldest updated
-        olderLoaded = () => {
-            return Exchangers
-                .filter(ch => ! ch.xmlStartedAt)
-                .sort((a,b) => updatedAt(a) - updatedAt(b)) /* O(N * logN) */ [ 0 ]
+        exchangers: () => {
+            return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
-        
-        // request older exchanger's XML + deffered self calling
-        updateOlderOne = async () => {
-            const ch = olderLoaded();
-            
-            if (! ch) {
-                // have no work now, lazy tick, 4000 ms interval
-                return setTimeout(updateOlderOne, 4000);
+        process: () => Cached.json('process', {
+            now: new Date,
+            node: {
+                mem: process.memoryUsage(),
             }
-                        
-            // init stages
-            const { end, begin } = ch.xmlStage = ch.xmlStage || stages(ch); // stages short-hands
+        }),
+        pair: (() => {
+            const touched = {};
             
-            // reset with common spaces
-            ch.xmlStage.reset({ spaces: stagesLoggerSpaces });
-            
-            try {
-                if (ch.xmlStartedAt) throw 'already run | has no';
-                
-                ch.xmlUpdatedAt = null;
-                ch.xmlStartedAt = +new Date;
-                
-                begin('fetch');
-                const response = await fetch(ch.xml);
-                
-                begin('text');
-                const responseText = await response.text();
-                end('text', responseText.length);
-
-                begin('parse');
-                const jso = convert.xml2js(responseText, { trim: true, compact: true });
-                
-                begin('rates');
-                const ratesBulk = (jso.rates.item || []).map((rate, i) => {
-                    rate = _.transform(rate, (r, v, k) => {
-                        if (! _.isEmpty(v)) { // igrore <empty/>
-    	                    if (0 === i && ! v._text) console.warn("Can't parse", k, 'with', v);
-    	                    r[k] = v._text;
-	                    }
-	                });
-	                
-                    rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
-                        (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
-                    
-                    rate.exchangerId = ch.bcId || ch.id;
-                    
-                    return rate;
-                });
-                end('rates', ratesBulk.length);
-                
-                // clear bulk without duplicates, to be updated
-                begin('dups');
-                const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
-                   ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
-                
-                ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
-                
-                const ratesBulkClear = ratesBulkUniq;
-                
-                // update db rates
-                db.then(db => {
-                    const schema = require('./db.schema');
-                    
-                    begin('bulk', ratesBulkClear.length);
-                    db.models.ExchangeRate
-                        .bulkCreate(ratesBulkClear, {
-                            validate: true,
-                            updateOnDuplicate: _
-                                .chain(schema.ExchangeRate.fields).keys()
-                                //.difference(schema.ExchangeRate.indexes[0].fields)
-                                //.difference(["id"])
-                                .value(),
-                            logging: false,
-                        })
-                        .then(() => {
-                            // mark as finished
-                            end('bulk');
-                            end('all');
-                            ch.xmlUpdatedAt = +new Date;
-                            
-                            // mark as not started
-                            ch.xmlStartedAt = null;
-                            
-                            // fix cached
-                            Cached.exchangers().process();
-                            
-                            console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
-                            
-                            // fast tick,
-                            // if all right, 500..2000 ms interval
-                            setTimeout(updateOlderOne, Math.max(500, 2000 - ch.xmlStage.ms.all));
-                        })
-                        .catch(error);
-                });
-            } catch(e) {
-                error(e);
-            }
-            
-            function error(e) {
-                end('all', e);
-                            
-                // fix cached
-                Cached.exchangers().process();
-                
-                console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
-                
-                // lazy tick,
-                // after fail, 5000 ms interval
-                setTimeout(updateOlderOne, Math.max(5000, 5000 - ch.xmlStage.ms.all));
-            }
-        };
+        })()
+    };
     
-    // todo: setup from db
     console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
-    //process.env[ "XX_CHANGERS_UPD" ] = JSON.stringify(initial);
-    // start
-    updateOlderOne();
+    // start sniff one, ok
+    return updateOlderOne();
+    
+    
+    // give a next as oldest updated
+    function olderLoaded() {
+        return Exchangers
+            .filter(ch => ! ch.xmlStartedAt)
+            .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
+    };
+        
+    // request older exchanger's XML + deffered self calling
+    async function updateOlderOne () {
+        const ch = olderLoaded();
+        
+        if (! ch) {
+            // have no work now, lazy tick, 4000 ms interval
+            return setTimeout(updateOlderOne, 4000);
+        }
+                    
+        // init stages
+        const { end, begin } = ch.xmlStage = ch.xmlStage || stages(ch); // stages short-hands
+        
+        // reset with common spaces
+        ch.xmlStage.reset({ spaces: stagesLoggerSpaces });
+        
+        try {
+            if (ch.xmlStartedAt) throw 'already run | has no';
+            
+            ch.xmlUpdatedAt = null;
+            ch.xmlStartedAt = +new Date;
+            
+            begin('fetch');
+            const response = await fetch(ch.xml);
+            
+            begin('text');
+            const responseText = await response.text();
+            end('text', responseText.length);
+
+            begin('parse');
+            const jso = convert.xml2js(responseText, { trim: true, compact: true });
+            
+            begin('rates');
+            const ratesBulk = (jso.rates.item || []).map((rate, i) => {
+                rate = _.transform(rate, (r, v, k) => {
+                    if (! _.isEmpty(v)) { // igrore <empty/>
+	                    if (0 === i && ! v._text) console.warn("Can't parse", k, 'with', v);
+	                    r[k] = v._text;
+                    }
+                });
+                
+                rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
+                    (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
+                
+                rate.exchangerId = ch.bcId || ch.id;
+                
+                return rate;
+            });
+            end('rates', ratesBulk.length);
+            
+            // clear bulk without duplicates, to be updated
+            begin('dups');
+            const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
+               ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
+            
+            ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
+            
+            const ratesBulkClear = ratesBulkUniq;
+            
+            // update db rates
+            db.then(db => {
+                const schema = require('./db.schema');
+                
+                begin('bulk', ratesBulkClear.length);
+                db.models.ExchangeRate
+                    .bulkCreate(ratesBulkClear, {
+                        validate: true,
+                        updateOnDuplicate: _
+                            .chain(schema.ExchangeRate.fields).keys()
+                            //.difference(schema.ExchangeRate.indexes[0].fields)
+                            //.difference(["id"])
+                            .value(),
+                        logging: false,
+                    })
+                    .then(() => {
+                        // mark as finished
+                        end('bulk');
+                        end('all');
+                        ch.xmlUpdatedAt = +new Date;
+                        
+                        // mark as not started
+                        ch.xmlStartedAt = null;
+                        
+                        // fix cached
+                        Cached.exchangers().process();
+                        
+                        console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
+                        
+                        // fast tick,
+                        // if all right, 500..2000 ms interval
+                        setTimeout(updateOlderOne, Math.max(500, 2000 - ch.xmlStage.ms.all));
+                    })
+                    .catch(error);
+            });
+        } catch(e) {
+            error(e);
+        }
+        
+        function error(e) {
+            end('all', e);
+                        
+            // fix cached
+            Cached.exchangers().process();
+            
+            console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
+            
+            // lazy tick,
+            // after fail, 5000 ms interval
+            setTimeout(updateOlderOne, Math.max(5000, 5000 - ch.xmlStage.ms.all));
+        }
+    }
 })(
-    JSON.parse(process.env[ "XX_CHANGERS" ])
+    JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
         .filter(ch => ch.xml && ch.xmlVerified)
 );
 

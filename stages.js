@@ -54,7 +54,7 @@ module.exports = () => {
                 
                 // equalize space indents for numbers
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
-                    spaces[cat] = Math.max((spaces[cat] || 0) - .0625, number.length + .375);
+                    spaces[cat] = Math.max((spaces[cat] || 0) - .03125, number.length + .4375);
                     
                     return ' ' + Array(
                         Math.round(spaces[cat++] - number.length)
