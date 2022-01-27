@@ -58,7 +58,7 @@ const fs = require('fs'),
                 const ms = { all: null }, starts = { all: now() };
                 let curr;
                 
-                return stages = {
+                return {
                     ms: ms,
                     
                     begin: (stage, data) => {
