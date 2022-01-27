@@ -4,13 +4,12 @@ const now = () => +new Date,
 // stage logs producer
 module.exports = () => {
     let starts, curr,
-        spaces;
+        spaces = []; // has no reset
     
     const stages = {
         reset: () => {
             starts = { all: now() };
             stages.ms = { all: null };
-            spaces = [];
             return stages;
         },
         
