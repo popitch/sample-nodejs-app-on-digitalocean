@@ -48,9 +48,8 @@ const fs = require('fs'),
                 now = () => +new Date;
             
             if (! ch) {
-                // no work
-                // super lazy tick, 7000 ms interval
-                return setTimeout(updateOlderOne, 7000);
+                // have no work now, lazy tick, 4000 ms interval
+                return setTimeout(updateOlderOne, 4000);
             }
             
             // stages routine
@@ -91,8 +90,8 @@ const fs = require('fs'),
                 };
             }
                 
-            // stages start
-            const { end, begin } = ch.xmlStages = stages(ch); // stages short-hand
+            // init stages
+            const { end, begin } = ch.xmlStage = stages(ch); // stages short-hand
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
