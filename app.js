@@ -36,7 +36,7 @@ var indexRouter = require('./routes/index');
                     console.log('mkdir', dir);
                     
                     fs.mkdirSync(dir, /*0744,*/ { recursive: true });
-            //    }
+                }
             //}
             
             fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
@@ -57,6 +57,7 @@ var indexRouter = require('./routes/index');
         putProcessReport: () => Cached.json('process', {
             up: snifferUpAt,
             now: new Date,
+            rates: Cached.pairs.all().reduce((sum, touch) => sum + touch.rates.length, 0),
             pairs: Cached.pairs.processReport(),
             node: {
                 mem: process.memoryUsage(),
@@ -100,8 +101,9 @@ var indexRouter = require('./routes/index');
                     }
                 },
                 
-                touchedAll: () => _.flatten(_.map(touched, _.values))
-                        .filter(touch => touch.updated > 0),
+                all: () => _.flatten(_.map(touched, _.values)),
+                
+                touchedAll: () => Cached.pairs.all().filter(touch => touch.updated > 0),
                 
                 processReport: () => {
                     const all = Cached.pairs.touchedAll(),
@@ -133,12 +135,7 @@ var indexRouter = require('./routes/index');
                     
                     return page;
                 },
-                /* correct no =)
-                detouch: (pageSize) => {
-                    const sortedTouched = _.sortBy(this.plain(), [t => t.times, t => - t.created]);
-                    return sortedTouched.splice(- pageSize, pageSize);
-                },
-                */
+
                 put: () => Cached.json('pair', touched)
             };
         })()
@@ -156,7 +153,7 @@ var indexRouter = require('./routes/index');
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail(N) {
         const begints = +new Date,
-              touches = Cached.pairs.touchedTail(100);
+              touches = Cached.pairs.touchedTail(50);
         
         touches.forEach((touch, M) => {
             //if (0 === M && 0 === N % 10) console.log(touch);
@@ -173,7 +170,7 @@ var indexRouter = require('./routes/index');
         
         // too fast tick,
         // after fail, 100 ms interval
-        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(1000, 1000 - (+new Date - begints)));
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(100, 100 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
