@@ -27,20 +27,18 @@ var indexRouter = require('./routes/index');
             return Cached;
         },
         
-        fillAll: () => Cached
-            .fillExchangers()
-            .fillProcess()
-            .pair.fill(),
+        putAll: () => Cached
+            .putExchangers()
+            .putProcess()
+            .pair.put(),
         
-        fillExchangers: () => {
+        putExchangers: () => {
             return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
         
-        fillProcess: () => Cached.json('process', {
+        putProcess: () => Cached.json('process', {
             now: new Date,
-            queue: {
-                pair: Cached.pair.size(),
-            },
+            pair: Cached.pair.report(),
             node: {
                 mem: process.memoryUsage(),
             }
@@ -50,6 +48,8 @@ var indexRouter = require('./routes/index');
             let touched = {};
             
             return {
+                HEAD_SIZE: 100,
+                
                 touch: (from, to) => {
                     if (_.isArray(from))
                         return from.forEach(ex => Cached.pair.touch(ex.from, ex.to));
@@ -59,19 +59,45 @@ var indexRouter = require('./routes/index');
                         touch = fromBranch[to] = fromBranch[to]
                             || { from: from, to: to, times: 0, created: +new Date };
                     
-                    //if (0 === touch.times) touched.push(touch);
+                    //if (0 === touch.times) touched.push(touch); // from array-version
                     
                     touch.times++;
                 },
                 
-                size: () => _.values(touched).reduce((sum, br) => _.keys(br).length + sum, 0),
-                
-                detouch: (pageSize) => {
-                    touched = _.sortBy(touched, [t => t.times, t => - t.created]);
-                    return touched.splice(- pageSize, pageSize);
+                report: () => {
+                    const all = _.flatten(_.values(touched).map(_.values)),
+                        oldest = _.min(all, 'created'),
+                        greedy = _.max(all, 'times');
+                    
+                    return {
+                        queue: all.length,
+                        oldest: new Date(oldest.created),
+                        greedy: greedy.times,
+                    };
                 },
                 
-                fill: () => Cached.json('pair', touched)
+                head: () => {
+                    const page = _.flatten(_.map(touched, _.values))
+                        .sort((a,b) =>
+                            (a.created - b.created) || // oldly
+                            (a.times - b.times) // fastly
+                        )
+                        .slice(0, Cached.pair.HEAD_SIZE);
+                    
+                    // clean touched, todo: maybe do this after head has been applied?
+                    page.forEach(touch => {
+                        delete touched[touch.from][touch.to];
+                    });
+                    
+                    return page;
+                },
+                
+                detouch: (pageSize) => {
+                    const sortedTouched = _.sortBy(this.plain(), [t => t.times, t => - t.created]);
+                    return sortedTouched.splice(- pageSize, pageSize);
+                },
+                
+                put: () => Cached.json('pair', touched)
             };
         })()
     };
@@ -185,7 +211,7 @@ var indexRouter = require('./routes/index');
                         ch.xmlStartedAt = null;
                         
                         // fix cached
-                        Cached.fillAll();
+                        Cached.putAll();
                         
                         console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
                         
@@ -203,7 +229,7 @@ var indexRouter = require('./routes/index');
             end('all', e);
             
             // fix cached
-            Cached.fillAll();
+            Cached.putAll();
             
             console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
             
