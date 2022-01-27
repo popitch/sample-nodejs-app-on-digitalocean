@@ -35,9 +35,15 @@ module.exports = () => {
         
         short: function() {
             return JSON.stringify(this)
+                // quotes
                 .replace(/"/g, '')
+                // spaces
                 .replace(/(,|\{|:)/g, '$1 ')
-                .replace(/\}/g, ' }');
+                .replace(/\}/g, ' }')
+                // equalize indents for numbers
+                .replace(/ (\d\d\d),/g, ' $1, ')
+                .replace(/ (\d\d),/g, ' $1,  ')
+                .replace(/ (\d),/g, ' $1,   ');
         }
     };
 };
