@@ -2,7 +2,10 @@ const now = () => +new Date;
 
 // stage logs producer
 module.exports = () => {
-    const ms = { all: null }, starts = { all: now() };
+    const starts = { all: now() },
+        ms = { all: null },
+        spaces = [];
+    
     let stages, curr;
     
     return stages = {
@@ -34,6 +37,9 @@ module.exports = () => {
         },
         
         short: function() {
+            // adaptive space cats
+            let cat = 0;
+            
             return JSON.stringify(this)
                 // quotes
                 .replace(/"/g, '')
@@ -41,9 +47,13 @@ module.exports = () => {
                 .replace(/(,|\{|:)/g, '$1 ')
                 .replace(/\}/g, ' }')
                 // equalize indents for numbers
-                .replace(/ (\d\d\d)(,| )/g, ' $1$2 ')
-                .replace(/ (\d\d)(,| )/g, ' $1$2  ')
-                .replace(/ (\d)(,| )/g, ' $1$2   ');
+                .replace(/ (\d+)(,| )/g, (found, number, broker) => {
+                    spaces[cat] = Math.max((spaces[cat] || 0) - .1, number.length + .4);
+                    
+                    return ' ' + number + Array(
+                        Math.floor(spaces[cat++] - number.length)
+                    ).fill(' ').join('') + broker;
+                });
         }
     };
 };
