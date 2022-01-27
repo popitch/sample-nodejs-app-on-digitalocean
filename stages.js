@@ -41,9 +41,9 @@ module.exports = () => {
                 .replace(/(,|\{|:)/g, '$1 ')
                 .replace(/\}/g, ' }')
                 // equalize indents for numbers
-                .replace(/ (\d\d\d),/g, ' $1, ')
-                .replace(/ (\d\d),/g, ' $1,  ')
-                .replace(/ (\d),/g, ' $1,   ');
+                .replace(/ (\d\d\d)(,| )/g, ' $1$2 ')
+                .replace(/ (\d\d)(,| )/g, ' $1$2  ')
+                .replace(/ (\d)(,| )/g, ' $1$2   ');
         }
     };
 };

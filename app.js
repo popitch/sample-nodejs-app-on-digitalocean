@@ -68,7 +68,7 @@ const fs = require('fs'),
                 
                 begin('text');
                 const responseText = await response.text();
-                end('text', responseText.length + ' bytes');
+                end('text', responseText.length);
 
                 begin('parse');
                 const jso = convert.xml2js(responseText, { trim: true, compact: true });
