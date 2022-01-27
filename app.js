@@ -27,17 +27,17 @@ var indexRouter = require('./routes/index');
         DIR: './public/cached/',
         
         json: (name, data) => {
-            const dirs = name.split('/');
+            const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
             
-            for (let i = 0; i < dirs.length - 1; i++) {
-                const dir = Cached.DIR + dirs.slice(0, i).join('/');
+            //for (let i = 0; i < dirs.length - 1; i++) {
+            //    const dir = dirs;
                 
-                console.log('mkdir', dir);
-                
-                if (! path.existsSync(dir)) {
-                    fs.mkdirSync(dir, 0744);
-                }
-            }
+                if (! fs.existsSync(dir)) {
+                    console.log('mkdir', dir);
+                    
+                    fs.mkdirSync(dir, /*0744,*/ { recursive: true });
+            //    }
+            //}
             
             fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
             
