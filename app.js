@@ -18,7 +18,9 @@ var indexRouter = require('./routes/index');
           db = require('./db'),
           
         // short-hand
-        exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0);
+        exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
+        
+        snifferUpAt = new Date;
 
     // whiter to /cached/*.json
     const Cached = {
@@ -51,6 +53,7 @@ var indexRouter = require('./routes/index');
         },
         
         putProcessReport: () => Cached.json('process', {
+            up: snifferUpAt,
             now: new Date,
             pairs: Cached.pairs.processReport(),
             node: {
@@ -164,14 +167,11 @@ var indexRouter = require('./routes/index');
             touch.updated = 0;
         });
         
-        if (0 === N % 10) console.log(touches.map(touch => touch.rates.length), 'at', (+new Date - begints), 'ms (* 10)');
+        if (0 === N % 10) console.log('updated', touches.length, "pairs json at", ~(+new Date - begints), 'ms (* 10 per second)');
         
-        //console.log('pairs page of', pairsPage.length);
-        
-        
-        // lazy tick,
-        // after fail, 2000 ms interval
-        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(500, 500 - (+new Date - begints)));
+        // too fast tick,
+        // after fail, 100 ms interval
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(100, 100 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
