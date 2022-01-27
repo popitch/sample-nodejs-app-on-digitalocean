@@ -52,18 +52,19 @@ var indexRouter = require('./routes/index');
                 DEFAULT_TAIL_CHUNK_SIZE: 100,
                 
                 // saved in touched[from][to] 
-                touch: (from, to) => {
+                touch: (from, to, pair) => {
                     if (_.isArray(from))
-                        return from.forEach(ex => Cached.pairs.touch(ex.from, ex.to));
+                        return from.forEach(pair => Cached.pairs.touch(pair.from, pair.to, pair));
                     
                     const
                         fromBranch = touched[from] = touched[from] || {},
                         touch = fromBranch[to] = fromBranch[to]
-                            || { from: from, to: to, times: 0, created: +new Date };
+                            || { from: from, to: to, times: 0, created: +new Date,  };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
                     touch.times++;
+                    touch.rates.unshift(pair);
                 },
                 
                 processReport: () => {
@@ -74,7 +75,7 @@ var indexRouter = require('./routes/index');
                     return oldest && {
                         queue: all.length,
                         oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
-                        greedy: greedy.times,
+                        maxreq: greedy.times,
                     };
                 },
                 
@@ -119,14 +120,16 @@ var indexRouter = require('./routes/index');
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail() {
         const begints = +new Date,
-            page = Cached.pairs.tail(400);
+            pairsPage = Cached.pairs.tail(50);
         
-        console.log('pairs page of', page.length);
+        console.log(pairsPage.map(pair => pair.rates.length));
+        
+        //console.log('pairs page of', pairsPage.length);
         
         
         // lazy tick,
         // after fail, 2000 ms interval
-        setTimeout(updateOldestPairsTail, Math.max(2000, 2000 - (+new Date - begints)));
+        setTimeout(updateOldestPairsTail, Math.max(1000, 1000 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
@@ -166,6 +169,8 @@ var indexRouter = require('./routes/index');
 
             begin('parse');
             const jso = convert.xml2js(responseText, { trim: true, compact: true });
+            
+            if (! jso || ! jso.rates || ! jso.rates.item)
             
             begin('rates');
             const ratesBulk = (jso.rates.item || []).map((rate, i) => {
