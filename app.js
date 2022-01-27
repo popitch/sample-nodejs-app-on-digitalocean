@@ -118,7 +118,7 @@ var indexRouter = require('./routes/index');
     
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail() {
-        const begin = +new Date,
+        const begints = +new Date,
             page = Cached.pairs.tail(400);
         
         console.log('pairs page of', page.length);
@@ -126,7 +126,7 @@ var indexRouter = require('./routes/index');
         
         // lazy tick,
         // after fail, 2000 ms interval
-        setTimeout(updateOldestPairsTail, Math.max(2000, 2000 - (+new Date - begin)));
+        setTimeout(updateOldestPairsTail, Math.max(2000, 2000 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
@@ -190,7 +190,7 @@ var indexRouter = require('./routes/index');
             end('rates', ratesBulk.length);
             
             // clear bulk without duplicates, to be updated
-            begin('dups');
+            //begin('dups'); // min-logs
             const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
                ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
             
@@ -215,9 +215,9 @@ var indexRouter = require('./routes/index');
                     })
                     .then(updatedPairs => {
                         // touch to pairs
-                        begin('touch');
+                        //begin('touch'); // min-logs
                         Cached.pairs.touch(ratesBulkClean);
-                        end('touch');
+                        //end('touch'); // min-logs
             
                         // mark as finished
                         end('all');
