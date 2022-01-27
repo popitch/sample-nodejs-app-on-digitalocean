@@ -35,8 +35,8 @@ module.exports = () => {
         short: function() {
             return JSON.stringify(this)
                 .replace(/"/g, '')
-                .replace(/(\{|\})/g, ' $1 ')
-                .replace(/,/g, ', ');
+                .replace(/[,\{:]/g, '$1 ')
+                .replace(/\}/g, ' }');
         }
     };
 };
