@@ -3,22 +3,20 @@ const now = () => +new Date,
 
 // stage logs producer
 module.exports = () => {
-    let starts, ms, spaces;
-    let stages, curr;
+    let starts, curr,
+        spaces;
     
-    return stages = {
-        ms: ms,
-        
-        start: () => {
+    const stages = {
+        reset: () => {
             starts = { all: now() };
-            ms = { all: null };
+            stages.ms = { all: null };
             spaces = [];
             return stages;
         },
         
         begin: (stage, data) => {
             
-            // stage as value cather
+            // stage as value catcher
             if (/\d+.*\w+/i.exec(stage)) error(stage);
             
             // circus catcher
@@ -26,13 +24,13 @@ module.exports = () => {
             catch(e) { error(e) }
             
             curr && stages.end(curr);
-            ms[curr = stage] = null;
+            stages.ms[curr = stage] = null;
             starts[curr] = now();
             if (data) stages[curr] = data;
         },
         
         end: (stage, data) => {
-            ms[stage] = now() - starts[stage];
+            stages.ms[stage] = now() - starts[stage];
             delete starts[stage];
             
             if (data) stages[curr] = 
@@ -48,20 +46,23 @@ module.exports = () => {
             return JSON.stringify(this)
                 // quotes
                 .replace(/"/g, '')
+                
                 // spaces
                 .replace(/(,|\{|:)/g, '$1 ')
                 .replace(/\}/g, ' }')
-                // equalize indents for numbers
+                
+                // equalize space indents for numbers
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
-                    const space = spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
-                    cat++;
+                    spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
                     
                     //console.log(spaces);
                     
                     return ' ' + number + Array(
-                        Math.floor(space - number.length)
+                        Math.floor(spaces[cat++] - number.length)
                     ).fill(' ').join('') + broker;
                 });
         }
     };
+    
+    return stages.reset();
 };
