@@ -54,11 +54,11 @@ const fs = require('fs'),
             }
             
             // stages routine
-            function stages(exchanger) {
+            function stages() {
                 const ms = { all: null }, starts = { all: now() };
-                let curr;
+                let stages, curr;
                 
-                return {
+                return stages = {
                     ms: ms,
                     
                     begin: (stage, data) => {
@@ -70,17 +70,17 @@ const fs = require('fs'),
                         try { JSON.stringify(stage) && JSON.stringify(data) }
                         catch(e) { error(e) }
                         
-                        curr && exchanger.xmlStage.end(curr);
+                        curr && stages.end(curr);
                         ms[curr = stage] = null;
                         starts[curr] = now();
-                        if (data) exchanger.xmlStage[curr] = data;
+                        if (data) stages[curr] = data;
                     },
                     
                     end: (stage, data) => {
                         ms[stage] = now() - starts[stage];
                         delete starts[stage];
-                        if (data) exchanger.xmlStage[curr] = 
-                            typeof data === 'object' ? _.extend(exchanger.xmlStage[curr] || {}, data) : data;
+                        if (data) stages[curr] = 
+                            typeof data === 'object' ? _.extend(stages[curr] || {}, data) : data;
                         curr = null;
                         return now();
                     },
@@ -92,7 +92,7 @@ const fs = require('fs'),
             }
                 
             // stages start
-            const { end, begin } = stages(ch); // stages short-hand
+            const { end, begin } = ch.xmlStages = stages(ch); // stages short-hand
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
