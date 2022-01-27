@@ -71,7 +71,7 @@ var indexRouter = require('./routes/index');
                     
                     return {
                         queue: all.length,
-                        oldest: new Date(oldest.created),
+                        oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) + ' sec)',
                         greedy: greedy.times,
                     };
                 },
