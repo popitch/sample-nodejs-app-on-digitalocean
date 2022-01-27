@@ -141,7 +141,7 @@ var indexRouter = require('./routes/index');
               touches = Cached.pairs.touchedTail(100);
         
         touches.forEach((touch, M) => {
-            0 === M && console.log(touch);
+            //if (0 === M && 0 === N % 10) console.log(touch);
             
             Cached.json(touch.from + '/' + touch.to, {
                 time: new Date,
@@ -151,7 +151,7 @@ var indexRouter = require('./routes/index');
             touch.updated = 0;
         });
         
-        0 === N % 10 && console.log(touches.map(pair => pair.rates.length).length, 'at', (+new Date - begints), 'ms');
+        if (0 === N % 10) console.log(touches.map(pair => pair.rates.length), 'at', (+new Date - begints), 'ms');
         
         //console.log('pairs page of', pairsPage.length);
         
