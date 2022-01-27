@@ -59,7 +59,7 @@ var indexRouter = require('./routes/index');
                     
                     if (0 === touch.times) touched.push(touch);
                     
-                    touch++;
+                    touch.times++;
                 },
                 
                 size: () => touched.length,
