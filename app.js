@@ -69,9 +69,9 @@ var indexRouter = require('./routes/index');
                         oldest = _.min(all, 'created'),
                         greedy = _.max(all, 'times');
                     
-                    return {
+                    return oldest && {
                         queue: all.length,
-                        oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) + ' sec)',
+                        oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) + ' secs old)',
                         greedy: greedy.times,
                     };
                 },
