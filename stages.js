@@ -54,10 +54,10 @@ module.exports = () => {
                 
                 // equalize space indents for numbers
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
-                    spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
+                    spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .375);
                     
                     return ' ' + Array(
-                        Math.floor(spaces[cat++] - number.length)
+                        Math.round(spaces[cat++] - number.length)
                     ).fill(' ').join('') + number + broker;
                 });
         }
