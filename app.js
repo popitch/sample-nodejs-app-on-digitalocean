@@ -52,7 +52,7 @@ var indexRouter = require('./routes/index');
             return {
                 touch: (from, to) => {
                     if (_.isArray(from))
-                        return pairs.forEach(ex => Cached.pair.touch(ex.from, ex.to));
+                        return from.forEach(ex => Cached.pair.touch(ex.from, ex.to));
                     
                     const touch = _.find(touched, { from: from, to: to }) || { from: from, to: to, times: 0, created: now() };
                     
