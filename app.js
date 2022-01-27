@@ -163,11 +163,11 @@ var indexRouter = require('./routes/index');
                     .then(updatedPairs => {
                         // touch to pairs
                         begin('touch');
-                        try {
-                            Cache.pair.touch(ratesBulkClear);
-                        } catch(e) {
-                            error(e);
-                        }
+                        //try {
+                            Cached.pair.touch(ratesBulkClear);
+                        //} catch(e) {
+                        //    error(e);
+                        //}
                         end('touch');
             
                         // mark as finished
