@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 const fs = require('fs'),
+  stages = require('stages'),
       db = require('./db');
 
 // init sniffer
@@ -51,45 +52,7 @@ const fs = require('fs'),
                 // have no work now, lazy tick, 4000 ms interval
                 return setTimeout(updateOlderOne, 4000);
             }
-            
-            // stages routine
-            function stages() {
-                const ms = { all: null }, starts = { all: now() };
-                let stages, curr;
-                
-                return stages = {
-                    ms: ms,
-                    
-                    begin: (stage, data) => {
                         
-                        // stage as value cather
-                        if (/\d+.*\w+/i.exec(stage)) error(stage);
-                        
-                        // circus catcher
-                        try { JSON.stringify(stage) && JSON.stringify(data) }
-                        catch(e) { error(e) }
-                        
-                        curr && stages.end(curr);
-                        ms[curr = stage] = null;
-                        starts[curr] = now();
-                        if (data) stages[curr] = data;
-                    },
-                    
-                    end: (stage, data) => {
-                        ms[stage] = now() - starts[stage];
-                        delete starts[stage];
-                        if (data) stages[curr] = 
-                            typeof data === 'object' ? _.extend(stages[curr] || {}, data) : data;
-                        curr = null;
-                        return now();
-                    },
-                    
-                    short: function() {
-                        return JSON.stringify(this).replace(/"/g, '')
-                    }
-                };
-            }
-                
             // init stages
             const { end, begin } = ch.xmlStage = stages(ch); // stages short-hand
             
@@ -163,7 +126,7 @@ const fs = require('fs'),
                             // fix cached
                             cached.exchangers().process();
                             
-                            console.log('xml', ch.xml, ch.xmlStage.short());
+                            console.log('.xml', ch.xmlStage.short(), 'from', ch.xml);
                             
                             // fast tick,
                             // if all right, 500..2000 ms interval
