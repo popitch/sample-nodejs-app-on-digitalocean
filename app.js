@@ -59,7 +59,7 @@ var indexRouter = require('./routes/index');
                     const
                         fromBranch = touched[from] = touched[from] || {},
                         touch = fromBranch[to] = fromBranch[to]
-                            || { from: from, to: to, times: 0, created: +new Date,  };
+                            || { from: from, to: to, times: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
