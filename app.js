@@ -47,14 +47,14 @@ const fs = require('fs'),
             const ch = olderLoaded(),
                 now = () => +new Date;
             
-            if (!ch) {
+            if (! ch) {
                 // no work
                 // super lazy tick, 7000 ms interval
                 return setTimeout(updateOlderOne, 7000);
             }
             
             // stages routine
-            function stages() {
+            function stages(exchanger) {
                 const ms = { all: null }, starts = { all: now() };
                 let curr;
                 
@@ -62,17 +62,22 @@ const fs = require('fs'),
                     ms: ms,
                     
                     begin: (stage, data) => {
-                        curr && ch.xmlStage.end(curr);
+                        
+                        // circus catcher
+                        try { JSON.stringify(stage) && JSON.stringify(data) }
+                        catch(e) { error(e) }
+                        
+                        curr && exchanger.xmlStage.end(curr);
                         ms[curr = stage] = null;
                         starts[curr] = now();
-                        if (data) ch.xmlStage[curr] = data;
+                        if (data) exchanger.xmlStage[curr] = data;
                     },
                     
                     end: (stage, data) => {
                         ms[stage] = now() - starts[stage];
                         delete starts[stage];
-                        if (data) ch.xmlStage[curr] = 
-                            typeof data === 'object' ? _.extend(ch.xmlStage[curr] || {}, data) : data;
+                        if (data) exchanger.xmlStage[curr] = 
+                            typeof data === 'object' ? _.extend(exchanger.xmlStage[curr] || {}, data) : data;
                         curr = null;
                         return now();
                     },
@@ -84,7 +89,7 @@ const fs = require('fs'),
             }
                 
             // stages start
-            const { end, begin } = ch.xmlStage = stages(); // stages short-hand
+            const { end, begin } = stages(ch); // stages short-hand
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
