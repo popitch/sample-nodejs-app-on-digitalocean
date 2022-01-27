@@ -96,12 +96,12 @@ var indexRouter = require('./routes/index');
                     
                     return page;
                 },
-                
+                /* correct no =)
                 detouch: (pageSize) => {
                     const sortedTouched = _.sortBy(this.plain(), [t => t.times, t => - t.created]);
                     return sortedTouched.splice(- pageSize, pageSize);
                 },
-                
+                */
                 put: () => Cached.json('pair', touched)
             };
         })()
@@ -109,9 +109,19 @@ var indexRouter = require('./routes/index');
     
     console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
-    // start sniff one, ok
+    // start pairs json writer
+    updateOldestPairsTail();
+    
+    // start xml sniffer
     return updateOlderOne();
     
+    
+    // put oldest pairs jsons to fs + deffered self calling (queue)
+    function updateOldestPairsTail() {
+        const page = Cached.pairs.tail();
+        
+        
+    }
     
     // give a next as oldest updated
     function olderLoaded() {
@@ -120,7 +130,7 @@ var indexRouter = require('./routes/index');
             .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
     };
         
-    // request older exchanger's XML + deffered self calling
+    // request older exchanger's XML + deffered self calling (queue)
     async function updateOlderOne () {
         const ch = olderLoaded();
         
@@ -180,16 +190,16 @@ var indexRouter = require('./routes/index');
             
             ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
             
-            const ratesBulkClear = ratesBulkUniq;
+            const ratesBulkClean = ratesBulkUniq;
             
             // update db rates
             begin('db');
             db.then(db => {
                 const schema = require('./db.schema');
                 
-                begin('bulk', ratesBulkClear.length);
+                begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
-                    .bulkCreate(ratesBulkClear, {
+                    .bulkCreate(ratesBulkClean, {
                         validate: true,
                         updateOnDuplicate: _
                             .chain(schema.ExchangeRate.fields).keys()
@@ -201,11 +211,7 @@ var indexRouter = require('./routes/index');
                     .then(updatedPairs => {
                         // touch to pairs
                         begin('touch');
-                        //try {
-                            Cached.pairs.touch(ratesBulkClear);
-                        //} catch(e) {
-                        //    error(e);
-                        //}
+                        Cached.pairs.touch(ratesBulkClean);
                         end('touch');
             
                         // mark as finished
