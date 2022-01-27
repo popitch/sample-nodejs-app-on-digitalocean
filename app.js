@@ -118,9 +118,15 @@ var indexRouter = require('./routes/index');
     
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail() {
-        const page = Cached.pairs.tail();
+        const begin = +new Date,
+            page = Cached.pairs.tail();
+        
+        console.log('pairs page of', page.length);
         
         
+        // lazy tick,
+        // after fail, 5000 ms interval
+        setTimeout(updateOldestPairsTail, Math.max(15000, 15000 - (+new Date - begin)));
     }
     
     // give a next as oldest updated
