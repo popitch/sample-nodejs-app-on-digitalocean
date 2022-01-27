@@ -7,9 +7,10 @@ module.exports = () => {
         spaces = []; // has no reset
     
     const stages = {
-        reset: () => {
+        reset: (options) => {
             starts = { all: now() };
             stages.ms = { all: null };
+            if (options.spaces) spaces = options.spaces;
             return stages;
         },
         

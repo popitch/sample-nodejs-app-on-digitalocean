@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 const fs = require('fs'),
-  stages = require('./stages'),
+  stages = require('./stages'), stagesLoggerSpaces = [],
       db = require('./db');
 
 // init sniffer
@@ -61,7 +61,9 @@ const fs = require('fs'),
                         
             // init stages
             const { end, begin } = ch.xmlStage = ch.xmlStage || stages(ch); // stages short-hands
-            ch.xmlStage.reset();
+            
+            // reset with common spaces
+            ch.xmlStage.reset({ spaces: stagesLoggerSpaces });
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
