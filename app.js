@@ -26,10 +26,17 @@ var indexRouter = require('./routes/index');
             fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
             return Cached;
         },
-        exchangers: () => {
+        
+        fillAll: () => Cached
+            .fillExchangers()
+            .fillProcess()
+            .pair.fill(),
+        
+        fillExchangers: () => {
             return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
-        process: () => Cached.json('process', {
+        
+        fillProcess: () => Cached.json('process', {
             now: new Date,
             queue: {
                 pair: Cached.pair.size(),
@@ -38,15 +45,16 @@ var indexRouter = require('./routes/index');
                 mem: process.memoryUsage(),
             }
         }),
+        
         pair: (() => {
-            const touched = [];
+            let touched = [];
             
             return {
                 touch: (from, to) => {
                     if (_.isArray(from))
                         return pairs.forEach(ex => Cached.pair.touch(ex.from, ex.to));
                     
-                    const touch = _.find(touched, { from: from, to: to }) || { from: from, to: to, times: 0 };
+                    const touch = _.find(touched, { from: from, to: to }) || { from: from, to: to, times: 0, created: now() };
                     
                     if (0 === touch.times) touched.push(touch);
                     
@@ -55,10 +63,12 @@ var indexRouter = require('./routes/index');
                 
                 size: () => touched.length,
                 
-                release: (pageSize) => {
-                    touched = _.sortBy(touched, 'times');
+                detouch: (pageSize) => {
+                    touched = _.sortBy(touched, [t => t.times, t => - t.created]);
                     return touched.splice(- pageSize, pageSize);
                 },
+                
+                fill: () => Cached.json('pair', touched)
             };
         })()
     };
@@ -135,6 +145,7 @@ var indexRouter = require('./routes/index');
             const ratesBulkClear = ratesBulkUniq;
             
             // update db rates
+            begin('db');
             db.then(db => {
                 const schema = require('./db.schema');
                 
@@ -149,9 +160,13 @@ var indexRouter = require('./routes/index');
                             .value(),
                         logging: false,
                     })
-                    .then(() => {
+                    .then(updatedPairs => {
+                        // touch to pairs
+                        begin('touch');
+                        Cache.pair.touch(updatedPairs);
+                        end('touch');
+            
                         // mark as finished
-                        end('bulk');
                         end('all');
                         ch.xmlUpdatedAt = +new Date;
                         
@@ -159,7 +174,7 @@ var indexRouter = require('./routes/index');
                         ch.xmlStartedAt = null;
                         
                         // fix cached
-                        Cached.exchangers().process();
+                        Cached.fillAll();
                         
                         console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
                         
@@ -177,7 +192,7 @@ var indexRouter = require('./routes/index');
             end('all', e);
                         
             // fix cached
-            Cached.exchangers().process();
+            Cached.fillAll();
             
             console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'));
             
