@@ -3,14 +3,18 @@ const now = () => +new Date,
 
 // stage logs producer
 module.exports = () => {
-    const starts = { all: now() },
-        ms = { all: null },
-        spaces = [];
-    
+    let starts, ms, spaces;
     let stages, curr;
     
     return stages = {
         ms: ms,
+        
+        start: () => {
+            starts = { all: now() };
+            ms = { all: null };
+            spaces = [];
+            return stages;
+        },
         
         begin: (stage, data) => {
             
@@ -52,7 +56,7 @@ module.exports = () => {
                     const space = spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
                     cat++;
                     
-                    console.log(spaces);
+                    //console.log(spaces);
                     
                     return ' ' + number + Array(
                         Math.floor(space - number.length)

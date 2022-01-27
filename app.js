@@ -55,7 +55,7 @@ const fs = require('fs'),
             }
                         
             // init stages
-            const { end, begin } = ch.xmlStage = stages(ch); // stages short-hand
+            const { end, begin } = ch.xmlStage = ch.xmlStage || stages(ch).start(); // stages short-hand
             
             try {
                 if (ch.xmlStartedAt) throw 'already run | has no';
