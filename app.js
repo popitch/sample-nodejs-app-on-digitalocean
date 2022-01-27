@@ -27,9 +27,7 @@ var indexRouter = require('./routes/index');
         DIR: './public/cached/',
         
         json: (name, data) => {
-            const dirs = name.split('/').slice(0, -1);
-                
-                console.log('mkdirs', dirs);
+            const dirs = name.split('/');
             
             for (let i = 0; i < dirs.length - 1; i++) {
                 const dir = Cached.DIR + dirs.slice(0, i).join('/');
