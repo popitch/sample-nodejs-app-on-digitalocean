@@ -26,6 +26,7 @@ module.exports = () => {
         end: (stage, data) => {
             ms[stage] = now() - starts[stage];
             delete starts[stage];
+            
             if (data) stages[curr] = 
                 typeof data === 'object' ? _.extend(stages[curr] || {}, data) : data;
             curr = null;
@@ -35,7 +36,7 @@ module.exports = () => {
         short: function() {
             return JSON.stringify(this)
                 .replace(/"/g, '')
-                .replace(/[,\{:]/g, '$1 ')
+                .replace(/(,|\{|:)/g, '$1 ')
                 .replace(/\}/g, ' }');
         }
     };
