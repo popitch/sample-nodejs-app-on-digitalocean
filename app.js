@@ -59,43 +59,49 @@ var indexRouter = require('./routes/index');
                     const
                         fromBranch = touched[from] = touched[from] || {},
                         touch = fromBranch[to] = fromBranch[to]
-                            || { from: from, to: to, times: 0, created: +new Date, rates: [] };
+                            || { from: from, to: to, updated: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
-                    
-                    touch.times++
                     
                     const rateExchangerId = rate.exchangerId,
                         rateIndex = _.findIndex(touch.rates, rate => rateExchangerId === rate.exchangerId);
                     
-                    if (-1 !== rateIndex) touch.rates[rateIndex] = rate;
-                    else touch.rates.unshift(rate);
+                    if (-1 !== rateIndex) {
+                        if (! _.isEqual(touch.rates[rateIndex], rate)) {
+                            touch.rates[rateIndex] = rate;
+                            touch.updated++;
+                        }
+                    } else {
+                        touch.rates.unshift(rate);
+                        touch.updated++;
+                    }
                 },
                 
                 processReport: () => {
                     const all = _.flatten(_.values(touched).map(_.values)),
                         oldest = _.min(all, 'created'),
-                        greedy = _.max(all, 'times');
+                        greedy = _.max(all, 'updated');
                     
                     return oldest && {
                         queue: all.length,
                         oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
-                        maxreq: greedy.times,
+                        maxreq: greedy.updated,
                     };
                 },
                 
-                tail: (size) => {
+                touchedTail: (size) => {
                     const page = _.flatten(_.map(touched, _.values))
+                        .filter(touch => touch.updated > 0)
                         .sort((a,b) =>
                             (a.created - b.created) || // how old
-                            (a.times - b.times) // many requests
+                            (a.updated - b.updated) // update requests
                         )
                         .slice(0, size || Cached.pairs.DEFAULT_TAIL_CHUNK_SIZE);
                     
                     // clear touched, todo: maybe do this after head has been applied?
                     page.forEach(touch => {
-                        // hm, write to fs here?
-                        // Cached.json(touch.from + '/' + touch.to, )
+                        // hm, write to fs here? no
+                        //Cached.json(touch.from + '+' + touch.to, )
                         
                         delete touched[touch.from][touch.to];
                     });
@@ -125,16 +131,18 @@ var indexRouter = require('./routes/index');
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail() {
         const begints = +new Date,
-            pairsPage = Cached.pairs.tail(50);
+              touches = Cached.pairs.touchedTail(50);
         
-        pairsPage.forEach(pair => {
-            Cached.json(pair.from + '/' + pair.to, {
+        touches.forEach(touch => {
+            Cached.json(touch.from + '/' + touch.to, {
                 time: new Date,
-                rates: pair.rates,
+                rates: touch.rates,
             });
+            touch.updated = 0;
+            touch.created = 0;
         });
         
-        console.log(pairsPage.map(pair => pair.rates.length), 'at', (+new Date - begints), 'ms');
+        console.log(touches.map(pair => pair.rates.length).length, 'at', (+new Date - begints), 'ms');
         
         //console.log('pairs page of', pairsPage.length);
         
