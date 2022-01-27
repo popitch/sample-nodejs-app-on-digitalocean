@@ -47,22 +47,24 @@ var indexRouter = require('./routes/index');
         }),
         
         pair: (() => {
-            let touched = [];
+            let touched = {};
             
             return {
                 touch: (from, to) => {
                     if (_.isArray(from))
                         return from.forEach(ex => Cached.pair.touch(ex.from, ex.to));
                     
-                    const touch = _.find(touched, { from: from, to: to })
-                        || { from: from, to: to, times: 0, created: +new Date };
+                    const
+                        fromBranch = touched[from] = touched[from] || {},
+                        touch = fromBranch[to] = fromBranch[to]
+                            || { from: from, to: to, times: 0, created: +new Date };
                     
                     if (0 === touch.times) touched.push(touch);
                     
                     touch.times++;
                 },
                 
-                size: () => touched.length,
+                size: () => _.values(touched).reduce((sum, br) => _.keys(br).length + sum, 0),
                 
                 detouch: (pageSize) => {
                     touched = _.sortBy(touched, [t => t.times, t => - t.created]);
