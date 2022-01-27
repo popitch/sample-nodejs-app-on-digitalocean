@@ -29,7 +29,12 @@ const fs = require('fs'),
             exchangers: () => {
                 return cached.json('exchangers', exchangersWithXml.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
             },
-            process: () => cached.json('process', process.memoryUsage()),
+            process: () => cached.json('process', {
+                now: new Date,
+                node: {
+                    mem: process.memoryUsage(),
+                }
+            }),
             pair: {
                 _touched: {},
                 

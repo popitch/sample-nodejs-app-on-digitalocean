@@ -42,6 +42,8 @@ module.exports = () => {
         short: function() {
             // adaptive space cats
             let cat = 0;
+                    
+            console.log(spaces);
             
             return JSON.stringify(this)
                 // quotes
@@ -54,8 +56,6 @@ module.exports = () => {
                 // equalize space indents for numbers
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
                     spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
-                    
-                    //console.log(spaces);
                     
                     return ' ' + number + Array(
                         Math.floor(spaces[cat++] - number.length)
