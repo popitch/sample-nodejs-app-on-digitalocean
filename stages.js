@@ -1,4 +1,5 @@
-const now = () => +new Date;
+const now = () => +new Date,
+    _ = require('lodash');
 
 // stage logs producer
 module.exports = () => {
@@ -48,12 +49,13 @@ module.exports = () => {
                 .replace(/\}/g, ' }')
                 // equalize indents for numbers
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
-                    spaces[cat] = Math.max((spaces[cat] || 0) - .1, number.length + .4);
+                    const space = spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
+                    cat++;
                     
-                    console.log(spaces[cat], 'for', number);
+                    console.log(spaces);
                     
                     return ' ' + number + Array(
-                        Math.floor(spaces[cat++] - number.length)
+                        Math.floor(space - number.length)
                     ).fill(' ').join('') + broker;
                 });
         }
