@@ -22,8 +22,21 @@ var indexRouter = require('./routes/index');
 
     // whiter to /cached/*.json
     const Cached = {
+        DIR: './public/cached/',
+        
         json: (name, data) => {
-            fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
+            const dirs = name.split('/').slice(0, -1);
+            
+            for (let i = 0; i < dirs.length - 1; i++) {
+                const dir = Cached.DIR + dirs.slice(0, i).join('/');
+                
+                if (! path.existsSync(dir)) {
+                    fs.mkdirSync(dir, 0744);
+                }
+            }
+            
+            fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
+            
             return Cached;
         },
         
@@ -151,14 +164,14 @@ var indexRouter = require('./routes/index');
             touch.updated = 0;
         });
         
-        if (0 === N % 10) console.log(touches.map(pair => pair.rates.length), 'at', (+new Date - begints), 'ms');
+        if (0 === N % 10) console.log(touches.map(touch => touch.rates.length), 'at', (+new Date - begints), 'ms (* 10)');
         
         //console.log('pairs page of', pairsPage.length);
         
         
         // lazy tick,
         // after fail, 2000 ms interval
-        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(200, 200 - (+new Date - begints)));
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(500, 500 - (+new Date - begints)));
     }
     
     // give a next as oldest updated
