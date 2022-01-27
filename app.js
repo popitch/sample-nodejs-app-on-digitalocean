@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 const fs = require('fs'),
-  stages = require('stages'),
+  stages = require('./stages'),
       db = require('./db');
 
 // init sniffer
