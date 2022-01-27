@@ -7,19 +7,16 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
-const fs = require('fs'),
-  stages = require('./stages'), stagesLoggerSpaces = [],
-      db = require('./db');
-
 // init sniffer
-(async (initial) => {
+(async (exchangersWithXml) => {
     const fetch = require('node-fetch'),
         convert = require('xml-js'),
-              _ = require('lodash');
+              _ = require('lodash'),
+             fs = require('fs'),
+             
+         stages = require('./stages'), stagesLoggerSpaces = [],
+             db = require('./db'),
 
-    const
-        exchangersWithXml = initial.filter(c => c.xml && c.xmlVerified),
-        
         // whiter to /cached/*.json
         cached = {
             json: (name, data) => {
@@ -135,7 +132,7 @@ const fs = require('fs'),
                             // fix cached
                             cached.exchangers().process();
                             
-                            console.log('.xml', ch.xmlStage.short(), 'from', ch.xml);
+                            console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
                             
                             // fast tick,
                             // if all right, 500..2000 ms interval
@@ -169,6 +166,7 @@ const fs = require('fs'),
     updateOlderOne();
 })(
     JSON.parse(process.env[ "XX_CHANGERS" ])
+        .filter(ch => ch.xml && ch.xmlVerified)
 );
 
 
