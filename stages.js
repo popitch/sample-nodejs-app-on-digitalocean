@@ -10,19 +10,18 @@ module.exports = () => {
         reset: (options) => {
             starts = { all: now() };
             stages.ms = { all: null };
-            if (options.spaces) spaces = options.spaces;
+            if (options && options.spaces) spaces = options.spaces;
             return stages;
         },
         
         begin: (stage, data) => {
-            
-            // stage as value catcher
+            /*/ stage as value catcher
             if (/\d+.*\w+/i.exec(stage)) error(stage);
             
             // circus catcher
             try { JSON.stringify(stage) && JSON.stringify(data) }
             catch(e) { error(e) }
-            
+            //*/
             curr && stages.end(curr);
             stages.ms[curr = stage] = null;
             starts[curr] = now();
@@ -43,7 +42,7 @@ module.exports = () => {
             // adaptive space cats
             let cat = 0;
                     
-            console.log(spaces);
+            //console.log(spaces);
             
             return JSON.stringify(this)
                 // quotes
@@ -57,9 +56,9 @@ module.exports = () => {
                 .replace(/ (\d+)(,| )/g, (found, number, broker) => {
                     spaces[cat] = Math.max((spaces[cat] || 0) - .125, number.length + .625);
                     
-                    return ' ' + number + Array(
+                    return ' ' + Array(
                         Math.floor(spaces[cat++] - number.length)
-                    ).fill(' ').join('') + broker;
+                    ).fill(' ').join('') + number + broker;
                 });
         }
     };
