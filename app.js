@@ -23,10 +23,12 @@ const fs = require('fs'),
         // whiter to /cached/*.json
         cached = {
             json: (name, data) => {
-                fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data), _.noop);
+                fs.writeFile('./public/cached/' + name + '.json', JSON.stringify(data, null, 4), _.noop);
                 return cached;
             },
-            exchangers: () => cached.json('exchangers', exchangersWithXml),
+            exchangers: () => {
+                return cached.json('exchangers', exchangersWithXml.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
+            },
             process: () => cached.json('process', process.memoryUsage()),
             pair: {
                 _touched: {},
