@@ -52,9 +52,9 @@ var indexRouter = require('./routes/index');
                 DEFAULT_TAIL_CHUNK_SIZE: 100,
                 
                 // saved in touched[from][to] 
-                touch: (from, to, pair) => {
+                touch: (from, to, rate) => {
                     if (_.isArray(from))
-                        return from.forEach(pair => Cached.pairs.touch(pair.from, pair.to, pair));
+                        return from.forEach(rate => Cached.pairs.touch(rate.from, rate.to, rate));
                     
                     const
                         fromBranch = touched[from] = touched[from] || {},
@@ -63,8 +63,13 @@ var indexRouter = require('./routes/index');
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
-                    touch.times++;
-                    touch.rates.unshift(pair);
+                    touch.times++
+                    
+                    const rateExchangerId = rate.exchangerId,
+                        rateIndex = _.findIndex(touch.rates, rate => rateExchangerId === rate.exchangerId);
+                    
+                    if (-1 !== rateIndex) touch.rates[rateIndex] = rate;
+                    else touch.rates.unshift(rate);
                 },
                 
                 processReport: () => {
@@ -122,7 +127,14 @@ var indexRouter = require('./routes/index');
         const begints = +new Date,
             pairsPage = Cached.pairs.tail(50);
         
-        console.log(pairsPage.map(pair => pair.rates.length));
+        pairsPage.forEach(pair => {
+            Cached.json(pair.from + '/' + pair.to, {
+                time: new Date,
+                rates: pair.rates,
+            });
+        });
+        
+        console.log(pairsPage.map(pair => pair.rates.length), 'at', (+new Date - begints), 'ms');
         
         //console.log('pairs page of', pairsPage.length);
         
@@ -220,9 +232,9 @@ var indexRouter = require('./routes/index');
                     })
                     .then(updatedPairs => {
                         // touch to pairs
-                        //begin('touch'); // min-logs
+                        begin('touch'); // min-logs
                         Cached.pairs.touch(ratesBulkClean);
-                        //end('touch'); // min-logs
+                        end('touch'); // min-logs
             
                         // mark as finished
                         end('all');
