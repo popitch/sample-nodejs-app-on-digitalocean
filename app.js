@@ -86,7 +86,8 @@ var indexRouter = require('./routes/index');
                     const
                         fromBranch = touchedTree[from] = touchedTree[from] || {},
                         fromBranchToTouch = fromBranch[to] = fromBranch[to]
-                            || console.log('pair', from, 'to', to, 'with', _.keys(fromBranch)) || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
+                            || console.log('pair', from, 'to', to, 'with', _.keys(fromBranch))
+                            || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
