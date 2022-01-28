@@ -238,6 +238,8 @@ var indexRouter = require('./routes/index');
                 rate.from = rate.from.toUpperCase().trim();
                 rate.fix = rate.to.toUpperCase().trim();
                 
+                rate.firedAt = +new Date;
+                
                 return rate;
             });
             end('rates', ratesBulk.length);
