@@ -76,7 +76,7 @@ var indexRouter = require('./routes/index');
                 
                 all: () => _.flatten(_.map(touched, _.values)),
                 
-                touchedAll: () => Cached.pairs.all().filter(touch => touch.updated > 0),
+                touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
                 
                 // saved in touched[from][to] 
                 touch: (from, to, rate) => {
@@ -86,7 +86,7 @@ var indexRouter = require('./routes/index');
                     const
                         fromBranch = touched[from] = touched[from] || {},
                         touch = fromBranch[to] = fromBranch[to]
-                            || { from: from, to: to, updated: 0, created: +new Date, rates: [] };
+                            || console.log('pair', from, 'to', to) || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
@@ -96,15 +96,14 @@ var indexRouter = require('./routes/index');
                     if (-1 !== rateIndex) {
                         if (! _.isEqual(touch.rates[rateIndex], rate)) {
                             touch.rates[rateIndex] = rate;
-                            if (! touch.updated++) {
-                                touch.created = +new Date; // first
+                            if (! touch.updates++) {
+                                touch.created = +new Date; // first update
                             }
                         }
                     } else {
                         touch.rates.unshift(rate);
-                        touch.updated++;
-                        if (! touch.updated++) {
-                            touch.created = +new Date; // first
+                        if (! touch.updates++) {
+                            touch.created = +new Date; // first update
                         }
                     }
                 },
@@ -112,20 +111,20 @@ var indexRouter = require('./routes/index');
                 processReport: () => {
                     const all = Cached.pairs.touchedAll(),
                         oldest = _.min(all, 'created'),
-                        greedy = _.max(all, 'updated');
+                        greedy = _.max(all, 'updates');
                     
                     return oldest && {
                         queue: all.length,
-                        oldest: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
-                        maxreq: greedy.updated,
+                        oldy_updated: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
+                        greedy_wants: greedy.updates,
                     };
                 },
                 
                 touchedTail: (size) => {
                     const page = Cached.pairs.touchedAll()
                         .sort((a,b) =>
-                            (a.created - b.created) || // how old
-                            (a.updated - b.updated) // update requests
+                            (a.updates - b.updates) || // update requests
+                            (a.created - b.created) // how old
                         )
                         .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
                     
@@ -167,12 +166,12 @@ var indexRouter = require('./routes/index');
                 rates: touch.rates,
             });
             
-            touch.updated = 0;
+            touch.updates = 0;
         });
         
         if (0 === N % 10)
-            console.log('tick update', touches.length, "pairs with",
-                '~' + Math.round(1000 * 100 / (+new Date - begints)), 'json files per sec.');
+            console.log('tick update ~', 10 * touches.length, "pairs with",
+                '~' + Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
         
         // too fast tick,
         // after fail, 100 ms interval
@@ -183,8 +182,8 @@ var indexRouter = require('./routes/index');
         ));
     }s
     
-    // give a next as oldest updated
-    function olderLoaded() {
+    // give a next as oldest updatedAt
+    function oldestXmlFetchedExchanger() {
         return Exchangers
             .filter(ch => ! ch.xmlStartedAt)
             .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
@@ -192,7 +191,7 @@ var indexRouter = require('./routes/index');
         
     // request older exchanger's XML + deffered self calling (queue)
     async function updateOlderOne () {
-        const exch = olderLoaded();
+        const exch = oldestXmlFetchedExchanger();
         
         if (! exch) {
             // have no work now, lazy tick,
