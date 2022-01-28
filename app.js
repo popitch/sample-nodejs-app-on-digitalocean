@@ -1,12 +1,3 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
 // init sniffer
 (async (Exchangers) => {
     const fs = require('fs'),
@@ -324,6 +315,13 @@ var indexRouter = require('./routes/index');
 
 
 
+
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+
 var app = express();
 
 // view engine setup
@@ -337,11 +335,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// my static, for /cached/*.json
+// static for /cached/*.json
 app.use('/cached', express.static(path.join(__dirname, 'public/cached')));
 
+// dynamic for exchange table
+const tableRouter = require('./routes/table');
+app.use('/table', tableRouter);
 
-app.use('/*', indexRouter);
+
+// app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
