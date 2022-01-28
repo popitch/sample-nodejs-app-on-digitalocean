@@ -1,5 +1,5 @@
 const
-    EXCHANGERS = ((list) => $.getJSON('./cached/exchangers.json', list), list )( ko.observableArray() ),
+    EXCHANGERS = ((list) => $.getJSON('./cached/exchangers.json', list) && list)( ko.observableArray() ),
     
     EXCHANGER_BY_ID = ko.computed(() => {
         const byId = {};

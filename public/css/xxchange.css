@@ -42,6 +42,9 @@
 .rates table tbody tr {
     color: black;
 }
+.rates table tbody tr:odd {
+	background: rgb(230,230,230);
+}
 
 .rates table thead tr,
 .rates table tbody tr:hover {

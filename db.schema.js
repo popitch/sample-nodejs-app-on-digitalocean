@@ -46,6 +46,12 @@ module.exports = {
                 allowNull: false,
             },
             
+            exUrlTmpl: {
+                type: DataTypes.STRING,
+                defaultValue: null,
+                allowNull: true,
+            },
+            
             xml: {
                 type: DataTypes.STRING,
                 defaultValue: null,

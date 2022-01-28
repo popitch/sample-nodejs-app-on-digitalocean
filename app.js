@@ -145,6 +145,9 @@
         const begints = +new Date,
               touches = Cached.pairs.touchedTail(100);
         
+        if (0 === N % 10 && touches.length > 0)
+            console.log(touches.map(t => r.updates));
+        
         touches.forEach((touch, M) => {
             //if (0 === M && 0 === N % 10) console.log(touch);
             
@@ -159,6 +162,7 @@
         if (0 === N % 10 && touches.length > 0)
             console.log('tick update', 10 * touches.length, "pairs with rate ~",
                 Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
+        
         
         // too fast tick,
         // after fail, 100 ms interval

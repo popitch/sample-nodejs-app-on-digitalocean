@@ -47,12 +47,12 @@
             <tbody data-bind="foreach: rates.sortedDirectedFixedFloating">
                 <tr>
                     <td class="rate-col rate-service"></td>
-                    <td class="rate-col rate-changer">
+                    <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
                         <a href target="_blank" data-bind="
-                            text: EXCHANGER_BY_ID()[ $data.exchangerId ].name,
+                            text: name,
                             attr: {
-                                href: $data.serviceRateURL
-                               }
+                                href: rateExchangerUrl($data)
+                            }
                            "></a>
                     </td>
                     <td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
