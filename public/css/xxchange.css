@@ -1,0 +1,85 @@
+.rates {
+	font-family: Tahoma;
+    font-size: 1.1em;
+    display: inline-block;
+}
+
+.rates form {
+    font-size: 1.5em;
+    text-align: right;
+    margin: 0.5em 0;
+}
+.rates form select {
+    font-size: 18pt;
+    border-color: lightgray;
+}
+.rates form span:hover {
+	cursor: pointer;
+}
+
+.rates table {
+    font-size: 1.2em;
+    /*border-collapse: collapse;*/
+}
+
+.rates table tr {
+	line-height: 2em;
+	cursor: pointer;
+}
+
+.rates table thead tr {
+	font-size: 1.2em;
+}
+
+.rates table thead .rate-service {
+	transition: color .2s .3s;
+}
+
+.rates table tbody tr {
+	color: black;
+	transition: background-color 0 .5s, color 0 .5s;
+}
+
+.rates table thead tr,
+.rates table tbody tr:hover {
+	color: white;
+	background: lightblue;
+}
+
+.rates table td {
+    padding: 0 12px; /* fixed padding for different font-size of thead/tbody */
+    min-width: 8em;
+}
+.rates table td:first-child {
+	min-width: 1em;
+}
+
+.rates table td strong {
+    font-weight: bolder;
+}
+
+.rates table td small {
+	font-size: .6em;
+    color: gray;
+}
+
+.rates table .rate-amount {
+	text-align: right;
+	font-size: .9em
+}
+
+/* sort by/dir */
+.rates thead td.sort-by:hover:after {
+	color: black;
+}
+.rates thead td.sort-by:after {
+ 	padding-left: .5em;
+ 	font-weight: bolder;
+}
+.rates thead .sort-dir_desc td.sort-by:after {
+	content: '↓';
+}
+.rates thead .sort-dir_asc td.sort-by:after {
+	content: '↑';
+}
+
