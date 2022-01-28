@@ -54,21 +54,29 @@ var indexRouter = require('./routes/index');
             return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
         
-        putProcessReport: () => Cached.json('process', {
-            up: snifferUpAt,
-            now: new Date,
-            rates: Cached.pairs.all().reduce((sum, touch) => sum + touch.rates.length, 0),
-            pairs: Cached.pairs.processReport(),
-            node: {
-                mem: process.memoryUsage(),
-            }
-        }),
+        putProcessReport: () => {
+            const pairsAll = Cached.pairs.all();
+            
+            Cached.json('process', {
+                up: snifferUpAt,
+                now: new Date,
+                rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
+                pairs: Cached.pairs.processReport(),
+                node: {
+                    mem: process.memoryUsage(),
+                }
+            });
+        },
         
         pairs: (() => {
             const touched = {};
             
             return {
-                DEFAULT_TAIL_CHUNK_SIZE: 100,
+                DEFAUL_TOUCHED_TAIL_SIZE: 100,
+                
+                all: () => _.flatten(_.map(touched, _.values)),
+                
+                touchedAll: () => Cached.pairs.all().filter(touch => touch.updated > 0),
                 
                 // saved in touched[from][to] 
                 touch: (from, to, rate) => {
@@ -101,10 +109,6 @@ var indexRouter = require('./routes/index');
                     }
                 },
                 
-                all: () => _.flatten(_.map(touched, _.values)),
-                
-                touchedAll: () => Cached.pairs.all().filter(touch => touch.updated > 0),
-                
                 processReport: () => {
                     const all = Cached.pairs.touchedAll(),
                         oldest = _.min(all, 'created'),
@@ -123,7 +127,7 @@ var indexRouter = require('./routes/index');
                             (a.created - b.created) || // how old
                             (a.updated - b.updated) // update requests
                         )
-                        .slice(0, size || Cached.pairs.DEFAULT_TAIL_CHUNK_SIZE);
+                        .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
                     
                     // clear touched, todo: maybe do this after head has been applied?
                     page.forEach(touch => {
@@ -166,7 +170,9 @@ var indexRouter = require('./routes/index');
             touch.updated = 0;
         });
         
-        if (0 === N % 10) console.log('updated', touches.length, "pairs json at ~", (+new Date - begints), 'ms (* 10 per second)');
+        if (0 === N % 10)
+            console.log('tick update', touches.length, "pairs with",
+                Math.round(1000 * 100 / (+new Date - begints)), 'json / sec.');
         
         // too fast tick,
         // after fail, 100 ms interval
