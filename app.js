@@ -44,7 +44,7 @@ var indexRouter = require('./routes/index');
             return Cached;
         },
         
-        putAll: () => Cached
+        putHappyThreeReports: () => Cached
             .putExchangers()
             .pairs.put()
             // at end
@@ -153,7 +153,7 @@ var indexRouter = require('./routes/index');
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail(N) {
         const begints = +new Date,
-              touches = Cached.pairs.touchedTail(50);
+              touches = Cached.pairs.touchedTail(100);
         
         touches.forEach((touch, M) => {
             //if (0 === M && 0 === N % 10) console.log(touch);
@@ -170,8 +170,12 @@ var indexRouter = require('./routes/index');
         
         // too fast tick,
         // after fail, 100 ms interval
-        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(100, 100 - (+new Date - begints)));
-    }
+        setTimeout(updateOldestPairsTail.bind(this, N + 1), Math.max(
+            100, // min delay
+            100 // max interval
+                - (+new Date - begints),
+        ));
+    }s
     
     // give a next as oldest updated
     function olderLoaded() {
@@ -182,27 +186,27 @@ var indexRouter = require('./routes/index');
         
     // request older exchanger's XML + deffered self calling (queue)
     async function updateOlderOne () {
-        const ch = olderLoaded();
+        const exch = olderLoaded();
         
-        if (! ch) {
-            // have no work now, lazy tick, 4000 ms interval
-            return setTimeout(updateOlderOne, 4000);
+        if (! exch) {
+            // have no work now, lazy tick,
+            return xmlFinishUp(2000); // min 2000 ms interval
         }
                     
         // init stages
-        const { end, begin } = ch.xmlStage = ch.xmlStage || stages(ch); // stages short-hands
+        const { end, begin } = exch.xmlStage = exch.xmlStage || stages(exch); // stages short-hands
         
         // reset with common spaces
-        ch.xmlStage.reset({ spaces: stagesLoggerSpaces });
+        exch.xmlStage.reset({ spaces: stagesLoggerSpaces });
         
         try {
-            if (ch.xmlStartedAt) throw 'already run | has no';
+            if (exch.xmlStartedAt) throw 'already run | has no';
             
-            ch.xmlUpdatedAt = null;
-            ch.xmlStartedAt = +new Date;
+            exch.xmlUpdatedAt = null;
+            exch.xmlStartedAt = +new Date;
             
             begin('fetch');
-            const response = await fetch(ch.xml);
+            const response = await fetch(exch.xml);
             
             begin('text');
             const responseText = await response.text();
@@ -211,7 +215,9 @@ var indexRouter = require('./routes/index');
             begin('parse');
             const jso = convert.xml2js(responseText, { trim: true, compact: true });
             
-            if (! jso || ! jso.rates || ! jso.rates.item)
+            if (! jso || ! jso.rates || ! jso.rates.item) {
+                return xmlFinishError();
+            }
             
             begin('rates');
             const ratesBulk = (jso.rates.item || []).map((rate, i) => {
@@ -225,7 +231,7 @@ var indexRouter = require('./routes/index');
                 rate.param = _.transform(rate.param ? rate.param.split(/,\s*/g).sort() : [],
                     (r, v) => r[v] = true, {}); // rate flags as plain { flag: true,.. }
                 
-                rate.exchangerId = ch.bcId || ch.id;
+                rate.exchangerId = exch.bcId || exch.id;
                 
                 // case from=108, to=129 pcs...
                 rate.from = rate.from.toUpperCase().trim();
@@ -259,45 +265,53 @@ var indexRouter = require('./routes/index');
                             .value(),
                         logging: false,
                     })
-                    .then(updatedPairs => {
+                    .then(() => {
                         // touch to pairs
-                        begin('touch'); // min-logs
+                        //begin('touch'); // min-logs
                         Cached.pairs.touch(ratesBulkClean);
-                        end('touch'); // min-logs
-            
+                        //end('touch'); // min-logs
+                        
+                        // 
+                        xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
+                        
                         // mark as finished
-                        end('all');
-                        ch.xmlUpdatedAt = +new Date;
+                        exch.xmlUpdatedAt = +new Date;
                         
                         // mark as not started
-                        ch.xmlStartedAt = null;
+                        exch.xmlStartedAt = null;
                         
-                        // fix cached
-                        Cached.putAll();
-                        
-                        console.log('xml', ch.xmlStage.short(), 'from', ch.xml);
-                        
-                        // fast tick,
-                        // if all right, 500..2000 ms interval
-                        setTimeout(updateOlderOne, Math.max(500, 2000 - ch.xmlStage.ms.all));
+                        console.log('xml', exch.xmlStage.short(), 'from', exch.xml);                        
                     })
-                    .catch(error);
+                    .catch((e) => {
+                        xmlFinishError(e);
+                    });
             });
         } catch(e) {
-            error(e);
+            xmlFinishError(e);
         }
         
-        function error(e) {
-            end('all', e);
+        function xmlFinishError(e) {
+            xmlFinishUp(5000); // after fail, 9000 ms interval
+            
+            console.warn('xml', (exch && exch.xml), 'with', e, 'ERROR at', (exch ? exch.xmlStage : '<no exchanger>'));
+        }
+        
+        function xmlFinishUp(maxInterval, minDelay) {
+            const MAX_INTERVAL = maxInterval || console.error('xml finished without interval! mf') || 9000, 
+                staged = exch && exch.xmlStage,
+                xmlTimeAll = staged ? staged.ms.all : 0;
+            
+            staged && end('all');
             
             // fix cached
-            Cached.putAll();
+            Cached.putHappyThreeReports();
             
-            console.warn('xml', (ch && ch.xml), 'ERROR at', (ch ? ch.xmlStage : '<no exchanger>'), 'with', e);
-            
-            // lazy tick,
-            // after fail, 9000 ms interval
-            setTimeout(updateOlderOne, Math.max(9000, 9000 - ch.xmlStage.ms.all));
+            // tick
+            setTimeout(updateOlderOne, Math.max(
+                xmlTimeAll / (minDelay || .33), // ~75% CPU time max (delay min = 1/3 job time)
+                MAX_INTERVAL // max intarval
+                    - xmlTimeAll
+            ));
         }
     }
 })(

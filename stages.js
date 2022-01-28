@@ -23,18 +23,23 @@ module.exports = () => {
             catch(e) { error(e) }
             //*/
             curr && stages.end(curr);
+            
             stages.ms[curr = stage] = null;
             starts[curr] = now();
+            
             if (data) stages[curr] = data;
         },
         
         end: (stage, data) => {
+            stage === 'all' && curr !== 'all' && stages.end(curr);
+            
             stages.ms[stage] = now() - starts[stage];
             delete starts[stage];
             
             if (data) stages[curr] = 
                 typeof data === 'object' ? _.extend(stages[curr] || {}, data) : data;
             curr = null;
+            
             return now();
         },
         
