@@ -249,7 +249,7 @@ var indexRouter = require('./routes/index');
             const ratesBulkUniq = _.uniqBy(ratesBulk, r => [r.exchangerId, r.from, r.to].join()), // O(N * logN)
                ratesBulkNotUniq = _.difference(ratesBulk, ratesBulkUniq);
             
-            ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
+            //ratesBulkNotUniq.length && end('dups', ratesBulkNotUniq.length);
             
             const ratesBulkClean = ratesBulkUniq;
             
