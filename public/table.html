@@ -48,7 +48,7 @@
     			<tr>
         			<td class="rate-col rate-service"></td>
         			<td class="rate-col rate-changer">
-        				<a href target="_blank" data-bind="text: $data.changer, attr: { href: $data.serviceRateURL }"></a>
+        				<a href target="_blank" data-bind="text: ($data.exchanger || {}).name, attr: { href: $data.serviceRateURL }"></a>
         			</td>
         			<td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
         			<td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
@@ -70,12 +70,19 @@
 	
 	<script type="text/javascript">
 	const
+	    EXCHANGER_BY_ID = (() => {
+	        const byId = {};
+	        $.getJSON('./cached/exchangers.json', exchz => exchz.forEach(exch => EXCHANGER_BY_ID[exch.id] = exch));
+	        return byId;
+	    })(),
+	    
 		RATE_VALUE_ACCESSORS = {
 			changer: rate => rate.changer,
 			from: rate => rate.in,
 			to: rate => rate.out,
 			amount: rate => rate.amount,
 		},
+		
     	exchangeRates = {
     		filter: (() => {
     			const from = ko.observable(),
@@ -197,6 +204,7 @@
         					in: numberWithSpaces(rate["in"], mflby["from"]),
         					out: numberWithSpaces(rate["out"], mflby["to"]),
         					amount: numberWithSpaces(rate["amount"], mflby["amount"]),
+        					exchanger: EXCHANGER_BY_ID[rate.exchangerId],
         				}));
 				}, this, { deferEvaluation: true });
 				
