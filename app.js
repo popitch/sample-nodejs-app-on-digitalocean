@@ -86,7 +86,7 @@ var indexRouter = require('./routes/index');
                     const
                         fromBranch = touchedTree[from] = touchedTree[from] || {},
                         fromBranchToTouch = fromBranch[to] = fromBranch[to]
-                            || console.log('pair', from, 'to', to, 'with', _.keys(fromBranch))
+                            //|| console.log('pair', from, 'to', to, 'with', _.keys(fromBranch).sort())
                             || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
@@ -131,14 +131,6 @@ var indexRouter = require('./routes/index');
                             (a.created - b.created) // how old
                         )
                         .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
-                    
-                    // clear touched, todo: maybe do this after head has been applied?
-                    page.forEach(touch => {
-                        // hm, write to fs here? no
-                        //Cached.json(touch.from + '+' + touch.to, )
-                        
-                        delete touchedTree[touch.from][touch.to];
-                    });
                     
                     return page;
                 },
