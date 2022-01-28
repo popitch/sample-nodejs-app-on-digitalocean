@@ -48,7 +48,7 @@
     			<tr>
         			<td class="rate-col rate-service"></td>
         			<td class="rate-col rate-changer">
-        				<a href target="_blank" data-bind="text: $data.changer, attr: { href: serviceRateURL }"></a>
+        				<a href target="_blank" data-bind="text: $data.changer, attr: { href: $data.serviceRateURL }"></a>
         			</td>
         			<td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
         			<td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
