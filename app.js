@@ -165,8 +165,8 @@ var indexRouter = require('./routes/index');
             touch.updates = 0;
         });
         
-        if (0 === N % 10)
-            console.log('tick update ~', 10 * touches.length, "pairs with",
+        if (0 === N % 10 && touches.length > 0)
+            console.log('tick update', 10 * touches.length, "pairs with",
                 '~' + Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
         
         // too fast tick,
