@@ -118,8 +118,8 @@
                 touchedTail: (size) => {
                     const page = Cached.pairs.touchedAll()
                         .sort((a,b) =>
-                            (a.updates - b.updates) || // update requests
-                            (a.created - b.created) // how old
+                            (a.created - b.created) || // how old
+                            (a.updates - b.updates) // update requests
                         )
                         .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
                     
