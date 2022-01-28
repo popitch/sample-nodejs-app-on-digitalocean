@@ -230,8 +230,9 @@
     		
         	exchangeRates.loading(true);
         	ratesXHR = 
-        	$.getJSON('./data/current.php', _.mapObject(_.pick(exchangeRates.filter, 'from', 'to'), ko.unwrap))
-        		.done(rates => {
+        	$.getJSON('./cached/' + exchangeRates.filter.from() + '/' + exchangeRates.filter.to() + '.json')
+        		.done(jso => {
+        		    const rates = jso.rates;
         			//console.log('rates', rates, 'as sample of', samples);
         			
         			exchangeRates.rates(rates);
