@@ -5,7 +5,19 @@ const
         const byId = {};
         EXCHANGERS().forEach(exch => byId[exch.id] = exch);
         return byId;
-    })(),
+    }),
+    
+    rateExchangeUrl = (rate, exch) => {
+        const FROM = rate.from, TO = rate.to,
+            tr = {
+                FROM: FROM,
+                from: FROM.toLowerCase(),
+                TO: TO,
+                to: TO.toLowerCase(),
+                "from-full": "from-full ok",
+            };
+        return exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, key => tr[key])
+    },
     
     RATE_VALUE_ACCESSORS = {
         changer: rate => rate.changer,
