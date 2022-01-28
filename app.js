@@ -44,9 +44,9 @@ var indexRouter = require('./routes/index');
             return Cached;
         },
         
-        putHappyThreeReports: () => Cached
+        putAnyReports: () => Cached
             .putExchangers()
-            .pairs.put()
+            //.pairs.putPairsJson()
             // at end
             .putProcessReport(),
         
@@ -135,7 +135,7 @@ var indexRouter = require('./routes/index');
                     return page;
                 },
 
-                put: () => Cached.json('pair', touchedTree)
+                //putPairsJson: () => Cached.json('pair', touchedTree),
             };
         })()
     };
@@ -307,7 +307,7 @@ var indexRouter = require('./routes/index');
             staged && end('all');
             
             // fix cached
-            Cached.putHappyThreeReports();
+            Cached.putAnyReports();
             
             // tick
             setTimeout(updateOlderOne, Math.max(
