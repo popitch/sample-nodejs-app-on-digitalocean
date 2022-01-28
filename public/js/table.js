@@ -3,7 +3,7 @@ const
     
     EXCHANGER_BY_ID = ko.computed(() => {
         const byId = {};
-        EXCHANGERS.forEach(exch => byId[exch.id] = exch);
+        EXCHANGERS().forEach(exch => byId[exch.id] = exch);
         return byId;
     })(),
     
