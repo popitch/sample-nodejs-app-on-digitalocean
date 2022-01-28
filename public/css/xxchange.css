@@ -22,6 +22,10 @@
     /*border-collapse: collapse;*/
 }
 
+.rates table * {
+    transition: background-color 0 .5s, color 0 .5s;
+}
+
 .rates table tr {
 	line-height: 2em;
 	cursor: pointer;
@@ -36,8 +40,7 @@
 }
 
 .rates table tbody tr {
-	color: black;
-	transition: background-color 0 .5s, color 0 .5s;
+    color: black;
 }
 
 .rates table thead tr,

@@ -1,264 +1,72 @@
 <!doctype html>
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-	<script src="https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
-	
-	<script src="./js/format.js"></script>
-	<script src="./js/rate-symbols.js"></script>
-	<script src="./js/rates.js"></script>
-	
-  	<link rel="stylesheet" href="./css/xxchange.css" type="text/css" media="screen" />
+    <script src="https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
+    
+    <script src="./js/format.js"></script>
+    <script src="./js/rate-symbols.js"></script>
+    <script src="./js/rates.js"></script>
+    
+      <link rel="stylesheet" href="./css/xxchange.css" type="text/css" media="screen" />
 </head>
 <body style="text-align: center">
-	<div class="rates" data-bind="with: exchangeRates">
-    	<form data-bind="with: filter">
-    		<select data-bind="
-    			options: CURRENCY_LIST,
-    			optionsText: 'name',
-    			optionsValue: 'symbol',
-    			value: from
-    		"></select>
-    		
-    		<span data-bind="click: () => { let cur = from(); from(to()); to(cur); }">
-    			&rarr;
-    		</span>
-    		
-    		<select data-bind="
-    			options: CURRENCY_LIST,
-    			optionsText: 'name',
-    			optionsValue: 'symbol',
-    			value: to
-    		"></select>
-    	</form>
-    	<table>
-    		<thead data-bind="with: filter">
-    			<tr data-bind="css: 'sort-dir_' + sortDir()">
-        			<td class="rate-col rate-service" data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }">...</td>
-        			<td class="rate-col rate-changer" data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')">Обменник</td>
-        			<td class="rate-col rate-from"    data-bind="css: { 'sort-by': sortBy() === 'from' }, click: () => toSort('from')">Отдаёте</td>
-        			<td class="rate-col rate-to"      data-bind="css: { 'sort-by': sortBy() === 'to' }, click: () => toSort('to')">Получаете</td>
-        			<td class="rate-col rate-amount"  data-bind="css: { 'sort-by': sortBy() === 'amount' }, click: () => toSort('amount')">Резерв</td>
-    			</tr>
-    		</thead>
-    		<tbody data-bind="foreach: rates.sortedDirectedFixedFloating">
-    			<tr>
-        			<td class="rate-col rate-service"></td>
-        			<td class="rate-col rate-changer">
-        				<a href target="_blank" data-bind="text: ($data.exchanger || {}).name, attr: { href: $data.serviceRateURL }"></a>
-        			</td>
-        			<td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
-        			<td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
-        			<td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
-    			</tr>
-    		</tbody>
-    		<tbody style="display: none" data-bind="visible: ! loading() && rates().length === 0">
-    			<tr>
-    				<td colspan="8">Нет данных для выбранного направления обмена.</td>
-    			</tr>
-    		</tbody>
-    	</table>
-	</div>
-	
-	<script type="html/template" id="number-currency.template">
-        <strong data-bind="text: value"></strong>
-        <small data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol"></small>
-    </script>
-	
-	<script type="text/javascript">
-	const
-	    EXCHANGER_BY_ID = (() => {
-	        const byId = {};
-	        $.getJSON('./cached/exchangers.json', exchz => exchz.forEach(exch => EXCHANGER_BY_ID[exch.id] = exch));
-	        return byId;
-	    })(),
-	    
-		RATE_VALUE_ACCESSORS = {
-			changer: rate => rate.changer,
-			from: rate => rate.in,
-			to: rate => rate.out,
-			amount: rate => rate.amount,
-		},
-		
-    	exchangeRates = {
-    		filter: (() => {
-    			const from = ko.observable(),
-    				to = ko.observable(),
-    				from_to = ko.computed(() => (from() + '_to_' + to()).toLowerCase()),
-    				
-    				sortBy = ko.observable(),
-    				sortDir = ko.observable();
-    			
-    			from_to.subscribe(_.throttle(ft => {
-    				//console.log('from_to =', ft);
-    				request();
-    			}, 200, { leading: false }));
-    			
-    			return {
-            		from: from,
-            		to: to,
-            		from_to: from_to,
-            		
-            		sortBy: sortBy,
-            		sortDir: sortDir,
-            		
-            		toSort: (col) => {
-            			if (sortBy() === col) {
-            				// switch dir
-            				sortDir( sortDir() === 'desc' ? 'asc' : 'desc' );
-            			} else {
-            				// switch col
-            				sortBy(col);
-            			}
-            		},
-            		sorter: () => RATE_VALUE_ACCESSORS[ sortBy() ],
-        			
-        			// ЧПУ
-        			url: (() => {
-            			const
-            				//URL_DEFAULT = 'BTC→ETH↓to',
-            				URL_DEFAULT = 'BTC→SBERRUB↓to',
-            				URL_MATCHER = /^(\w+)→(\w+)(?:(↓|↑)(changer|from|to|amount))?$/,
-            				
-            				url = ko.computed({
-                				read: () => from() + '→' + to() + (sortBy() ? (sortDir() === 'desc' ? '↓' : '↑') + sortBy() : ''),
-                				write: (route) => {
-                					const matches = decodeURIComponent(route).match(URL_MATCHER);
-                					
-                					if (!matches) {
-                						console.warn('Bad URL given:', route, '=> to use default filter');
-                						url(URL_DEFAULT); // use default
-                						return;
-                					}
-                					
-                					console.log('URL parsed with: from, to, dir, sort', matches);
-                					
-        							from(matches[1]);
-        							to(matches[2]);
-        							sortDir(matches[3] === '↓' ? 'desc' : 'asc');
-        							sortBy(matches[4]);
-                				},
-                			});
-            			
-            			url.subscribe(url => location.hash = url); // translate to #hash
-            			
-            			// init from URL #hash
-            			url(
-            				(location.hash || '#' + URL_DEFAULT).substr(1)
-            			);
-                    	
-            			/*shabby/ initial
-            			//from(localStorage.getItem('rates.currency.from') || 'BTC');
-            			//to(localStorage.getItem('rates.currency.to') || 'ETH');
-            			//sortBy(localStorage.getItem('rates.sort.by') || 'to');
-            			//sortDir(localStorage.getItem('rates.sort.dir') || 'desc');
-            			*/
-            			
-            			return url;
-            		})(),
-        		};
-			})(),
-    		
-    		loading: ko.observable(),
-    		
-    		rates: (() => {
-    			const rates = ko.observableArray([]),
-    				MAX_FRACTION_LENGTH_FIELDS = ['from', 'to', 'amount'];
-    			
-    			// sorted by
-    			rates.sortedDirected = ko.computed(() => {
-    				const sorter = exchangeRates.filter.sorter(),
-    					dir = exchangeRates.filter.sortDir(),
-    					sorted = _.sortBy(rates(), sorter);
-    				
-    				console.log('dir', dir);
-    				
-    				return dir === 'desc' ? sorted.reverse() : sorted;
-				}, this, { deferEvaluation: true });
-    			
-    			// max frac len by key
-    			rates.MAX_FRACTION_LENGTH_BY = ko.computed(
-    				() => MAX_FRACTION_LENGTH_FIELDS
-    					.reduce((mflby, key) => {
-        					mflby[key] = _.max(
-        						rates()
-            						.map(RATE_VALUE_ACCESSORS[key])
-            						.map(String)
-            						.map(s => s.split('.', 2)[ 1 ])
-            						.map(s => (s || '').length)
-        					);
-    						return mflby;
-    					}, {}),
-					this, { deferEvaluation: true }
-				);
-    			
-    			// sorted, directed and fixed floating point
-    			rates.sortedDirectedFixedFloating = ko.computed(() => {
-    				const mflby = rates.MAX_FRACTION_LENGTH_BY();
-    				
-    				return rates.sortedDirected()
-        				.map(rate => _.extend(_.clone(rate), {
-        					in: numberWithSpaces(rate["in"], mflby["from"]),
-        					out: numberWithSpaces(rate["out"], mflby["to"]),
-        					amount: numberWithSpaces(rate["amount"], mflby["amount"]),
-        					exchanger: EXCHANGER_BY_ID[rate.exchangerId],
-        				}));
-				}, this, { deferEvaluation: true });
-				
-				// rates table
-				rates.table = ko.observableArray([]);
-				
-				// "diff"-style replace
-				rates.sortedDirectedFixedFloating.subscribe(table => {
-					rates.table.splice.call(rates.table, [0, rates.table().length].concat(table));
-				}, this, { deferEvaluation: true });
-    			
-    			return rates;
-    		})(),
-    	},
-    	
-    	CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],	
-    	CURRENCY_LIST = CURRENCY_SYMBOLS.map(symbol => {
-    		const id = CURRENCY_ID_BY_SYMBOL[symbol];
-    		return {
-        		id: id,
-        		name: CURRENCY_NAME_BY_SYMBOL[symbol] || '`' + symbol + '`',
-        		symbol: symbol,
-    		};
-		}),
-		RENEW_DELAY = 5000, // ms
-    	
-    	request = (done) => {
-    		clearTimeout(renewTimeout);
-    		
-    		const lastRequestTime = +new Date;
-    		
-        	exchangeRates.loading(true);
-        	ratesXHR = 
-        	$.getJSON('./cached/' + exchangeRates.filter.from() + '/' + exchangeRates.filter.to() + '.json')
-        		.done(jso => {
-        		    const rates = jso.rates;
-        			//console.log('rates', rates, 'as sample of', samples);
-        			
-        			exchangeRates.rates(rates);
-					
-					exchangeRates.loading(false);
-					
-					// delay to renew request
-					renewTimeout = setTimeout(request, lastRequestTime + RENEW_DELAY - +new Date);
-        		});
-    	};
+    <div class="rates" data-bind="with: exchangeRates">
+        <form data-bind="with: filter">
+            <select data-bind="
+                options: CURRENCY_LIST,
+                optionsText: 'name',
+                optionsValue: 'symbol',
+                value: from
+            "></select>
+            
+            <span data-bind="click: () => { let cur = from(); from(to()); to(cur); }">
+                &rarr;
+            </span>
+            
+            <select data-bind="
+                options: CURRENCY_LIST,
+                optionsText: 'name',
+                optionsValue: 'symbol',
+                value: to
+            "></select>
+        </form>
+        <table>
+            <thead data-bind="with: filter">
+                <tr data-bind="css: 'sort-dir_' + sortDir()">
+                    <td class="rate-col rate-service" data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }">...</td>
+                    <td class="rate-col rate-changer" data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')">Обменник</td>
+                    <td class="rate-col rate-from"    data-bind="css: { 'sort-by': sortBy() === 'from' }, click: () => toSort('from')">Отдаёте</td>
+                    <td class="rate-col rate-to"      data-bind="css: { 'sort-by': sortBy() === 'to' }, click: () => toSort('to')">Получаете</td>
+                    <td class="rate-col rate-amount"  data-bind="css: { 'sort-by': sortBy() === 'amount' }, click: () => toSort('amount')">Резерв</td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: rates.sortedDirectedFixedFloating">
+                <tr>
+                    <td class="rate-col rate-service"></td>
+                    <td class="rate-col rate-changer">
+                        <a href target="_blank" data-bind="
+                            text: EXCHANGER_BY_ID()[ $data.exchangerId ].name,
+                            attr: {
+                                href: $data.serviceRateURL
+                               }
+                           "></a>
+                    </td>
+                    <td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
+                    <td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
+                    <td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
+                </tr>
+            </tbody>
+            <tbody style="display: none" data-bind="visible: ! loading() && rates().length === 0">
+                <tr>
+                    <td colspan="8">Нет данных для выбранного направления обмена.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     
-    var renewTimeout;
-	
-	// page init
-	$(() => {
-		request();
-		ko.applyBindings(exchangeRates, document.body);
-	});
-	
-	</script>
+    <script src="./js/table.js"></script>
 </body>
