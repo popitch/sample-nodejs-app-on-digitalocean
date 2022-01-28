@@ -69,12 +69,12 @@ var indexRouter = require('./routes/index');
         },
         
         pairs: (() => {
-            const touched = {};
+            const touchedTree = {};
             
             return {
                 DEFAUL_TOUCHED_TAIL_SIZE: 100,
                 
-                all: () => _.flatten(_.map(touched, _.values)),
+                all: () => _.flatten(_.map(touchedTree, _.values)),
                 
                 touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
                 
@@ -84,37 +84,40 @@ var indexRouter = require('./routes/index');
                         return from.forEach(rate => Cached.pairs.touch(rate.from, rate.to, rate));
                     
                     const
-                        fromBranch = touched[from] = touched[from] || {},
-                        touch = fromBranch[to] = fromBranch[to]
-                            || console.log('pair', from, 'to', to) || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
+                        fromBranch = touchedTree[from] = touchedTree[from] || {},
+                        fromBranchToTouch = fromBranch[to] = fromBranch[to]
+                            || console.log('pair', from, 'to', to, 'with', _.keys(fromBranch)) || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
                     const rateExchangerId = rate.exchangerId,
-                        rateIndex = _.findIndex(touch.rates, rate => rateExchangerId === rate.exchangerId);
+                        rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
                     
                     if (-1 !== rateIndex) {
-                        if (! _.isEqual(touch.rates[rateIndex], rate)) {
-                            touch.rates[rateIndex] = rate;
-                            if (! touch.updates++) {
-                                touch.created = +new Date; // first update
+                        if (! _.isEqual(fromBranchToTouch.rates[rateIndex], rate)) {
+                            fromBranchToTouch.rates[rateIndex] = _.clone(rate);
+                            
+                            if (! fromBranchToTouch.updates++) {
+                                fromBranchToTouch.created = +new Date; // first update
                             }
                         }
                     } else {
-                        touch.rates.unshift(rate);
-                        if (! touch.updates++) {
-                            touch.created = +new Date; // first update
+                        fromBranchToTouch.rates.push(rate);
+                        
+                        if (! fromBranchToTouch.updates++) {
+                            fromBranchToTouch.created = +new Date; // first update
                         }
                     }
                 },
                 
                 processReport: () => {
-                    const all = Cached.pairs.touchedAll(),
-                        oldest = _.min(all, 'created'),
-                        greedy = _.max(all, 'updates');
+                    const touchedAll = Cached.pairs.touchedAll(),
+                        oldest = _.min(touchedAll, 'created'),
+                        greedy = _.max(touchedAll, 'updates');
                     
                     return oldest && {
-                        queue: all.length,
+                        all: Cached.pairs.all().length,
+                        touched: touchedAll.length,
                         oldy_updated: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
                         greedy_wants: greedy.updates,
                     };
@@ -133,13 +136,13 @@ var indexRouter = require('./routes/index');
                         // hm, write to fs here? no
                         //Cached.json(touch.from + '+' + touch.to, )
                         
-                        delete touched[touch.from][touch.to];
+                        delete touchedTree[touch.from][touch.to];
                     });
                     
                     return page;
                 },
 
-                put: () => Cached.json('pair', touched)
+                put: () => Cached.json('pair', touchedTree)
             };
         })()
     };
