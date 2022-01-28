@@ -172,7 +172,7 @@ var indexRouter = require('./routes/index');
         
         if (0 === N % 10)
             console.log('tick update', touches.length, "pairs with",
-                Math.round(1000 * 100 / (+new Date - begints)), 'json / sec.');
+                '~' + Math.round(1000 * 100 / (+new Date - begints)), 'json files per sec.');
         
         // too fast tick,
         // after fail, 100 ms interval
