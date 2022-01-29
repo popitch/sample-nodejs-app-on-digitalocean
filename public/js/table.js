@@ -18,7 +18,7 @@ const
                 "to-full": "to-full ok",
             },
             unknown = [],
-            url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, key => tr[key] || unknown.push(key));
+            url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, (full, key) => tr[key] || unknown.push(key));
         
         if (unknown.length > 0)
             console.warn('unknown parentesses {', unknown, '} in the url', url);
