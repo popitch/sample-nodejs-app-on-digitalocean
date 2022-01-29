@@ -145,8 +145,8 @@
         const begints = +new Date,
               touches = Cached.pairs.touchedTail(100);
         
-        if (0 === N % 10 && touches.length > 0)
-            console.log(touches.map(t => t.updates));
+        //if (0 === N % 10 && touches.length > 0)
+        //    console.log(touches.map(t => t.updates));
         
         touches.forEach((touch, M) => {
             //if (0 === M && 0 === N % 10) console.log(touch);
@@ -263,7 +263,9 @@
                             .value(),
                         logging: false,
                     })
-                    .then(() => {
+                    .then((bulkCreateResult) => {
+                        console.log('bulkCreateResult', bulkCreateResult);
+                        
                         // touch to pairs
                         //begin('touch'); // min-logs
                         Cached.pairs.touch(ratesBulkClean);
