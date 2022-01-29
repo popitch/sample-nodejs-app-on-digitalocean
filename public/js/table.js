@@ -15,8 +15,15 @@ const
                 TO: TO,
                 to: TO.toLowerCase(),
                 "from-full": "from-full ok",
-            };
-        return exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, key => tr[key])
+                "to-full": "to-full ok",
+            },
+            unknown = [],
+            url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, key => tr[key] || unknown.push(key));
+        
+        if (unknown.length > 0)
+            console.warn('unknown parentesses {', unknown, '} in the url', url);
+        
+        return url;
     },
     
     RATE_VALUE_ACCESSORS = {

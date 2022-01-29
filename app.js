@@ -263,8 +263,8 @@
                             .value(),
                         logging: false,
                     })
-                    .then((bulkCreateResult) => {
-                        console.log('bulkCreateResult', bulkCreateResult);
+                    .then((affectedRows) => {
+                        console.log('bulkCreateResult', affectedRows);
                         
                         // touch to pairs
                         //begin('touch'); // min-logs

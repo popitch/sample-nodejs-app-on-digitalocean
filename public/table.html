@@ -68,5 +68,10 @@
         </table>
     </div>
     
+    <script type="html/template" id="number-currency.template">
+        <strong data-bind="text: value"></strong>
+        <small data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol"></small>
+    </script>
+    
     <script src="./js/table.js"></script>
 </body>
