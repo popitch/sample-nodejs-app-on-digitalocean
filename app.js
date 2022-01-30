@@ -31,7 +31,7 @@
             return Cached;
         },
         
-        putAnyReports: () => Cached
+        putAll: () => Cached
             .putExchangers()
             //.pairs.putPairsJson()
             // at end
@@ -56,7 +56,8 @@
             return Cached.json('process', {
                 up: snifferUpAt,
                 now: new Date,
-                current: {
+                jsoncached: {
+                    exchangers: Exchangers.length,
                     rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
                     pairs: Cached.pairs.processReport(),
                 },
@@ -288,7 +289,7 @@
                 end('delete', deleteCount);
                 
                 begin('upsert');
-                const affectedRows = await db.models.ExchangeRate
+                const affectedRates = await db.models.ExchangeRate
                     .bulkCreate(ratesBulkClean, {
                         validate: true,
                         updateOnDuplicate: _
@@ -298,7 +299,7 @@
                             .value(),
                         logging: false,
                     });
-                end('upsert', affectedRows.length);
+                end('upsert', affectedRates.length);
                 
                 // touch to pairs
                 begin('de/touch'); // min-logs
@@ -337,15 +338,25 @@
             console.warn('xml', (exch && exch.xml), 'with', e, 'ERROR at', (exch ? exch.xmlStage : '<no exchanger>'));
         }
         
-        function xmlFinishUp(maxInterval, minDelay) {
+        async function xmlFinishUp(maxInterval, minDelay) {
             const MAX_INTERVAL = maxInterval || console.error('xml finished without interval! mf') || 9000, 
                 staged = exch && exch.xmlStage,
                 xmlTimeAll = staged ? staged.ms.all : 0;
             
             staged && end('all');
             
+            // update db with Exchangers
+            const affectedExchangers = await db.models.Exchanger
+                .bulkCreate(Exchangers, {
+                    validate: true,
+                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                    logging: false,
+                });
+            affectedExchangers &&
+                console.warn('Affected exchangers:', affectedExchangers.length);
+            
             // fix cached
-            Cached.putAnyReports();
+            Cached.putAll();
             
             // tick
             setTimeout(updateOlderOne, Math.max(
