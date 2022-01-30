@@ -257,8 +257,12 @@
             const ratesBulkClean = ratesBulkUniq;
             
             // update db rates
-            dbConn.then(db => {
+            dbConn.then(async (db) => {
                 const schema = require('./db.schema');
+                
+                begin('delete');
+                const exchangerIds = _.unique(ratesBulkClean.map(r => r.exchangerId));
+                console.log('delete where exchangerId in', exchangerIds);
                 
                 begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
@@ -272,11 +276,6 @@
                         logging: false,
                     })
                     .then((affectedRows) => {
-                        //console.log('bulkCreateResult', affectedRows);
-                        
-                        // store count rows
-                        
-                        
                         // touch to pairs
                         //begin('touch'); // min-logs
                         Cached.pairs.touch(ratesBulkClean);
