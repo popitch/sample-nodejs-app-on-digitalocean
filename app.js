@@ -275,8 +275,8 @@
                 );
                 end('delete', deleteCount);
                 
-                begin('bulk', ratesBulkClean.length);
-                db.models.ExchangeRate
+                begin('bulk');
+                const affectedRows = await db.models.ExchangeRate
                     .bulkCreate(ratesBulkClean, {
                         validate: true,
                         updateOnDuplicate: _
@@ -285,27 +285,23 @@
                             //.difference(["id"])
                             .value(),
                         logging: false,
-                    })
-                    .then((affectedRows) => {
-                        // touch to pairs
-                        //begin('touch'); // min-logs
-                        Cached.pairs.touch(ratesBulkClean);
-                        //end('touch'); // min-logs
-                        
-                        // 
-                        xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
-                        
-                        // mark as finished
-                        exch.xmlUpdatedAt = +new Date;
-                        
-                        // mark as not started
-                        exch.xmlStartedAt = null;
-                        
-                        console.log('xml', exch.xmlStage.short(), 'from', exch.xml);                        
-                    })
-                    .catch((e) => {
-                        xmlFinishError(e);
                     });
+                end('bulk', affectedRows.length);
+                
+                // touch to pairs
+                //begin('touch'); // min-logs
+                Cached.pairs.touch(ratesBulkClean);
+                //end('touch'); // min-logs
+                
+                xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
+                
+                // mark as finished
+                exch.xmlUpdatedAt = +new Date;
+                
+                // mark as not started
+                exch.xmlStartedAt = null;
+                
+                console.log('xml', exch.xmlStage.short(), 'from', exch.xml); 
             });
         } catch(e) {
             xmlFinishError(e);
