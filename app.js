@@ -28,6 +28,9 @@ dbConn.then(async (db) => {
             });
         //*/
     
+    console.log('Initial Exchangers:', await db.models.Exchanger.count({ logging: false }));
+    console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
+    
 
     // whiter to /cached/*.json
     const Cached = {
