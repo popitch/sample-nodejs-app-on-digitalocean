@@ -284,7 +284,7 @@
                 begin('delete');
                 //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
-                const deleteCount = await db.models.ExchangeRate.destroy({ where: { exchangerId: exch.id } }, { logging: false });
+                const deleteCount = await db.models.ExchangeRate.destroy({ where: { exchangerId: exch.id }, logging: false });
                 end('delete', deleteCount);
                 
                 begin('upsert');
