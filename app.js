@@ -98,12 +98,11 @@
                 touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
                 
                 // saved in touched[from][to] 
-                touch: (rate) => {
+                touch: (from, to, rate) => {
                     //if (_.isArray(rate))
-                    //    return rate.map(rate => Cached.pairs.touch(rate));
+                    //    return rate.map(rate => Cached.pairs.touch(from, to, rate));
                     
                     const
-                        from = rate.from, to = rate.to,
                         fromBranch = touchedTree[from] = touchedTree[from] || {},
                         fromBranchToTouch = fromBranch[to] = fromBranch[to]
                             //|| console.log('pair', from, 'to', to, 'with', _.keys(fromBranch).sort())
@@ -312,7 +311,7 @@
                 begin('de/touch'); // min-logs
                 const deletingTree = Cached.pairs.mapTouchTree(touch => _.find(touch.rates, r => r.exchangerId === exch.id) || null);
                 ratesBulkClean.forEach(rate => {
-                    Cached.pairs.touch(rate);
+                    Cached.pairs.touch(rate.from, rate.to, rate);
                     if (deletingTree[rate.from]) {
                         deletingTree[rate.from][rate.to] = null;
                     }
