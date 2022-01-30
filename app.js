@@ -360,7 +360,7 @@ dbConn.then(async (db) => {
             
             // update db with Exchangers
             try {
-                for (let i = 0; i < Exchangers.length; i++) {
+                for (var i = 0; i < Exchangers.length; i++) {
                     const affectedExchangers = await db.models.Exchanger
                         .bulkCreate([ Exchangers[i] ], {
                             validate: true,
