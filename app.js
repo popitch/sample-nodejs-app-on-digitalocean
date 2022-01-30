@@ -263,14 +263,14 @@
                 
                 begin('delete');
                 const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
-                console.log('delete where exchangerId in', exchangerIds);
+                // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
                 await db.models.ExchangeRate.destroy({
                     where: {
                         exchangerId: {
                             [Op.in]: exchangerIds
                         }
                     }
-                }).then(console.log.bind(console, 'delete `exchangeRate` where id in... deleted:'));
+                }).then(count => count && console.log('delete `exchangeRate` where ids in... deleted:', count));
                 
                 begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
