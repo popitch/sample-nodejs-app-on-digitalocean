@@ -360,7 +360,7 @@ dbConn.then(async (db) => {
             const affectedExchangers = await db.models.Exchanger
                 .bulkCreate(Exchangers, {
                     validate: true,
-                    //updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
                     logging: false,
                 })
                 .catch(e => console.warn('NOT Affected exchangers with error', e));
