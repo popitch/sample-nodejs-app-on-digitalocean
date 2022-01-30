@@ -318,7 +318,7 @@
                     }
                 });
                 Cached.pairs.mapTouchTree(touch => {
-                    const rate = deletingTree[touch.from][touch.to];
+                    const rate = deletingTree[touch.from] && deletingTree[touch.from][touch.to];
                     if (rate) {
                         Cached.pairs.deleteRate(touch.from, touch.to, rate);
                     }
