@@ -238,7 +238,8 @@ dbConn.then(async (db) => {
         }
                     
         // init stages
-        const { end, begin } = exch.xmlStage = exch.xmlStage || stages(exch); // stages short-hands
+        const { end, begin } = exch.xmlStage
+            = exch.xmlStage && exch.xmlStage.reset ? console.log(exch) || exch.xmlStage : stages(exch); // stages short-hands
         
         // reset with common spaces
         exch.xmlStage.reset({ spaces: stagesLoggerSpaces });
