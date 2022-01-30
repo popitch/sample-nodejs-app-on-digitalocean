@@ -16,7 +16,7 @@ dbConn.then(async (db) => {
         snifferUpAt = new Date;
     
     // load exchangers all
-    const Exchangers = //await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
         //*
         //sql: SELECT "id", "createdAt", "updatedAt", "bcId", "name", "fullname", "param", "exUrlTmpl", 
         //        "xml", "xmlVerified", "xmlStartedAt", "xmlStage", "xmlParsedAt" FROM "exchangers" AS "Exchanger";
@@ -358,18 +358,22 @@ dbConn.then(async (db) => {
             staged && end('all');
             
             // update db with Exchangers
+            try {
+                for (let i = 0; i < Exchangers.length; i++) {
+                    const affectedExchangers = await db.models.Exchanger
+                        .bulkCreate([ Exchangers[i] ], {
+                            validate: true,
+                            //updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                                //[ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
+                            logging: false,
+                        });
             
-            const affectedExchangers = await db.models.Exchanger
-                .bulkCreate(Exchangers, {
-                    validate: true,
-                    //updateOnDuplicate: _.keys(schema.Exchanger.fields),
-                        //[ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
-                    logging: false,
-                })
-                .catch(e => console.warn('NOT Affected exchangers with error', e));
-            
-            affectedExchangers &&
-                console.warn('Affected exchangers:', affectedExchangers.length);
+                    affectedExchangers.length &&
+                        console.warn('Affected exchanger', Exchangers[i]);
+                }
+            } catch(e) {
+                console.warn('NOT Affected exchangers with error', e);
+            }
             //*/
             //db.models.Exchanger.build(exch);
             
