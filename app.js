@@ -362,7 +362,7 @@ dbConn.then(async (db) => {
             const affectedExchangers = await db.models.Exchanger
                 .bulkCreate(Exchangers, {
                     validate: true,
-                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                    //updateOnDuplicate: _.keys(schema.Exchanger.fields),
                         //[ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
                     logging: false,
                 })
