@@ -19,16 +19,12 @@
         
         json: (name, data) => {
             const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
-            
-            //for (let i = 0; i < dirs.length - 1; i++) {
-            //    const dir = dirs;
                 
-                if (! fs.existsSync(dir)) {
-                    console.log('mkdir', dir);
-                    
-                    fs.mkdirSync(dir, /*0744,*/ { recursive: true });
-                }
-            //}
+            if (! fs.existsSync(dir)) {
+                console.log('mkdir', dir);
+                
+                fs.mkdirSync(dir, /*0744,*/ { recursive: true });
+            }
             
             fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
             
@@ -264,7 +260,7 @@
                         logging: false,
                     })
                     .then((affectedRows) => {
-                        console.log('bulkCreateResult', affectedRows);
+                        //console.log('bulkCreateResult', affectedRows);
                         
                         // touch to pairs
                         //begin('touch'); // min-logs
