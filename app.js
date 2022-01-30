@@ -360,6 +360,7 @@ dbConn.then(async (db) => {
             
             // update db with Exchangers
             try {
+                /*
                 for (var i = 0; i < Exchangers.length; i++) {
                     const affectedExchangers = await db.models.Exchanger
                         .bulkCreate([ Exchangers[i] ], {
@@ -372,6 +373,8 @@ dbConn.then(async (db) => {
                     affectedExchangers.length &&
                         console.warn('Affected exchanger', Exchangers[i]);
                 }
+                */
+                await exch.save();
             } catch(e) {
                 console.warn('NOT Affected exchangers with error', e, 'with', Exchangers[i]);
             }
