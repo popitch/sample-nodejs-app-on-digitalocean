@@ -53,6 +53,7 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
     tableName: 'exchangers',
     freezeTableName: true,
 });
+
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
     timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
@@ -85,5 +86,5 @@ connThen(async (db) => {
 
 // exports
 module.exports = {
-    then: then,
+    then: then => connThen(then),
 };
