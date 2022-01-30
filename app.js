@@ -271,6 +271,7 @@
                         }
                     }
                 }).then(count => count && console.log('delete `exchangeRate` where ids in... deleted:', count));
+                end('delete', exchangerIds.length);
                 
                 begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
