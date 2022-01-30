@@ -70,6 +70,16 @@ connThen(async (db) => {
     
     await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
+    await queryInterface.addConstraint('exchangers', {
+        fields: ['id'],
+        type: 'unique',
+        name: 'exchanger_id_unique_constraints',
+    });
+    await queryInterface.addConstraint('exchangers', {
+        fields: ['bcId'],
+        type: 'unique',
+        name: 'exchanger_bcId_unique_constraints',
+    });
     
     /*
     await queryInterface.dropTable('exchangeRates', { onDelete: 'cascade' });
