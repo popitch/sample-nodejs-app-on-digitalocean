@@ -43,7 +43,7 @@ const
         .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
     
-    connThen = async (then) => connReady.then(() => then(sequelize).catch(console.log.bind(console, 'Connection level error handled:')));
+    connThen = async (then) => connReady.then(() => then(sequelize).catch(e => console.log('Connection level Error handled:', e)));
 
 // define models
 sequelize.define('Exchanger', schema.Exchanger.fields, {
@@ -71,11 +71,12 @@ connThen(async (db) => {
     
     await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
+    /*
     await queryInterface.addConstraint('exchangers', {
         fields: ['id'],
         type: 'primary key',
         name: 'exchanger_id_unique_constraints',
-    });
+    });*/
     await queryInterface.addConstraint('exchangers', {
         fields: ['bcId'],
         type: 'unique',

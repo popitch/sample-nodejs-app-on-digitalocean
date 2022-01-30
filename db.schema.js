@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = {
     "Exchanger": {
         indexes: [
-            { unique: true, fields: ['id'], },
+            //{ unique: true, fields: ['id'], },
             { unique: true, fields: ['bcId'], },
             { unique: true, fields: ['name'], },
         ],
