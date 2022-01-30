@@ -373,7 +373,7 @@ dbConn.then(async (db) => {
                         console.warn('Affected exchanger', Exchangers[i]);
                 }
             } catch(e) {
-                console.warn('NOT Affected exchangers with error', e);
+                console.warn('NOT Affected exchangers with error', e, 'with', Exchangers[i]);
             }
             //*/
             //db.models.Exchanger.build(exch);
