@@ -348,13 +348,13 @@
                 const affectedExchangers = await db.models.Exchanger
                     .bulkCreate(Exchangers, {
                         validate: true,
-                        updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                        //updateOnDuplicate: _.keys(schema.Exchanger.fields),
                         logging: false,
                     });
                 
                 affectedExchangers &&
                     console.warn('Affected exchangers:', affectedExchangers.length);
-            }).catch(console.log);
+            }).catch(console.warn);
             
             // fix cached
             Cached.putAll();
