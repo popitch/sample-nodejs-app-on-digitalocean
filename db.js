@@ -64,6 +64,9 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     freezeTableName: true,
 });
 
+// set global error catcher
+connThen.catch(console.error);
+
 // create tables (aka db setup)
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
