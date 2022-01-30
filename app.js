@@ -75,7 +75,7 @@
                 
                 all: () => _.flatten(_.map(touchedTree, _.values)),
                 
-                mapTree: (iterator) => {
+                mapTouchTree: (iterator) => {
                     const result = {};
                     for (let from in touchedTree) {
                         const touchedBranch = touchedTree[from];
@@ -88,24 +88,22 @@
                     return result;
                 },
                 
-                // filter pair-tables from given condition rates
-                detouchRates: (condition) => {
-                    let count = 0;
-                    Cached.pairs.mapTree(touch => {
-                        let detouched = 0;
-                        touch.rates = touch.rates.filter(rate => condition(rate) ? ++count && ++detouched && false : true);
-                    });
-                    return count;
+                // delete rate from touch.rates[]
+                deleteRate: (from, to, rate) => {
+                    const touch = touchedTree[from][to];
+                    touch.rates = touch.rates.filter(r => r !== rate);
+                    touch.updates++;
                 },
                 
                 touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
                 
                 // saved in touched[from][to] 
-                touch: (from, to, rate) => {
-                    if (_.isArray(from))
-                        return from.forEach(rate => Cached.pairs.touch(rate.from, rate.to, rate));
+                touch: (rate) => {
+                    //if (_.isArray(rate))
+                    //    return rate.map(rate => Cached.pairs.touch(rate));
                     
-                    const
+                    consts
+                        from = rate.from, to = rate.to,
                         fromBranch = touchedTree[from] = touchedTree[from] || {},
                         fromBranchToTouch = fromBranch[to] = fromBranch[to]
                             //|| console.log('pair', from, 'to', to, 'with', _.keys(fromBranch).sort())
@@ -113,7 +111,6 @@
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
-                    /*
                     const rateExchangerId = rate.exchangerId,
                         rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
                     
@@ -125,13 +122,13 @@
                                 fromBranchToTouch.created = +new Date; // first update
                             }
                         }
-                    } else {*/
+                    } else {
                         fromBranchToTouch.rates.push(rate);
                         
                         if (! fromBranchToTouch.updates++) {
                             fromBranchToTouch.created = +new Date; // first update
                         }
-                    //}
+                    }
                 },
                 
                 processReport: () => {
@@ -312,10 +309,21 @@
                 end('upsert', affectedRows.length);
                 
                 // touch to pairs
-                begin('touch'); // min-logs
-                Cached.pairs.detouchRates(rate => rate.exchangerId === exch.id);
-                Cached.pairs.touch(ratesBulkClean);
-                end('touch', ratesBulkClean.length); // min-logs
+                begin('de/touch'); // min-logs
+                const deletingTree = Cached.pairs.mapTouchTree(touch => _.find(touch.rates, r => r.exchangerId === exch.id) || null);
+                ratesBulkClean.forEach(rate => {
+                    Cached.pairs.touch(rate);
+                    if (deletingTree[rate.from]) {
+                        deletingTree[rate.from][rate.to] = null;
+                    }
+                });
+                Cached.pairs.mapTouchTree(touch => {
+                    const rate = deletingTree[touch.from][touch.to];
+                    if (rate) {
+                        Cached.pairs.deleteRate(touch.from, touch.to, rate);
+                    }
+                });
+                end('de/touch', ratesBulkClean.length); // min-logs
                 
                 // mark as finished
                 exch.xmlUpdatedAt = +new Date;
