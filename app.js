@@ -16,12 +16,14 @@ dbConn.then(async (db) => {
         snifferUpAt = new Date;
     
     // load exchangers all
-    const Exchangers =  
+    const Exchangers = await db.models.Exchanger.findAll();
+        /*
         JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
             .map(ex => {
                 ex.bcId = ex.id;
                 return ex;
             });
+        */
     
 
     // whiter to /cached/*.json
