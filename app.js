@@ -16,8 +16,11 @@ dbConn.then(async (db) => {
         snifferUpAt = new Date;
     
     // load exchangers all
-    const Exchangers = await db.models.Exchanger.findAll();
+    const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
         /*
+        sql: SELECT "id", "createdAt", "updatedAt", "bcId", "name", "fullname", "param", "exUrlTmpl", 
+                "xml", "xmlVerified", "xmlStartedAt", "xmlStage", "xmlParsedAt" FROM "exchangers" AS "Exchanger";
+
         JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
             .map(ex => {
                 ex.bcId = ex.id;
@@ -362,7 +365,7 @@ dbConn.then(async (db) => {
             const affectedExchangers = await db.models.Exchanger
                 .bulkCreate(Exchangers, {
                     validate: true,
-                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                    updateOnDuplicate: [ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
                     logging: false,
                 })
                 .catch(e => console.warn('NOT Affected exchangers with error', e));
