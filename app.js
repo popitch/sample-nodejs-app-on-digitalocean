@@ -261,7 +261,7 @@
                 const schema = require('./db.schema');
                 
                 begin('delete');
-                const exchangerIds = _.unique(ratesBulkClean.map(r => r.exchangerId));
+                const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 console.log('delete where exchangerId in', exchangerIds);
                 
                 begin('bulk', ratesBulkClean.length);
