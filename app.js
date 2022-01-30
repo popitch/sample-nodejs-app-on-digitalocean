@@ -259,10 +259,18 @@
             // update db rates
             dbConn.then(async (db) => {
                 const schema = require('./db.schema');
+                const { Op } = require("sequelize");
                 
                 begin('delete');
                 const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 console.log('delete where exchangerId in', exchangerIds);
+                await db.models.ExchangeRate.destroy({
+                    where: {
+                        exchangerId: {
+                            [Op.in]: exchangerIds
+                        }
+                    }
+                }).then(console.log.bind(console, 'delete `exchangeRate` where id in... deleted:'));
                 
                 begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
