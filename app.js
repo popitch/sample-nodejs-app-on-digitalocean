@@ -1,5 +1,5 @@
 // init sniffer
-(async (Exchangers) => {
+dbConn.then(async (db) => {
     const fs = require('fs'),
            _ = require('lodash'),
        fetch = require('node-fetch'),
@@ -13,6 +13,15 @@
         exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
         
         snifferUpAt = new Date;
+    
+    // load exchangers all
+    const Exchangers =  
+        JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
+            .map(ex => {
+                ex.bcId = ex.id;
+                return ex;
+            });
+    
 
     // whiter to /cached/*.json
     const Cached = {
@@ -206,6 +215,7 @@
     // give a next as oldest updatedAt
     function oldestXmlFetchedExchanger() {
         return Exchangers
+            .filter(ch => ch.xml && ch.xmlVerified)
             .filter(ch => ! ch.xmlStartedAt)
             .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
     };
@@ -344,17 +354,15 @@
             staged && end('all');
             
             // update db with Exchangers
-            dbConn.then(async (db) => {
-                const affectedExchangers = await db.models.Exchanger
-                    .bulkCreate(Exchangers, {
-                        validate: true,
-                        //updateOnDuplicate: _.keys(schema.Exchanger.fields),
-                        logging: false,
-                    });
-                
-                affectedExchangers &&
-                    console.warn('Affected exchangers:', affectedExchangers.length);
-            }).catch(console.warn);
+            const affectedExchangers = await db.models.Exchanger
+                .bulkCreate(Exchangers, {
+                    validate: true,
+                    //updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                    logging: false,
+                });
+            
+            affectedExchangers &&
+                console.warn('Affected exchangers:', affectedExchangers.length);
             
             // fix cached
             Cached.putAll();
@@ -367,14 +375,7 @@
             ));
         }
     }
-})(
-    JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
-        .filter(ch => ch.xml && ch.xmlVerified)
-        .map(ex => {
-            ex.bcId = ex.id;
-            return ex;
-        })
-);
+}).catch(console.warn);
 
 
 
