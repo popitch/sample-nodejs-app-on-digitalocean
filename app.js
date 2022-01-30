@@ -7,6 +7,7 @@
         
       stages = require('./stages'), stagesLoggerSpaces = [],
       dbConn = require('./db'),
+      schema = require('./db.schema'),
           
         // short-hand
         exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
@@ -17,7 +18,7 @@
     const Cached = {
         DIR: './public/cached/',
         
-        json: (name, data) => {
+        putJson: (name, data) => {
             const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
                 
             if (! fs.existsSync(dir)) {
@@ -38,7 +39,7 @@
             .putProcessReport(),
         
         putExchangers: () => {
-            return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
+            return Cached.putJson('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
         
         putProcessReport: async () => {
@@ -53,7 +54,7 @@
                 };
             });
             
-            return Cached.json('process', {
+            return Cached.putJson('process', {
                 up: snifferUpAt,
                 now: new Date,
                 jsoncached: {
@@ -180,7 +181,7 @@
         touches.forEach((touch, M) => {
             //if (0 === M && 0 === N % 10) console.log(touch);
             
-            Cached.json(touch.from + '/' + touch.to, {
+            Cached.putJson(touch.from + '/' + touch.to, {
                 time: new Date,
                 rates: touch.rates,
             });
@@ -279,9 +280,6 @@
             
             // update db rates
             dbConn.then(async (db) => {
-                const schema = require('./db.schema');
-                const { Op } = require("sequelize");
-                
                 begin('delete');
                 //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
