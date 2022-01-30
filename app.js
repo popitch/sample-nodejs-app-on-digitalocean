@@ -41,7 +41,7 @@
             return Cached.json('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
         },
         
-        putProcessReport: () => {
+        putProcessReport: async () => {
             const pairsAll = Cached.pairs.all();
             
             let dbReport;
