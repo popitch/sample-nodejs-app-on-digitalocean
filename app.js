@@ -77,13 +77,15 @@
                 
                 // filter pair-tables from given condition rates
                 deleteRates: (condition) => {
+                    let count = 0;
                     for (let from in touchedTree) {
                         const touchedBranch = touchedTree[from];
                         for (let to in touchedBranch) {
                             const touched = touchedBranch[to];
-                            touched.rates = touched.rates.filter(rate => ! condition(rate));
+                            touched.rates = touched.rates.filter(rate => condition(rate) ? ++count && false : true);
                         }
                     }
+                    return count;
                 },
                 
                 touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
