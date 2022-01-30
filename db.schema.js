@@ -46,12 +46,14 @@ module.exports = {
                 allowNull: false,
             },
             
+            // exchanger's pair (direction of exchange) URL template
             exUrlTmpl: {
                 type: DataTypes.STRING,
                 defaultValue: null,
                 allowNull: true,
             },
             
+            // xml
             xml: {
                 type: DataTypes.STRING,
                 defaultValue: null,

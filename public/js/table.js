@@ -20,6 +20,7 @@ const
                 to: TO.toLowerCase(),
                 "from-full": "from-full ok",
                 "to-full": "to-full ok",
+                "rid": 'ANY_MORE_GET_PARAM_RID',
             },
             unknown = [],
             url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, (full, key) => tr[key] || unknown.push(key));
