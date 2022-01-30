@@ -55,7 +55,7 @@ dbConn.then(async (db) => {
         
         putExchangers: () => {
             return Cached.putJson('exchangers',
-                .map(ch => _.omit(ch.dataValues, [/*"exUrlTmpl", */"xml"]))
+                Exchangers.map(ch => _.omit(ch.dataValues, [/*"exUrlTmpl", */"xml"]))
             );
         },
         
