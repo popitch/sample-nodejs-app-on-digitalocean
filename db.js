@@ -42,7 +42,7 @@ const
     connReady = sequelize.authenticate()
         .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
-    connThen = then => connReady.then(() => then(sequelize));
+    connThen = async then => connReady.then(() => then(sequelize));
 
 // define models
 sequelize.define('Exchanger', schema.Exchanger.fields, {
@@ -85,5 +85,5 @@ connThen(async (db) => {
 
 // exports
 module.exports = {
-    then: then => connThen(then),
+    then: then,
 };
