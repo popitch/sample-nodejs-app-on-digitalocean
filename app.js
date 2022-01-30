@@ -75,6 +75,17 @@
                 
                 all: () => _.flatten(_.map(touchedTree, _.values)),
                 
+                // filter pair-tables from given condition rates
+                deleteRates: (condition) => {
+                    for (let from in touchedTree) {
+                        const touchedBranch = touchedTree[from];
+                        for (let to in touchedBranch) {
+                            const touched = touchedBranch[to];
+                            touched.rates = touched.rates.filter(rate => ! condition(rate));
+                        }
+                    }
+                },
+                
                 touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
                 
                 // saved in touched[from][to] 
@@ -92,7 +103,7 @@
                     
                     const rateExchangerId = rate.exchangerId,
                         rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
-                    
+                    /*
                     if (-1 !== rateIndex) {
                         if (! _.isEqual(fromBranchToTouch.rates[rateIndex], rate)) {
                             fromBranchToTouch.rates[rateIndex] = _.clone(rate);
@@ -101,13 +112,13 @@
                                 fromBranchToTouch.created = +new Date; // first update
                             }
                         }
-                    } else {
+                    } else {*/
                         fromBranchToTouch.rates.push(rate);
                         
                         if (! fromBranchToTouch.updates++) {
                             fromBranchToTouch.created = +new Date; // first update
                         }
-                    }
+                    //}
                 },
                 
                 processReport: () => {
@@ -289,17 +300,18 @@
                 end('bulk', affectedRows.length);
                 
                 // touch to pairs
-                //begin('touch'); // min-logs
+                begin('touch'); // min-logs
+                console.log('deleteRates()', Cached.pairs.deleteRates(rate => rate.exchangerId === exch.id));
                 Cached.pairs.touch(ratesBulkClean);
-                //end('touch'); // min-logs
-                
-                xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
+                end('touch'); // min-logs
                 
                 // mark as finished
                 exch.xmlUpdatedAt = +new Date;
                 
                 // mark as not started
                 exch.xmlStartedAt = null;
+                
+                xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
                 
                 console.log('xml', exch.xmlStage.short(), 'from', exch.xml); 
             });
