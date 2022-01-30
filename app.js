@@ -322,7 +322,7 @@
                         Cached.pairs.deleteRate(touch.from, touch.to, rate);
                     }
                 });
-                end('de/touch', ratesBulkClean.length); // min-logs
+                end('de/touch', _.values(deletingTree).map(_.values).flat().reduce((s, r) => s + (r ? 1 : 0), 0) + '/' + ratesBulkClean.length); // min-logs
                 
                 // mark as finished
                 exch.xmlUpdatedAt = +new Date;
