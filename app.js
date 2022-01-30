@@ -346,14 +346,17 @@
             staged && end('all');
             
             // update db with Exchangers
-            const affectedExchangers = await db.models.Exchanger
-                .bulkCreate(Exchangers, {
-                    validate: true,
-                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
-                    logging: false,
-                });
-            affectedExchangers &&
-                console.warn('Affected exchangers:', affectedExchangers.length);
+            dbConn.then(async (db) => {
+                const affectedExchangers = await dbConn.models.Exchanger
+                    .bulkCreate(Exchangers, {
+                        validate: true,
+                        updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                        logging: false,
+                    });
+                
+                affectedExchangers &&
+                    console.warn('Affected exchangers:', affectedExchangers.length);
+            });
             
             // fix cached
             Cached.putAll();
