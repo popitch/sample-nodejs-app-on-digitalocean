@@ -75,16 +75,26 @@
                 
                 all: () => _.flatten(_.map(touchedTree, _.values)),
                 
-                // filter pair-tables from given condition rates
-                deleteRates: (condition) => {
-                    let count = 0;
+                mapTree: (iterator) => {
+                    const result = {};
                     for (let from in touchedTree) {
                         const touchedBranch = touchedTree[from];
+                        result[from] = result[from] || {};
                         for (let to in touchedBranch) {
-                            const touched = touchedBranch[to];
-                            touched.rates = touched.rates.filter(rate => condition(rate) ? ++count && false : true);
+                            const touch = touchedBranch[to];
+                            result[from][to] = iterator(touch);
                         }
                     }
+                    return result;
+                },
+                
+                // filter pair-tables from given condition rates
+                detouchRates: (condition) => {
+                    let count = 0;
+                    Cached.pairs.mapTree(touch => {
+                        let detouched = 0;
+                        touch.rates = touch.rates.filter(rate => condition(rate) ? ++count && ++detouched && false : true);
+                    });
                     return count;
                 },
                 
@@ -103,9 +113,10 @@
                     
                     //if (0 === touch.times) touched.push(touch); // from array-version
                     
+                    /*
                     const rateExchangerId = rate.exchangerId,
                         rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
-                    /*
+                    
                     if (-1 !== rateIndex) {
                         if (! _.isEqual(fromBranchToTouch.rates[rateIndex], rate)) {
                             fromBranchToTouch.rates[rateIndex] = _.clone(rate);
@@ -277,18 +288,17 @@
                 begin('delete');
                 //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
-                const deleteCount = await db.models.ExchangeRate.destroy({
-                    where: {
-                        exchangerId: {
-                            [Op.in]: [ exch.id ]
+                const deleteCount =
+                    await db.models.ExchangeRate.destroy({
+                        where: {
+                            exchangerId: exch.id
                         }
-                    }
-                }).then(count => count
-                    //&& console.log('delete `exchangeRate` where ids in... deleted:', count)
-                );
+                    }).then(count => count
+                        //&& console.log('delete `exchangeRate` where ids in... deleted:', count)
+                    );
                 end('delete', deleteCount);
                 
-                begin('bulk');
+                begin('upsert');
                 const affectedRows = await db.models.ExchangeRate
                     .bulkCreate(ratesBulkClean, {
                         validate: true,
@@ -299,13 +309,13 @@
                             .value(),
                         logging: false,
                     });
-                end('bulk', affectedRows.length);
+                end('upsert', affectedRows.length);
                 
                 // touch to pairs
                 begin('touch'); // min-logs
-                console.log('deleteRates()', Cached.pairs.deleteRates(rate => rate.exchangerId === exch.id));
+                Cached.pairs.detouchRates(rate => rate.exchangerId === exch.id);
                 Cached.pairs.touch(ratesBulkClean);
-                end('touch'); // min-logs
+                end('touch', ratesBulkClean.length); // min-logs
                 
                 // mark as finished
                 exch.xmlUpdatedAt = +new Date;
