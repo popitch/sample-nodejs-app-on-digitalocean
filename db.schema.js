@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = {
     "Exchanger": {
         indexes: [
-            { unique: true, fields: ['bcId'], },
+            { unique: true, fields: ['id'], },
             { unique: true, fields: ['name'], },
         ],
         fields: {
@@ -27,7 +27,7 @@ module.exports = {
             bcId: {
                 type: DataTypes.INTEGER,
                 defaultValue: null,
-                allowNull: false,
+                allowNull: true,
             },
             
             name: {
