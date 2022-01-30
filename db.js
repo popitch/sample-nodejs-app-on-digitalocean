@@ -92,6 +92,9 @@ connThen(async (db) => {
     await queryInterface.addIndex('exchangeRates', schema.ExchangeRate.indexes[0]);
     //*/
     
+    console.log('Initial Exchangers:', await db.models.Exchanger.count({ logging: false }));
+    console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
+    
     return db;
 });
 
