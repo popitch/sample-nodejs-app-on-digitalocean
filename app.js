@@ -347,7 +347,7 @@
             
             // update db with Exchangers
             dbConn.then(async (db) => {
-                const affectedExchangers = await dbConn.models.Exchanger
+                const affectedExchangers = await db.models.Exchanger
                     .bulkCreate(Exchangers, {
                         validate: true,
                         updateOnDuplicate: _.keys(schema.Exchanger.fields),
