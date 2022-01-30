@@ -44,11 +44,17 @@
         putProcessReport: () => {
             const pairsAll = Cached.pairs.all();
             
-            Cached.json('process', {
+            return Cached.json('process', {
                 up: snifferUpAt,
                 now: new Date,
-                rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
-                pairs: Cached.pairs.processReport(),
+                current: {
+                    rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
+                    pairs: Cached.pairs.processReport(),
+                },
+                db: {
+                    exchangers: await db.models.Exchanger.count(),
+                    rates: await db.models.ExchangeRate.count(),
+                },
                 node: {
                     mem: process.memoryUsage(),
                 }
@@ -261,6 +267,9 @@
                     })
                     .then((affectedRows) => {
                         //console.log('bulkCreateResult', affectedRows);
+                        
+                        // store count rows
+                        
                         
                         // touch to pairs
                         //begin('touch'); // min-logs
