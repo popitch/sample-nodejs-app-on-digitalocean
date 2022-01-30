@@ -49,7 +49,9 @@ dbConn.then(async (db) => {
             .putProcessReport(),
         
         putExchangers: () => {
-            return Cached.putJson('exchangers', Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"])));
+            return Cached.putJson('exchangers',
+                Exchangers.map(ch => _.omit(ch, [/*"exUrlTmpl", */"xml"]))
+            );
         },
         
         putProcessReport: async () => {
@@ -360,7 +362,8 @@ dbConn.then(async (db) => {
                     validate: true,
                     //updateOnDuplicate: _.keys(schema.Exchanger.fields),
                     logging: false,
-                });
+                })
+                .catch(e => console.warn('NOT Affected exchangers:', affectedExchangers.length, 'with error', e));
             
             affectedExchangers &&
                 console.warn('Affected exchangers:', affectedExchangers.length);
@@ -376,7 +379,7 @@ dbConn.then(async (db) => {
             ));
         }
     }
-}).catch(console.warn);
+}).catch(console.error);
 
 
 
