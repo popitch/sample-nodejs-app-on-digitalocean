@@ -102,7 +102,7 @@
                     //if (_.isArray(rate))
                     //    return rate.map(rate => Cached.pairs.touch(rate));
                     
-                    consts
+                    const
                         from = rate.from, to = rate.to,
                         fromBranch = touchedTree[from] = touchedTree[from] || {},
                         fromBranchToTouch = fromBranch[to] = fromBranch[to]
