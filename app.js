@@ -16,17 +16,17 @@ dbConn.then(async (db) => {
         snifferUpAt = new Date;
     
     // load exchangers all
-    const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-        /*
-        sql: SELECT "id", "createdAt", "updatedAt", "bcId", "name", "fullname", "param", "exUrlTmpl", 
-                "xml", "xmlVerified", "xmlStartedAt", "xmlStage", "xmlParsedAt" FROM "exchangers" AS "Exchanger";
+    const Exchangers = //await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+        //*
+        //sql: SELECT "id", "createdAt", "updatedAt", "bcId", "name", "fullname", "param", "exUrlTmpl", 
+        //        "xml", "xmlVerified", "xmlStartedAt", "xmlStage", "xmlParsedAt" FROM "exchangers" AS "Exchanger";
 
         JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
             .map(ex => {
                 ex.bcId = ex.id;
                 return ex;
             });
-        */
+        //*/
     
 
     // whiter to /cached/*.json
