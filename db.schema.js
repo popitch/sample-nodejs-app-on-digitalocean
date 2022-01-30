@@ -10,17 +10,18 @@ module.exports = {
         fields: {
             id: {
                 type: DataTypes.INTEGER,
-                defaultValue: null,
-                allowNull: true,
-                //primaryKey: true,
-                //autoIncrement: true,
+                //defaultValue: null,
+                //allowNull: true,
+                primaryKey: true,
+                autoIncrement: true,
             },
-
+            
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
                 allowNull: true,
             },
+            
             updatedAt: {
                 type: DataTypes.DATE,
                 defaultValue: null,
