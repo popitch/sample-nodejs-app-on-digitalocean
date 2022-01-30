@@ -48,8 +48,8 @@
             await dbConn.then(async (db) => {
                 //console.log(db)
                 dbReport = {
-                    exchangers: await db.models.Exchanger.count(),
-                    rates: await db.models.ExchangeRate.count(),
+                    exchangers: await db.models.Exchanger.count({ logging: false }),
+                    rates: await db.models.ExchangeRate.count({ logging: false }),
                 };
             });
             
@@ -284,14 +284,7 @@
                 begin('delete');
                 //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
-                const deleteCount =
-                    await db.models.ExchangeRate.destroy({
-                        where: {
-                            exchangerId: exch.id
-                        }
-                    }).then(count => count
-                        //&& console.log('delete `exchangeRate` where ids in... deleted:', count)
-                    );
+                const deleteCount = await db.models.ExchangeRate.destroy({ where: { exchangerId: exch.id } }, { logging: false });
                 end('delete', deleteCount);
                 
                 begin('upsert');
