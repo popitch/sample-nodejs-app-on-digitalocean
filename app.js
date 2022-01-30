@@ -1,4 +1,6 @@
 // init sniffer
+const dbConn = require('./db');
+
 dbConn.then(async (db) => {
     const fs = require('fs'),
            _ = require('lodash'),
@@ -6,7 +8,6 @@ dbConn.then(async (db) => {
      convert = require('xml-js'),
         
       stages = require('./stages'), stagesLoggerSpaces = [],
-      dbConn = require('./db'),
       schema = require('./db.schema'),
           
         // short-hand
