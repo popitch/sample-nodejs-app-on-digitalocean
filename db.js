@@ -42,7 +42,8 @@ const
     connReady = sequelize.authenticate()
         .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
-    connThen = async then => connReady.then(() => then(sequelize));
+    
+    connThen = async (then) => connReady.then(() => then(sequelize).catch(console.log.bind(console, 'Connection level error handled:')));
 
 // define models
 sequelize.define('Exchanger', schema.Exchanger.fields, {
@@ -63,9 +64,6 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     tableName: 'exchangeRates',
     freezeTableName: true,
 });
-
-// set global error catcher
-connThen.catch(console.error);
 
 // create tables (aka db setup)
 connThen(async (db) => {
@@ -104,7 +102,7 @@ connThen(async (db) => {
     console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
     
     return db;
-});
+}).catch(console.log);
 
 
 // exports
