@@ -6,7 +6,7 @@
      convert = require('xml-js'),
         
       stages = require('./stages'), stagesLoggerSpaces = [],
-          db = require('./db'),
+      dbConn = require('./db'),
           
         // short-hand
         exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
@@ -44,6 +44,14 @@
         putProcessReport: () => {
             const pairsAll = Cached.pairs.all();
             
+            let dbReport;
+            await dbConn.then(db => {
+                dbReport = {
+                    exchangers: await db.models.Exchanger.count(),
+                    rates: await db.models.ExchangeRate.count(),
+                };
+            });
+            
             return Cached.json('process', {
                 up: snifferUpAt,
                 now: new Date,
@@ -51,10 +59,7 @@
                     rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
                     pairs: Cached.pairs.processReport(),
                 },
-                db: {
-                    exchangers: await db.models.Exchanger.count(),
-                    rates: await db.models.ExchangeRate.count(),
-                },
+                db: dbReport,
                 node: {
                     mem: process.memoryUsage(),
                 }
@@ -173,7 +178,7 @@
             100 // max interval
                 - (+new Date - begints),
         ));
-    }s
+    }
     
     // give a next as oldest updatedAt
     function oldestXmlFetchedExchanger() {
@@ -251,7 +256,7 @@
             const ratesBulkClean = ratesBulkUniq;
             
             // update db rates
-            db.then(db => {
+            dbConn.then(db => {
                 const schema = require('./db.schema');
                 
                 begin('bulk', ratesBulkClean.length);
