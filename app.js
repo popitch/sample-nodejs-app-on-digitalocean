@@ -363,7 +363,7 @@ dbConn.then(async (db) => {
                     //updateOnDuplicate: _.keys(schema.Exchanger.fields),
                     logging: false,
                 })
-                .catch(e => console.warn('NOT Affected exchangers:', affectedExchangers.length, 'with error', e));
+                .catch(e => console.warn('NOT Affected exchangers with error', e));
             
             affectedExchangers &&
                 console.warn('Affected exchangers:', affectedExchangers.length);
