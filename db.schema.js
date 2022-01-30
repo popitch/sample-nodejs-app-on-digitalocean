@@ -4,13 +4,16 @@ module.exports = {
     "Exchanger": {
         indexes: [
             { unique: true, fields: ['id'], },
+            { unique: true, fields: ['bcId'], },
             { unique: true, fields: ['name'], },
         ],
         fields: {
             id: {
-                primaryKey: true,
                 type: DataTypes.INTEGER,
-                autoIncrement: true,
+                defaultValue: null,
+                allowNull: true,
+                //primaryKey: true,
+                //autoIncrement: true,
             },
 
             createdAt: {

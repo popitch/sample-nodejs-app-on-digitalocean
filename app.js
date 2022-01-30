@@ -308,11 +308,7 @@ dbConn.then(async (db) => {
                 const affectedRates = await db.models.ExchangeRate
                     .bulkCreate(ratesBulkClean, {
                         validate: true,
-                        updateOnDuplicate: _
-                            .chain(schema.ExchangeRate.fields).keys()
-                            //.difference(schema.ExchangeRate.indexes[0].fields)
-                            //.difference(["id"])
-                            .value(),
+                        updateOnDuplicate: _.keys(schema.ExchangeRate.fields),
                         logging: false,
                     });
                 end('upsert', affectedRates.length);
@@ -362,16 +358,20 @@ dbConn.then(async (db) => {
             staged && end('all');
             
             // update db with Exchangers
+            
             const affectedExchangers = await db.models.Exchanger
                 .bulkCreate(Exchangers, {
                     validate: true,
-                    updateOnDuplicate: [ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
+                    updateOnDuplicate: _.keys(schema.Exchanger.fields),
+                        //[ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
                     logging: false,
                 })
                 .catch(e => console.warn('NOT Affected exchangers with error', e));
             
             affectedExchangers &&
                 console.warn('Affected exchangers:', affectedExchangers.length);
+            //*/
+            //db.models.Exchanger.build(exch);
             
             // fix cached
             Cached.putAll();
