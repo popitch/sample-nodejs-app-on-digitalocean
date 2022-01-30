@@ -262,16 +262,18 @@
                 const { Op } = require("sequelize");
                 
                 begin('delete');
-                const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
+                //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
                 // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
-                await db.models.ExchangeRate.destroy({
+                const deleteCount = await db.models.ExchangeRate.destroy({
                     where: {
                         exchangerId: {
-                            [Op.in]: exchangerIds
+                            [Op.in]: [ exch.id ]
                         }
                     }
-                }).then(count => count && console.log('delete `exchangeRate` where ids in... deleted:', count));
-                end('delete', exchangerIds.length);
+                }).then(count => count
+                    //&& console.log('delete `exchangeRate` where ids in... deleted:', count)
+                );
+                end('delete', deleteCount);
                 
                 begin('bulk', ratesBulkClean.length);
                 db.models.ExchangeRate
