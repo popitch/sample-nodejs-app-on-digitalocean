@@ -45,8 +45,8 @@
             const pairsAll = Cached.pairs.all();
             
             let dbReport;
-            await dbConn.then(db => {
-                console.log(db)
+            await dbConn.then(async (db) => {
+                //console.log(db)
                 dbReport = {
                     exchangers: await db.models.Exchanger.count(),
                     rates: await db.models.ExchangeRate.count(),
