@@ -370,6 +370,10 @@
 })(
     JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
         .filter(ch => ch.xml && ch.xmlVerified)
+        .map(ex => {
+            ex.bcId = ex.id;
+            return ex;
+        })
 );
 
 
