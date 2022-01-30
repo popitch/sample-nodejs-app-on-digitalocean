@@ -76,9 +76,9 @@ connThen(async (db) => {
         name: 'exchanger_id_unique_constraints',
     });
     await queryInterface.addConstraint('exchangers', {
-        fields: ['bcId'],
+        fields: ['name'],
         type: 'unique',
-        name: 'exchanger_bcId_unique_constraints',
+        name: 'exchanger_name_unique_constraints',
     });
     
     /*
