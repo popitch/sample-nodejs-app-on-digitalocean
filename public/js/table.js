@@ -205,7 +205,9 @@ const
                 // delay to renew request
                 renewTimeout = setTimeout(request, lastRequestTime + RENEW_DELAY - +new Date);
             })
-            .catch(e => console.warn('wow, error', e));
+            .catch(e =>
+                console.warn('wow, error', e)
+            );
     };
 
 var renewTimeout;
