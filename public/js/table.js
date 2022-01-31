@@ -184,7 +184,7 @@ const
             symbol: symbol,
         };
     }),
-    RENEW_DELAY = 5000, // ms
+    RENEW_DELAY = 3000, // ms
     
     request = (done) => {
         clearTimeout(renewTimeout);
@@ -202,12 +202,16 @@ const
                 
                 exchangeRates.loading(false);
                 
-                // delay to renew request
-                renewTimeout = setTimeout(request, lastRequestTime + RENEW_DELAY - +new Date);
+                more();
             })
-            .catch(e =>
-                console.warn('wow, error', e)
-            );
+            .catch(e => {
+                console.warn('wow, error', e);
+                
+                more();
+            });
+        
+        // renew request
+        const more = () => renewTimeout = setTimeout(request, lastRequestTime + RENEW_DELAY - +new Date);
     };
 
 var renewTimeout;
