@@ -23,7 +23,7 @@
 }
 
 .rates table * {
-    transition: background-color .5s, color .5s;
+    transition: background-color .5s, color .2s;
 }
 
 .rates table tr {
@@ -42,11 +42,11 @@
 .rates table tbody tr {
     color: black;
 }
-.rates table tbody tr:odd {
+.rates table tbody tr:nth-child(even){
 	background: rgb(230,230,230);
 }
 
-.rates table thead tr,
+/* .rates table thead tr, */
 .rates table tbody tr:hover {
 	color: white;
 	background: lightblue;
