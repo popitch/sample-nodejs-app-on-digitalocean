@@ -23,7 +23,7 @@
 }
 
 .rates table * {
-    transition: background-color .5s, color .2s;
+    transition: background-color .2s, color .1s;
 }
 
 .rates table tr {
@@ -36,7 +36,7 @@
 }
 
 .rates table thead .rate-service {
-	transition: color .2s .3s;
+	transition: color .2s .1s;
 }
 
 .rates table tbody tr {
