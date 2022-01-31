@@ -42,8 +42,8 @@
 .rates table tbody tr {
     color: black;
 }
-.rates table tbody tr:nth-child(even){
-	background: rgb(230,230,230);
+.rates table tbody tr:nth-child(odd){
+	background: rgb(220,220,220);
 }
 
 /* .rates table thead tr, */
