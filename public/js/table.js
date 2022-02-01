@@ -198,7 +198,9 @@ const
                 const rates = jso.rates;
                 //console.log('rates', rates, 'as sample of', samples);
                 
-                exchangeRates.rates(rates);
+                exchangeRates.rates(rates.forEach(rate => {
+                    rate.amount = Math.round(rate.amount * 10000) / 10000;
+                }));
                 
                 exchangeRates.loading(false);
                 
