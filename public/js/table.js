@@ -189,7 +189,7 @@ const
                 symbol: from,
                 weight: _.reduce(branch, (s, w) => s + w, 0),
             }))
-            .sortBy('weight')
+            .sortBy(p => - p.weight)
             .value();
     }, this, { deferEvaluation: true }),
     
