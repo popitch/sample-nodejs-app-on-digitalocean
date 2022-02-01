@@ -19,7 +19,7 @@
 
 .rates table {
     font-size: 1em; /* 1.2em; */
-    /*border-collapse: collapse;*/
+    border-collapse: collapse;
 }
 
 .rates table * {
