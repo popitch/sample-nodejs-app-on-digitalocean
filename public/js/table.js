@@ -181,6 +181,14 @@ const
         return pairs;
     })(),
     
+    PAIRS_FROM = ko.computed(() => {
+        _.map(PAIRS(), (branch, from) => ({
+            id: CURRENCY_ID_BY_SYMBOL[from],
+            name: CURRENCY_NAME_BY_SYMBOL[from] || '"' + from + '"',
+            symbol: from,
+        }));
+    }, this, { deferEvaluation: true }),
+    
     CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],    
     CURRENCY_LIST = CURRENCY_SYMBOLS.map(symbol => {
         const id = CURRENCY_ID_BY_SYMBOL[symbol];
