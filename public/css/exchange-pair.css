@@ -105,7 +105,11 @@
 }
 .rates aside label {
 	display: block;
+	    padding: 0.5em;
+}
+.rates aside label:hover {
+	background-color: #c6e8f3;
 }
 .rates aside label.selected {
-	background-color: lightblue;
+	background-color: #7dcde7;
 }
