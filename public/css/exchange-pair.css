@@ -92,11 +92,13 @@
 
 .rates aside {
     position: absolute;
-    width: 8em;
+    width: 9em;
 }
 .rates aside.from {
 	left: 0;
+	text-align: left;
 }
 .rates aside.to {
 	right: 0;
+	text-align: right;
 }

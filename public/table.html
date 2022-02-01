@@ -25,8 +25,16 @@
             </label>
         </aside>
         
-        <aside class="to"></aside>
-        
+        <aside class="to" data-bind="foreach: PAIRS_TO">
+            <label style="display: block">
+                <input type="radio" data-bind="
+                    value: symbol,
+                    checked: $parent.filter.to,
+                 " />
+                 <!-- ko text: name --><!-- /ko -->
+            </label>
+        </aside>
+        <!-- 
         <form data-bind="with: filter">
             <select data-bind="
                 options: CURRENCY_LIST,
@@ -46,6 +54,7 @@
                 value: to
             "></select>
         </form>
+         -->
         <table>
             <thead data-bind="with: filter">
                 <tr data-bind="css: 'sort-dir_' + sortDir()">
