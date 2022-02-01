@@ -195,7 +195,7 @@ const
     
     PAIRS_TO = ko.computed(() => {
         const tree = PAIRS(),
-            toAll = _.map(tree, branch =>
+            toAll = _.chain(tree).map(branch =>
                 _.map((w, to) => ({
                     id: CURRENCY_ID_BY_SYMBOL[to],
                     name: CURRENCY_NAME_BY_SYMBOL[to] || '"' + to + '"',
@@ -203,7 +203,8 @@ const
                     weight: w,
                 }))
             )
-            .flatten();
+            .flatten()
+            .value();
         
         return _.chain(toAll)
             .groupBy('symbol')
