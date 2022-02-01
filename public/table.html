@@ -83,7 +83,7 @@
                     <td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
                 </tr>
             </tbody>
-            <tbody data-bind="if ! loading() && rates().length === 0">
+            <tbody data-bind="if: ! loading() && rates().length === 0">
                 <tr>
                     <td colspan="8">Нет данных для выбранного направления обмена.</td>
                 </tr>
