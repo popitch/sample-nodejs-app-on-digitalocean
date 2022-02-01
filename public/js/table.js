@@ -215,7 +215,7 @@ const
             })
             .catch(e => {
                 console.warn('wow, error', e);
-                rates([]);
+                exchangeRates.rates([]);
                 more();
             });
         
