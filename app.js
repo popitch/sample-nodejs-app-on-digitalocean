@@ -47,11 +47,14 @@ dbConn.then(async (db) => {
             return Cached;
         },
         
-        putAll: () => Cached
-            .putExchangers()
-            //.pairs.putPairsJson()
+        putAll: () => {
+            Cached.putExchangers();
+            
+            Cached.pairs.putPairsJson();
+            
             // at end
-            .putProcessReport(),
+            Cached.putProcessReport();
+        },
         
         putExchangers: () => {
             return Cached.putJson('exchangers', Exchangers.map(
@@ -173,7 +176,7 @@ dbConn.then(async (db) => {
                     return page;
                 },
 
-                //putPairsJson: () => Cached.json('pair', touchedTree),
+                putPairsJson: () => Cached.json('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
             };
         })()
     };
