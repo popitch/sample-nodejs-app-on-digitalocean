@@ -90,9 +90,13 @@
 	content: '↑';
 }
 
-aside.from {
-	
+.rates aside {
+    position: absolute;
+    width: 8em;
 }
-aside.to {
-	
+.rates aside.from {
+	left: 0;
+}
+.rates aside.to {
+	right: 0;
 }
