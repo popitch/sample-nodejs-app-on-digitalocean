@@ -27,12 +27,13 @@
 }
 
 .rates table tr {
-	line-height: 2em;
+	line-height: 2.1em;
 	cursor: pointer;
 }
 
 .rates table thead tr {
 	font-size: 1.2em;
+    line-height: 1.88em;
 }
 
 .rates table thead .rate-service {
