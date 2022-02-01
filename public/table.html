@@ -16,11 +16,11 @@
 <body style="text-align: center">
     <div class="rates" data-bind="with: exchangeRates">
         <aside class="from" data-bind="foreach: PAIRS_FROM">
-            <label>
-                <input type="radio" data-bind=""
+            <label style="display: block">
+                <input type="radio" data-bind="
                     value: symbol,
                     checked: $parent.filter.from,
-                 />
+                 " />
                  <!-- ko text: name --><!-- /ko -->
             </label>
         </aside>
