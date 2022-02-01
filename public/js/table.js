@@ -197,7 +197,7 @@ const
         ratesXHR = 
         $.getJSON('./cached/' + exchangeRates.filter.from() + '/' + exchangeRates.filter.to() + '.json')
             .done(jso => {
-                const rates = jso.rates;
+                const rates = jso.rates || [];
                 //console.log('rates', rates, 'as sample of', samples);
                 
                 exchangeRates.rates(rates.map(rate => {
