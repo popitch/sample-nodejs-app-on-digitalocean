@@ -176,7 +176,7 @@ dbConn.then(async (db) => {
                     return page;
                 },
 
-                putPairsJson: () => Cached.json('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
+                putPairsJson: () => Cached.putJson('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
             };
         })()
     };
