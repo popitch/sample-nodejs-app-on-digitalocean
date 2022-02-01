@@ -229,7 +229,7 @@ dbConn.then(async (db) => {
             .filter(ch => ch.xml && ch.xmlVerified)
             .filter(ch => ! ch.xmlStartedAt)
             .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
-    };
+    }
         
     // request older exchanger's XML + deffered self calling (queue)
     async function updateOlderOne () {
