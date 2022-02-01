@@ -27,11 +27,11 @@
         
         <aside class="to" data-bind="foreach: PAIRS_TO">
             <label data-bind="css: { selected: symbol === $parent.filter.to() }">
+                 <!-- ko text: name --><!-- /ko -->
                 <input type="radio" data-bind="
                     value: symbol,
                     checked: $parent.filter.to,
                  " />
-                 <!-- ko text: name --><!-- /ko -->
             </label>
         </aside>
         <!-- 

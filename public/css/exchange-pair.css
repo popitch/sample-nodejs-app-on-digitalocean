@@ -92,7 +92,8 @@
 
 .rates aside {
     position: absolute;
-    width: 9em;
+    width: 12em;
+    /* overflow-x: visible; */
 }
 .rates aside.from {
 	left: 0;
