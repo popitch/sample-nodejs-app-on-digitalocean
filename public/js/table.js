@@ -175,7 +175,11 @@ const
         })(),
     },
     
-    PAIRS = ko.observableArray(),
+    PAIRS = (() => {
+        const pairs = ko.observableArray();
+        $.getJSON('./cached/pairs.json', pairs);
+        return pairs;
+    })(),
     
     CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],    
     CURRENCY_LIST = CURRENCY_SYMBOLS.map(symbol => {
