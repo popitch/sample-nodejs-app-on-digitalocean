@@ -102,3 +102,9 @@
 	right: 0;
 	text-align: right;
 }
+.rates aside label {
+	display: block;
+}
+.rates aside label.selected {
+	background-color: lightblue;
+}

@@ -196,7 +196,7 @@ const
     PAIRS_TO = ko.computed(() => {
         const tree = PAIRS(),
             toAll = _.chain(tree).map(branch =>
-                _.map((w, to) => ({
+                _.map(branch, (w, to) => ({
                     id: CURRENCY_ID_BY_SYMBOL[to],
                     name: CURRENCY_NAME_BY_SYMBOL[to] || '"' + to + '"',
                     symbol: to,

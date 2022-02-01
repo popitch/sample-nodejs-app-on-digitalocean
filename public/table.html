@@ -16,7 +16,7 @@
 <body style="text-align: center">
     <div class="rates" data-bind="with: exchangeRates">
         <aside class="from" data-bind="foreach: PAIRS_FROM">
-            <label style="display: block">
+            <label data-bind="css: { selected: symbol === $parent.filter.from() }">
                 <input type="radio" data-bind="
                     value: symbol,
                     checked: $parent.filter.from,
@@ -26,7 +26,7 @@
         </aside>
         
         <aside class="to" data-bind="foreach: PAIRS_TO">
-            <label style="display: block">
+            <label data-bind="css: { selected: symbol === $parent.filter.to() }">
                 <input type="radio" data-bind="
                     value: symbol,
                     checked: $parent.filter.to,
