@@ -71,10 +71,10 @@
 }
 .rates table tbody tr:nth-child(odd){
 	background: linear-gradient(to right,
-	    rgba(240,240,240,0),
-	    rgba(240,240,240,1) 2em,
-	    rgba(240,240,240,1) -2em,
-	    rgba(240,240,240,0)
+	    rgba(244,244,244,0),
+	    rgba(244,244,244,1) 2em,
+	    rgba(244,244,244,1) -2em,
+	    rgba(244,244,244,0)
     );
 }
 
