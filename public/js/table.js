@@ -244,6 +244,7 @@ const
                 //console.log('rates', rates, 'as sample of', samples);
                 
                 // unity-side detector
+                UNITY_BY_PAIR[from] ||= {};
                 const unitySide = UNITY_BY_PAIR[from][to] =
                     _.has(UNITY_BY_PAIR[from], to) ? UNITY_BY_PAIR[from][to] : // if early detected
                         _.all(rates, r => r.from <= r.to) && 'from' ||
