@@ -60,6 +60,7 @@
 .rates .rate-flag::before {
 	content: '*';
 	font-size: .8em;
+	color: white;
 }
 .rates .rate-flag-manual { content: 'm' }
 
