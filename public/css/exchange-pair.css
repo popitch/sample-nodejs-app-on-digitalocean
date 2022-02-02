@@ -36,8 +36,21 @@
     line-height: 1.88em;
 }
 
-.rates table thead .rate-service {
-	transition: color .2s .1s;
+.rates .rate-flags {
+    transition: color .2s .1s;
+}
+
+.rates i.rate-flag {
+    display: block;
+    float: right;
+    width: 1em;
+    height: 1em;
+    border: 1px dotted black;
+    border-radius: 50%;
+    line-height: 1em;
+    text-align: center;
+    font-style: normal;
+    text-transform: uppercase;
 }
 
 .rates table tbody tr {
@@ -114,3 +127,5 @@
 .rates aside label.selected {
 	background-color: #7dcde7;
 }
+
+.rates 

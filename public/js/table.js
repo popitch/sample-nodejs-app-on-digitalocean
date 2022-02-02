@@ -11,7 +11,7 @@ const
         return byId;
     }),
     
-    rateExchangeUrl = (rate, exch) => {
+    exchangerExchangeUrl = (rate, exch) => {
         const FROM = rate.from, TO = rate.to,
             tr = {
                 FROM: FROM,
