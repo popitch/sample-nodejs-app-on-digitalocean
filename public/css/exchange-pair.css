@@ -70,7 +70,12 @@
     color: black;
 }
 .rates table tbody tr:nth-child(odd){
-	background: rgba(240,240,240,1);
+	background: linear-gradient(to right,
+	    rgba(240,240,240,0),
+	    rgba(240,240,240,1) 2em,
+	    rgba(240,240,240,1) -2em,
+	    rgba(240,240,240,0)
+    );
 }
 
 /* .rates table thead tr, */
