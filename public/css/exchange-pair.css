@@ -58,11 +58,13 @@
 }
 
 .rates .rate-flag::before {
-	content: '*';
+	content: '...';
 	font-size: .8em;
-	color: white;
+	color: black;
 }
-.rates .rate-flag-manual { content: 'm' }
+.rates .rate-flag-manual::before { content: 'm' }
+.rates .rate-flag-floating::before { content: 'f' }
+.rates .rate-flag-otherout::before { content: 'oo' }
 
 .rates table tbody tr {
     color: black;
