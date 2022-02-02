@@ -74,7 +74,7 @@
 .rates .rate-flag-reg::before { content: '🔑' }
 .rates .rate-flag-purse::before { content: '👛' }
 .rates .rate-flag-official::before { content: '💼' }
-.rates .rate-flag-delay::before { content: '🕑' }
+.rates .rate-flag-delay::before { content: '⏳' }
 /*
 .rates .rate-flag-::before { content: '' }
 .rates .rate-flag-::before { content: '' }
