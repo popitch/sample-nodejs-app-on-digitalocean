@@ -69,8 +69,8 @@
             </thead>
             <tbody data-bind="foreach: rates.sortedDirectedFixedFloating">
                 <tr>
-                    <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => p.substr(0, 1))">
-                        <i class="rate-flag" data-bind="text: $data, css: 'rate-flag-' + $data"></i>
+                    <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => { letter: p.substr(0, 1), flag: p })">
+                        <i title class="rate-flag" data-bind="text: letter, css: 'rate-flag-' + flag, attr: { title: flag }"></i>
                     </td>
                     
                     <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">

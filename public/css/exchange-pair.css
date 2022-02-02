@@ -36,6 +36,7 @@
     line-height: 1.88em;
 }
 
+/* flags */
 .rates .rate-flags {
     transition: color .2s .1s;
     text-align: right;
@@ -47,19 +48,26 @@
     /* float: right; */
     width: 1.06em;
     height: 1em;
-    border: 2px dotted black;
+    border: 1px dotted black;
     border-radius: 50%;
     line-height: 1em;
     text-align: center;
     font-style: normal;
     text-transform: capitalize;
+    color: transparent;
 }
+
+.rates .rate-flag::before {
+	content: '*';
+	font-size: .8em;
+}
+.rates .rate-flag-manual { content: 'm' }
 
 .rates table tbody tr {
     color: black;
 }
 .rates table tbody tr:nth-child(odd){
-	background: rgb(240,240,240);
+	background: rgba(240,240,240,1);
 }
 
 /* .rates table thead tr, */
