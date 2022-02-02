@@ -63,8 +63,16 @@
 	color: black;
 }
 .rates .rate-flag-manual::before { content: 'm' }
-.rates .rate-flag-floating::before { content: '↕' }
-.rates .rate-flag-otherout::before { content: 'oo' }
+.rates .rate-flag-floating::before { content: '↓↑' }  /* ↕ */
+.rates .rate-flag-percent::before { content: '%' }
+.rates .rate-flag-otherin::before { content: 'oi'; font-size: .67em; }
+.rates .rate-flag-otherout::before { content: 'oo'; font-size: .67em; }
+.rates .rate-flag-card2card::before { content: '🧍🧍' }
+.rates .rate-flag-delivery::before { content: '🚗'; font-size: .7em; }
+/*
+.rates .rate-flag-::before { content: '' }
+.rates .rate-flag-::before { content: '' }
+*/
 
 .rates table tbody tr {
     color: black;
