@@ -21,6 +21,7 @@ const
                 "from-full": "from-full ok",
                 "to-full": "to-full ok",
                 "rid": 'ANY_MORE_GET_PARAM_RID',
+                'referral_code': 'ANY_TOO_REFERRAL_CODE',
             },
             unknown = [],
             url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, (full, key) => tr[key] || unknown.push(key));
@@ -226,22 +227,45 @@ const
     }),
     RENEW_DELAY = 3000, // ms
     
+    UNITY_BY_PAIR = {},
+    
     request = (done) => {
         clearTimeout(renewTimeout);
         
-        const lastRequestTime = +new Date;
+        const lastRequestTime = +new Date,
+            from = exchangeRates.filter.from(),
+            to = exchangeRates.filter.to();
         
         exchangeRates.loading(true);
         ratesXHR = 
-        $.getJSON('./cached/' + exchangeRates.filter.from() + '/' + exchangeRates.filter.to() + '.json')
+        $.getJSON('./cached/' + from + '/' + to + '.json')
             .done(jso => {
                 const rates = jso.rates || [];
                 //console.log('rates', rates, 'as sample of', samples);
                 
-                exchangeRates.rates(rates.map(rate => {
-                    rate.amount = Math.round(rate.amount * 10000) / 10000;
-                    return rate;
-                }));
+                // unity-side detector
+                const unitySide = UNITY_BY_PAIR[from][to] =
+                    _.has(UNITY_BY_PAIR[from], to) ? UNITY_BY_PAIR[from][to] : // if early detected
+                        _.all(rates, r => r.from <= r.to) && 'from' ||
+                        _.all(rates, r => r.from >= r.to) && 'to' ||
+                        false;
+                
+                // unity-side equalizer
+                const equalizeUnitySide =
+                    unitySide === 'from' && (rate => rate.to /= rate.from, rate.from = 1) ||
+                    unitySide === 'to' && (rate => rate.from /= rate.to, rate.to = 1) ||
+                    _.noop;
+                
+                exchangeRates.rates(
+                    rates.map(rate => {
+                        equalizeUnitySide(rate);
+                        
+                        // fixed(4) amount
+                        rate.amount = Math.round(rate.amount * 10000) / 10000;
+                        
+                        return rate;
+                    })
+                );
                 
                 exchangeRates.loading(false);
                 
