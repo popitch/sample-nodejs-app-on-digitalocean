@@ -22,7 +22,7 @@ dbConn.then(async (db) => {
     Exchangers.forEach(exch => {
         exch.createdAt = exch.createdAt && new Date(exch.createdAt);
         exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
-        exch.xmlStartedAt = exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
+        exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
         exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
     
@@ -223,10 +223,12 @@ dbConn.then(async (db) => {
     
     // give a next as oldest updatedAt
     function oldestXmlFetchedExchanger() {
-        return Exchangers
+        return _.chain(Exchangers)
             .filter(exch => exch.xml && exch.xmlVerified)
             .filter(exch => ! exch.xmlStartedAt)
-            .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
+            //.sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
+            .sortBy(exchangerUpdatedAt) /* O(N * logN) */
+            .value()[ 0 ]
     }
         
     // request older exchanger's XML + deffered self calling (queue)
