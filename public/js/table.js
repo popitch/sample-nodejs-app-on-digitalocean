@@ -253,8 +253,8 @@ const
                 
                 // unity-side equalizer
                 const equalizeUnitySide =
-                    unitySide === 'from' && (rate => { rate.out /= rate.in, rate.in = 1 }) ||
-                    unitySide === 'to' && (rate => { rate.in /= rate.out, rate.out = 1 }) ||
+                    unitySide === 'from' && (rate => { rate.out = (rate.out / rate.in).toFixed(4); rate.in = 1 }) ||
+                    unitySide === 'to' && (rate => { rate.in = (rate.in / rate.out).toFixed(4); rate.out = 1 }) ||
                     _.noop;
                 
                 exchangeRates.rates(
