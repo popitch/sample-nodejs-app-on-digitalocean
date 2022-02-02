@@ -63,7 +63,7 @@
 	color: black;
 }
 .rates .rate-flag-manual::before { content: 'm' }
-.rates .rate-flag-floating::before { content: 'f' }
+.rates .rate-flag-floating::before { content: '↕' }
 .rates .rate-flag-otherout::before { content: 'oo' }
 
 .rates table tbody tr {
@@ -116,10 +116,10 @@
  	font-weight: bolder;
 }
 .rates thead .sort-dir_desc td.sort-by:after {
-	content: '↓';
+	content: 'в†“';
 }
 .rates thead .sort-dir_asc td.sort-by:after {
-	content: '↑';
+	content: 'в†‘';
 }
 
 .rates aside {
