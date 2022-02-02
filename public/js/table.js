@@ -247,14 +247,14 @@ const
                 UNITY_BY_PAIR[from] ||= {};
                 const unitySide = UNITY_BY_PAIR[from][to] =
                     _.has(UNITY_BY_PAIR[from], to) ? UNITY_BY_PAIR[from][to] : // if early detected
-                        _.all(rates, r => r.from <= r.to) && 'from' ||
-                        _.all(rates, r => r.from >= r.to) && 'to' ||
+                        _.all(rates, r => r.in <= r.out) && 'from' ||
+                        _.all(rates, r => r.out <= r.in) && 'to' ||
                         false;
                 
                 // unity-side equalizer
                 const equalizeUnitySide =
-                    unitySide === 'from' && (rate => { rate.to /= rate.from, rate.from = 1 }) ||
-                    unitySide === 'to' && (rate => { rate.from /= rate.to, rate.to = 1 }) ||
+                    unitySide === 'from' && (rate => { rate.out /= rate.in, rate.in = 1 }) ||
+                    unitySide === 'to' && (rate => { rate.in /= rate.out, rate.out = 1 }) ||
                     _.noop;
                 
                 exchangeRates.rates(
