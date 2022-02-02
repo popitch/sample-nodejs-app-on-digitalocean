@@ -116,10 +116,10 @@
  	font-weight: bolder;
 }
 .rates thead .sort-dir_desc td.sort-by:after {
-	content: 'в†“';
+	content: '↓';
 }
 .rates thead .sort-dir_asc td.sort-by:after {
-	content: 'в†‘';
+	content: '↑';
 }
 
 .rates aside {
