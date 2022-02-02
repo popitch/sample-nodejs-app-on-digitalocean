@@ -17,16 +17,14 @@ dbConn.then(async (db) => {
     
     // load exchangers all
     const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-        //*
-        //sql: SELECT "id", "createdAt", "updatedAt", "bcId", "name", "fullname", "param", "exUrlTmpl", 
-        //        "xml", "xmlVerified", "xmlStartedAt", "xmlStage", "xmlParsedAt" FROM "exchangers" AS "Exchanger";
-
-        JSON.parse(process.env[ "XX_CHANGERS" ]) // todo: setup from db
-            .map(ex => {
-                ex.bcId = ex.id;
-                return ex;
-            });
-        //*/
+    
+    // transcript dates values
+    Exchangers.forEach(exch => {
+        exch.createdAt = exch.createdAt && new Date(exch.createdAt);
+        exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
+        exch.xmlStartedAt = exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt));
+        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt));
+    });
     
 
     // whiter to /cached/*.json
