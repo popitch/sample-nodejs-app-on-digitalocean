@@ -11,7 +11,7 @@ dbConn.then(async (db) => {
       schema = require('./db.schema'),
           
         // short-hand
-        exchangerUpdatedAt = ch => ch.xmlStartedAt ? Infinity : (ch.xmlUpdatedAt || 0),
+        exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
         
         snifferUpAt = new Date;
     
@@ -22,8 +22,8 @@ dbConn.then(async (db) => {
     Exchangers.forEach(exch => {
         exch.createdAt = exch.createdAt && new Date(exch.createdAt);
         exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
-        exch.xmlStartedAt = exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt));
-        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt));
+        exch.xmlStartedAt = exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
+        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
     
 
@@ -224,8 +224,8 @@ dbConn.then(async (db) => {
     // give a next as oldest updatedAt
     function oldestXmlFetchedExchanger() {
         return Exchangers
-            .filter(ch => ch.xml && ch.xmlVerified)
-            .filter(ch => ! ch.xmlStartedAt)
+            .filter(exch => exch.xml && exch.xmlVerified)
+            .filter(exch => ! exch.xmlStartedAt)
             .sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
     }
         
