@@ -38,11 +38,13 @@
 
 .rates .rate-flags {
     transition: color .2s .1s;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .rates i.rate-flag {
     display: block;
-    float: right;
+    /* float: right; */
     width: 1em;
     height: 1em;
     border: 1px dotted black;
@@ -50,7 +52,7 @@
     line-height: 1em;
     text-align: center;
     font-style: normal;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .rates table tbody tr {
@@ -63,7 +65,7 @@
 /* .rates table thead tr, */
 .rates table tbody tr:hover {
 	/* color: white; */
-	background: lightblue;
+	background: #7dcde7;
 }
 
 .rates table td {
@@ -127,5 +129,3 @@
 .rates aside label.selected {
 	background-color: #7dcde7;
 }
-
-.rates 
