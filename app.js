@@ -7,7 +7,7 @@ dbConn.then(async (db) => {
        fetch = require('node-fetch'),
      convert = require('xml-js'),
         
-      stages = require('./stages'), stagesLoggerSpaces = [],
+      makeStages = require('./stages'), stagesLoggerSpaces = [],
       schema = require('./db.schema'),
           
         // short-hand
@@ -242,7 +242,7 @@ dbConn.then(async (db) => {
                     
         // init stages
         const { end, begin } = exch.xmlStage
-            = exch.xmlStage && exch.xmlStage.reset ? console.log(exch) || exch.xmlStage : stages(exch); // stages short-hands
+            = exch.xmlStage && exch.xmlStage.reset ? exch.xmlStage : makeStages(exch); // stages short-hands
         
         // reset with common spaces
         exch.xmlStage.reset({ spaces: stagesLoggerSpaces });

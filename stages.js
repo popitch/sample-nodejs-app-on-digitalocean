@@ -65,7 +65,10 @@ module.exports = () => {
                         Math.round(spaces[cat++] - number.length)
                     ).fill(' ').join('') + number + broker;
                 });
-        }
+        },
+        
+        // to export value
+        toString: () => JSON.stringify(this),
     };
     
     return stages.reset();
