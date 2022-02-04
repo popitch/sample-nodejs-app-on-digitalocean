@@ -136,13 +136,11 @@
 	content: '↑';
 }
 
+/* aside as currency list */
 .rates aside {
     position: absolute;
     width: 13em;
     /* overflow-x: visible; */
-}
-.rates aside.fixed:not(:hover)::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
 .rates aside.fixed {
     position: fixed;
@@ -155,6 +153,10 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+.rates aside.fixed:not(:hover)::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
 .rates aside.from {
 	left: 0;
 	text-align: left;
