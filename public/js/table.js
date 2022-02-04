@@ -177,7 +177,7 @@ const
         
         CURRENCY_LIST_EVENTS: (() => {
             const 
-                resolve = _.throttle((event) => {
+                resolve = _.throttle((exchangeRates, event) => {
                     const $cont = $(event.target).closest('[data-currency-list]');
                     
                     console.log(event.type, $cont[0]);
