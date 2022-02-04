@@ -185,7 +185,7 @@ const
             
             return {
                 mouseout: resolve,
-                mouseover: resolve,
+                mousein: resolve,
             };
         })(),
     },
