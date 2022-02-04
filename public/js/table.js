@@ -179,27 +179,30 @@ const
             const $cont = $(aside);
             let leaveTimeout;
             
+            // initial scroll
+            scroll();
+            
             return {
                 mouseover: () => {
                     console.log('mouseover', 'clearTimeout()');
                     $cont.stop();
                     clearTimeout(leaveTimeout);
                 },
-                mouseleave: (exchangeRates, event) => {
+                mouseleave: scroll,
+            };
+            
+            function scroll(exchangeRates, event) {
+                leaveTimeout = setTimeout(() => {
                     const $selected = $cont.find(':radio:checked').parent(),
                         selectedPosition = $selected.offset().top + $cont.scrollTop();
                     
-                    setTimeout(() => {
-                        $cont.stop().animate({
-                            scrollTop: selectedPosition - .38 * $cont.height()
-                        }, 500, 'swing', () => {
-                           console.log("Finished animating");
-                        });
-                    }, 400);
+                    $cont.stop().animate({
+                        scrollTop: selectedPosition - .38 * $cont.height()
+                    }, 500, 'swing');
                     
-                    console.log(event.type, $selected[0], selectedPosition, '/', $cont.height());
-                },
-            };
+                    console.log(event ? event.type : 'initial', $selected[0], selectedPosition, '/', $cont.height());
+                }, 400);
+            }
         },
     },
     
