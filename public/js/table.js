@@ -130,7 +130,7 @@ const
                     dir = exchangeRates.filter.sortDir(),
                     sorted = _.sortBy(rates(), sorter);
                 
-                console.log('dir', dir);
+                //console.log('dir', dir);
                 
                 return dir === 'desc' ? sorted.reverse() : sorted;
             }, this, { deferEvaluation: true });
@@ -190,13 +190,13 @@ const
                     
                     setTimeout(() => {
                         $cont.stop().animate({
-                            scrollTop: $selected.offset().top - .38 * $cont.height()
+                            scrollTop: $selected.position().top - .38 * $cont.height()
                         }, 500, 'swing', () => {
                            console.log("Finished animating");
                         });
                     }, 400);
                     
-                    console.log(event.type, $selected[0], $selected.offset().top, '/', $cont.height());
+                    console.log(event.type, $selected[0], $selected.position().top, '/', $cont.height());
                 },
             };
         })(),
