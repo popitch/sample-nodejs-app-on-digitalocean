@@ -174,6 +174,19 @@ const
             
             return rates;
         })(),
+        
+        CURRENCY_LIST_EVENTS: {
+            mouseout: (event) => {
+                const $cont = $(event.target).closest('[data-currency-list]');
+                
+                console.log('mouseout', $cont[0]);
+            },
+            mouseover: (event) => {
+                const $cont = $(event.target).closest('[data-currency-list]');
+                
+                console.log('mouseover', $cont[0]);
+            },
+        },
     },
     
     PAIRS = (() => {
@@ -216,6 +229,7 @@ const
             .value();
     }, this, { deferEvaluation: true }),
     
+    /*
     CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],    
     CURRENCY_LIST = CURRENCY_SYMBOLS.map(symbol => {
         const id = CURRENCY_ID_BY_SYMBOL[symbol];
@@ -225,6 +239,8 @@ const
             symbol: symbol,
         };
     }),
+    */
+    
     RENEW_DELAY = 3000, // ms
     
     UNITY_BY_PAIR = {},
@@ -269,7 +285,6 @@ const
                 );
                 
                 exchangeRates.loading(false);
-                
                 more();
             })
             .catch(e => {
