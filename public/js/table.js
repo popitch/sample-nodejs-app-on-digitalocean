@@ -175,18 +175,19 @@ const
             return rates;
         })(),
         
-        CURRENCY_LIST_EVENTS: {
-            mouseout: (event) => {
-                const $cont = $(event.target).closest('[data-currency-list]');
-                
-                console.log('mouseout', $cont[0]);
-            },
-            mouseover: (event) => {
-                const $cont = $(event.target).closest('[data-currency-list]');
-                
-                console.log('mouseover', $cont[0]);
-            },
-        },
+        CURRENCY_LIST_EVENTS: (() => {
+            const 
+                resolve = _.throttle((event) => {
+                    const $cont = $(event.target).closest('[data-currency-list]');
+                    
+                    console.log(event.type, $cont[0]);
+                }, 200, { trailing: true });
+            
+            return {
+                mouseout: resolve,
+                mouseover: resolve,
+            };
+        })(),
     },
     
     PAIRS = (() => {
