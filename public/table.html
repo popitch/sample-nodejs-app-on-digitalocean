@@ -27,7 +27,7 @@
             </label>
         </aside>
         
-        <aside class="fixed to" data-bind="foreach: PAIRS_TO, event: console.log('init currency list events', $element) || exchangeRates.CURRENCY_LIST_EVENTS" data-currency-list style="direction: rtl">
+        <aside class="fixed to" data-bind="foreach: PAIRS_TO, event: exchangeRates.CURRENCY_LIST_EVENTS($element)" data-currency-list style="direction: rtl">
             <label data-bind="css: { selected: symbol === $parent.filter.to() }" style="direction: ltr">
                  <!-- ko text: name --><!-- /ko -->
                 <input type="radio" data-bind="

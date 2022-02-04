@@ -175,31 +175,31 @@ const
             return rates;
         })(),
         
-        CURRENCY_LIST_EVENTS: (() => {
-            //const resolve = _.throttle(, 400, { trailing: true });
+        CURRENCY_LIST_EVENTS: (aside) => {
+            const $cont = $(aside);
             let leaveTimeout;
             
             return {
-                mousein: () => {
-                    console.log('mousein', 'clearTimeout()');
+                mouseover: () => {
+                    console.log('mouseover', 'clearTimeout()');
                     clearTimeout(leaveTimeout);
                 },
                 mouseleave: (exchangeRates, event) => {
-                    const $cont = $(event.target).closest('[data-currency-list]'),
-                        $selected = $cont.find(':radio:checked').parent();
+                    const $selected = $cont.find(':radio:checked').parent(),
+                        selectedPosition = $selected.offset().top - $cont.scrollTop();
                     
                     setTimeout(() => {
                         $cont.stop().animate({
-                            scrollTop: $selected.position().top - .38 * $cont.height()
+                            scrollTop: selectedPosition - .38 * $cont.height()
                         }, 500, 'swing', () => {
                            console.log("Finished animating");
                         });
                     }, 400);
                     
-                    console.log(event.type, $selected[0], $selected.position().top, '/', $cont.height());
+                    console.log(event.type, $selected[0], selectedPosition, '/', $cont.height());
                 },
             };
-        })(),
+        },
     },
     
     PAIRS = (() => {
