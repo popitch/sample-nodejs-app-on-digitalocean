@@ -17,7 +17,7 @@
 </head>
 <body style="text-align: center">
     <div class="rates" data-bind="with: exchangeRates">
-        <aside class="fixed from" data-currency-list data-bind="foreach: PAIRS_FROM, event: exchangeRates.CURRENCY_LIST_EVENTS">
+        <aside class="fixed from" data-currency-list data-bind="foreach: PAIRS_FROM, event: exchangeRates.CURRENCY_LIST_EVENTS($element)">
             <label data-bind="css: { selected: symbol === $parent.filter.from() }">
                 <input type="radio" data-bind="
                     value: symbol,

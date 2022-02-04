@@ -182,11 +182,12 @@ const
             return {
                 mouseover: () => {
                     console.log('mouseover', 'clearTimeout()');
+                    $cont.stop();
                     clearTimeout(leaveTimeout);
                 },
                 mouseleave: (exchangeRates, event) => {
                     const $selected = $cont.find(':radio:checked').parent(),
-                        selectedPosition = $selected.offset().top - $cont.scrollTop();
+                        selectedPosition = $selected.offset().top + $cont.scrollTop();
                     
                     setTimeout(() => {
                         $cont.stop().animate({
