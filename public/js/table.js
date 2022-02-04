@@ -176,17 +176,28 @@ const
         })(),
         
         CURRENCY_LIST_EVENTS: (() => {
-            const 
-                resolve = _.throttle((exchangeRates, event) => {
+            //const resolve = _.throttle(, 400, { trailing: true });
+            let leaveTimeout;
+            
+            return {
+                mousein: () => {
+                    console.log('mousein', 'clearTimeout()');
+                    clearTimeout(leaveTimeout);
+                },
+                mouseleave: (exchangeRates, event) => {
                     const $cont = $(event.target).closest('[data-currency-list]'),
                         $selected = $cont.find(':radio:checked').parent();
                     
-                    console.log(event.type, $selected);
-                }, 400, { trailing: true });
-            
-            return {
-                mouseout: resolve,
-                mouseleave: resolve,
+                    setTimeout(() => {
+                        $cont.stop().animate({
+                            scrollTop: $selected.offset().top - .38 * $cont.height()
+                        }, 500, 'swing', () => {
+                           console.log("Finished animating");
+                        });
+                    }, 400);
+                    
+                    console.log(event.type, $selected[0], $selected.offset().top, '/', $cont.height());
+                },
             };
         })(),
     },
