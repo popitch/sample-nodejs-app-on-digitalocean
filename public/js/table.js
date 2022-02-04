@@ -178,14 +178,15 @@ const
         CURRENCY_LIST_EVENTS: (() => {
             const 
                 resolve = _.throttle((exchangeRates, event) => {
-                    const $cont = $(event.target).closest('[data-currency-list]');
+                    const $cont = $(event.target).closest('[data-currency-list]'),
+                        $selected = $cont.find(':radio:checked').parent();
                     
-                    console.log(event.type, $cont[0]);
-                }, 200, { trailing: true });
+                    console.log(event.type, $selected);
+                }, 400, { trailing: true });
             
             return {
                 mouseout: resolve,
-                mousein: resolve,
+                mouseleave: resolve,
             };
         })(),
     },
