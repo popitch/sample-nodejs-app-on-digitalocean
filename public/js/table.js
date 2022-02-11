@@ -319,5 +319,5 @@ var renewTimeout;
 // page init
 $(() => {
     request();
-    ko.applyBindings(exchangeRates, document.body);
+    ko.applyBindings(exchangeRates, document);
 });
