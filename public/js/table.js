@@ -318,6 +318,16 @@ var renewTimeout;
 
 // page init
 $(() => {
+    // sticky thead
+    document.addEventListener('sticky-change', e => {
+        const header = e.detail.target;  // header became sticky or stopped sticking.
+        const sticking = e.detail.stuck; // true when header is sticky.
+        
+        header.classList.toggle('sticking', sticking); // add drop shadow when sticking.
+    
+        //document.querySelector('.who-is-sticking').textContent = header.textContent;
+    });
+    
     request();
     ko.applyBindings(exchangeRates, document.head);
     ko.applyBindings(exchangeRates, document.body);

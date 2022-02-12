@@ -3,3 +3,5 @@ node_modules
 /ca-certificate.crt
 
 .project
+
+.settings/
