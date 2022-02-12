@@ -193,8 +193,12 @@ const
             
             function scroll(exchangeRates, event) {
                 leaveTimeout = setTimeout(() => {
-                    const $selected = $cont.find(':radio:checked').parent(),
-                        selectedPosition = $selected.offset().top + $cont.scrollTop();
+                    const $selected = $cont.find(':radio:checked').parent();
+                    if (! $selected[0]) {
+                        scroll(exchangeRates, event);
+                        return;
+                    }
+                    const selectedPosition = $selected.offset().top + $cont.scrollTop();
                     
                     $cont.stop().animate({
                         scrollTop: selectedPosition - .38 * $cont.height()
