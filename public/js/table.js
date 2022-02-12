@@ -1,7 +1,8 @@
 const
-    EXCHANGERS = (list =>
-        $.getJSON('./cached/exchangers.json', list)
-    && list)(
+    EXCHANGERS = (list => {
+        const req = () => $.getJSON('./cached/exchangers.json').then(list).catch(e => req());
+        return req() && list;
+    })(
         ko.observableArray()
     ),
     

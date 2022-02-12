@@ -61,11 +61,11 @@
         <table>
             <thead data-bind="with: filter">
                 <tr data-bind="css: 'sort-dir_' + sortDir()">
-                    <td class="rate-col rate-service" data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }">...</td>
-                    <td class="rate-col rate-changer" data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')">Обменник</td>
-                    <td class="rate-col rate-from"    data-bind="css: { 'sort-by': sortBy() === 'from' }, click: () => toSort('from')">Отдаёте</td>
-                    <td class="rate-col rate-to"      data-bind="css: { 'sort-by': sortBy() === 'to' }, click: () => toSort('to')">Получаете</td>
-                    <td class="rate-col rate-amount"  data-bind="css: { 'sort-by': sortBy() === 'amount' }, click: () => toSort('amount')">Резерв</td>
+                    <th class="rate-col rate-service" data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }">...</th>
+                    <th class="rate-col rate-changer" data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')">Обменник</th>
+                    <th class="rate-col rate-from"    data-bind="css: { 'sort-by': sortBy() === 'from' }, click: () => toSort('from')">Отдаёте</th>
+                    <th class="rate-col rate-to"      data-bind="css: { 'sort-by': sortBy() === 'to' }, click: () => toSort('to')">Получаете</th>
+                    <th class="rate-col rate-amount"  data-bind="css: { 'sort-by': sortBy() === 'amount' }, click: () => toSort('amount')">Резерв</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: rates.sortedDirectedFixedFloating">
