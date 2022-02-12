@@ -127,6 +127,7 @@
     padding: 0 12px; /* fixed padding for different font-size of thead/tbody */
     min-width: 8em;
     text-align: left;
+    font-weight: normal;
 }
 .rates table th:first-child,
 .rates table td:first-child {
