@@ -323,7 +323,7 @@ var renewTimeout;
 
 // page init
 $(() => {
-    // sticky thead
+    /*/ sticky thead
     document.addEventListener('sticky-change', e => {
         const header = e.detail.target;  // header became sticky or stopped sticking.
         const sticking = e.detail.stuck; // true when header is sticky.
@@ -332,6 +332,7 @@ $(() => {
     
         //document.querySelector('.who-is-sticking').textContent = header.textContent;
     });
+    //*/
     
     request();
     ko.applyBindings(exchangeRates, document.head);
