@@ -28,6 +28,13 @@ app.get('/', (req, res) => {
 // /login.html
 app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
 
+app.post('/login', (req, res) => {
+    // Insert Login Code Here
+    let username = req.body.username;
+    let password = req.body.password;
+    res.send(`Username: ${username} Password: ${password}`);
+});
+
 // /table.html
 app.use('/table.html', express.static(path.join(__dirname, 'public/table.html')));
 
