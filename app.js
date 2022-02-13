@@ -20,23 +20,29 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
+// /
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
 
+// /login.html
+app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
 
+// /table.html
 app.use('/table.html', express.static(path.join(__dirname, 'public/table.html')));
 
 
-
-
+// any http: static
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 // static for /cached/*.json
 app.use('/cached', express.static(path.join(__dirname, 'public/cached')));
 
-// dynamic for exchange table
+/*/ dynamic for exchange table
 const tableRouter = require('./routes/table');
 app.use('/table', tableRouter);
-
+//*/
 
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
