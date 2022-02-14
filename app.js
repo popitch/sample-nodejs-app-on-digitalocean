@@ -30,6 +30,8 @@ app.use('/login.html', express.static(path.join(__dirname, 'public/login.html'))
 app.post('/login', async (req, res) => {
     console.log('sync..');
     try {
+        const dbConn = require('./db'),
+            db = await dbConn.then();
         await db.models.AggUser.sync({ alter: true });
     } catch(e) {
         console.log('Error ::', e);
