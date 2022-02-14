@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = {
     "AggUser": {
         indexes: [
-            { unique: true, fields: ['id'], },
+            //{ unique: true, fields: ['id'], },
         ],
         fields: {
             id: {
