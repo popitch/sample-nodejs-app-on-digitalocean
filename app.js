@@ -38,18 +38,28 @@ app.post('/login', async (req, res) => {
         const { db } = require('./db');
         
         // setup) root passw..
-        db.models.AggUser.build({
-            login: 'root',
-            passwd: PASSWD_HASH_FN('sexret'),
-        });
-        await db.models.AggUser.sync();
+        console.log(
+            'Affected passwd(s)',
+            await db.models.AggUser
+                .bulkCreate([{
+                    login: 'root',
+                    passwd: PASSWD_HASH_FN('sexret'),
+                }], {
+                    validate: true,
+                    updateOnDuplicate: false,
+                    logging: true,
+                })
+        );
         
+        // try to find
         const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
                 passwd: PASSWD_HASH_FN(req.body.password),
             },
         });
+        
+        // save founds to session
         req.session.user = user;
         
         console.log('with user', user);
