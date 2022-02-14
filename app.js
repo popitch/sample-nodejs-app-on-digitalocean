@@ -37,16 +37,16 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        /*/ setup) root passw..
+        // setup) root passw..
         console.log(
             'Affected passwd(s)',
             await db.models.AggUser
                 .bulkCreate([{
                     login: 'root',
-                    passwd: PASSWD_HASH_FN('sexret'),
+                    passwd: PASSWD_HASH_FN( process.env.ROOT_PASSWD ),
                 }], {
                     validate: true,
-                    //updateOnDuplicate: false,
+                    updateOnDuplicate: ['login'],
                     logging: true,
                 }).length
         );
@@ -62,7 +62,7 @@ app.post('/login', async (req, res) => {
         // save founds to session
         req.session.user = user;
         
-        console.log('with user', user);
+        console.log('with user', user && user.login);
         
         if (! user) {
             res.json('Has no user found with login+password');

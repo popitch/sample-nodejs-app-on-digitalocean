@@ -72,7 +72,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     tableName: 'aggUsers',
     freezeTableName: true,
 })
-.sync({ alter: true })
+//.sync({ alter: true })
 ;
 
 // create tables (aka db setup)
