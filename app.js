@@ -32,7 +32,7 @@ app.post('/login', (req, res) => {
     // Insert Login Code Here
     let login = req.body.username;
     let password = req.body.password;
-    res.send(`Username: ${login} Password: ${password}`);
+    res.send(`Login: ${login} Password: ${password}`);
 });
 
 // /table.html
