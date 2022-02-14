@@ -27,7 +27,7 @@ dbConn.then(async (db) => {
     });
     
 
-    // whiter to /cached/*.json
+    // writer of /cached/(*).json
     const Cached = {
         DIR: './public/cached/',
         
