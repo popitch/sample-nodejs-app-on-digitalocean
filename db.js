@@ -111,4 +111,5 @@ connThen(async (db) => {
 // exports
 module.exports = {
     then: then => connThen(then),
+    db: sequelize,
 };
