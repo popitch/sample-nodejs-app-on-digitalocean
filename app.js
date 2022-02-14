@@ -30,9 +30,9 @@ app.use('/login.html', express.static(path.join(__dirname, 'public/login.html'))
 
 app.post('/login', (req, res) => {
     // Insert Login Code Here
-    let username = req.body.username;
+    let login = req.body.username;
     let password = req.body.password;
-    res.send(`Username: ${username} Password: ${password}`);
+    res.send(`Username: ${login} Password: ${password}`);
 });
 
 // /table.html
