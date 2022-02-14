@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         //await db.models.AggUser.sync({ alter: true });
-        const user = await db.models.AggUser.find({
+        const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
                 passwd: require('md5')(
