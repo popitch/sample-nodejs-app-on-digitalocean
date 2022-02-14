@@ -42,7 +42,7 @@ app.post('/login', async (req, res) => {
             login: 'root',
             passwd: PASSWD_HASH_FN('sexret'),
         });
-        db.models.AggUser.sync();
+        await db.models.AggUser.sync();
         
         const user = await db.models.AggUser.findOne({
             where: {
