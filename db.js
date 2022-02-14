@@ -69,7 +69,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     indexes: schema.AggUser.indexes,
     timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
     charset: 'UTF8',
-    tableName: 'aggUser',
+    tableName: 'aggUsers',
     freezeTableName: true,
 })
 .sync({ alter: true })

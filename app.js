@@ -1,6 +1,7 @@
 //const xmlTractor = 
 require('./xml-engine');
 
+const PASSWD_HASH_FN = (passwd) => require('md5')('asHkjh$%^&nvZD23' + passwd);
 
 var express = require('express');
 var path = require('path');
@@ -22,7 +23,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(session({ secret: "Your secret key will here" }));
 
-// Page routes //
+// setup page routes //
 // /
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
@@ -36,13 +37,16 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
+        // setup) root
+        db.models.AggUser.build({
+            login: 'root',
+            passwd: PASSWD_HASH_FN('sexret'),
+        });
+        
         const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
-                passwd: require('md5')(
-                    'asHkjh$%^&nvZD23' +
-                    req.body.password
-                ),
+                passwd: PASSWD_HASH_FN(req.body.password),
             },
         });
         req.session.user = user;
@@ -50,7 +54,8 @@ app.post('/login', async (req, res) => {
         console.log('with user', user);
         
         if (! user) {
-            res.json('Has no found user with login/password pair');
+            res.json('Has no user found with login+password');
+            return;
         }
     } catch(e) {
         console.log('Error ::', e);

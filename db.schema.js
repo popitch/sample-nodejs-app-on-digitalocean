@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = {
     "AggUser": {
         indexes: [
-            //{ unique: true, fields: ['id'], },
+            { unique: true, fields: [ 'login' ], },
         ],
         fields: {
             /*
@@ -25,6 +25,12 @@ module.exports = {
             
             passwd: {
                 type: DataTypes.STRING(32),
+                defaultValue: null,
+                allowNull: true,
+            },
+            
+            group: {
+                type: DataTypes.INTEGER,
                 defaultValue: null,
                 allowNull: true,
             },
