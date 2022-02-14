@@ -7,7 +7,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +27,10 @@ app.get('/', (req, res) => {
 // /login.html
 app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
+    const db = require('./db').dbConn;
+    const user = await db.models.User.find({ where: { id: req.body.login } });
+    
     // Insert Login Code Here
     let login = req.body.login;
     let password = req.body.password;

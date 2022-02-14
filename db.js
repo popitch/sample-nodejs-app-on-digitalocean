@@ -65,6 +65,14 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     freezeTableName: true,
 });
 
+sequelize.define('AggUser', schema.AggUser.fields, {
+    indexes: schema.AggUser.indexes,
+    timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
+    charset: 'UTF8',
+    tableName: 'aggUser',
+    freezeTableName: true,
+});
+
 // create tables (aka db setup)
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
