@@ -4,21 +4,25 @@ require('./xml-engine');
 
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const app = express();
 
-// view engine setup
+// setup view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// setup session
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+app.use(session({ secret: "Your secret key will here" }));
 
-
+// Page routes //
 // /
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
@@ -31,7 +35,7 @@ app.post('/login', async (req, res) => {
     console.log('sync..');
     try {
         const { db } = require('./db');
-        //await db.models.AggUser.sync({ alter: true });
+        
         const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
@@ -41,8 +45,13 @@ app.post('/login', async (req, res) => {
                 ),
             },
         });
+        req.session.user = user;
         
         console.log('with user', user);
+        
+        if (! user) {
+            res.json('Has no found user with login/password pair');
+        }
     } catch(e) {
         console.log('Error ::', e);
     }
