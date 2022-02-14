@@ -37,7 +37,7 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        // setup) root passw..
+        /*/ setup) root passw..
         console.log(
             'Affected passwd(s)',
             await db.models.AggUser
@@ -48,10 +48,10 @@ app.post('/login', async (req, res) => {
                     validate: true,
                     //updateOnDuplicate: false,
                     logging: true,
-                })
+                }).length
         );
         
-        // try to find
+        //*/// try to find
         const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
