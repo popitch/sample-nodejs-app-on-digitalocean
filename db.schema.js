@@ -6,9 +6,21 @@ module.exports = {
             //{ unique: true, fields: ['id'], },
         ],
         fields: {
+            /*
             id: {
                 type: DataTypes.INTEGER, //defaultValue: null, //allowNull: true,
                 primaryKey: true, autoIncrement: true,
+            },
+            //*/
+            
+            createdAt: { type: DataTypes.DATE, defaultValue: null, allowNull: true, },
+            
+            updatedAt: { type: DataTypes.DATE, defaultValue: null, allowNull: true, },
+            
+            login: {
+                type: DataTypes.STRING(32),
+                defaultValue: null,
+                allowNull: true,
             },
             
             passwd: {
@@ -16,10 +28,6 @@ module.exports = {
                 defaultValue: null,
                 allowNull: true,
             },
-            
-            createdAt: { type: DataTypes.DATE, defaultValue: null, allowNull: true, },
-            
-            updatedAt: { type: DataTypes.DATE, defaultValue: null, allowNull: true, },
         },
     },
     
