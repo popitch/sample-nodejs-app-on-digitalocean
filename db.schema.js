@@ -16,6 +16,7 @@ module.exports = {
             updatedAt: { type: DataTypes.DATE, defaultValue: null, allowNull: true, },
         },
     },
+    
     "Exchanger": {
         indexes: [
             //{ unique: true, fields: ['id'], },
@@ -29,6 +30,12 @@ module.exports = {
                 //allowNull: true,
                 primaryKey: true,
                 autoIncrement: true,
+            },
+            
+            passwd: {
+                type: DataTypes.STRING(32),
+                defaultValue: null,
+                allowNull: true,
             },
             
             createdAt: {

@@ -29,7 +29,15 @@ app.use('/login.html', express.static(path.join(__dirname, 'public/login.html'))
 
 app.post('/login', async (req, res) => {
     const db = require('./db').dbConn;
-    const user = await db.models.User.find({ where: { id: req.body.login } });
+    const user = await db.models.AggUser.find({
+        where: {
+            login: req.body.login,
+            passwd: require('md5')(
+                'asHkjh$%^&nvZD23' +
+                req.body.password
+            ),
+        },
+    });
     
     // Insert Login Code Here
     let login = req.body.login;
