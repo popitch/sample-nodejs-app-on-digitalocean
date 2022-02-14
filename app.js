@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
     } catch(e) {
         console.log('Error ::', e);
     }
-    console.log('..sync with user', user);
+    console.log('..sync');
     
     // Insert Login Code Here
     let login = req.body.login;
