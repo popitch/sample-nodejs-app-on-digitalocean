@@ -38,18 +38,16 @@ app.post('/login', async (req, res) => {
         const { db } = require('./db');
         
         // setup) root passw..
-        console.log(
-            'Affected passwd(s)',
-            await db.models.AggUser
-                .bulkCreate([{
-                    login: 'root',
-                    passwd: PASSWD_HASH_FN( process.env.ROOT_PASSWD ),
-                }], {
-                    validate: true,
-                    updateOnDuplicate: ['login'],
-                    logging: true,
-                }).length
-        );
+        const affp = await db.models.AggUser
+            .bulkCreate([{
+                login: 'root',
+                passwd: PASSWD_HASH_FN( process.env.ROOT_PASSWD ),
+            }], {
+                validate: true,
+                updateOnDuplicate: ['login'],
+                //logging: true,
+            });
+        console.log(affp.length, 'affected passwd(s)');
         
         //*/// try to find
         const user = await db.models.AggUser.findOne({
