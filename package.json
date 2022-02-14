@@ -33,6 +33,6 @@
         "pg": "~8.7.1",
         "sequelize": "~6.12.4",
         
-        "express-session": "@1.17.2"
+        "express-session": "~1.17.2"
     }
 }
