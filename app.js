@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
                     passwd: PASSWD_HASH_FN('sexret'),
                 }], {
                     validate: true,
-                    updateOnDuplicate: false,
+                    //updateOnDuplicate: false,
                     logging: true,
                 })
         );
