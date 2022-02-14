@@ -31,7 +31,7 @@ app.post('/login', (req, res) => {
     // Insert Login Code Here
     let login = req.body.login;
     let password = req.body.password;
-    res.send(`<pre>Login: ${login} Password: ${password}\n` + JSON.stringify(req));
+    res.send(`<pre>Login: ${login} Password: ${password}\n`/* + JSON.stringify(req)*/);
 });
 
 // /table.html
