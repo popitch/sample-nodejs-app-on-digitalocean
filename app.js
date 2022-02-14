@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
 
 app.post('/login', async (req, res) => {
-    require('./db').dbConn(db => {
+    require('./db').dbConn(async db => {
         const user = await db.models.AggUser.find({
             where: {
                 login: req.body.login,
