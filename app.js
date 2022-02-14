@@ -37,11 +37,12 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        // setup) root
+        // setup) root passw..
         db.models.AggUser.build({
             login: 'root',
             passwd: PASSWD_HASH_FN('sexret'),
         });
+        db.models.AggUser.sync();
         
         const user = await db.models.AggUser.findOne({
             where: {
