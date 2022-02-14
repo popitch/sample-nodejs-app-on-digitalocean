@@ -31,13 +31,7 @@ app.post('/login', async (req, res) => {
     console.log('sync..');
     try {
         const { db } = require('./db');
-        await db.models.AggUser.sync({ alter: true });
-    } catch(e) {
-        console.log('Error ::', e);
-    }
-    console.log('..sync');
-    /*
-    require('./db').dbConn(async db => {
+        //await db.models.AggUser.sync({ alter: true });
         const user = await db.models.AggUser.find({
             where: {
                 login: req.body.login,
@@ -48,9 +42,12 @@ app.post('/login', async (req, res) => {
             },
         });
         
-        
-    });
-    */
+        console.log('with user', user);
+    } catch(e) {
+        console.log('Error ::', e);
+    }
+    console.log('..sync with user', user);
+    
     // Insert Login Code Here
     let login = req.body.login;
     let password = req.body.password;

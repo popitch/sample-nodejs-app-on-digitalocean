@@ -71,7 +71,9 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     charset: 'UTF8',
     tableName: 'aggUser',
     freezeTableName: true,
-});
+})
+.sync({ alter: true })
+;
 
 // create tables (aka db setup)
 connThen(async (db) => {
