@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // /login.html
-app.use('/login', (req, res) => res.render('login'));
+app.use('/login', (req, res) => res.render('login', { title: 'Вход' }));
 
 function checkSignIn(req, res, next){
    if (req.session.user) {
