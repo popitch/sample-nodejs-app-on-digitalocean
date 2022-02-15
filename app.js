@@ -32,12 +32,38 @@ app.get('/', (req, res) => {
 // /login.html
 app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
 
+function checkSignIn(req, res, next){
+   if (req.session.user) {
+      next && next();     //If session exists, proceed to page
+      return true;
+   }
+   else {
+      var err = new Error("Not logged in!");
+      console.log(req.session.user, err);
+      next(err);  //Error, trying to access unauthorized page!
+   }
+}
+
 app.post('/login', async (req, res) => {
-    console.log('sync..');
+    console.log('login..');
+    
+    if (! req.body.login || ! req.body.password) {
+        console.log('Login: without login or password');
+        res.status("400");
+        //res.render('login', { message: "Please enter both id and password" });
+        return res.json('Please enter both id and password');
+    }
+    
+    if (checkSignIn(req, res)) {
+        console.log('Login: already logged in');
+        //res.render('login', { message: "Already logged in" });
+        return res.json('Already logged in');
+    }
+    
     try {
         const { db } = require('./db');
         
-        // setup) root passw..
+        /*/ setup) root passw..
         const affp = await db.models.AggUser
             .bulkCreate([{
                 login: 'root',
@@ -48,8 +74,9 @@ app.post('/login', async (req, res) => {
                 //logging: true,
             });
         console.log(affp.length, 'affected passwd(s)');
+        //*/
         
-        //*/// try to find
+        // try to find
         const user = await db.models.AggUser.findOne({
             where: {
                 login: req.body.login,
@@ -62,19 +89,12 @@ app.post('/login', async (req, res) => {
         
         console.log('with user', user && user.login);
         
-        if (! user) {
-            res.json('Has no user found with login+password');
-            return;
-        }
+        res.json(user ? 0 : 'Has no user found with login+password');
     } catch(e) {
         console.log('Error ::', e);
     }
-    console.log('..sync');
     
-    // Insert Login Code Here
-    let login = req.body.login;
-    let password = req.body.password;
-    res.send(`<pre>Login: ${login} Password: ${password}\n`/* + JSON.stringify(req)*/);
+    console.log('..login');
 });
 
 // /table.html

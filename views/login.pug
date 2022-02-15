@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    title= {message || 'Вход'}
+    
+    form(action = "/login" method = "POST")
+    input(name = "login" type = "text" required placeholder = "Login")
+    input(name = "password" type = "password" required placeholder = "Password")
+    button(type = "Submit") Войти
+    
