@@ -54,10 +54,10 @@ app.post('/login', async (req, res) => {
         return res.json('Please enter both id and password');
     }
     
-    if (checkSignIn(req, res)) {
-        console.log('Login: already logged in');
+    if (req.session.user) {
+        console.log('Login: already logged in ', req.session.user.login);
         //res.render('login', { message: "Already logged in" });
-        return res.json('Already logged in');
+        return res.json('Already logged in ' + req.session.user.login);
     }
     
     try {
