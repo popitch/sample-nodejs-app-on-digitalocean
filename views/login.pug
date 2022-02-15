@@ -1,7 +1,12 @@
 extends layout
 
 block content
-    title= {message | '¬ход'}
+    if message
+        title= {message}
+    else
+        title= ¬ход
+    
+    h1 title
     
     form(action = "/login" method = "POST")
     input(name = "login" type = "text" required placeholder = "Login")
