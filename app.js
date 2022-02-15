@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // /login.html
-app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
+app.use('/login', () => res.render('login'));
 
 function checkSignIn(req, res, next){
    if (req.session.user) {
