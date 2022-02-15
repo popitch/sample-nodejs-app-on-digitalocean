@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    title= {message || '¬ход'}
+    title= {message | '¬ход'}
     
     form(action = "/login" method = "POST")
     input(name = "login" type = "text" required placeholder = "Login")
