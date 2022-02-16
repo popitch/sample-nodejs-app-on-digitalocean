@@ -28,7 +28,7 @@ block content
                 td =
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
                 td ?
-                td #{ex.createdAt && new Date(ex.createdAt)}
+                td #{ex.createdAt && formatDate(new Date(ex.createdAt))}
                 td 
                 td 
                 td 
