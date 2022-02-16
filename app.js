@@ -1,7 +1,7 @@
 //const xmlTractor = 
 require('./xml-engine');
 
-const PASSWD_HASH_FN = (passwd) => require('md5')('asHkjh$%^&nvZD23' + passwd);
+const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 
 var express = require('express');
 var path = require('path');
@@ -50,22 +50,22 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        /*/ setup) root passw..
+        // setup) root passw..
         const affp = await db.models.AggUser
             .bulkCreate([{
                 login: 'root',
-                passwd: PASSWD_HASH_FN( process.env.ROOT_PASSWD ),
+                passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
             }], {
                 validate: true,
                 updateOnDuplicate: ['login'],
                 //logging: true,
             });
-        console.log(affp.length, 'affected passwd(s)');
+        console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
         //*/
         
         // try to find user
         const passwd = PASSWD_HASH_FN(req.body.password);
-        console.log('Login: login=' + req.body.login + 'passwd=', passwd, 'pw=', req.body.password);
+        console.log('Login: login=', req.body.login, 'passwd=', passwd, 'pw=', req.body.password);
         
         const user = await db.models.AggUser.findOne({ where: { login: req.body.login, passwd: passwd } });
         
