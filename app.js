@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => res.render('login', { title: 'Вход' }));
 
 app.post('/login', async (req, res) => {
-    console.log('login..');
+    console.log('Login...');
     
     if (! req.body.login || ! req.body.password) {
         console.log('Login: without login or password');
@@ -50,7 +50,7 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        // setup) root passw..
+        /*/ setup) root passw..
         const affp = await db.models.AggUser
             .bulkCreate([{
                 login: 'root',
@@ -65,14 +65,14 @@ app.post('/login', async (req, res) => {
         
         // try to find user
         const passwd = PASSWD_HASH_FN(req.body.password);
-        console.log('Login: login=', req.body.login, 'passwd=', passwd, 'pw=', req.body.password);
+        //console.log('Login: login=', req.body.login, 'passwd=', passwd, 'pw=', req.body.password);
         
         const user = await db.models.AggUser.findOne({ where: { login: req.body.login, passwd: passwd } });
         
         // save founds to session
         req.session.user = user;
         
-        console.log('with user', user && user.login);
+        console.log('Login: found user', user && user.login);
         
         if (! user) {
             return res.render('login', { title: 'No user found with login+password' });
@@ -82,8 +82,8 @@ app.post('/login', async (req, res) => {
         return res.render('login', { title: e });
     }
     
-    res.redirect('welcome', { user: req.session.user });
-    console.log('..login');
+    res.redirect(200, 'welcome');
+    console.log('Login: complete');
 });
 
 app.get('/logout', async (req, res) => {
