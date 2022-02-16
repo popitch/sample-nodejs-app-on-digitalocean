@@ -32,33 +32,20 @@ app.get('/', (req, res) => {
 // /login.html
 app.get('/login', (req, res) => res.render('login', { title: 'Вход' }));
 
-function checkSignIn(req, res, next){
-   if (req.session.user) {
-      next && next();     //If session exists, proceed to page
-      return true;
-   }
-   else {
-      var err = new Error("Not logged in!");
-      console.log(req.session.user, err);
-      next(err);  //Error, trying to access unauthorized page!
-   }
-}
-
 app.post('/login', async (req, res) => {
     console.log('login..');
     
     if (! req.body.login || ! req.body.password) {
         console.log('Login: without login or password');
         res.status("400");
-        //res.render('login', { message: "Please enter both id and password" });
-        return res.json('Please enter both id and password');
+        return res.render('login', { title: 'Введите оба параметра, логин и пароль' });
     }
-    
+    /*
     if (req.session.user) {
         console.log('Login: already logged in ', req.session.user.login);
-        //res.render('login', { message: "Already logged in" });
-        return res.json('Already logged in ' + req.session.user.login);
+        return res.render('login', { title: 'Already logged in ' + req.session.user.login });
     }
+    */
     
     try {
         const { db } = require('./db');
@@ -89,12 +76,20 @@ app.post('/login', async (req, res) => {
         
         console.log('with user', user && user.login);
         
-        res.json(user ? 0 : 'Has no user found with login+password');
+        if (!user) {
+            return render('login', { title: 'No user found with login+password' });
+        }
     } catch(e) {
         console.log('Error ::', e);
     }
     
+    res.redirect('welcome');
     console.log('..login');
+});
+
+app.get('/logout', async (req, res) => {
+    req.session.user = null;
+    res.redirect('/');
 });
 
 // /table.html
