@@ -1,10 +1,11 @@
-extends ../layout
+doctype html
 
 html
     head
-        title= Admin
-    
-block content
-    h1 #{title}
-
-    block content
+        title= title + ' - Admin'
+        link(rel='stylesheet', href='/css/common.css')
+        
+    body
+        h1 #{title}
+        
+        block content
