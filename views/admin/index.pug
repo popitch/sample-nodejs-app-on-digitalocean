@@ -31,6 +31,6 @@ block content
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
-                td(class=xmlVerified?'verify_yes':'verify_no') #{ ex.xml }#{ ex.xml ? ' →' : '' }
+                td(class=xmlVerified?'xml verify_yes':'xml verify_no') #{ ex.xml }#{ ex.xml ? ' →' : '' }
     
     script const exchSources = ${ JSON.stringify(exchList, null, 4) };
