@@ -24,6 +24,13 @@ app.use(express.urlencoded({ extended: false }));
 
 // setup session
 const session = require('express-session');
+app.use(
+    session({
+        secret: "Biggest secretly secret", // i use github, baby
+        httpOnly: true,  // Don't let browser javascript access cookies. wow!
+        secure: true, // Only use cookies over https. wow! ok
+    })
+);
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(session({ secret: "Your secret key will here" }));
@@ -113,7 +120,7 @@ function checkIsRoot(req, res, next) {
     if (isRoot) {
         next();
     } else {
-        res.redirect('/login');
+        res.redirect(302, '/login');
     }
 }
 
