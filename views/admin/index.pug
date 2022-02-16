@@ -4,10 +4,8 @@ block content
     h1 Админка
     
     <table>
-    - for (var e = 0; e < exchList.length; e++)
-        <tr>
-            <td>
-            p Обменник: #{ exchList[e] }
-            </td>
-        </tr>
+        each exch in exchList
+            <tr>
+                <td>Обменник: #{exch}</td>
+            </tr>
     </table>
