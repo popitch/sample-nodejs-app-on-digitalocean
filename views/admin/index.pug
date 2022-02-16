@@ -26,12 +26,12 @@ block content
                 td #{ex.id}
                 td #{ex.name}
                 td =
-                td #{(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt) && new Date(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
+                td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td ?
                 td =
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
                 td ?
-                td #{ex.createdAt && formatDate(new Date(ex.createdAt))}
+                td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
                 td #{ xmlLink } →
