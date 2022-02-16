@@ -89,7 +89,7 @@ app.post('/login', async (req, res) => {
 app.get('/logout', async (req, res) => {
     req.session.user = null;
     //res.redirect('/');
-    res.send('Вы вышли');
+    res.render('logout');
 });
 
 // admin
