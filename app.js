@@ -76,14 +76,15 @@ app.post('/login', async (req, res) => {
         
         console.log('with user', user && user.login);
         
-        if (!user) {
+        if (! user) {
             return render('login', { title: 'No user found with login+password' });
         }
     } catch(e) {
         console.log('Error ::', e);
+        return render('login', { title: e });
     }
     
-    res.redirect('welcome');
+    res.redirect('welcome', { user: req.session.user });
     console.log('..login');
 });
 
