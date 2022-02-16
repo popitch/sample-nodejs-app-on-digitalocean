@@ -23,7 +23,7 @@ block content
                 td #{ex.id}
                 td #{ex.name}
                 td =
-                td #{ex.xmlStartedAt && new Date(ex.xmlStartedAt)}
+                td #{(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt) && new Date(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td ?
                 td =
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
