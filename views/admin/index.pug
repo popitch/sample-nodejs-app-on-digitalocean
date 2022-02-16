@@ -4,8 +4,25 @@ block content
     h1 Админка
     
     <table>
-        each exch in exchList
+        <thead>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Курсы</th>
+            <th>Загружены</th>
+            <th>Ошиб. курсы</th>
+            <th>Сумма резервов</th>
+            <th></th>
+        </thead>
+        <tbody>
+            each ex in exchList
             <tr>
-                <td>Обменник: #{exch}</td>
+                <td>#{ex.id}</td>
+                <td>#{ex.name}</td>
+                <td>-</td>
+                <td>#{ex.xmlParsedAt && new Date(ex.xmlParsedAt)}</td>
+                <td>?</td>
+                <td>-</td>
+                <!--td>Обменник: #{JSON.stringify(exch)}</td-->
             </tr>
+        </tbody>
     </table>
