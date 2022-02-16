@@ -4,7 +4,8 @@ block content
     h1 Здравстуй, #{user.name}!
     
     p
-        You are #{}
+        You are
+        = JSON.stringify(user)
     
     p
         a(href="/admin/index") Админка здесь

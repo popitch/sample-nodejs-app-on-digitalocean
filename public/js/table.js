@@ -185,7 +185,7 @@ const
             
             return {
                 mouseover: () => {
-                    console.log('mouseover', 'clearTimeout()');
+                    //console.log('mouseover', 'clearTimeout()');
                     $cont.stop();
                     clearTimeout(leaveTimeout);
                 },
@@ -205,7 +205,7 @@ const
                         scrollTop: selectedPosition - .38 * $cont.height()
                     }, 500, 'swing');
                     
-                    console.log(event ? event.type : 'initial', $selected[0], selectedPosition, '/', $cont.height());
+                    //console.log(event ? event.type : 'initial', $selected[0], selectedPosition, '/', $cont.height());
                 }, 400);
             }
         },
