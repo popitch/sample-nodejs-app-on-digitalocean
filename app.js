@@ -98,7 +98,7 @@ function checkRoot(req, res, next) {
     }
 }
 
-app.get('admin/index', checkRoot, async (req, res) => {
+app.get('admin/index', async (req, res) => {
     const exchList = await db.models.Exchanger.all();
     
     res.send('Exchangers:', exchList.length);
