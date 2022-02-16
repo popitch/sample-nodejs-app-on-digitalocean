@@ -6,12 +6,22 @@ form {
 	display: inline-block;
 }
 
+form input {
+	padding: .3em;
+	border: 1px black solid;
+}
+
 table td, table th {
     padding: .4em .4em;
 	text-align: left;
 }
 
-form input {
-	padding: .3em;
-	border: 1px black solid;
+thead th {
+    border-bottom: 6px solid black;
+}
+
+thead tr {
+    position: sticky;
+    top: 0;
+    background: white;
 }
