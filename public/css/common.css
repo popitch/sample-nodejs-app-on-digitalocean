@@ -17,7 +17,7 @@ table td, table th {
 }
 
 thead th {
-    border-bottom: 6px solid black;
+    border-bottom: 1px solid lightgray;
 }
 
 thead tr {

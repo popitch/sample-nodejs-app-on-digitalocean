@@ -3,10 +3,11 @@ extends layout-admin
 block content
     h1 Админка
     
-    table
+    table(width="100%")
         thead
             th Id
             th Название
+            th Описание
             th Курсы
             th Загружены
             th Ошиб. курсы
@@ -16,15 +17,12 @@ block content
             th ru→
             th en→
             th XML→
-            th 
-            th 
-            th 
-            th 
         tbody
         each ex in exchList
             <tr>
                 td #{ex.id}
                 td #{ex.name}
+                td ?
                 td =
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td ?
@@ -34,10 +32,6 @@ block content
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
-                td #{ xmlLink }#{ xmlLink ? ' →' : '' }
-                td 
-                td 
-                td #{ JSON.stringify($data) }
-                td 
+                td #{ xmlLink }#{ xmlLink ? ' →' : '' }=?
             </tr>
-    script const exchSources = #{ JSON.stringify(exchList, null, 4) };
+    script const exchSources = ${ JSON.stringify(exchList, null, 4) };
