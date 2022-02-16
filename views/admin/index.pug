@@ -17,6 +17,9 @@ block content
             th en→
             th xml→
             th 
+            th 
+            th 
+            th 
         tbody
         each ex in exchList
             <tr>
@@ -31,7 +34,9 @@ block content
                 td #{ex.createdAt && formatDate(new Date(ex.createdAt))}
                 td &times;
                 td &times;
-                td #{xml}
+                td #{ xmlLink } →
+                td 
+                td 
                 td #{ JSON.stringify($data) }
                 td 
             </tr>
