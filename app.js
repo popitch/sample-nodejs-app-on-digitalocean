@@ -82,13 +82,14 @@ app.post('/login', async (req, res) => {
         return res.render('login', { title: e });
     }
     
-    res.redirect(200, 'admin/index');
+    res.redirect(200, '/admin/index');
     console.log('Login: complete');
 });
 
 app.get('/logout', async (req, res) => {
     req.session.user = null;
-    res.redirect('/');
+    //res.redirect('/');
+    res.send('Вы вышли');
 });
 
 // admin
@@ -113,7 +114,8 @@ app.all('/admin', function (req, res, next) {
 
 // admin index
 app.get('/admin/index', async (req, res) => {
-    const exchList = await db.models.Exchanger.all();
+    const { db } = require('./db'),
+        exchList = await db.models.Exchanger.findAll();
     
     res.send('Exchangers:', exchList.length);
 });
