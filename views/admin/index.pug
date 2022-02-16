@@ -13,9 +13,9 @@ block content
             th Сумма резервов
             th Расчёт
             th Дата начала
-            th 
-            th 
-            th 
+            th ru→
+            th en→
+            th xml→
             th 
         tbody
         each ex in exchList
@@ -29,9 +29,9 @@ block content
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
                 td ?
                 td #{ex.createdAt && formatDate(new Date(ex.createdAt))}
-                td 
-                td 
-                td 
+                td &times;
+                td &times;
+                td #{xml}
                 td 
                 td 
             </tr>
