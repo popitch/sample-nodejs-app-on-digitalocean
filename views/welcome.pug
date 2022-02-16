@@ -1,11 +1,7 @@
 extends layout
 
 block content
-    h1 Здравстуй, #{user.name}!
-    
-    p
-        You are
-        = JSON.stringify(user)
+    h1 Здравстуй, #{user.login}!
     
     p
         a(href="/admin/index") Админка здесь

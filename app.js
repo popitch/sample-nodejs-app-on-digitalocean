@@ -75,7 +75,7 @@ app.post('/login', async (req, res) => {
         console.log('Login: found user', user && user.login);
         
         if (! user) {
-            return res.render('login', { title: 'No user found with login+password' });
+            return res.render('login', { title: 'Пользователь с таким паролём не найден' });//No user found with login+password' });
         }
     } catch(e) {
         console.log('Error ::', e);
@@ -83,7 +83,8 @@ app.post('/login', async (req, res) => {
     }
     
     console.log('Login: complete');
-    res.render('welcome', { user: req.session.user });
+    app.redirect(307, '/admin/index');
+    //res.render('welcome', { user: req.session.user });
 });
 
 app.get('/logout', async (req, res) => {
