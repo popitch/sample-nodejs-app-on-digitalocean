@@ -1,7 +1,9 @@
 extends layout
 
 block content
-    h1 Здравстуй, #{user.login}!
-    
-    p Админка #[a(href="/admin/index") здесь]
-    
+    h1 Здравствуй, #{ user ? user.login : 'Анонимаус' }!
+
+    if (user)
+        p Админка #[a(href="/admin/index") здесь]
+    else
+        p Логин #[a(href="/login") здесь]
