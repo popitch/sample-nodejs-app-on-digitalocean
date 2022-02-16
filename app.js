@@ -118,15 +118,10 @@ app.all('/admin', function (req, res, next) {
 
 // GET /admin/index
 app.get('/admin/index', async (req, res) => {
-    try {
-        const { db } = require('./db'),
-            exchList = await db.models.Exchanger.findAll();
-        
-        res.render('admin/index', { title: 'Всего', exchList: exchList });
-        //res.send('Exchangers:', exchList.length);
-    } catch(e) {
-        res.send(e);
-    }
+    const { db } = require('./db'),
+        exchList = await db.models.Exchanger.findAll();
+    
+    res.render('admin/index', { title: 'Всего', exchList: exchList });
 });
 
 
