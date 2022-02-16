@@ -93,11 +93,25 @@ app.get('/logout', async (req, res) => {
 
 // admin
 function checkRoot(req, res, next) {
-    if (req.session.user && req.session.user.root) {
+    if (req.session.user && req.session.user.login === 'root') {
         next();
     }
 }
 
+// admin rule
+app.all('/admin', function (req, res, next) {
+    const user = req.session.user;
+    
+    console.log('Admin: Accessing the secret section ...with user', user && user.login);
+    
+    if (user && user.login === 'root') {
+        next();
+    } else {
+        next('/'); // no access 
+    }
+});
+
+// admin index
 app.get('admin/index', async (req, res) => {
     const exchList = await db.models.Exchanger.all();
     
