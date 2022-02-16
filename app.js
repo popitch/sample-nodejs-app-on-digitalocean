@@ -65,7 +65,7 @@ app.post('/login', async (req, res) => {
         
         // try to find user
         const passwd = PASSWD_HASH_FN(req.body.password);
-        console.log('Login: login=' + login + 'passwd=', passwd, 'pw=', req.body.password);
+        console.log('Login: login=' + req.body.login + 'passwd=', passwd, 'pw=', req.body.password);
         
         const user = await db.models.AggUser.findOne({ where: { login: req.body.login, passwd: passwd } });
         
