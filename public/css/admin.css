@@ -2,3 +2,6 @@ form, table {
 	box-shadow: 0 24px 50px 0 rgb(0 0 0 / 12%), 0 5px 15px rgb(0 0 0 / 7%);
 }
 
+td.verify_no {
+	color: lightgrey;
+}

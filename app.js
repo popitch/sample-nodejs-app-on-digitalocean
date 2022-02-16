@@ -124,7 +124,7 @@ app.all('/admin', function (req, res, next) {
 // GET /admin/index
 app.get('/admin/index', async (req, res) => {
     const { db } = require('./db'),
-        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xml', 'name' ]).reverse();
+        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
     res.render('admin/index', {
         title: 'Всего',
