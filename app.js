@@ -101,6 +101,7 @@ function checkRoot(req, res, next) {
 }
 
 // admin rule
+/*
 app.all('/admin', function (req, res, next) {
     const user = req.session.user;
     
@@ -113,8 +114,9 @@ app.all('/admin', function (req, res, next) {
         next('/'); // no access 
     }
 });
+*/
 
-// admin/index
+// GET /admin/index
 app.get('/admin/index', async (req, res) => {
     const { db } = require('./db'),
         exchList = await db.models.Exchanger.findAll();
