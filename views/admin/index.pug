@@ -11,10 +11,15 @@ block content
             <th>Загружены</th>
             <th>Ошиб. курсы</th>
             <th>Сумма резервов</th>
+            <th>Расчёт</th>
+            <th>Дата начала</th>
+            <th></th>
+            <th></th>
+            <th></th>
             <th></th>
         </thead>
         <tbody>
-            each ex in exchList
+        each ex in exchList
             <tr>
                 <td>#{ex.id}</td>
                 <td>#{ex.name}</td>
@@ -23,6 +28,12 @@ block content
                 <td>?</td>
                 <td>-</td>
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
+                <td>#{ex.createdAt && new Date(ex.createdAt)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
