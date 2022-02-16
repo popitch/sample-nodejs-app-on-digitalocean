@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
                 passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
             }], {
                 validate: true,
-                updateOnDuplicate: ['login'],
+                updateOnDuplicate: ['login', 'passwd'],
                 //logging: true,
             });
         console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
