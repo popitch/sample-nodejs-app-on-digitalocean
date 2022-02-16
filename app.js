@@ -122,7 +122,8 @@ app.get('/admin/index', async (req, res) => {
         const { db } = require('./db'),
             exchList = await db.models.Exchanger.findAll();
         
-        res.send('Exchangers:', exchList.length);
+        res.render('admin/index', { exchList: exchList });
+        //res.send('Exchangers:', exchList.length);
     } catch(e) {
         res.send(e);
     }
