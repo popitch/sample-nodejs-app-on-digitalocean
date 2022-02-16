@@ -63,13 +63,11 @@ app.post('/login', async (req, res) => {
         console.log(affp.length, 'affected passwd(s)');
         //*/
         
-        // try to find
-        const user = await db.models.AggUser.findOne({
-            where: {
-                login: req.body.login,
-                passwd: PASSWD_HASH_FN(req.body.password),
-            },
-        });
+        // try to find user
+        const passwd = PASSWD_HASH_FN(req.body.password);
+        console.log('Login: login=' + login + 'passwd=', passwd, 'pw=', req.body.password);
+        
+        const user = await db.models.AggUser.findOne({ where: { login: req.body.login, passwd: passwd } });
         
         // save founds to session
         req.session.user = user;
