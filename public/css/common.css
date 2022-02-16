@@ -1,0 +1,8 @@
+form {
+	display: inline-block;
+}
+
+form input {
+	padding: .3em;
+	border: 1px black solid;
+}

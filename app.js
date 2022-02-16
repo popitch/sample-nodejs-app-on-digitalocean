@@ -112,7 +112,7 @@ app.all('/admin', function (req, res, next) {
     }
 });
 
-// admin index
+// admin/index
 app.get('/admin/index', async (req, res) => {
     const { db } = require('./db'),
         exchList = await db.models.Exchanger.findAll();
