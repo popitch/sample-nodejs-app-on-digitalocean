@@ -3,37 +3,35 @@ extends layout-admin
 block content
     h1 Админка
     
-    <table>
-        <thead>
-            <th>Id</th>
-            <th>Название</th>
-            <th>Курсы</th>
-            <th>Загружены</th>
-            <th>Ошиб. курсы</th>
-            <th>Сумма резервов</th>
-            <th>Расчёт</th>
-            <th>Дата начала</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </thead>
-        <tbody>
+    table
+        thead
+            th Id
+            th Название
+            th Курсы
+            th Загружены
+            th Ошиб. курсы
+            th Сумма резервов
+            th Расчёт
+            th Дата начала
+            th 
+            th 
+            th 
+            th 
+        tbody
         each ex in exchList
             <tr>
-                <td>#{ex.id}</td>
-                <td>#{ex.name}</td>
-                <td>-</td>
-                <td>#{ex.xmlParsedAt && new Date(ex.xmlParsedAt)}</td>
-                <td>?</td>
-                <td>-</td>
+                td #{ex.id}
+                td #{ex.name}
+                td =
+                td #{ex.xmlStartedAt && new Date(ex.xmlStartedAt)}
+                td err?
+                td =
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
-                <td>#{ex.createdAt && new Date(ex.createdAt)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                td ?
+                td #{ex.createdAt && new Date(ex.createdAt)}
+                td 
+                td 
+                td 
+                td 
+                td 
             </tr>
-        </tbody>
-    </table>
