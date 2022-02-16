@@ -1,3 +1,7 @@
+module.exports = {
+    formatDate
+};
+
 function formatDate(date) {
     let diff = new Date() - new Date(date); // разница в миллисекундах
 
