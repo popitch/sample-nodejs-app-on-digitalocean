@@ -6,8 +6,8 @@ const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passw
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-
-const app = express();
+const app = express(),
+    _ = require('lodash');
 
 // setup view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -124,7 +124,7 @@ app.all('/admin', function (req, res, next) {
 // GET /admin/index
 app.get('/admin/index', async (req, res) => {
     const { db } = require('./db'),
-        exchList = await db.models.Exchanger.findAll();
+        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'name']);
     
     res.render('admin/index', {
         title: 'Всего',

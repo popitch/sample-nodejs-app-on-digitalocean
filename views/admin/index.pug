@@ -1,7 +1,7 @@
 extends layout-admin
 
 block content
-    h1 Админка
+    h1 Обменники
     
     table(width="100%")
         thead
@@ -19,7 +19,7 @@ block content
             th XML→
         tbody
         each ex in exchList
-            <tr>
+            tr
                 td #{ex.id}
                 td #{ex.name}
                 td ?
@@ -27,11 +27,10 @@ block content
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td ?
                 td =
-                <!--td>Обменник: #{JSON.stringify(exch)}</td-->
                 td ?
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
-                td #{ xmlLink }#{ xmlLink ? ' →' : '' }=?
-            </tr>
+                td #{ ex.xml }#{ ex.xml ? ' →' : '' }
+    
     script const exchSources = ${ JSON.stringify(exchList, null, 4) };
