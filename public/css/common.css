@@ -6,7 +6,7 @@ form {
 	display: inline-block;
 }
 
-form td, form th {
+table td, table th {
 	text-align: left;
 }
 
