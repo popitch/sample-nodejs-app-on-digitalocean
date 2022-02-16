@@ -94,7 +94,7 @@ app.get('/logout', async (req, res) => {
 });
 
 // admin
-function checkRoot(req, res, next) {
+function checkIsRoot(req, res, next) {
     if (req.session.user && req.session.user.login === 'root') {
         next();
     }
@@ -118,10 +118,14 @@ app.all('/admin', function (req, res, next) {
 
 // GET /admin/index
 app.get('/admin/index', async (req, res) => {
-    const { db } = require('./db'),
-        exchList = await db.models.Exchanger.findAll();
-    
-    res.send('Exchangers:', exchList.length);
+    try {
+        const { db } = require('./db'),
+            exchList = await db.models.Exchanger.findAll();
+        
+        res.send('Exchangers:', exchList.length);
+    } catch(e) {
+        res.send(e);
+    }
 });
 
 
