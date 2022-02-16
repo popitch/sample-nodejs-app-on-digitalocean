@@ -29,14 +29,16 @@ app.use(cookieParser());
 app.use(session({ secret: "Your secret key will here" }));
 
 // setup page routes //
-// /
+
+// GET /
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// /login.html
+// GET /login
 app.get('/login', (req, res) => res.render('login', { title: 'Вход' }));
 
+// POST /login
 app.post('/login', async (req, res) => {
     console.log('Login...');
     
@@ -92,16 +94,26 @@ app.post('/login', async (req, res) => {
     //res.render('welcome', { user: req.session.user });
 });
 
+// GET /logout
 app.get('/logout', async (req, res) => {
     req.session.user = null;
     //res.redirect('/');
     res.render('logout');
 });
 
+// GET /welcome (whois)
+app.get('/welcome', (req, res) => res.render('welcome', { user: req.session.user }));
+
+
 // admin
 function checkIsRoot(req, res, next) {
-    if (req.session.user && req.session.user.login === 'root') {
+    const isRoot = (req.session.user && req.session.user.login === 'root');
+    
+    console.log('checkIsRoot: ', isRoot);
+    if (isRoot) {
         next();
+    } else {
+        res.redirect('/login');
     }
 }
 

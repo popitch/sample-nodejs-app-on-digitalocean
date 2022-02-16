@@ -26,11 +26,11 @@ block content
                 td =
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td ?
-                td =
+                td ?
                 td ?
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
                 td(class = ex.xmlVerified ? 'xml verify_yes' : 'xml verify_no') #{ ex.xml }#{ ex.xml ? ' →' : '' }
     
-    script const exchSources = ${ JSON.stringify(exchList, null, 4) };
+    script const exchSources = #{ JSON.stringify(exchList, null, 4) };
