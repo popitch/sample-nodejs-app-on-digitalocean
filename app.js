@@ -82,8 +82,8 @@ app.post('/login', async (req, res) => {
         return res.render('login', { title: e });
     }
     
-    res.redirect(200, '/admin/index');
     console.log('Login: complete');
+    res.render('welcome', { user: req.session.user });
 });
 
 app.get('/logout', async (req, res) => {
@@ -108,6 +108,7 @@ app.all('/admin', function (req, res, next) {
     if (user && user.login === 'root') {
         next();
     } else {
+        console.log('Admin: Redirect to /');
         next('/'); // no access 
     }
 });
