@@ -82,7 +82,7 @@ app.post('/login', async (req, res) => {
         return res.render('login', { title: e });
     }
     
-    res.redirect(200, 'welcome');
+    res.redirect(200, 'admin/index');
     console.log('Login: complete');
 });
 
@@ -90,6 +90,23 @@ app.get('/logout', async (req, res) => {
     req.session.user = null;
     res.redirect('/');
 });
+
+// admin
+function checkRoot(req, res, next) {
+    if (req.session.user && req.session.user.root) {
+        next();
+    }
+}
+
+app.get('admin/index', checkRoot, async (req, res) => {
+    const exchList = await db.models.Exchanger.all();
+    
+    res.send('Exchangers:', exchList.length);
+});
+
+
+
+
 
 // /table.html
 app.use('/table.html', express.static(path.join(__dirname, 'public/table.html')));
