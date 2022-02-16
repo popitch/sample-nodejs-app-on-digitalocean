@@ -24,7 +24,7 @@ block content
                 td #{ex.name}
                 td =
                 td #{ex.xmlStartedAt && new Date(ex.xmlStartedAt)}
-                td err?
+                td ?
                 td =
                 <!--td>Обменник: #{JSON.stringify(exch)}</td-->
                 td ?
@@ -32,6 +32,6 @@ block content
                 td &times;
                 td &times;
                 td #{xml}
-                td 
+                td #{ JSON.stringify($data) }
                 td 
             </tr>
