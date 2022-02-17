@@ -5,7 +5,7 @@ const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passw
 
 var express = require('express');
 var path = require('path');
-var logger = require('morgan');
+//var logger = require('morgan');
 const app = express(),
     _ = require('lodash');
 
@@ -21,7 +21,7 @@ require('lodash').extend(app.locals,
     require('./helpers/FormatString')
 );
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
