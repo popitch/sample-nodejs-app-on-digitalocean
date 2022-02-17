@@ -125,7 +125,7 @@ function checkIsRoot(req, res, next) {
 }
 
 // admin section's rule
-app.all('/admin/*', checkIsRoot);
+app.all('/admin/**', checkIsRoot);
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', async (req, res) => {
@@ -141,7 +141,7 @@ app.get('/admin/table/exchangers', async (req, res) => {
 // GET /admin/table/exchangers/<id>/edit
 app.get('/admin/table/exchanger/:id/edit', async (req, res) => {
     const { db } = require('./db'),
-        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
+        exchList = await db.models.Exchanger.findOne({ where: { id: id } });
     
     res.render('admin/table/exchangers', {
         title: 'Всего',
