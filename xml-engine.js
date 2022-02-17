@@ -1,9 +1,12 @@
-// init sniffer
 const dbConn = require('./db');
-    
+
 // load exchangers all
-const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-    
+const Exchangers = [];
+(() => { // transit O_o
+    const list = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    for (let one; one = list.shift(); Exchangers.push(one));
+})();
+
 // transcript date values
 Exchangers.forEach(exch => {
     exch.createdAt = exch.createdAt && new Date(exch.createdAt);
