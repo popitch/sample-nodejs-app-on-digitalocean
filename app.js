@@ -138,6 +138,17 @@ app.get('/admin/table/exchangers', async (req, res) => {
     });
 });
 
+// GET /admin/table/exchangers/<id>/edit
+app.get('/admin/table/exchanger/:id/edit', async (req, res) => {
+    const { db } = require('./db'),
+        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
+    
+    res.render('admin/table/exchangers', {
+        title: 'Всего',
+        exchList: exchList,
+    });
+});
+
 
 
 

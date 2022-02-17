@@ -5,7 +5,7 @@ body {
 form {
 	display: inline-block;
 }
-form input {
+form input, form button {
 	padding: .3em;
 	border: 1px black solid;
 }
