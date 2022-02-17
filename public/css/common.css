@@ -11,8 +11,9 @@ form input, form button {
 }
 
 table td, table th {
-    padding: .4em .4em;
-	text-align: left;
+    padding: 0em 0.4em;
+    text-align: left;
+    line-height: 2em;
 }
 thead th {
     border-bottom: 1px solid lightgray;
@@ -79,5 +80,5 @@ i.rate-flag {
 
 .utf8-icon {
 	text-decoration: none;
-	font-size: 1.1em;
+	/* font-size: 1.1em; */
 }
