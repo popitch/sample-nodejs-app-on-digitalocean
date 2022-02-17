@@ -38,5 +38,6 @@ block content
                         a(href=ex.xml target="_blank") #{ ex.xml }#{ ex.xml ? ' →' : '' }
                     else
                         span #{ ex.xml }
+                
                 td.tr-hover_show
-                    a.utf8-icon(href="/admin/table/exchangers/" + ex.id + "/edit") ✎
+                    a.utf8-icon(href=url("admin.exchanger.edit", { id: ex.id })) ✎

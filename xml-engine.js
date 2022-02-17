@@ -290,7 +290,7 @@ dbConn.then(async (db) => {
                 
                 rate.exchangerId = exch.bcId || exch.id;
                 
-                if (!rate.from || rate.to) {
+                if (!rate.from || !rate.to) {
                     console.log('BAD RATE:', rate);
                     exch.badRates.push(rate);
                     return [];
