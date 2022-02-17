@@ -23,9 +23,9 @@ block content
         tbody
         each ex in exchList
             tr
-                td.id #{ex.id}
-                td #{ex.name}
-                td ?
+                td.id #{ ex.id }
+                td #{ ex.name }
+                td #{ ex.description && 'Да' }
                 td.rates_count #{ (touchesByExchangerId[ex.id] || {}).length || 0 }
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 td #{ ex.badRates ? ex.badRates.legth : 0 }
