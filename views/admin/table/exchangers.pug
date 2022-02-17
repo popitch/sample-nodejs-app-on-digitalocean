@@ -6,6 +6,7 @@ block content
     table(width="100%")
         thead
             th.tr-hover_visible
+                _
             th Id
             th Название
             th Описание
@@ -20,7 +21,7 @@ block content
         tbody
         each ex in exchList
             tr
-                td.hover_visible
+                td.tr-hover_visible
                     a.utf8-icon(href="/admin/table/exchangers/" + ex.id + "/edit") ✎
                 td #{ex.id}
                 td #{ex.name}
