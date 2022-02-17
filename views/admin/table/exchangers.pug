@@ -5,12 +5,10 @@ block content
     
     table(width="100%")
         thead
-            th.tr-hover_visible
-                _
-            th Id
+            th.id Id
             th Название
             th Описание
-            th Курсы
+            th.rates_count Курсы
             th Загружены
             //th Ошиб. курсы
             th Сумма резервов
@@ -18,15 +16,14 @@ block content
             th ru→
             th en→
             th XML→
+            th(style="min-width: 2em")
         tbody
         each ex in exchList
             tr
-                td.tr-hover_visible
-                    a.utf8-icon(href="/admin/table/exchangers/" + ex.id + "/edit") ✎
-                td #{ex.id}
+                td.id #{ex.id}
                 td #{ex.name}
                 td ?
-                td =
+                td.rates_count =
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 //td ?
                 td ?
@@ -38,5 +35,7 @@ block content
                         a(href=ex.xml target="_blank") #{ ex.xml }#{ ex.xml ? ' →' : '' }
                     else
                         span #{ ex.xml }
+                td.tr-hover_show
+                    a.utf8-icon(href="/admin/table/exchangers/" + ex.id + "/edit") ✎
     
     script const exchSources = !{ JSON.stringify(exchList, null, 4) };

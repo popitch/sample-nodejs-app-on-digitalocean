@@ -30,6 +30,9 @@ thead tr {
 .tr-hover_visible { visibility: hidden }
 tr:hover .tr-hover_visible { visibility: visible }
 
+.tr-hover_show { display: none }
+tr:hover .tr-hover_show { display: block }
+
 /* flags */
 .rate-flags {
     transition: color .2s .1s;
