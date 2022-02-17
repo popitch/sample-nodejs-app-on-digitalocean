@@ -1,16 +1,16 @@
 // run xmlTractor = 
 require('./xml-engine');
 
+// app
+const express = require('express'),
+    app = express();
+
 // setup common things
 const path = require('path'),
     _ = require('lodash');
 
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 app.locals.basedir = __dirname; //path.join(__dirname, 'views');
-
-// app
-const express = require('express'),
-    app = express();
 
 // setup routes engine
 const router = new (require('named-routes'));
