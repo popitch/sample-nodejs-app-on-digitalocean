@@ -17,7 +17,7 @@ dbConn.then(async (db) => {
         exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
         exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
-})();
+});
 
 // exports
 module.exports = {
