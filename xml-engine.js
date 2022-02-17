@@ -7,17 +7,6 @@ const fs = require('fs'),
 
 // load exchangers all
 let Exchangers;
-dbConn.then(async (db) => {
-    Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-
-    // transcript date values
-    Exchangers.forEach(exch => {
-        exch.createdAt = exch.createdAt && new Date(exch.createdAt);
-        exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
-        exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
-        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
-    });
-});
 
 // exports
 module.exports = {
@@ -176,7 +165,7 @@ const Cached = {
     })()
 };
 
-(async (db) => {
+dbConn.then(async (db) => {
     const
         makeStages = require('./stages'), stagesLoggerSpaces = [],
         schema = require('./db.schema'),
@@ -185,6 +174,16 @@ const Cached = {
         exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
         
         snifferUpAt = new Date;
+    
+    Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+
+    // transcript date values
+    Exchangers.forEach(exch => {
+        exch.createdAt = exch.createdAt && new Date(exch.createdAt);
+        exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
+        exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
+        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
+    });
 
     console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
@@ -402,5 +401,4 @@ const Cached = {
             ));
         }
     }
-})(dbConn.db);
-                                                                                                                                                                                                                                                                                                                        
+});
