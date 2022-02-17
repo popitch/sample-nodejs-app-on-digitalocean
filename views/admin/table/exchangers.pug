@@ -1,5 +1,8 @@
 extends /views/admin/layout-admin
 
+script const touchesByExchangerId = !{ JSON.stringify(touchesByExchangerId, null, 4) };
+script const exchSources = !{ JSON.stringify(exchList, null, 4) };
+
 block content
     h1 Обменники
     
@@ -23,7 +26,7 @@ block content
                 td.id #{ex.id}
                 td #{ex.name}
                 td ?
-                td.rates_count #{ touchesByExchangerId[ex.id] ? touchesByExchangerId[ex.id].rates.length : 0 }
+                td.rates_count #{ null && touchesByExchangerId[ex.id] ? touchesByExchangerId[ex.id].rates.length : 0 }
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 //td ?
                 td ?
@@ -37,5 +40,3 @@ block content
                         span #{ ex.xml }
                 td.tr-hover_show
                     a.utf8-icon(href="/admin/table/exchangers/" + ex.id + "/edit") ✎
-    
-    script const exchSources = !{ JSON.stringify(exchList, null, 4) };
