@@ -5,7 +5,6 @@ body {
 form {
 	display: inline-block;
 }
-
 form input {
 	padding: .3em;
 	border: 1px black solid;
@@ -15,13 +14,61 @@ table td, table th {
     padding: .4em .4em;
 	text-align: left;
 }
-
 thead th {
     border-bottom: 1px solid lightgray;
 }
-
 thead tr {
     position: sticky;
     top: 0;
     background: white;
+}
+
+/* flags */
+
+.rate-flags {
+    transition: color .2s .1s;
+    text-align: right;
+    white-space: nowrap;
+}
+
+i.rate-flag {
+    display: inline-block;
+    /* float: right; */
+    width: 1.06em;
+    height: 1em;
+    border: 0px dotted black;
+    border-radius: 50%;
+    line-height: 1em;
+    text-align: center;
+    text-transform: capitalize;
+    background: white;
+}
+
+.rate-flag::before {
+    content: '...';
+    font-size: .8em;
+    font-style: normal;
+    color: black;
+}
+.rate-flag-manual::before { content: 'm' }
+.rate-flag-floating::before { content: '⇅' }  /* ↕ */
+.rate-flag-percent::before { content: '%' }
+.rate-flag-otherin::before { content: '↯' }
+.rate-flag-otherout::before { content: '↯'; transform: rotate(180 degrees) }
+.rate-flag-card2card::before { content: '🧍🧍' }
+.rate-flag-delivery::before { content: '🚗'; font-size: .7em; }
+.rate-flag-verifying::before { content: '🧍' }
+.rate-flag-cardverify::before { content: '💳' }
+.rate-flag-reg::before { content: '🔑' }
+.rate-flag-purse::before { content: '👛' }
+.rate-flag-official::before { content: '💼' }
+.rate-flag-delay::before { content: '⏳' }
+/*
+.rate-flag-::before { content: '' }
+.rate-flag-::before { content: '' }
+*/
+
+.utf8-icon {
+	text-decoration: none;
+	font-size: 1.1em;
 }

@@ -8,3 +8,7 @@ td.xml {
 td.xml.verify_no {
 	color: lightgrey;
 }
+tbody tr:nth-child(odd),
+tbody tr:hover {
+    background: #7dcde7;
+}
