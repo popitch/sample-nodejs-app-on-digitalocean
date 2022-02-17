@@ -128,7 +128,12 @@ app.get('/admin/table/exchangers', async (req, res) => {
     
     res.render('admin/table/exchangers', {
         title: 'Всего',
-        exchList: exchList,
+        exchList: exchList.map(ex => {
+            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
+                ex[dateKey] &&= new Date(ex[dateKey]);
+            });
+            return ex;
+        }),
     });
 });
 
