@@ -124,24 +124,11 @@ function checkIsRoot(req, res, next) {
     }
 }
 
-// admin rule
-/*
-app.all('/admin', function (req, res, next) {
-    const user = req.session.user;
-    
-    console.log('Admin: Accessing the secret section ...with user', user && user.login);
-    
-    if (user && user.login === 'root') {
-        next();
-    } else {
-        console.log('Admin: Redirect to /');
-        next('/'); // no access 
-    }
-});
-*/
+// admin section's rule
+app.all('/admin', checkIsRoot);
 
 // GET /admin/index
-app.get('/admin/index', checkIsRoot, async (req, res) => {
+app.get('/admin/index', async (req, res) => {
     const { db } = require('./db'),
         exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
