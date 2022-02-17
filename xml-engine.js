@@ -289,9 +289,11 @@ dbConn.then(async (db) => {
                 
                 rate.exchangerId = exch.bcId || exch.id;
                 
+                rate.from && rate.to || console.log('BAD RATE:', rate);
+                
                 // case from=108, to=129 pcs...
                 rate.from = rate.from.toUpperCase().trim();
-                rate.fix = rate.to.toUpperCase().trim();
+                rate.to = rate.to.toUpperCase().trim();
                 
                 rate.firedAt = +new Date;
                 
