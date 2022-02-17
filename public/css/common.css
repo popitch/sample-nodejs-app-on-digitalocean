@@ -10,6 +10,9 @@ form input, form button {
 	border: 1px black solid;
 }
 
+table {
+    border-collapse: collapse;
+}
 table td, table th {
     padding: 0em 0.4em;
     text-align: left;
