@@ -5,6 +5,15 @@ const fs = require('fs'),
    fetch = require('node-fetch'),
  convert = require('xml-js');
 
+const
+    makeStages = require('./stages'), stagesLoggerSpaces = [],
+    schema = require('./db.schema'),
+      
+    // short-hand
+    exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
+    
+    snifferUpAt = new Date;
+
 // load exchangers all
 let Exchangers;
 
@@ -166,15 +175,6 @@ const Cached = {
 };
 
 dbConn.then(async (db) => {
-    const
-        makeStages = require('./stages'), stagesLoggerSpaces = [],
-        schema = require('./db.schema'),
-          
-        // short-hand
-        exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
-        
-        snifferUpAt = new Date;
-    
     Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
 
     // transcript date values
