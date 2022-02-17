@@ -4,8 +4,9 @@ module.exports = {
 
 function formatDate(date) {
     if (!date) return date;
+    date = new Date(date);
     
-    let diff = new Date() - new Date(date); // разница в миллисекундах
+    let diff = new Date() - date; // разница в миллисекундах
 
     if (diff < 1000) { // меньше 1 секунды
         return 'прямо сейчас';
