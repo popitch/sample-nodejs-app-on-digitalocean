@@ -57,26 +57,14 @@ app.post('/login', async (req, res) => {
         res.status("400");
         return res.render('login', { title: 'Введите оба параметра, логин и пароль' });
     }
-    /*
-    if (req.session.user) {
-        console.log('Login: already logged in ', req.session.user.login);
-        return res.render('login', { title: 'Already logged in ' + req.session.user.login });
-    }
-    */
     
     try {
         const { db } = require('./db');
         
         /*/ setup) root passw..
-        const affp = await db.models.AggUser
-            .bulkCreate([{
-                login: 'root',
-                passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
-            }], {
-                validate: true,
-                updateOnDuplicate: ['login', 'passwd'],
-                //logging: true,
-            });
+        const affp = await db.models.AggUser.bulkCreate([{ login: 'root', passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT) }], {
+            validate: true, updateOnDuplicate: ['login', 'passwd']
+        });
         console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
         //*/
         
@@ -140,9 +128,11 @@ app.get('/admin/table/exchangers', async (req, res) => {
 });
 
 // GET /admin/table/exchangers/<id>/edit
-app.get('/admin/table/exchangers/:id/edit', async (req, res) => {
+app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, res) => {
+    console.log('admin.exchanger.edit', req);
+    
     const { db } = require('./db'),
-        exchList = await db.models.Exchanger.findOne({ where: { id: id } });
+        exchList = await db.models.Exchanger.findOne({ where: { id: req.id } });
     
     res.render('admin/table/exchangers', {
         title: 'Всего',
@@ -157,21 +147,11 @@ app.get('/admin/table/exchangers/:id/edit', async (req, res) => {
 // /table.html
 app.use('/table.html', express.static(path.join(__dirname, 'public/table.html')));
 
-
 // any http: static
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // static for /cached/*.json
 app.use('/cached', express.static(path.join(__dirname, 'public/cached')));
-
-/*/ dynamic for exchange table
-const tableRouter = require('./routes/table');
-app.use('/table', tableRouter);
-//*/
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 var createError = require('http-errors');
