@@ -97,8 +97,8 @@ app.post('/login', async (req, res) => {
     }
     
     console.log('Login: complete');
-    res.redirect(307, '/admin/index');
-    //res.render('welcome', { user: req.session.user });
+    //res.redirect(307, '/admin/index');
+    res.render('welcome', { user: req.session.user });
 });
 
 // GET /logout
