@@ -2,7 +2,7 @@ const dbConn = require('./db');
 
 // load exchangers all
 const Exchangers = [];
-(() => { // transit O_o
+(async () => { // transit O_o
     const list = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
     for (let one; one = list.shift(); Exchangers.push(one));
 })();
@@ -83,7 +83,7 @@ const Cached = {
         const touchedTree = {};
         
         return {
-            DEFAUL_TOUCHED_TAIL_SIZE: 100,
+            DEFAULT_TOUCHED_TAIL_SIZE: 100,
             
             all: () => _.flatten(_.map(touchedTree, _.values)),
             
@@ -161,7 +161,7 @@ const Cached = {
                         (a.created - b.created) || // how old
                         (a.updates - b.updates) // update requests
                     )
-                    .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
+                    .slice(0, size || Cached.pairs.DEFAULT_TOUCHED_TAIL_SIZE);
                 
                 return page;
             },
