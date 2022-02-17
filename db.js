@@ -79,7 +79,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
     
-    await queryInterface.addColumn('Exchanger', 'description', schema.Exchanger.fields.description);
+    await queryInterface.addColumn('exchangers', 'description', schema.Exchanger.fields.description);
     /*
     await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
