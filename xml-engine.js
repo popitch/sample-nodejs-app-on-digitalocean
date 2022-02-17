@@ -20,6 +20,7 @@ Exchangers.forEach(exch => {
     exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
 });
 
+// exports
 module.exports = {
     touchPairsByExchangerId: () => _.groupBy(Cached.pairs.touchedAll(), 'exchangerId'),
 };
