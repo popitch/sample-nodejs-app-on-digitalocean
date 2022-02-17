@@ -4,8 +4,7 @@ block content
     h1 #{title}
 
     form.login(action = "/login" method = "POST")
-        input(name = "target" type = "hidden" value="view")
-        input(name = "login" type = "text" required placeholder = "Login" value="")
+        //input(name = "target" type = "hidden" value="view")
+        input(name = "login" type = "text" required placeholder = "Login" value="root")
         input(name = "password" type = "password" required placeholder = "Password")
         button(type = "Submit") Войти
-    

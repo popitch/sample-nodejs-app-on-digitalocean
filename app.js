@@ -115,8 +115,9 @@ app.get('/logout', async (req, res) => {
 app.get('/welcome', (req, res) => res.render('welcome', { user: req.session.user }));
 
 
-// admin
-function checkIsRoot(req, res, next) {
+ // admin area rule
+//
+app.all('/admin/**', (req, res, next) => {
     const isRoot = (req.session.user && req.session.user.login === 'root');
     
     console.log('checkIsRoot: ', isRoot);
@@ -125,10 +126,7 @@ function checkIsRoot(req, res, next) {
     } else {
         res.redirect(302, '/login');
     }
-}
-
-// admin section's rule
-app.all('/admin/**', checkIsRoot);
+});
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', async (req, res) => {
@@ -142,7 +140,7 @@ app.get('/admin/table/exchangers', async (req, res) => {
 });
 
 // GET /admin/table/exchangers/<id>/edit
-app.get('/admin/table/exchanger/:id/edit', async (req, res) => {
+app.get('/admin/table/exchangers/:id/edit', async (req, res) => {
     const { db } = require('./db'),
         exchList = await db.models.Exchanger.findOne({ where: { id: id } });
     
