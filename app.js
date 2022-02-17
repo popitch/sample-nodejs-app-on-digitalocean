@@ -1,16 +1,21 @@
-//const xmlTractor = 
+// run xmlTractor = 
 require('./xml-engine');
 
-const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
-
-var express = require('express');
-var path = require('path');
-//var logger = require('morgan');
-const app = express(),
+// setup common things
+const path = require('path'),
     _ = require('lodash');
 
-// setup common
+const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 app.locals.basedir = __dirname; //path.join(__dirname, 'views');
+
+// app
+const express = require('express'),
+    app = express();
+
+// setup routes engine
+const router = new (require('named-routes'));
+router.extendExpress(app);
+router.registerAppHelpers(app);
 
 // setup view engine
 app.set('views', path.join(__dirname, 'views'));
