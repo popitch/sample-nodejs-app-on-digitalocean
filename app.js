@@ -127,7 +127,7 @@ app.get('/admin/table/exchangers', async (req, res) => {
         exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
     res.render('admin/table/exchangers', {
-        title: 'Всего',
+        title: 'Обменники',
         exchList: exchList.map(ex => {
             ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
                 ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
@@ -143,11 +143,11 @@ app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, 
     console.log('admin.exchanger.edit', req);
     
     const { db } = require('./db'),
-        exchList = await db.models.Exchanger.findOne({ where: { id: req.id } });
+        exch = await db.models.Exchanger.findOne({ where: { id: req.id } });
     
-    res.render('admin/table/exchangers', {
-        title: 'Обменники',
-        exchList: exchList,
+    res.render('admin/table/exchanger.edit', {
+        title: exch.name,
+        exch: exch,
     });
 });
 

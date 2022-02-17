@@ -358,6 +358,12 @@ dbConn.then(async (db) => {
                 // mark as not started
                 exch.xmlStartedAt = null;
                 
+                // find common flags
+                const ratesFlags = ratesBulkClean.map(r => _.keys(r.param)),
+                    crossFlags = ratesFlags[0] ? ratesFlags.slice(1).reduce(_.intersection, ratesFlags[0]) : [];
+                
+                exch.param = crossFlags;
+                
                 xmlFinishUp(1500, 1.0); // interval 1500ms.. to ..50% CPU time
                 
                 console.log('xml', exch.xmlStage.short(), 'from', exch.xml); 
