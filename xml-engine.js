@@ -6,11 +6,7 @@ const fs = require('fs'),
  convert = require('xml-js');
 
 // load exchangers all
-const Exchangers = [];
-(async () => { // transit O_o
-    const list = await dbConn.db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-    for (let one; one = list.shift(); Exchangers.push(one));
-})();
+const Exchangers = await dbConn.db.models.Exchanger.findAll({ where: { xmlVerified: true } });
 
 // transcript date values
 Exchangers.forEach(exch => {
