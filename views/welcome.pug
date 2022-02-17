@@ -5,8 +5,8 @@ block content
 
     if (user)
         p Админка #[a(href="/admin/index") здесь], через несколько секунд мы туда и отправимся...
-        <script>
-            setTimeout(eval.bind(this, "location = '/admin/index'"), 3000);
-        </script>
+        
+        - var code = "setTimeout(_ => { location = '/admin/index' }, 3000)";
+        script !{code}
     else
         p Логин #[a(href="/login") здесь]
