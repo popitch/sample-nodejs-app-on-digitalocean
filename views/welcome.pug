@@ -6,6 +6,6 @@ block content
     if (user)
         p Админка #[a(href="/admin/index") здесь], через несколько секунд мы туда и отправимся...
         script
-            setTimeout(() => { location = '/admin/index' }, 3000);
+            setTimeout(function() { location = '/admin/index' }, 3000);
     else
         p Логин #[a(href="/login") здесь]
