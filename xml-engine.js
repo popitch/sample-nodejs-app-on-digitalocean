@@ -291,7 +291,6 @@ dbConn.then(async (db) => {
                 rate.exchangerId = exch.bcId || exch.id;
                 
                 if (! rate.from || ! rate.to) {
-                    console.log('BAD RATE:', rate);
                     exch.badRates.push(rate);
                     return [];
                 }
@@ -305,6 +304,10 @@ dbConn.then(async (db) => {
                 return [rate];
             });
             end('rates', ratesBulk.length);
+            
+            if (exch.badRates.length) {
+                console.log('BAD RATES:', exch.badRates.length, '~', exch.badRates[0]);
+            }
             
             // clear bulk without duplicates, to be updated
             //begin('dups'); // min-logs
