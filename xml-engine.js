@@ -254,6 +254,7 @@ dbConn.then(async (db) => {
         
         // reset with common spaces
         exch.xmlStage.reset({ spaces: stagesLoggerSpaces });
+        exch.badRates = [];
         
         try {
             if (exch.xmlStartedAt) throw 'already run | has no';
@@ -276,7 +277,7 @@ dbConn.then(async (db) => {
             }
             
             begin('rates');
-            const ratesBulk = (jso.rates.item || []).map((rate, i) => {
+            const ratesBulk = (jso.rates.item || []).flatMap((rate, i) => {
                 rate = _.transform(rate, (r, v, k) => {
                     if (! _.isEmpty(v)) { // igrore <empty/>
                         if (0 === i && ! v._text) console.warn("Can't parse", k, 'with', v);
@@ -289,7 +290,11 @@ dbConn.then(async (db) => {
                 
                 rate.exchangerId = exch.bcId || exch.id;
                 
-                rate.from && rate.to || console.log('BAD RATE:', rate);
+                if (!rate.from || rate.to) {
+                    console.log('BAD RATE:', rate);
+                    exch.badRates.push(rate);
+                    return [];
+                }
                 
                 // case from=108, to=129 pcs...
                 rate.from = rate.from.toUpperCase().trim();
@@ -297,7 +302,7 @@ dbConn.then(async (db) => {
                 
                 rate.firedAt = +new Date;
                 
-                return rate;
+                return [rate];
             });
             end('rates', ratesBulk.length);
             
