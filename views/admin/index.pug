@@ -10,9 +10,8 @@ block content
             th Описание
             th Курсы
             th Загружены
-            th Ошиб. курсы
+            //th Ошиб. курсы
             th Сумма резервов
-            th Расчёт
             th Дата начала
             th ru→
             th en→
@@ -25,8 +24,7 @@ block content
                 td ?
                 td =
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
-                td ?
-                td ?
+                //td ?
                 td ?
                 td #{ formatDate(ex.createdAt) }
                 td &times;
