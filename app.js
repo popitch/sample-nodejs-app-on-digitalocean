@@ -9,6 +9,9 @@ var logger = require('morgan');
 const app = express(),
     _ = require('lodash');
 
+// setup common
+app.locals.basedir = __dirname; //path.join(__dirname, 'views');
+
 // setup view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
