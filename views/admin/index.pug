@@ -31,6 +31,10 @@ block content
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
-                td(class = ex.xmlVerified ? 'xml verify_yes' : 'xml verify_no') #{ ex.xml }#{ ex.xml ? ' →' : '' }
+                td(class = ex.xmlVerified ? 'xml verify_yes' : 'xml verify_no')
+                    if (ex.xmlVerified)
+                        a(href=ex.xml target="_blank") #{ ex.xml }#{ ex.xml ? ' →' : '' }
+                    else
+                        span #{ ex.xml }
     
     script const exchSources = !{ JSON.stringify(exchList, null, 4) };
