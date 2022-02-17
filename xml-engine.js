@@ -1,5 +1,172 @@
 // init sniffer
 const dbConn = require('./db');
+    
+// load exchangers all
+const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    
+// transcript date values
+Exchangers.forEach(exch => {
+    exch.createdAt = exch.createdAt && new Date(exch.createdAt);
+    exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
+    exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
+    exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
+});
+
+module.exports = {
+    
+};
+
+// writer of /cached/(*).json
+const Cached = {
+    DIR: './public/cached/',
+    
+    putJson: (name, data) => {
+        const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
+            
+        if (! fs.existsSync(dir)) {
+            console.log('mkdir', dir);
+            
+            fs.mkdirSync(dir, /*0744,*/ { recursive: true });
+        }
+        
+        fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
+        
+        return Cached;
+    },
+    
+    putAll: () => {
+        Cached.putExchangers();
+        
+        Cached.pairs.putPairsJson();
+        
+        // at end
+        Cached.putProcessReport();
+    },
+    
+    putExchangers: () => {
+        return Cached.putJson('exchangers', Exchangers.map(
+            exch => _.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
+        ));
+    },
+    
+    putProcessReport: async () => {
+        const pairsAll = Cached.pairs.all();
+        
+        let dbReport;
+        await dbConn.then(async (db) => {
+            //console.log(db)
+            dbReport = {
+                exchangers: await db.models.Exchanger.count({ logging: false }),
+                rates: await db.models.ExchangeRate.count({ logging: false }),
+            };
+        });
+        
+        return Cached.putJson('process', {
+            up: snifferUpAt,
+            now: new Date,
+            jsoncached: {
+                exchangers: Exchangers.length,
+                rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
+                pairs: Cached.pairs.processReport(),
+            },
+            db: dbReport,
+            node: {
+                mem: process.memoryUsage(),
+            }
+        });
+    },
+    
+    pairs: (() => {
+        const touchedTree = {};
+        
+        return {
+            DEFAUL_TOUCHED_TAIL_SIZE: 100,
+            
+            all: () => _.flatten(_.map(touchedTree, _.values)),
+            
+            mapTouchTree: (iterator) => {
+                const result = {};
+                for (let from in touchedTree) {
+                    const touchedBranch = touchedTree[from];
+                    result[from] = result[from] || {};
+                    for (let to in touchedBranch) {
+                        const touch = touchedBranch[to];
+                        result[from][to] = iterator(touch);
+                    }
+                }
+                return result;
+            },
+            
+            // delete rate from touch.rates[]
+            deleteRate: (from, to, rate) => {
+                const touch = touchedTree[from][to];
+                touch.rates = touch.rates.filter(r => r !== rate);
+                touch.updates++;
+            },
+            
+            touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
+            
+            // saved in touched[from][to] 
+            touch: (from, to, rate) => {
+                //if (_.isArray(rate))
+                //    return rate.map(rate => Cached.pairs.touch(from, to, rate));
+                
+                const
+                    fromBranch = touchedTree[from] = touchedTree[from] || {},
+                    fromBranchToTouch = fromBranch[to] = fromBranch[to]
+                        //|| console.log('pair', from, 'to', to, 'with', _.keys(fromBranch).sort())
+                        || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
+                
+                //if (0 === touch.times) touched.push(touch); // from array-version
+                
+                const rateExchangerId = rate.exchangerId,
+                    rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
+                
+                if (-1 !== rateIndex) {
+                    if (! _.isEqual(fromBranchToTouch.rates[rateIndex], rate)) {
+                        fromBranchToTouch.rates[rateIndex] = _.clone(rate);
+                        
+                        if (! fromBranchToTouch.updates++) {
+                            fromBranchToTouch.created = +new Date; // first update
+                        }
+                    }
+                } else {
+                    fromBranchToTouch.rates.push(rate);
+                    
+                    if (! fromBranchToTouch.updates++) {
+                        fromBranchToTouch.created = +new Date; // first update
+                    }
+                }
+            },
+            
+            processReport: () => {
+                const touchedAll = Cached.pairs.touchedAll(),
+                    oldest = _.min(touchedAll, 'created'),
+                    greedy = _.max(touchedAll, 'updates');
+                
+                return oldest && {
+                    all: Cached.pairs.all().length,
+                    touched: touchedAll.length,
+                    oldy_updated: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
+                    greedy_wants: greedy.updates,
+                };
+            },
+            
+            touchedTail: (size) => {
+                const page = Cached.pairs.touchedAll()
+                    .sort((a,b) =>
+                        (a.created - b.created) || // how old
+                        (a.updates - b.updates) // update requests
+                    )
+                    .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
+                
+                return page;
+            },
+
+            putPairsJson: () => Cached.putJson('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
+        };
+    })()
+};
 
 dbConn.then(async (db) => {
     const fs = require('fs'),
@@ -14,171 +181,7 @@ dbConn.then(async (db) => {
         exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
         
         snifferUpAt = new Date;
-    
-    // load exchangers all
-    const Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-    
-    // transcript dates values
-    Exchangers.forEach(exch => {
-        exch.createdAt = exch.createdAt && new Date(exch.createdAt);
-        exch.updatedAt = exch.updatedAt && new Date(exch.updatedAt);
-        exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
-        exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
-    });
-    
 
-    // writer of /cached/(*).json
-    const Cached = {
-        DIR: './public/cached/',
-        
-        putJson: (name, data) => {
-            const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
-                
-            if (! fs.existsSync(dir)) {
-                console.log('mkdir', dir);
-                
-                fs.mkdirSync(dir, /*0744,*/ { recursive: true });
-            }
-            
-            fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
-            
-            return Cached;
-        },
-        
-        putAll: () => {
-            Cached.putExchangers();
-            
-            Cached.pairs.putPairsJson();
-            
-            // at end
-            Cached.putProcessReport();
-        },
-        
-        putExchangers: () => {
-            return Cached.putJson('exchangers', Exchangers.map(
-                exch => _.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
-            ));
-        },
-        
-        putProcessReport: async () => {
-            const pairsAll = Cached.pairs.all();
-            
-            let dbReport;
-            await dbConn.then(async (db) => {
-                //console.log(db)
-                dbReport = {
-                    exchangers: await db.models.Exchanger.count({ logging: false }),
-                    rates: await db.models.ExchangeRate.count({ logging: false }),
-                };
-            });
-            
-            return Cached.putJson('process', {
-                up: snifferUpAt,
-                now: new Date,
-                jsoncached: {
-                    exchangers: Exchangers.length,
-                    rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
-                    pairs: Cached.pairs.processReport(),
-                },
-                db: dbReport,
-                node: {
-                    mem: process.memoryUsage(),
-                }
-            });
-        },
-        
-        pairs: (() => {
-            const touchedTree = {};
-            
-            return {
-                DEFAUL_TOUCHED_TAIL_SIZE: 100,
-                
-                all: () => _.flatten(_.map(touchedTree, _.values)),
-                
-                mapTouchTree: (iterator) => {
-                    const result = {};
-                    for (let from in touchedTree) {
-                        const touchedBranch = touchedTree[from];
-                        result[from] = result[from] || {};
-                        for (let to in touchedBranch) {
-                            const touch = touchedBranch[to];
-                            result[from][to] = iterator(touch);
-                        }
-                    }
-                    return result;
-                },
-                
-                // delete rate from touch.rates[]
-                deleteRate: (from, to, rate) => {
-                    const touch = touchedTree[from][to];
-                    touch.rates = touch.rates.filter(r => r !== rate);
-                    touch.updates++;
-                },
-                
-                touchedAll: () => Cached.pairs.all().filter(touch => touch.updates > 0),
-                
-                // saved in touched[from][to] 
-                touch: (from, to, rate) => {
-                    //if (_.isArray(rate))
-                    //    return rate.map(rate => Cached.pairs.touch(from, to, rate));
-                    
-                    const
-                        fromBranch = touchedTree[from] = touchedTree[from] || {},
-                        fromBranchToTouch = fromBranch[to] = fromBranch[to]
-                            //|| console.log('pair', from, 'to', to, 'with', _.keys(fromBranch).sort())
-                            || { from: from, to: to, updates: 0, created: +new Date, rates: [] };
-                    
-                    //if (0 === touch.times) touched.push(touch); // from array-version
-                    
-                    const rateExchangerId = rate.exchangerId,
-                        rateIndex = _.findIndex(fromBranchToTouch.rates, rate => rateExchangerId === rate.exchangerId);
-                    
-                    if (-1 !== rateIndex) {
-                        if (! _.isEqual(fromBranchToTouch.rates[rateIndex], rate)) {
-                            fromBranchToTouch.rates[rateIndex] = _.clone(rate);
-                            
-                            if (! fromBranchToTouch.updates++) {
-                                fromBranchToTouch.created = +new Date; // first update
-                            }
-                        }
-                    } else {
-                        fromBranchToTouch.rates.push(rate);
-                        
-                        if (! fromBranchToTouch.updates++) {
-                            fromBranchToTouch.created = +new Date; // first update
-                        }
-                    }
-                },
-                
-                processReport: () => {
-                    const touchedAll = Cached.pairs.touchedAll(),
-                        oldest = _.min(touchedAll, 'created'),
-                        greedy = _.max(touchedAll, 'updates');
-                    
-                    return oldest && {
-                        all: Cached.pairs.all().length,
-                        touched: touchedAll.length,
-                        oldy_updated: new Date(oldest.created) + ' (' + (+new Date - oldest.created) / 1e3 + ' secs old)',
-                        greedy_wants: greedy.updates,
-                    };
-                },
-                
-                touchedTail: (size) => {
-                    const page = Cached.pairs.touchedAll()
-                        .sort((a,b) =>
-                            (a.created - b.created) || // how old
-                            (a.updates - b.updates) // update requests
-                        )
-                        .slice(0, size || Cached.pairs.DEFAUL_TOUCHED_TAIL_SIZE);
-                    
-                    return page;
-                },
-
-                putPairsJson: () => Cached.putJson('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
-            };
-        })()
-    };
-    
     console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
     
     // start pairs json writer
