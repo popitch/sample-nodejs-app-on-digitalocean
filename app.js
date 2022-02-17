@@ -142,7 +142,7 @@ app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, 
     res.render('admin/table/exchangers', {
         title: 'Обменники',
         exchList: exchList,
-        touchPairsByExchangerId: xmlRoratorEngine.touchPairsByExchangerId(),
+        touchesByExchangerId: xmlRoratorEngine.touchesByExchangerId(),
     });
 });
 

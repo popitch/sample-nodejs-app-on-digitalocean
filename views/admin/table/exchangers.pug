@@ -23,7 +23,7 @@ block content
                 td.id #{ex.id}
                 td #{ex.name}
                 td ?
-                td.rates_count #{ (touchPairsByExchangerId[ex.id].rates || { length: 0 }).length }
+                td.rates_count #{ touchesByExchangerId[ex.id] ? touchesByExchangerId[ex.id].rates.length : 0 }
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt)}
                 //td ?
                 td ?

@@ -6,7 +6,10 @@ const fs = require('fs'),
  convert = require('xml-js');
 
 // load exchangers all
-const Exchangers = await dbConn.db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+let Exchangers;
+(async () => {
+    Exchangers = await dbConn.db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+})();
 
 // transcript date values
 Exchangers.forEach(exch => {
@@ -18,7 +21,7 @@ Exchangers.forEach(exch => {
 
 // exports
 module.exports = {
-    touchPairsByExchangerId: () => _.groupBy(Cached.pairs.touchedAll(), 'exchangerId'),
+    touchesByExchangerId: () => _.groupBy(Cached.pairs.all(), 'exchangerId'),
 };
 
 // writer of /cached/(*).json
