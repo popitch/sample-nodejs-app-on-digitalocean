@@ -140,7 +140,7 @@ app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, 
         exchList = await db.models.Exchanger.findOne({ where: { id: req.id } });
     
     res.render('admin/table/exchangers', {
-        title: 'Всего',
+        title: 'Обменники',
         exchList: exchList,
         touchPairsByExchangerId: xmlRoratorEngine.touchPairsByExchangerId(),
     });

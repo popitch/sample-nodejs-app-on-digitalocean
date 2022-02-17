@@ -1,4 +1,4 @@
-const { dbConn, db } = require('./db');
+const dbConn = require('./db');
 
 const fs = require('fs'),
        _ = require('lodash'),
@@ -8,7 +8,7 @@ const fs = require('fs'),
 // load exchangers all
 const Exchangers = [];
 (async () => { // transit O_o
-    const list = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    const list = await dbConn.db.models.Exchanger.findAll({ where: { xmlVerified: true } });
     for (let one; one = list.shift(); Exchangers.push(one));
 })();
 
@@ -61,13 +61,13 @@ const Cached = {
         const pairsAll = Cached.pairs.all();
         
         let dbReport;
-        await dbConn.then(async (db) => {
+        //await dbConn.then(async (db) => {
             //console.log(db)
             dbReport = {
-                exchangers: await db.models.Exchanger.count({ logging: false }),
-                rates: await db.models.ExchangeRate.count({ logging: false }),
+                exchangers: await dbConn.db.models.Exchanger.count({ logging: false }),
+                rates: await dbConn.db.models.ExchangeRate.count({ logging: false }),
             };
-        });
+        //});
         
         return Cached.putJson('process', {
             up: snifferUpAt,
@@ -176,7 +176,7 @@ const Cached = {
     })()
 };
 
-dbConn.then(async (db) => {
+(async (db) => {
     const
         makeStages = require('./stages'), stagesLoggerSpaces = [],
         schema = require('./db.schema'),
@@ -402,5 +402,5 @@ dbConn.then(async (db) => {
             ));
         }
     }
-}).catch(console.error);
+})(dbConn.db);
                                                                                                                                                                                                                                                                                                                         
