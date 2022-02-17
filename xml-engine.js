@@ -1,4 +1,9 @@
-const dbConn = require('./db');
+const { dbConn, db } = require('./db');
+
+const fs = require('fs'),
+       _ = require('lodash'),
+   fetch = require('node-fetch'),
+ convert = require('xml-js');
 
 // load exchangers all
 const Exchangers = [];
@@ -16,7 +21,7 @@ Exchangers.forEach(exch => {
 });
 
 module.exports = {
-    
+    touchPairsByExchangerId: () => _.groupBy(Cached.pairs.touchedAll(), 'exchangerId'),
 };
 
 // writer of /cached/(*).json
@@ -172,11 +177,7 @@ const Cached = {
 };
 
 dbConn.then(async (db) => {
-    const fs = require('fs'),
-           _ = require('lodash'),
-       fetch = require('node-fetch'),
-     convert = require('xml-js'),
-        
+    const
         makeStages = require('./stages'), stagesLoggerSpaces = [],
         schema = require('./db.schema'),
           
