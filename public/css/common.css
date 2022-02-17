@@ -23,8 +23,11 @@ thead tr {
     background: white;
 }
 
-/* flags */
+/* shorthand */
+.hover_visible { visibility: hidden }
+.hover_visible:hover { visibility: visible }
 
+/* flags */
 .rate-flags {
     transition: color .2s .1s;
     text-align: right;

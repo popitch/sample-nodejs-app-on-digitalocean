@@ -127,12 +127,12 @@ function checkIsRoot(req, res, next) {
 // admin section's rule
 app.all('/admin/*', checkIsRoot);
 
-// GET /admin/index
-app.get('/admin/index', async (req, res) => {
+// GET /admin/table/exchangers
+app.get('/admin/table/exchangers', async (req, res) => {
     const { db } = require('./db'),
         exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
-    res.render('admin/index', {
+    res.render('admin/table/exchangers', {
         title: 'Всего',
         exchList: exchList,
     });
