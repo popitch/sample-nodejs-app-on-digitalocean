@@ -125,7 +125,7 @@ function checkIsRoot(req, res, next) {
 }
 
 // admin section's rule
-app.all('/admin', checkIsRoot);
+app.all('/admin/*', checkIsRoot);
 
 // GET /admin/index
 app.get('/admin/index', async (req, res) => {
