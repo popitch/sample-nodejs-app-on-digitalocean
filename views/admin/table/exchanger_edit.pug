@@ -3,7 +3,7 @@ extends /views/admin/layout-admin
 block content
     script const exch = !{ JSON.stringify(exch, null, 4) };
 
-    h1 Обменники
+    h1 #{exch.name}
     
     table(width="100%")
         thead
@@ -21,12 +21,29 @@ block content
                     strong #{ exch.name }
             tr
                 td Полное название
-                td input(type="text" id="fullname" value=exch.fullname)
+                td
+                    input(type="text" id="fullname" value=exch.fullname)
             tr
                 td Описание
-                td textarea(id="description" value=exch.description)
+                td
+                    textarea(id="description" value=exch.description)
             tr
                 td Курсы
-                td #{(ratesByExchangerId[exch.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
+                td #{ (ratesByExchangerId[exch.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
             tr
-                td 
+                td Дата начала
+                td #{ formatDate(exch.createdAt) }
+            tr
+                td Ссылка, ru
+                td
+                    input(type="text" id="ru" value=exch.ru)
+            tr
+                td Ссылка, en
+                td
+                    input(type="text" id="en" value=exch.en)
+            tr
+                td
+                    | Ссылка, 
+                    strong xml
+                td
+                    input(type="text" id="xml" value=exch.xml)

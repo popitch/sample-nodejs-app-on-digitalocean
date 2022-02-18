@@ -14,7 +14,7 @@ block content
             th.rates_count Курсы
             th Загружены
             th Ошиб. курсы
-            th Сумма резервов
+            //th Сумма резервов
             th Дата начала
             th ru→
             th en→
@@ -29,7 +29,7 @@ block content
                 td.rates_count #{ (ratesByExchangerId[ex.id] || {}).length || 0 }
                 td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt) }
                 td #{ ex.badRates ? ex.badRates.legth : 0 }
-                td ?
+                //td ?
                 td #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
