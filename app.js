@@ -167,6 +167,20 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     });
 });
 
+// POST /admin/table/exchangers/<id>/edit
+app.post('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) => {
+    const { db } = require('./db'),
+        exch = await db.models.Exchanger.findOne({ where: { id: req.body.id } });
+    
+    if (! exch) {
+        return res.send("Unknown exchanger requested, id: " + req.body.id);
+    }
+    
+    _.each(['fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
+        exch.setDataValue(key, req.body[key]);
+    });
+    exch.save();
+});
 
 
 
