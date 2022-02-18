@@ -1,4 +1,7 @@
 extends /views/admin/layout-admin
+        
+block append scripts
+    script(src="/admin/js/exchanger_edit.js")
 
 block content
     script const exch = !{ JSON.stringify(exch, null, 4) };

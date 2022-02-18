@@ -85,6 +85,16 @@ module.exports = {
                 defaultValue: null,
                 allowNull: true,
             },
+            ru: {
+                type: DataTypes.STRING,
+                defaultValue: null,
+                allowNull: true,
+            },
+            en: {
+                type: DataTypes.STRING,
+                defaultValue: null,
+                allowNull: true,
+            },
             param: {
                 type: DataTypes.JSON,
                 defaultValue: '{}',
