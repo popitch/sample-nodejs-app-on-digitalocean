@@ -4,7 +4,7 @@ block content
     if (user)
         h1 Здравствуй, #{ user.login }!
     
-        if (isRoot)
+        if ("root" === user.login)
             p Админка #[a(href="/admin/table/exchangers") здесь], через несколько секунд мы отправимся...
         
             - var code = "setTimeout(_ => { location = '/admin/table/exchangers' }, 500)";
