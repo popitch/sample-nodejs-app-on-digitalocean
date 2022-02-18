@@ -1,5 +1,10 @@
 //js
 
+$(() => {
+    $('input, textarea').on('change keyup', setButtonVisibility);
+    setButtonVisibility();
+});
+
 function setButtonVisibility() {
     const current = $('input, textarea').get()
         .reduce((values, input) => {
