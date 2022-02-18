@@ -8,8 +8,9 @@ block content
     table(width="100%")
         thead
             tr
-                //th key
-                //th value
+                th
+                th
+                    button(text="Сохранить" id="save_button")
         tbody
             tr
                 td id
@@ -50,7 +51,7 @@ block content
             tr
                 td
                     | Ссылка 
-                    strong xml
+                    strong xml 
                     | проверена
                 td
                     input(name="xmlVerified" type="checkbox" id="exch.xmlVerified" checked=exch.xmlVerified)
