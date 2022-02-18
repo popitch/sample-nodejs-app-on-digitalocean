@@ -6,7 +6,7 @@ function setButtonVisibility() {
             values[input.name] = $(input).is(':checkbox') ? !!$(input).is(':checked') : $(input).val();
             return values;
         }, {}),
-        isIdent = _.isEqual(_.pick(exch, _.keys('current')), current);
+        isIdent = _.all(_.keys('current'), key => !current[key] && !exch[key] || current[key] === exch[key]);
     
     console.log('isIdent:', isIdent, ', current:', current, ', exch:', exch);
     
