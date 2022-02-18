@@ -27,6 +27,6 @@ block content
                 td textarea(id="description" value=exch.description)
             tr
                 td Курсы
-                td #{(ratesByExchangerId[ex.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
+                td #{(ratesByExchangerId[exch.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
             tr
                 td 
