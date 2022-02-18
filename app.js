@@ -151,14 +151,14 @@ app.get('/admin/table/exchangers', async (req, res) => {
 
 // GET /admin/table/exchangers/<id>/edit
 app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, res) => {
-    console.log('admin.exchanger.edit', req);
+    console.log('admin.exchanger.edit', req.params);
     
-    if ('root' !== req.session.user.login && req.id != req.session.user.id) {
+    if ('root' !== req.session.user.login && req.params.id != req.session.user.id) {
         return res.send('not root && not owner cond');
     }
     
     const { db } = require('./db'),
-        exch = await db.models.Exchanger.findOne({ where: { id: req.id } });
+        exch = await db.models.Exchanger.findOne({ where: { id: req.params.id } });
     
     res.render('admin/table/exchanger.edit', {
         title: exch.name,
