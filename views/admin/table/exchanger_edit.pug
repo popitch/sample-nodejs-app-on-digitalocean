@@ -22,11 +22,11 @@ block content
             tr
                 td Полное название
                 td
-                    input(type="text" id="fullname" value=exch.fullname)
+                    input(type="text" name="fullname" id="exch.fullname" value=exch.fullname)
             tr
                 td Описание
                 td
-                    textarea(id="description" value=exch.description)
+                    textarea(name="description" id="exch.description" value=exch.description)
             tr
                 td Курсы
                 td #{ (ratesByExchangerId[exch.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
@@ -36,14 +36,22 @@ block content
             tr
                 td Ссылка, ru
                 td
-                    input(type="text" id="ru" value=exch.ru)
+                    input(name="ru" type="text" id="exch.ru" value=exch.ru)
             tr
                 td Ссылка, en
                 td
-                    input(type="text" id="en" value=exch.en)
+                    input(name="en" type="text" id="exch.en" value=exch.en)
             tr
                 td
-                    | Ссылка, 
+                    | Ссылка 
                     strong xml
                 td
-                    input(type="text" id="xml" value=exch.xml)
+                    input(name="xml" type="text" id="exch.xml" value=exch.xml)
+            tr
+                td
+                    | Ссылка 
+                    strong xml
+                    | проверена
+                td
+                    input(name="xmlVerified" type="checkbox" id="exch.xmlVerified" checked=exch.xmlVerified)
+                    
