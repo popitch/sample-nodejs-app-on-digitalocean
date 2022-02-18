@@ -115,7 +115,7 @@ app.get('/logout', async (req, res) => {
 app.get('/welcome', (req, res) => {
     res.render('welcome', {
         user: req.session.user,
-        isRoot: 'root' === req.session.user.name,
+        isRoot: 'root' === req.session.user.login,
     });
 });
 
