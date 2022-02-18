@@ -53,8 +53,7 @@ app.get('/', (req, res) => {
 // GET /login
 app.get('/login', (req, res) => {
     res.render('login', {
-        title: 'Вход',
-        
+        title: 'Вход'
     });
 });
 
