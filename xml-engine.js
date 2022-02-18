@@ -21,7 +21,7 @@ let Exchangers;
 module.exports = {
     touchesAll: () => Cached.pairs.all(),
     ratesAll: () => Cached.pairs.all().flatMap(t => t.rates),
-    touchesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
+    ratesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
 };
 
 // writer of /cached/(*).json

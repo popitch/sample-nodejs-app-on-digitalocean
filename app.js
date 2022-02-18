@@ -98,7 +98,7 @@ app.post('/login', async (req, res) => {
     
     const loggedUser = req.session.user;
     
-    console.log('Login: complete, with', loggedUser);
+    console.log('Login: complete, with', loggedUser.login);
     
     res.render('welcome', { user: loggedUser });
 });
@@ -145,7 +145,7 @@ app.get('/admin/table/exchangers', async (req, res) => {
             });
             return ex;
         }),
-        touchesByExchangerId: xmlRoratorEngine.touchesByExchangerId(),
+        ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
     });
 });
 
@@ -163,6 +163,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     res.render('admin/table/exchanger_edit', {
         title: exch.name,
         exch: exch,
+        ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
     });
 });
 

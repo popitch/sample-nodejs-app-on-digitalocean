@@ -21,8 +21,12 @@ block content
                     strong #{ exch.name }
             tr
                 td Полное название
-                input(type="text" id="fullname" value=exch.fullname)
-            
+                td input(type="text" id="fullname" value=exch.fullname)
             tr
                 td Описание
-                textarea(id="description" value=exch.description)
+                td textarea(id="description" value=exch.description)
+            tr
+                td Курсы
+                td #{(ratesByExchangerId[ex.id] || {}).length || 0} (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
+            tr
+                td 
