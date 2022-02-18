@@ -1,12 +1,17 @@
 extends layout
 
 block content
-    h1 Здравствуй, #{ user ? user.login : 'Анонимаус' }!
-
     if (user)
-        p Админка #[a(href="/admin/table/exchangers") здесь], через несколько секунд мы отправимся...
+        h1 Здравствуй, #{ user.login }!
+    
+        if (isRoot)
+            p Админка #[a(href="/admin/table/exchangers") здесь], через несколько секунд мы отправимся...
         
-        - var code = "setTimeout(_ => { location = '/admin/table/exchangers' }, 1500)";
-        script !{code}
+            - var code = "setTimeout(_ => { location = '/admin/table/exchangers' }, 500)";
+            script !{code}
+        else
+            p 
     else
-        p Логин #[a(href="/login") здесь]
+        h1 Здравствуй, Анонимаус!
+    
+        p Логин #[a(href="/login") здесь], можно залогиниться, если ты сотрудник.

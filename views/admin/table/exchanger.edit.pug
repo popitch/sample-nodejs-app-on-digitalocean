@@ -1,0 +1,28 @@
+extends /views/admin/layout-admin
+
+block content
+    script const exch = !{ JSON.stringify(exch, null, 4) };
+
+    h1 Обменники
+    
+    table(width="100%")
+        thead
+            tr
+                th key
+                th value
+        tbody
+            tr
+                td id
+                td
+                    strong #{ exch.id }
+            tr
+                td Название
+                td
+                    strong #{ exch.name }
+            tr
+                td Полное название
+                input(type="text" id="fullname" value=exch.fullname)
+            
+            tr
+                td Описание
+                textarea(id="description" value=exch.description)

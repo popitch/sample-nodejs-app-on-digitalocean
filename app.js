@@ -51,7 +51,12 @@ app.get('/', (req, res) => {
 });
 
 // GET /login
-app.get('/login', (req, res) => res.render('login', { title: 'Вход' }));
+app.get('/login', (req, res) => {
+    res.render('login', {
+        title: 'Вход',
+        
+    });
+});
 
 // POST /login
 app.post('/login', async (req, res) => {
@@ -88,13 +93,15 @@ app.post('/login', async (req, res) => {
             return res.render('login', { title: 'Пользователь с таким паролём не найден' });//No user found with login+password' });
         }
     } catch(e) {
-        console.log('Error ::', e);
+        console.log('Login: ERROR:', e);
         return res.render('login', { title: e });
     }
     
-    console.log('Login: complete');
-    //res.redirect(307, '/admin/index');
-    res.render('welcome', { user: req.session.user });
+    const loggedUser = req.session.user;
+    
+    console.log('Login: complete, with', loggedUser);
+    
+    res.render('welcome', { user: loggedUser });
 });
 
 // GET /logout
@@ -105,7 +112,12 @@ app.get('/logout', async (req, res) => {
 });
 
 // GET /welcome (whois)
-app.get('/welcome', (req, res) => res.render('welcome', { user: req.session.user }));
+app.get('/welcome', (req, res) => {
+    res.render('welcome', {
+        user: req.session.user,
+        isRoot: 'root' === req.session.user.name,
+    });
+});
 
 
  // admin area rule
@@ -141,6 +153,10 @@ app.get('/admin/table/exchangers', async (req, res) => {
 // GET /admin/table/exchangers/<id>/edit
 app.get('/admin/table/exchangers/:id/edit', 'admin.exchanger.edit', async (req, res) => {
     console.log('admin.exchanger.edit', req);
+    
+    if ('root' !== req.session.user.login && req.id != req.session.user.id) {
+        return res.send('not root && not owner cond');
+    }
     
     const { db } = require('./db'),
         exch = await db.models.Exchanger.findOne({ where: { id: req.id } });
