@@ -22,9 +22,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 
-require('lodash').extend(app.locals,
-    require('./helpers/FormatString')
-);
+const FormatString = require('./helpers/FormatString');
+require('lodash').extend(app.locals, FormatString);
 
 //app.use(logger('dev'));
 app.use(express.json());
@@ -168,7 +167,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 });
 
 // POST /admin/table/exchangers/<id>/edit
-app.post('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) => {
+app.post('/admin/table/exchangers/:id', async (req, res) => {
     const { db } = require('./db'),
         exch = await db.models.Exchanger.findOne({ where: { id: req.body.id } });
     
@@ -180,6 +179,8 @@ app.post('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res)
         exch.setDataValue(key, req.body[key]);
     });
     exch.save();
+    
+    res.redirect(302, router.build('admin.exchanger_edit', { id: req.body.id }));
 });
 
 
