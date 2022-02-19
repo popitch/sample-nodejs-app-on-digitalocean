@@ -14,3 +14,11 @@ tbody tr:nth-child(odd) {
 tbody tr:hover {
     background: #7dcde7;
 }
+
+form {
+    font-size: 125%;
+}
+form input[type="text"],
+form textarea {
+	width: 32em;
+}
