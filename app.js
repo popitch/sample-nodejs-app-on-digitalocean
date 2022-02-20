@@ -187,12 +187,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
                 console.log('... exch.setDataValue(', key, ', ', req.body[key], ') ...');
                 exch.setDataValue(key, req.body[key]);
             }
-            /*
-            if (_.has(req.body, 'key')) {
-                console.log('... exch[', key, '] = ', req.body[key], '');
+            //if (_.has(req.body, 'key')) {
                 exch[key] = req.body[key];
-            }
-            */
+                console.log('... exch[', key, '] = ', req.body[key], '');
+            //}
         });
         
         console.log('save exch ...', exch.id);
