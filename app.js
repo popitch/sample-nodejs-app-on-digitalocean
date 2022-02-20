@@ -184,6 +184,11 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
 
 // POST /admin/table/users/<login> (update)
 app.post('/admin/table/users/:login', async (req, res) => {
+    if ('root' !== req.session.user.login && 'root' === req.params.login) {
+        console.warn('Admin: no root trying to change root... user:', req.session.user);
+        return res.send('No root');
+    }
+    
     const { db } = require('./db'),
         { DataTypes } = require('sequelize');
         
