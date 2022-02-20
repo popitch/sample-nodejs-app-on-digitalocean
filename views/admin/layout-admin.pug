@@ -22,5 +22,7 @@ html
             a(href=url("admin.exchangers")) Обменники
             | 
             a(href="/logout") Выйти
+            | 
+            strong #{ session.user.login || req.session.user.login }
         
         block content
