@@ -172,6 +172,21 @@ app.all('/admin/**', (req, res, next) => {
     }
 });
 
+
+// GET /admin/index
+app.get('/admin/index', async (req, res) => {
+    if ('root' !== req.session.user.login) {
+        return res.redirect(302, '/login');
+    }
+    
+    res.render('welcome', {
+        user: req.session.user,
+        isRoot: 'root' === req.session.user.login,
+});
+});
+
+
+
 //function checkIsRoot(req)
 
 /*
