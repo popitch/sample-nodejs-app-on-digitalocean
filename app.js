@@ -211,7 +211,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
     
     try {
         const ATTRS = AggUser.getAttributes(),
-            UPDATE_KEYS = _.difference(_.keys(ATTRS), ['id']);
+            UPDATE_KEYS = _.difference(_.keys(ATTRS), ['id', 'passwd']);
         
         _.forEach(UPDATE_KEYS, (key) => {
             let changed = false;

@@ -22,7 +22,7 @@ block content
             tr
                 td.id #{ user.id }
                 td #{ user.login }
-                td #{ isEmptyPasswd ? 'Да' : '' }
+                td #{ isEmptyPasswd ? 'Нет' : '' }
                 td.date_view #{ formatDate(user.createdAt) }
                 
                 td.tr-hover_show
