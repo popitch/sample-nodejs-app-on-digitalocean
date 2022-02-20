@@ -15,6 +15,10 @@ tbody tr:hover {
     background: #7dcde755;
 }
 
+form td.date_view {
+	font-size: 90%;
+}
+
 form {
     font-size: 125%;
 }

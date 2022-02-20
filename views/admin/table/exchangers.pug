@@ -32,10 +32,10 @@ block content
                 td #{ ex.name }
                 td #{ ex.description && 'Да' }
                 td.rates_count #{ (ratesByExchangerId[ex.id] || {}).length || 0 }
-                td #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt) }
+                td.date_view #{ formatDate(ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt) }
                 td #{ ex.badRates ? ex.badRates.legth : 0 }
                 //td ?
-                td #{ formatDate(ex.createdAt) }
+                td.date_view #{ formatDate(ex.createdAt) }
                 td &times;
                 td &times;
                 td(class = ex.xmlVerified ? 'xml verify_yes' : 'xml verify_no')
