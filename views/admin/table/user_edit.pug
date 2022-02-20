@@ -41,4 +41,4 @@ block content
                         select(name="exchangerId" value=user.exchangerId)
                             option(value="") Нет
                             for exch in exchangerList
-                                option(value=exch.id) #{ exch.name }
+                                option(value=exch.id checked=(user.exchangerId == exch.id)) #{ exch.name }
