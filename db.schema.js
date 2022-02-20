@@ -74,6 +74,7 @@ module.exports = {
                 type: DataTypes.STRING(32),
                 defaultValue: null,
                 allowNull: false,
+                unique: true,
             },
             fullname: {
                 type: DataTypes.STRING(64),
@@ -143,8 +144,8 @@ module.exports = {
         ],
         fields: {
             id: {
-                primaryKey: true,
                 type: DataTypes.INTEGER,
+                primaryKey: true,
                 autoIncrement: true,
             },
 

@@ -192,9 +192,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
                 console.log('... exch[', key, '] = ', req.body[key], '');
             //}
         });
+        exch["xmlVerified"] == !! req.body[key];
         
         console.log('save exch ...', exch.id);
-        const saveResult = await exch.save();
+        const saveResult = await exch.save({ fields: ['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'] });
         console.log('... save exch', saveResult);
         
         res.redirect(302, router.build('admin.exchanger_edit', { id: exch.id || req.params.id }));
