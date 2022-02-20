@@ -11,7 +11,7 @@ window.onbeforeunload = function(){
 };
 */
 function getIsIdently() {
-    const current = $('input, textarea').get()
+    const current = $('input, textarea, selects').get()
         .reduce((values, input) => {
             values[input.name] = $(input).is(':checkbox') ? !! $(input).is(':checked') : $(input).val();
             return values;

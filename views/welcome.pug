@@ -11,7 +11,13 @@ block content
             //- var code = "setTimeout(_ => { location = '/admin/table/users' }, 0&& 500)";
             script !{code}
         else
-            p 
+            p Вы можете редактировать:
+            ul
+                if (user.exchangerId)
+                    li
+                        a(href=url("admin.exchanger_edit", { id: user.exchangerId })) свой обменник
+                li
+                    a(href=url("admin.user_edit", { login: user.login })) свой профиль
     else
         h1 Здравствуй, Анонимаус!
     
