@@ -150,14 +150,11 @@ app.get('/admin/table/exchangers', async (req, res) => {
 
 // GET /admin/table/exchangers/<id>/edit
 app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) => {
-    console.log('admin.exchanger_edit', req.params);
-    
     if ('root' !== req.session.user.login && req.params.id != req.session.user.id) {
-        return res.send('not root && not owner cond');
+        return res.send('Admin: not root && not owner cond from view/admin.exchanger_edit');
     }
     
-    const { db } = require('./db'),
-        exch = await db.models.Exchanger.findOne({ where: { id: req.params.id } });
+    const exch = await require('./db').db.models.Exchanger.findOne({ where: { id: req.params.id } });
     
     res.render('admin/table/exchanger_edit', {
         title: exch.name,
@@ -168,8 +165,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 
 // POST /admin/table/exchangers/<id>/edit
 app.post('/admin/table/exchangers/:id', async (req, res) => {
-    const { db } = require('./db'),
-        exch = await db.models.Exchanger.findOne({ where: { id: req.body.id } });
+    const exch = await require('./db').db.models.Exchanger.findOne({ where: { id: req.body.id } });
     
     if (! exch) {
         return res.send("Unknown exchanger requested, id: " + req.body.id);
