@@ -5,7 +5,12 @@ $(() => {
     setButtonVisibility();
 });
 
-function setButtonVisibility() {
+window.onbeforeunload = function(){
+    console.log('Tab try to be closing...');
+    return getIsIdently() ? '' : 'Пропадут изменения Обменника на этой странице, норм?';
+};
+
+function getIsIdently() {
     const current = $('input, textarea').get()
         .reduce((values, input) => {
             values[input.name] = $(input).is(':checkbox') ? !! $(input).is(':checked') : $(input).val();
@@ -15,5 +20,9 @@ function setButtonVisibility() {
     
     console.log('isIdent:', isIdent, ', current:', current, ', exch:', exch);
     
-    $('button')[0].style.visibility = isIdent ? 'hidden' : 'visible';
+    return isIdent;
+}
+
+function setButtonVisibility() {
+    $('button')[0].style.visibility = getIsIdently() ? 'hidden' : 'visible';
 }

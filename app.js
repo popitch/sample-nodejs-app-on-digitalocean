@@ -132,7 +132,7 @@ app.all('/admin/**', (req, res, next) => {
 });
 
 // GET /admin/table/exchangers
-app.get('/admin/table/exchangers', async (req, res) => {
+app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
     const Exchanger = require('./db').db.models.Exchanger,
         exchList = _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
@@ -186,10 +186,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         });
         exch.save();
         
-        res.redirect(302, router.build('admin.exchanger_edit', { id: req.params.id }));
+        res.redirect(302, router.build('admin.exchanger_edit', { id: exch.id || req.params.id }));
     } catch(e) {
         console.log('Admin: error occurs while to save exchanger:', e);
-        res.send(e);
+        res.send(e.message);
     }
 });
 
