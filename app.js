@@ -136,12 +136,13 @@ _.forEach({
     exchanger: {
         
     },
-}, (table, ENTITY_ID) => {
-    const TABLE_ID = tableId
-        , LIST_LINK_NAME = table.listLinkName || 'admin.exchangers',
+}, (table, ID) => {
+    const LIST_ID = table.listId || ID + 's'
+        , LIST_LINK_NAME = table.listLinkName || 'admin.' + ID + 's'
+        , 
         
 });
-*/
+//*/
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
