@@ -4,7 +4,7 @@ block append scripts
     script(src="/admin/js/user_edit.js?0")
 
 block content
-    script const exch = !{ JSON.stringify(exch, null, 4) };
+    script const user = !{ JSON.stringify(user, null, 4) };
 
     h1 Пользователь: #{ user.name || 'Новый' }
     

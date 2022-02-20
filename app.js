@@ -226,9 +226,9 @@ app.post('/admin/table/users/:login', async (req, res) => {
             console.log('.. user[', key, '] = ', user[key], changed ? '' : ' (no change)');
         });
         
-        if (req.body.passwd) {
+        if (req.body.passwd && user.passwd !== PASSWD_HASH_FN(req.body.passwd)) {
             user.passwd = PASSWD_HASH_FN(req.body.passwd);
-            console.log('.. user[passwd] = ', user.passwd, changed ? '' : ' (no change)');
+            console.log('.. user[passwd] = ', user.passwd);
         }
         
         console.log('save user ...', user.id);
