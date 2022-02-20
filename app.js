@@ -188,12 +188,12 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         });
         
         console.log('save exch ...', exch.id);
-        const saveResult = await exch.save();        
-        console.log('... save exch', exch.id);
+        const saveResult = await exch.save();       
+        console.log('... save exch', saveResult);
         
         res.redirect(302, router.build('admin.exchanger_edit', { id: exch.id || req.params.id }));
     } catch(e) {
-        console.log('Admin: error occurs while to save exchanger:', e);
+        console.log('Admin: error occurs while to save exchanger:', e, 'with request.body', req.body);
         res.send(e.message);
     }
 });
