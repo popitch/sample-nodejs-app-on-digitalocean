@@ -25,9 +25,13 @@ block content
                     td
                         strong #{ user.id }
                 tr
-                    td Название
+                    td Логин
                     td
                         if (isNew)
                             input(type="text" name="login" value=user.login)
                         else
                             strong #{ user.login }
+                tr
+                    td Пароль
+                    td
+                        input(name="passwd")

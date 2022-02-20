@@ -164,6 +164,7 @@ app.get('/admin/table/users', 'admin.users', async (req, res) => {
 // GET /admin/table/users/<login> (edit)
 app.get('/admin/table/users/(:login)', 'admin.user_edit', async (req, res) => {
     if ('root' !== req.session.user.login && req.params.login != req.session.user.login) {
+        console.warn('! Admin: access denied to edit root from', req.session.user.login);
         return res.redirect(302, '/login');
     }
     
@@ -185,7 +186,7 @@ app.get('/admin/table/users/(:login)', 'admin.user_edit', async (req, res) => {
 // POST /admin/table/users/<login> (update)
 app.post('/admin/table/users/:login', async (req, res) => {
     if ('root' !== req.session.user.login && 'root' === req.params.login) {
-        console.warn('Admin: no root trying to change root... user:', req.session.user);
+        console.warn('! Admin: no root trying to change root... user:', req.session.user);
         return res.send('No root');
     }
     
@@ -225,7 +226,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
         const saveResult = await user.save({ fields: UPDATE_KEYS });
         console.log('... save user', saveResult);
         
-        res.redirect(302, router.build('admin.user_edit', { login: user.login || req.params.login }));
+        res.redirect(302, router.build('admin.user_edit', { login: user.login }));
     } catch(e) {
         console.log('Admin: error occurs while to save USER:', e, 'with request.body', req.body, 'with user', user);
         res.send(e.message);
