@@ -12,6 +12,20 @@ const path = require('path'),
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 app.locals.basedir = __dirname; //path.join(__dirname, 'views');
 
+
+
+
+
+// common data accessors
+function getSortedExchangerList() {
+    Exchanger = require('./db').db.models.Exchanger;
+    return _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse()
+}
+
+
+
+
+
 // setup routes engine
 const router = new (require('named-routes'));
 router.extendExpress(app);
@@ -183,7 +197,8 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
     res.render('admin/table/user_edit', {
         title: (user.login || '<Новый>') + ' - Пользователи',
         user: user,
-        isNew
+        isNew,
+        exchangerList: getSortedExchangerList(),
     });
 });
 
@@ -248,8 +263,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
-    const Exchanger = require('./db').db.models.Exchanger,
-        exchList = _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse();
+    const exchList = getSortedExchangerList();
     
     res.render('admin/table/exchangers', {
         title: 'Обменники',

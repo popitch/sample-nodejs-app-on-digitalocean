@@ -29,6 +29,12 @@ module.exports = {
                 allowNull: false,
             },
             
+            exchangerId: {
+                type: DataTypes.INTEGER,
+                defaultValue: null,
+                allowNull: true,
+            },
+            
             group: {
                 type: DataTypes.INTEGER,
                 defaultValue: null,

@@ -35,3 +35,10 @@ block content
                     td Пароль
                     td
                         input(name="passwd")
+                tr
+                    td Представитель обменника
+                    td
+                        select(value=user.exchangerId)
+                            option(value="") Нет
+                        for exch in exchangerList
+                            option(value=exch.id) #{ exch.name }
