@@ -175,18 +175,15 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
     const Exchanger = require('./db').db.models.Exchanger,
         isNew = 'new' === req.params.id,
         exch = isNew ? new Exchanger : await Exchanger.findOne({ where: { id: req.params.id } });
-        
+    
+    if (! exch) {
+        return res.send("Unknown exchanger requested, id: " + req.params.id);
+    }
+    
     try {
-        if (! exch) {
-            return res.send("Unknown exchanger requested, id: " + req.params.id);
-        }
-        
-        _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
-            console.log('... key=', key);
-            if (_.has(exch, 'key')) {
-                exch[key] = req.body[key];
-                console.log('... exch[', key, '] = ', req.body[key], '');
-            }
+        _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml'], key => {
+            exch[key] = req.body[key];
+            console.log('.. exch[', key, '] = ', exch[key], '');
         });
         exch["xmlVerified"] == !! req.body["xmlVerified"];
         
