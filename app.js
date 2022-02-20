@@ -162,14 +162,14 @@ app.get('/admin/table/users', 'admin.users', async (req, res) => {
 });
 
 // GET /admin/table/users/<login> (edit)
-app.get('/admin/table/users/(:login)', 'admin.user_edit', async (req, res) => {
+app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
     if ('root' !== req.session.user.login && req.params.login != req.session.user.login) {
         console.warn('! Admin: access denied to edit root from', req.session.user.login);
         return res.redirect(302, '/login');
     }
     
     const AggUser = require('./db').db.models.AggUser,
-        isNew = '' === req.params.login,
+        isNew = 'new' === req.params.login,
         user = isNew ? new AggUser : await AggUser.findOne({ where: { login: req.params.login } });
     
     if (! user) {
