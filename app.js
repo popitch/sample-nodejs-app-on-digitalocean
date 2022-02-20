@@ -17,9 +17,18 @@ app.locals.basedir = __dirname; //path.join(__dirname, 'views');
 
 
 // common data accessors
-function getSortedExchangerList() {
+async function getSortedExchangerList() {
     Exchanger = require('./db').db.models.Exchanger;
-    return _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse()
+    return _.chain(await Exchanger.findAll())
+        .map(ex => {
+            // js-shn dates
+            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
+                ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
+            });
+            return ex;
+        })
+        .sortBy([ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ])
+        .reverse();
 }
 
 
@@ -198,7 +207,7 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
         title: (user.login || '<Новый>') + ' - Пользователи',
         user: user,
         isNew,
-        exchangerList: getSortedExchangerList(),
+        exchangerList: await getSortedExchangerList(),
     });
 });
 
@@ -263,16 +272,11 @@ app.post('/admin/table/users/:login', async (req, res) => {
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
-    const exchList = getSortedExchangerList();
+    const exchList = await getSortedExchangerList();
     
     res.render('admin/table/exchangers', {
         title: 'Обменники',
-        exchList: exchList.map(ex => {
-            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
-                ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
-            });
-            return ex;
-        }),
+        exchList: exchList,
         ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
     });
 });
