@@ -183,6 +183,11 @@ _.forEach({
 
 // GET /admin/table/users
 app.get('/admin/table/users', 'admin.users', async (req, res) => {
+    if ('root' !== req.session.user.login) {
+        console.warn('! Admin: access denied to not root edit other, from', req.session.user.login);
+        return res.redirect(302, '/login');
+    }
+    
     const AggUser = require('./db').db.models.AggUser,
         userList = _.sortBy(await AggUser.findAll(), [ 'login' ]);
     
@@ -226,7 +231,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
     
     if ('root' !== req.session.user.login && 'root' === req.params.login) {
         console.warn('! Admin: not root trying to change root... user:', req.session.user);
-        return res.send('You are not root');
+        return res.send(403, 'Access denied');
     }
     
     const { db } = require('./db'),
@@ -279,11 +284,13 @@ app.post('/admin/table/users/:login', async (req, res) => {
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
-    const exchList = await getSortedExchangerList();
+    if ('root' !== req.session.user.login) {
+        return res.send(403, 'Access denied');
+    }
     
     res.render('admin/table/exchangers', {
         title: 'Обменники',
-        exchList: exchList,
+        exchList: await getSortedExchangerList(),
         ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
     });
 });
@@ -291,7 +298,7 @@ app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
 // GET /admin/table/exchangers/<id> (edit)
 app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) => {
     if ('root' !== req.session.user.login && req.params.id != req.session.user.exchangerId) {
-        return res.send('Admin: not root && not owner cond from admin.exchanger_edit');
+        return res.send(403, 'Access denied');
     }
     
     const Exchanger = require('./db').db.models.Exchanger,
@@ -312,6 +319,10 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 
 // POST /admin/table/exchangers/<id> (update)
 app.post('/admin/table/exchangers/:id', async (req, res) => {
+    if ('root' !== req.session.user.login && req.params.id != req.session.user.exchangerId) {
+        return res.send(403, 'Access denied');
+    }
+    
     const { db } = require('./db'),
         { DataTypes } = require('sequelize');
         
@@ -321,10 +332,6 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
     
     if (! exch) {
         return res.send("Unknown exchanger requested, id: " + req.params.id);
-    }
-    
-    if ('root' !== req.session.user.login && exch.id != req.session.user.exchangerId) {
-        return res.send(403, 'Access denied');
     }
     
     try {
