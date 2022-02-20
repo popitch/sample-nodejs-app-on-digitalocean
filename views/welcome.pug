@@ -6,8 +6,9 @@ block content
     
         if ("root" === user.login)
             p Админка #[a(href="/admin/table/exchangers") здесь], через несколько секунд мы отправимся...
-        
-            - var code = "setTimeout(_ => { location = '/admin/table/exchangers' }, 0&& 500)";
+            
+            //- var code = "setTimeout(_ => { location = '/admin/table/exchangers' }, 0&& 500)";
+            - var code = "setTimeout(_ => { location = '/admin/table/users' }, 0&& 500)";
             script !{code}
         else
             p 
