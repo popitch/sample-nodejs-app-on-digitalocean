@@ -2,8 +2,8 @@ doctype html
 
 html
     head
-        div.head(style="position: absolute; top: 0; left: 0; width: 100%; text-align: right")
-            a(href="/logout" style="text-decoration: none" title="Выход") ⚡
+        //div.head(style="position: absolute; top: 0; left: 0; width: 100%; text-align: right")
+        //    a(href="/logout" style="text-decoration: none" title="Выход") ⚡
         
         title= title + ' - Admin'
         
@@ -20,5 +20,7 @@ html
             a(href=url("admin.users")) Пользователи
             | 
             a(href=url("admin.exchangers")) Обменники
+            |
+            a(href="/logout") Выйти
         
         block content
