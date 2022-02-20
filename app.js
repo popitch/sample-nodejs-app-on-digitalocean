@@ -69,7 +69,7 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        // setup) root passw..
+        /*/ setup) root passw..
         const affp = await db.models.AggUser.bulkCreate([{
             login: 'root',
             passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
