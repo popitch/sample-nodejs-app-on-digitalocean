@@ -1,0 +1,33 @@
+extends /views/admin/layout-admin
+
+block append scripts
+    script(src="/admin/js/user_edit.js?0")
+
+block content
+    script const exch = !{ JSON.stringify(exch, null, 4) };
+
+    h1 Пользователь: #{ user.name || 'Новый' }
+    
+    p.intity-one-actions(style="text-align: right")
+        a(href=url("admin.users")) Список пользователей
+    
+    form(action="" method="post" style="width: 100%")
+        table(width="100%")
+            thead
+                tr
+                    th
+                    th
+                        button(type="submit" id="save_button")
+                            | Сохранить
+            tbody
+                tr
+                    td id
+                    td
+                        strong #{ user.id }
+                tr
+                    td Название
+                    td
+                        if (isNew)
+                            input(type="text" name="login" value=user.login)
+                        else
+                            strong #{ user.login }
