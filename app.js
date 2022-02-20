@@ -186,7 +186,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
                 exch.setDataValue(key, req.body[key]);
             }
         });
-        exch.save();
+        
+        console.log('save exch ...', exch.id);
+        const saveResult = await exch.save();        
+        console.log('... save exch', exch.id);
         
         res.redirect(302, router.build('admin.exchanger_edit', { id: exch.id || req.params.id }));
     } catch(e) {
