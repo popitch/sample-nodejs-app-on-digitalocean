@@ -41,7 +41,7 @@ block content
                 tr
                     td Описание
                     td
-                        textarea(name="description" value=exch.description)
+                        textarea(name="description")=exch.description
                 tr
                     td Курсы
                     td #{ ratesCount } (загружены #{ formatDate(exch.xmlStartedAt || exch.xmlParsedAt || exch.updatedAt) })
