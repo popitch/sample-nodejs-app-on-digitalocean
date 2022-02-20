@@ -323,6 +323,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         return res.send("Unknown exchanger requested, id: " + req.params.id);
     }
     
+    if ('root' !== req.session.user.login && exch.id != req.session.user.exchangerId) {
+        return res.send(403, 'Access denied');
+    }
+    
     try {
         const ATTRS = Exchanger.getAttributes(),
             UPDATE_KEYS = _.difference(_.keys(ATTRS), ['id']);

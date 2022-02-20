@@ -1,7 +1,7 @@
 //js
 
 $(() => {
-    $('input, textarea').on('change keyup', setButtonVisibility);
+    $('input, textarea, select').on('change keyup', setButtonVisibility);
     setButtonVisibility();
 });
 /*
