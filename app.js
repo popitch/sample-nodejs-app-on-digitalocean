@@ -182,8 +182,9 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         }
         
         _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
+            console.log('... key=', key);
             if (_.has(req.body, 'key')) {
-                console.log('... exch.setDataValue(', key, ', ', req.body[key], ');');
+                console.log('... exch.setDataValue(', key, ', ', req.body[key], ') ...');
                 exch.setDataValue(key, req.body[key]);
             }
             /*
