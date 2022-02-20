@@ -131,6 +131,7 @@ app.all('/admin/**', (req, res, next) => {
     }
 });
 
+[]
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
     const Exchanger = require('./db').db.models.Exchanger,
@@ -189,7 +190,7 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         });
         exch["xmlVerified"] == !! req.body["xmlVerified"];
         
-        console.log('save exch ...', exch.id);
+        console.log('save exch ...', exch.id, ' attrs', Exchanger.getAttributes());
         const saveResult = await exch.save({ fields: ['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'] });
         console.log('... save exch', saveResult);
         
