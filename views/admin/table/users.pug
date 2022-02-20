@@ -1,0 +1,23 @@
+extends /views/admin/layout-admin
+
+block content
+    script const list = !{ JSON.stringify(list, null, 4) };
+
+    h1 Обменники
+    
+    p.intity-list-actions(style="text-align: right")
+        a(href=url("admin.user_edit", { id: "new" }))
+            span.utf8-icon_inline + 
+            | пользователь
+    
+    table(width="100%")
+        thead
+            th.id Id
+            th Логин
+            th Пароль
+        tbody
+        each ex in list
+            tr
+                td.id #{ ex.id }
+                td #{ ex.login }
+                td #{ mustChangePasswd ? 'Да' : '' }

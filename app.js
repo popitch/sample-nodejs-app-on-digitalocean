@@ -150,11 +150,14 @@ _.forEach({
 // GET /admin/table/users
 app.get('/admin/table/users', 'admin.users', async (req, res) => {
     const AggUser = require('./db').db.models.AggUser,
-        userList = _.sortBy(await AggUser.findAll(), ['login']);
+        userList = _.sortBy(await AggUser.findAll(), [ 'login' ]);
     
     res.render('admin/table/users', {
         title: 'Пользователи',
-        exchList: userList,
+        list: userList.map(user => {
+            user.mustChangePasswd = user.passwd() === PASSWD_HASH_FN('');
+            return user;
+        }),
     });
 });
 
