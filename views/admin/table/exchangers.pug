@@ -7,7 +7,9 @@ block content
     h1 Обменники
     
     p.intity-list-actions(style="text-align: right")
-        a(href=url("admin.exchanger_edit", { id: "new" })) Добавить обменник
+        a(href=url("admin.exchanger_edit", { id: "new" }))
+            span.utf8-icon_inline + 
+            | обменник
     
     table(width="100%")
         thead

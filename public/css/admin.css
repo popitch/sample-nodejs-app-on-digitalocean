@@ -9,10 +9,10 @@ td.xml.verify_no {
 	color: lightgrey;
 }
 tbody tr:nth-child(odd) {
-    background: #ebe8e8;
+    background: #ebe8e855;
 }
 tbody tr:hover {
-    background: #7dcde7;
+    background: #7dcde755;
 }
 
 form {
