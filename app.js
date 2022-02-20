@@ -156,8 +156,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     
     const Exchanger = require('./db').db.models.Exchanger,
         isNew = 'new' === req.params.id,
-        exch = isNew ? console.log("Admin: new Exchanger") || new Exchanger
-            : await Exchanger.findOne({ where: { id: req.params.id } });
+        exch = isNew ? new Exchanger : await Exchanger.findOne({ where: { id: req.params.id } });
     
     if (! exch) {
         return res.send("Unknown exchanger requested with id: " + req.params.id);
@@ -173,18 +172,24 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 
 // POST /admin/table/exchangers/<id>/edit
 app.post('/admin/table/exchangers/:id', async (req, res) => {
-    const exch = await require('./db').db.models.Exchanger.findOne({ where: { id: req.body.id } });
-    
-    if (! exch) {
-        return res.send("Unknown exchanger requested, id: " + req.body.id);
+    try {
+        const isNew = 'new' === req.params.id,
+            exch = isNew ? new Exchanger : await require('./db').db.models.Exchanger.findOne({ where: { id: req.params.id } });
+        
+        if (! exch) {
+            return res.send("Unknown exchanger requested, id: " + req.params.id);
+        }
+        
+        _.each(['fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
+            exch.setDataValue(key, req.body[key]);
+        });
+        exch.save();
+        
+        res.redirect(302, router.build('admin.exchanger_edit', { id: req.params.id }));
+    } catch(e) {
+        console.log('Admin: error occurs while to save exchanger:', e);
+        res.send(e);
     }
-    
-    _.each(['fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
-        exch.setDataValue(key, req.body[key]);
-    });
-    exch.save();
-    
-    res.redirect(302, router.build('admin.exchanger_edit', { id: req.body.id }));
 });
 
 
