@@ -192,7 +192,7 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
                 console.log('... exch[', key, '] = ', req.body[key], '');
             //}
         });
-        exch["xmlVerified"] == !! req.body[key];
+        exch["xmlVerified"] == !! req.body["xmlVerified"];
         
         console.log('save exch ...', exch.id);
         const saveResult = await exch.save({ fields: ['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'] });
