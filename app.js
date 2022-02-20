@@ -154,7 +154,14 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
         return res.send('Admin: not root && not owner cond from view/admin.exchanger_edit');
     }
     
-    const exch = await require('./db').db.models.Exchanger.findOne({ where: { id: req.params.id } });
+    const Exchanger = require('./db').db.models.Exchanger,
+        exch =
+            'new' === req.params.id ? console.log("Admin: new Exchanger") || new Exchanger
+            : await Exchanger.findOne({ where: { id: req.params.id } });
+    
+    if (! exch) {
+        return res.send("What exchanger requested? with id: " + req.body.id);
+    }
     
     res.render('admin/table/exchanger_edit', {
         title: exch.name,

@@ -6,6 +6,9 @@ block content
 
     h1 Обменники
     
+    p.intity-list-actions(style="text-align: right")
+        a(href=url("admin.exchanger_edit", { id: "new" })) Добавить обменник
+    
     table(width="100%")
         thead
             th.id Id
@@ -18,7 +21,7 @@ block content
             th Дата начала
             th ru→
             th en→
-            th XML→
+            th xml
             th(style="min-width: 2em")
         tbody
         each ex in exchList

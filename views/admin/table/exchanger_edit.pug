@@ -6,7 +6,7 @@ block append scripts
 block content
     script const exch = !{ JSON.stringify(exch, null, 4) };
 
-    h1 #{exch.name}
+    h1 Обменник: #{exch.name}
     
     form(action="" method="post" style="width: 100%")
         input(type="hidden" name="id" value=exch.id)
