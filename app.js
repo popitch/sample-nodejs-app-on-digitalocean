@@ -136,6 +136,9 @@ _.forEach({
     exchanger: {
         
     },
+    user: {
+        
+    }
 }, (table, ID) => {
     const LIST_ID = table.listId || ID + 's'
         , LIST_LINK_NAME = table.listLinkName || 'admin.' + ID + 's'
@@ -144,20 +147,14 @@ _.forEach({
 });
 //*/
 
-// GET /admin/table/passwd
-app.get('/admin/table/logins', 'admin.logins', async (req, res) => {
+// GET /admin/table/users
+app.get('/admin/table/users', 'admin.users', async (req, res) => {
     const AggUser = require('./db').db.models.AggUser,
-        exchList = _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse();
+        userList = _.sortBy(await AggUser.findAll(), ['login']);
     
-    res.render('admin/table/exchangers', {
-        title: 'Обменники',
-        exchList: exchList.map(ex => {
-            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
-                ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
-            });
-            return ex;
-        }),
-        ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
+    res.render('admin/table/users', {
+        title: 'Пользователи',
+        exchList: userList,
     });
 });
 
