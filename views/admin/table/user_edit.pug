@@ -6,7 +6,7 @@ block append scripts
 block content
     script const user = !{ JSON.stringify(user, null, 4) };
 
-    h1 Пользователь: #{ user.name || 'Новый' }
+    h1 Пользователь: #{ user.login || 'Новый' }
     
     p.intity-one-actions(style="text-align: right")
         a(href=url("admin.users")) Список пользователей

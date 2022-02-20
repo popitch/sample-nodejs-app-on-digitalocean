@@ -154,7 +154,7 @@ app.all('/admin/**', (req, res, next) => {
         isLoggedIn = !! req.session.user;
     
     console.log('isRoot: ', isRoot);
-    console.log('isLoggedIn: ', isLoggedIn, req);
+    console.log('isLoggedIn: ', isLoggedIn);
     
     if (isLoggedIn) {
         next();
@@ -198,7 +198,7 @@ app.get('/admin/table/users', 'admin.users', async (req, res) => {
 // GET /admin/table/users/<login> (edit)
 app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
     if ('root' !== req.session.user.login && req.params.login != req.session.user.login) {
-        console.warn('! Admin: access denied to edit root from', req.session.user.login);
+        console.warn('! Admin: access denied to not root edit other, from', req.session.user.login);
         return res.redirect(302, '/login');
     }
     
