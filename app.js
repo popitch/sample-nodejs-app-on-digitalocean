@@ -163,7 +163,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     }
     
     res.render('admin/table/exchanger_edit', {
-        title: exch.name,
+        title: exch.name || 'Новый обменник',
         exch: exch,
         ratesCount: ( xmlRoratorEngine.ratesByExchangerId()[ req.params.id ] || [] ).length,
         isNew
@@ -181,8 +181,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
             return res.send("Unknown exchanger requested, id: " + req.params.id);
         }
         
-        _.each(['fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
-            exch.setDataValue(key, req.body[key]);
+        _.each(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
+            if (_.has(req.body, 'key')) {
+                exch.setDataValue(key, req.body[key]);
+            }
         });
         exch.save();
         
