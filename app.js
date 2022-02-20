@@ -69,9 +69,13 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        /*/ setup) root passw..
-        const affp = await db.models.AggUser.bulkCreate([{ login: 'root', passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT) }], {
-            validate: true, updateOnDuplicate: ['login', 'passwd']
+        // setup) root passw..
+        const affp = await db.models.AggUser.bulkCreate([{
+            login: 'root',
+            passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
+        }], {
+            validate: true,
+            updateOnDuplicate: ['passwd'],
         });
         console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
         //*/
@@ -185,9 +189,13 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
 
 // POST /admin/table/users/<login> (update)
 app.post('/admin/table/users/:login', async (req, res) => {
+    if ('new' === req.body.login) {
+        return res.send('Impossible name: new');
+    }
+    
     if ('root' !== req.session.user.login && 'root' === req.params.login) {
-        console.warn('! Admin: no root trying to change root... user:', req.session.user);
-        return res.send('No root');
+        console.warn('! Admin: not root trying to change root... user:', req.session.user);
+        return res.send('You are not root');
     }
     
     const { db } = require('./db'),
