@@ -23,7 +23,7 @@ app.set('view engine', 'pug');
 
 
 const FormatString = require('./helpers/FormatString');
-require('lodash').extend(app.locals, FormatString);
+_.extend(app.locals, FormatString);
 
 //app.use(logger('dev'));
 app.use(express.json());
