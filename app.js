@@ -170,7 +170,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     });
 });
 
-// POST /admin/table/exchangers/<id>/edit
+// POST /admin/table/exchangers/<id>
 app.post('/admin/table/exchangers/:id', async (req, res) => {
     try {
         const Exchanger = require('./db').db.models.Exchanger,
