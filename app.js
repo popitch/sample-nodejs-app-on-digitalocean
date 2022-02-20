@@ -155,7 +155,7 @@ app.get('/admin/table/users', 'admin.users', async (req, res) => {
     res.render('admin/table/users', {
         title: 'Пользователи',
         list: userList.map(user => {
-            user.mustChangePasswd = user.passwd() === PASSWD_HASH_FN('');
+            user.mustChangePasswd = user.passwd === PASSWD_HASH_FN('');
             return user;
         }),
     });
