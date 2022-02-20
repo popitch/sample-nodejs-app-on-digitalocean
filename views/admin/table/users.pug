@@ -26,4 +26,4 @@ block content
                 td.date_view #{ formatDate(user.createdAt) }
                 
                 td.tr-hover_show
-                    a.utf8-icon(href=url("admin.user_edit", { id: user.login })) ✎
+                    a.utf8-icon(href=url("admin.user_edit", { login: user.login })) ✎
