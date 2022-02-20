@@ -131,7 +131,18 @@ app.all('/admin/**', (req, res, next) => {
     }
 });
 
-[]
+/*
+_.forEach({
+    exchanger: {
+        
+    },
+}, (table, ENTITY_ID) => {
+    const TABLE_ID = tableId
+        , LIST_LINK_NAME = table.listLinkName || 'admin.exchangers',
+        
+});
+*/
+
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
     const Exchanger = require('./db').db.models.Exchanger,
@@ -173,7 +184,8 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 
 // POST /admin/table/exchangers/<id>
 app.post('/admin/table/exchangers/:id', async (req, res) => {
-    const Exchanger = require('./db').db.models.Exchanger,
+    const {db} = require('./db'),
+        Exchanger = db.models.Exchanger,
         isNew = 'new' === req.params.id,
         exch = isNew ? new Exchanger : await Exchanger.findOne({ where: { id: req.params.id } });
     
@@ -182,16 +194,22 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
     }
     
     try {
-        _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml'], key => {
-            if (_.has(req.body, key)) {
+        const ATTRS = Exchanger.getAttributes(),
+            UPDATE_KEYS = _.difference(_.keys(ATTRS), ['id']);
+        
+        _.forEach(UPDATE_KEYS, (key) => {
+        //_.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'exUrlTmpl'], (key) => {
+            if (DataTypes.BOOLEAN === ATTRS[key].xmlVerified) {
+                exch[key] = !! req.body[key];
+            }
+            else if (_.has(req.body, key)) {
                 exch[key] = req.body[key];
             }
             console.log('.. exch[', key, '] = ', exch[key], _.has(req.body, key) ? ' (from req.body)' : ' (no change)');
         });
-        exch["xmlVerified"] == !! req.body["xmlVerified"];
         
-        console.log('save exch ...', exch.id, ' attrs', Exchanger.getAttributes());
-        const saveResult = await exch.save({ fields: ['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'] });
+        console.log('save exch ...', exch.id);
+        const saveResult = await exch.save({ fields: UPDATE_KEYS });
         console.log('... save exch', saveResult);
         
         res.redirect(302, router.build('admin.exchanger_edit', { id: exch.id || req.params.id }));
