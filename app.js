@@ -18,7 +18,8 @@ app.locals.basedir = __dirname; //path.join(__dirname, 'views');
 
 // common data accessors
 async function getSortedExchangerList() {
-    Exchanger = require('./db').db.models.Exchanger;
+    const Exchanger = require('./db').db.models.Exchanger;
+    
     return _.chain(await Exchanger.findAll())
         .map(ex => {
             // js-shn dates
@@ -28,6 +29,7 @@ async function getSortedExchangerList() {
             return ex;
         })
         .sortBy([ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ])
+        .value()
         .reverse();
 }
 
