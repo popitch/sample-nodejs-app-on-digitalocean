@@ -1,10 +1,10 @@
 extends /views/admin/layout-admin
 
 block append scripts
-    script(src="/admin/js/exchanger_edit.js?6")
+    script(src="/admin/js/exchanger_edit.js?7")
 
 block content
-    - var title = '✎ ' + (isNew ? 'Новый обменник' : exch.name)
+    //- var title = '✎ ' + (isNew ? 'Новый обменник' : exch.name)
 
     script const exch = !{ JSON.stringify(exch, null, 4) };
 
@@ -14,7 +14,7 @@ block content
         a(href=url("admin.exchangers")) Список обменников
     
     form(action="" method="post" style="width: 100%")
-        input(type="hidden" name="id" value=exch.id)
+        //input(type="hidden" name="id" value=exch.id)
         table(width="100%")
             thead
                 tr

@@ -182,8 +182,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
     
     try {
         _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml'], key => {
-            exch[key] = req.body[key];
-            console.log('.. exch[', key, '] = ', exch[key], '');
+            if (_.has(req.body, key)) {
+                exch[key] = req.body[key];
+            }
+            console.log('.. exch[', key, '] = ', exch[key], _.has(req.body, key) ? ' (from req.body)' : ' (no change)');
         });
         exch["xmlVerified"] == !! req.body["xmlVerified"];
         
