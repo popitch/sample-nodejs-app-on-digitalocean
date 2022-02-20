@@ -174,7 +174,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 app.post('/admin/table/exchangers/:id', async (req, res) => {
     const Exchanger = require('./db').db.models.Exchanger,
         isNew = 'new' === req.params.id,
-        exch = isNew ? new Exchanger : await require('./db').db.models.Exchanger.findOne({ where: { id: req.params.id } });
+        exch = isNew ? new Exchanger : await Exchanger.findOne({ where: { id: req.params.id } });
         
     try {
         if (! exch) {
@@ -183,14 +183,10 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         
         _.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'xmlVerified'], key => {
             console.log('... key=', key);
-            if (_.has(req.body, 'key')) {
-                console.log('... exch.setDataValue(', key, ', ', req.body[key], ') ...');
-                exch.setDataValue(key, req.body[key]);
-            }
-            //if (_.has(req.body, 'key')) {
+            if (_.has(exch, 'key')) {
                 exch[key] = req.body[key];
                 console.log('... exch[', key, '] = ', req.body[key], '');
-            //}
+            }
         });
         exch["xmlVerified"] == !! req.body["xmlVerified"];
         
