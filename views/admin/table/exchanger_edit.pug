@@ -1,5 +1,7 @@
 extends /views/admin/layout-admin
-        
+
+title= ✎#{ isNew ? 'Новый обменник' : exch.name }
+
 block append scripts
     script(src="/admin/js/exchanger_edit.js?6")
 
