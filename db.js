@@ -81,7 +81,7 @@ connThen(async (db) => {
     
     
     
-    await queryInterface.addColumn('aggUser', 'exchangerId', schema.AggUsers.fields.exchangerId);
+    await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
     //*/
     
     /*/
