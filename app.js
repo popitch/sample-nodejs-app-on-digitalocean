@@ -133,8 +133,8 @@ app.all('/admin/**', (req, res, next) => {
 
 // GET /admin/table/exchangers
 app.get('/admin/table/exchangers', async (req, res) => {
-    const { db } = require('./db'),
-        exchList = _.sortBy(await db.models.Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt, 'xmlVerified', 'xml', 'name' ]).reverse();
+    const Exchanger = require('./db').db.models.Exchanger,
+        exchList = _.sortBy(await Exchanger.findAll(), [ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ]).reverse();
     
     res.render('admin/table/exchangers', {
         title: 'Обменники',
@@ -173,7 +173,8 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
 // POST /admin/table/exchangers/<id>/edit
 app.post('/admin/table/exchangers/:id', async (req, res) => {
     try {
-        const isNew = 'new' === req.params.id,
+        const Exchanger = require('./db').db.models.Exchanger,
+            isNew = 'new' === req.params.id,
             exch = isNew ? new Exchanger : await require('./db').db.models.Exchanger.findOne({ where: { id: req.params.id } });
         
         if (! exch) {
