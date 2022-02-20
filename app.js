@@ -150,15 +150,20 @@ app.get('/welcome', (req, res) => {
  // admin area rule
 //
 app.all('/admin/**', (req, res, next) => {
-    const isRoot = (req.session.user && req.session.user.login === 'root');
+    const isRoot = (req.session.user && req.session.user.login === 'root'),
+        isLoggedIn = !! req.session.user;
     
-    console.log('checkIsRoot: ', isRoot);
-    if (isRoot) {
+    console.log('isRoot: ', isRoot);
+    console.log('isLoggedIn: ', isLoggedIn, req);
+    
+    if (isLoggedIn) {
         next();
     } else {
         res.redirect(302, '/login');
     }
 });
+
+//function checkIsRoot(req)
 
 /*
 _.forEach({
