@@ -155,18 +155,19 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     }
     
     const Exchanger = require('./db').db.models.Exchanger,
-        exch =
-            'new' === req.params.id ? console.log("Admin: new Exchanger") || new Exchanger
+        isNew = 'new' === req.params.id,
+        exch = isNew ? console.log("Admin: new Exchanger") || new Exchanger
             : await Exchanger.findOne({ where: { id: req.params.id } });
     
     if (! exch) {
-        return res.send("What exchanger requested? with id: " + req.body.id);
+        return res.send("Unknown exchanger requested with id: " + req.params.id);
     }
     
     res.render('admin/table/exchanger_edit', {
         title: exch.name,
         exch: exch,
-        ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
+        ratesCount: ( xmlRoratorEngine.ratesByExchangerId()[ req.params.id ] || [] ).length,
+        isNew
     });
 });
 
