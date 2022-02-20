@@ -26,7 +26,7 @@ module.exports = {
             passwd: {
                 type: DataTypes.STRING(32),
                 defaultValue: null,
-                allowNull: true,
+                allowNull: false,
             },
             
             group: {

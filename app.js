@@ -229,6 +229,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
         if (req.body.passwd && user.passwd !== PASSWD_HASH_FN(req.body.passwd)) {
             user.passwd = PASSWD_HASH_FN(req.body.passwd);
             console.log('.. user[passwd] = ', user.passwd);
+            UPDATE_KEYS.push('passwd');
         }
         
         console.log('save user ...', user.id);
