@@ -80,7 +80,7 @@ connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
     
     
-    
+    /*
     await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
     //*/
     

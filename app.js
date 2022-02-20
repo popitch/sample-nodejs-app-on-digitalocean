@@ -126,7 +126,7 @@ app.post('/login', async (req, res) => {
     
     console.log('Login: complete, with', loggedUser.login);
     
-    res.render('welcome', { user: loggedUser });
+    res.render('welcome', { user: loggedUser, isRoot: 'root' === loggedUser.login });
 });
 
 // GET /logout
