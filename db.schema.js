@@ -20,7 +20,7 @@ module.exports = {
             login: {
                 type: DataTypes.STRING(32),
                 defaultValue: null,
-                allowNull: true,
+                allowNull: false,
             },
             
             passwd: {
