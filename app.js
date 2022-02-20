@@ -239,11 +239,15 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
         return res.send("Unknown user requested with login: " + req.params.login);
     }
     
+    const exchangerList = await getSortedExchangerList();
+    
     res.render('admin/table/user_edit', {
         title: (user.login || '<Новый>') + ' - Пользователи',
         user: user,
         isNew,
-        exchangerList: await getSortedExchangerList(),
+        canEditExchanger: 'root' !== req.session.user.login,
+        exchangerList: exchangerList,
+        userExchanger: _.find(exchangerList, exch => exch.id == user.exchangerId),
     });
 });
 
@@ -255,6 +259,11 @@ app.post('/admin/table/users/:login', async (req, res) => {
     
     if ('root' !== req.session.user.login && 'root' === req.params.login) {
         console.warn('! Admin: not root trying to change root... user:', req.session.user);
+        return res.send(403, 'Access denied');
+    }
+    
+    // only root can change user.exchangerId
+    if ('root' !== req.session.user.login && req.body.exchangerId) {
         return res.send(403, 'Access denied');
     }
     
@@ -286,6 +295,7 @@ app.post('/admin/table/users/:login', async (req, res) => {
             console.log('.. user[', key, '] = ', user[key], changed ? '' : ' (no change)');
         });
         
+        // passwd
         if (req.body.passwd && user.passwd !== PASSWD_HASH_FN(req.body.passwd)) {
             user.passwd = PASSWD_HASH_FN(req.body.passwd);
             console.log('.. user[passwd] = ', user.passwd);

@@ -38,7 +38,12 @@ block content
                 tr
                     td Представитель обменника
                     td
-                        select(name="exchangerId")
-                            option(value="") Нет
-                            for exch in exchangerList
-                                option(value=exch.id selected=(user.exchangerId == exch.id)) #{ exch.name }
+                        if (canEditExchanger)
+                            select(name="exchangerId")
+                                option(value="") Нет
+                                for exch in exchangerList
+                                    option(value=exch.id selected=(user.exchangerId == exch.id)) #{ exch.name }
+                        else if (userExchanger)
+                            strong #{ userExchanger.name }
+                        else
+                            span Нет
