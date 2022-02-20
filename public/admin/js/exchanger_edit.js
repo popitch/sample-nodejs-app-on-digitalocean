@@ -4,12 +4,12 @@ $(() => {
     $('input, textarea').on('change keyup', setButtonVisibility);
     setButtonVisibility();
 });
-
+/*
 window.onbeforeunload = function(){
     console.log('Tab try to be closing...');
     return getIsIdently() ? '' : 'Пропадут изменения Обменника на этой странице, норм?';
 };
-
+*/
 function getIsIdently() {
     const current = $('input, textarea').get()
         .reduce((values, input) => {
