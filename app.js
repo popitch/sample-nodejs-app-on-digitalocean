@@ -63,6 +63,15 @@ app.use(
         secure: true, // Only use cookies over https. wow! ok
     })
 );
+// to use session into views/*
+app.use((req, res, next) => {
+    if (! res.locals.session) {
+        res.locals.session = req.session;
+    }
+    next();
+});
+
+// setup cookies
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(session({ secret: "Your secret key will here" }));

@@ -23,6 +23,6 @@ html
             | 
             a(href="/logout") Выйти
             | 
-            strong #{ req.session.user.login }
+            strong #{ session.user.login }
         
         block content
