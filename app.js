@@ -182,6 +182,51 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
     });
 });
 
+// POST /admin/table/users/<login> (update)
+app.post('/admin/table/users/:login', async (req, res) => {
+    const { db } = require('./db'),
+        { DataTypes } = require('sequelize');
+        
+        AggUser = db.models.AggUser,
+        isNew = 'new' === req.params.login,
+        user = isNew ? new AggUser : await AggUser.findOne({ where: { login: req.params.login } });
+    
+    if (! user) {
+        return res.send("Unknown user requested, login: " + req.params.login);
+    }
+    
+    try {
+        const ATTRS = AggUser.getAttributes(),
+            UPDATE_KEYS = _.difference(_.keys(ATTRS), ['id']);
+        
+        _.forEach(UPDATE_KEYS, (key) => {
+            let changed = false;
+            if (DataTypes.BOOLEAN === ATTRS[key].type) {
+                user[key] = !! req.body[key];
+                changed = true;
+            }
+            else if (_.has(req.body, key)) {
+                user[key] = req.body[key];
+                changed = true;
+            }
+            console.log('.. user[', key, '] = ', user[key], changed ? '' : ' (no change)');
+        });
+        
+        if (req.body.passwd) {
+            user.passwd = PASSWD_HASH_FN(req.body.passwd);
+        }
+        
+        console.log('save user ...', user.id);
+        const saveResult = await user.save({ fields: UPDATE_KEYS });
+        console.log('... save user', saveResult);
+        
+        res.redirect(302, router.build('admin.user_edit', { login: user.login || req.params.login }));
+    } catch(e) {
+        console.log('Admin: error occurs while to save USER:', e, 'with request.body', req.body, 'with user', user);
+        res.send(e.message);
+    }
+});
+
 
 
 
@@ -243,13 +288,16 @@ app.post('/admin/table/exchangers/:id', async (req, res) => {
         
         _.forEach(UPDATE_KEYS, (key) => {
         //_.forEach(['name', 'fullname', 'description', 'ru', 'en', 'xml', 'exUrlTmpl'], (key) => {
-            if (DataTypes.BOOLEAN === ATTRS[key].xmlVerified) {
+            let changed = false;
+            if (DataTypes.BOOLEAN === ATTRS[key].type) {
                 exch[key] = !! req.body[key];
+                changed = true;
             }
             else if (_.has(req.body, key)) {
                 exch[key] = req.body[key];
+                changed = true;
             }
-            console.log('.. exch[', key, '] = ', exch[key], _.has(req.body, key) ? ' (from req.body)' : ' (no change)');
+            console.log('.. exch[', key, '] = ', exch[key], changed ? '' : ' (no change)');
         });
         
         console.log('save exch ...', exch.id);
