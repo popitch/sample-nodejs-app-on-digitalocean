@@ -1,11 +1,11 @@
 extends /views/admin/layout-admin
 
-- var title = '✎ ' + (isNew ? 'Новый обменник' : exch.name)
-
 block append scripts
     script(src="/admin/js/exchanger_edit.js?6")
 
 block content
+    - var title = '✎ ' + (isNew ? 'Новый обменник' : exch.name)
+
     script const exch = !{ JSON.stringify(exch, null, 4) };
 
     h1 Обменник: #{ exch.name || 'Новый' }
