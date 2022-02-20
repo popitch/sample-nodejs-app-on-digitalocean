@@ -155,11 +155,34 @@ app.get('/admin/table/users', 'admin.users', async (req, res) => {
     res.render('admin/table/users', {
         title: 'Пользователи',
         list: userList.map(user => {
-            user.mustChangePasswd = user.passwd === PASSWD_HASH_FN('');
+            user.emptyPasswd = (PASSWD_HASH_FN('') === user.passwd);
             return user;
         }),
     });
 });
+
+// GET /admin/table/users/<login> (edit)
+app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
+    if ('root' !== req.session.user.login && req.params.login != req.session.user.login) {
+        return res.redirect(302, '/login');
+    }
+    
+    const AggUser = require('./db').db.models.AggUser,
+        isNew = 'new' === req.params.login,
+        user = isNew ? new AggUser : await AggUser.findOne({ where: { login: req.params.login } });
+    
+    if (! user) {
+        return res.send("Unknown user requested with login: " + req.params.login);
+    }
+    
+    res.render('admin/table/user_edit', {
+        title: (user.login || '<Новый>') + ' - Пользователи',
+        user: user,
+        isNew
+    });
+});
+
+
 
 
 // GET /admin/table/exchangers
@@ -179,10 +202,10 @@ app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
     });
 });
 
-// GET /admin/table/exchangers/<id>/edit
+// GET /admin/table/exchangers/<id> (edit)
 app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) => {
-    if ('root' !== req.session.user.login && req.params.id != req.session.user.id) {
-        return res.send('Admin: not root && not owner cond from view/admin.exchanger_edit');
+    if ('root' !== req.session.user.login && req.params.id != req.session.user.exchangerId) {
+        return res.send('Admin: not root && not owner cond from admin.exchanger_edit');
     }
     
     const Exchanger = require('./db').db.models.Exchanger,
@@ -194,14 +217,14 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     }
     
     res.render('admin/table/exchanger_edit', {
-        title: exch.name || 'Новый обменник',
+        title: (exch.name || '<Новый>') + ' - Обменники',
         exch: exch,
         ratesCount: ( xmlRoratorEngine.ratesByExchangerId()[ req.params.id ] || [] ).length,
         isNew
     });
 });
 
-// POST /admin/table/exchangers/<id>
+// POST /admin/table/exchangers/<id> (update)
 app.post('/admin/table/exchangers/:id', async (req, res) => {
     const { db } = require('./db'),
         { DataTypes } = require('sequelize');

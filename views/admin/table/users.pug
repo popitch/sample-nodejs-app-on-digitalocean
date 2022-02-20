@@ -15,9 +15,11 @@ block content
             th.id Id
             th Логин
             th Пароль
+            th Дата начала
         tbody
         each ex in list
             tr
                 td.id #{ ex.id }
                 td #{ ex.login }
-                td #{ mustChangePasswd ? 'Да' : '' }
+                td #{ isEmptyPasswd ? 'Да' : '' }
+                td.date_view #{ formatDate(ex.createdAt) }
