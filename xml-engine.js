@@ -14,7 +14,7 @@ const
     
     snifferUpAt = new Date;
 
-// load exchangers all
+// exchangers all (it)
 let Exchangers;
 
 // exports
@@ -177,12 +177,7 @@ const Cached = {
 };
 
 async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
-    return Exchangers = await require('./db').db.models.Exchanger.findAll({ where: { xmlVerified: true } });
-}
-
-dbConn.then(async (db) => {
-    // reload its my sheet stuff
-    Exchangers = await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
+    Exchangers = await require('./db').db.models.Exchanger.findAll({ where: { xmlVerified: true } });
 
     // transcript date values
     Exchangers.forEach(exch => {
@@ -192,14 +187,18 @@ dbConn.then(async (db) => {
         exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
 
-    console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer...');
+    console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer again...');
+}
+
+dbConn.then(async (db) => {
+    // reload its my sheet stuff
+    await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
     
     // start pairs json writer
     updateOldestPairsTail(0);
     
     // start xml sniffer
     return updateOlderOne();
-    
     
     // put oldest pairs jsons to fs + deffered self calling (queue)
     function updateOldestPairsTail(N) {
@@ -221,7 +220,7 @@ dbConn.then(async (db) => {
         });
         
         if (0 === N % 10 && touches.length > 0)
-            console.log('tick update', 10 * touches.length, "pairs with rate ~",
+            console.log(N, 'tick update', 10 * touches.length, "pairs with rate ~",
                 Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
         
         
@@ -237,7 +236,7 @@ dbConn.then(async (db) => {
     // give a next as oldest updatedAt
     async function oldestXmlFetchedExchanger() {
         // reload its my sheet stuff
-        Exchangers = await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
+        await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
         
         return _.chain(Exchangers)
             .filter(exch => exch.xml && exch.xmlVerified)
