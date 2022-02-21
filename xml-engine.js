@@ -379,7 +379,7 @@ dbConn.then(async (db) => {
             // mark as finished (yes, if failed too)
             exch.xmlUpdatedAt = +new Date;
             
-            xmlFinishError(e);s
+            xmlFinishError(e);
         }
         
         function xmlFinishError(e) {
@@ -411,6 +411,7 @@ dbConn.then(async (db) => {
                         console.warn('Affected exchanger', Exchangers[i]);
                 }
                 */
+                console.log('exch.save()', exch);
                 await exch.save();
             } catch(e) {
                 console.warn('NOT Affected exchangers with error', e, 'with', Exchangers[i]);
