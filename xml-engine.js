@@ -176,8 +176,13 @@ const Cached = {
     })()
 };
 
+async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
+    return Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+}
+
 dbConn.then(async (db) => {
-    Exchangers = await db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    // reload its my sheet stuff
+    Exchangers = await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
 
     // transcript date values
     Exchangers.forEach(exch => {
@@ -230,7 +235,10 @@ dbConn.then(async (db) => {
     }
     
     // give a next as oldest updatedAt
-    function oldestXmlFetchedExchanger() {
+    async function oldestXmlFetchedExchanger() {
+        // reload its my sheet stuff
+        Exchangers = await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
+        
         return _.chain(Exchangers)
             .filter(exch => exch.xml && exch.xmlVerified)
             .filter(exch => ! exch.xmlStartedAt)
@@ -241,7 +249,7 @@ dbConn.then(async (db) => {
         
     // request older exchanger's XML + deffered self calling (queue)
     async function updateOlderOne () {
-        const exch = oldestXmlFetchedExchanger();
+        const exch = await oldestXmlFetchedExchanger();
         
         if (! exch) {
             // have no work now, lazy tick,
