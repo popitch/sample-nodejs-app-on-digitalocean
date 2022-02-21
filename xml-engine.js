@@ -187,7 +187,7 @@ async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
         exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
 
-    console.log('Setup with', Exchangers.length, 'exchangers. Start sniffer again...');
+    console.log('..setup with', Exchangers.length, 'exchangers, right now');
 }
 
 dbConn.then(async (db) => {
@@ -220,8 +220,8 @@ dbConn.then(async (db) => {
         });
         
         if (0 === N % 10 && touches.length > 0)
-            console.log(N, 'tick update', 10 * touches.length, "pairs with rate ~",
-                Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
+            //console.log('tick update', 10 * touches.length, "pairs with rate ~",
+            //    Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
         
         
         // too fast tick,
