@@ -245,7 +245,7 @@ app.get('/admin/table/users/:login', 'admin.user_edit', async (req, res) => {
         title: (user.login || '<Новый>') + ' - Пользователи',
         user: user,
         isNew,
-        canEditExchanger: 'root' !== req.session.user.login,
+        canEditExchanger: 'root' === req.session.user.login,
         exchangerList: exchangerList,
         userExchanger: _.find(exchangerList, exch => exch.id == user.exchangerId),
     });
