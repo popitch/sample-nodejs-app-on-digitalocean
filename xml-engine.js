@@ -376,7 +376,10 @@ dbConn.then(async (db) => {
                 console.log('xml', exch.xmlStage.short(), 'from', exch.xml); 
             });
         } catch(e) {
-            xmlFinishError(e);
+            // mark as finished (yes, if failed too)
+            exch.xmlUpdatedAt = +new Date;
+            
+            xmlFinishError(e);s
         }
         
         function xmlFinishError(e) {
