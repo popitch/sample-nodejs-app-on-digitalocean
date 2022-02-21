@@ -177,7 +177,7 @@ const Cached = {
 };
 
 async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
-    return Exchangers = await require('./db')db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    return Exchangers = await require('./db').db.models.Exchanger.findAll({ where: { xmlVerified: true } });
 }
 
 dbConn.then(async (db) => {
