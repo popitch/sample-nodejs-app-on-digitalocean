@@ -161,3 +161,6 @@
 .rates aside label.selected {
 	background-color: #7dcde7;
 }
+.rates aside sub {
+	color: lightgray;
+}

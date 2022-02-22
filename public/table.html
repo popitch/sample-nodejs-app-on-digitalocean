@@ -22,8 +22,9 @@
                 <input type="radio" data-bind="
                     value: symbol,
                     checked: $parent.filter.from,
-                 " />
-                 <!-- ko text: name --><!-- /ko -->
+                " />
+                <span data-bind="text: name"></span> 
+                <sub data-bind="text: PAIRS()[ symbol ][ $parent.filter.to() ]"></sub>
             </label>
         </aside>
         
