@@ -1,3 +1,12 @@
+.user-name {
+	float: left;
+	font-style: italic;
+}
+a.current-pathname {
+	font-weight: bold;
+    background: #7dcde755;
+}
+
 form, table {
 	box-shadow: 0 24px 50px 0 rgb(0 0 0 / 12%), 0 5px 15px rgb(0 0 0 / 7%);
 }
