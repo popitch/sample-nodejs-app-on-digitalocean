@@ -19,12 +19,12 @@ html
         
     body
         p.intity-list-actions(style="text-align: right")
-            a(href=url("admin.users")) Пользователи
+            strong.user-name #{ session.user.login }
             | 
-            a(href=url("admin.exchangers")) Обменники
+            a.admin-area-link(href=url("admin.users")) Пользователи
+            | 
+            a.admin-area-link(href=url("admin.exchangers")) Обменники
             | 
             a(href="/logout") Выйти
-            | 
-            strong.user-name #{ session.user.login }
         
         block content
