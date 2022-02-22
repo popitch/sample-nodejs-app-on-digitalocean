@@ -411,8 +411,9 @@ dbConn.then(async (db) => {
                         console.warn('Affected exchanger', Exchangers[i]);
                 }
                 */
-                console.log('exch.save()', exch);
                 await exch.save();
+                
+                console.log('exch.save()', exch.updatedAt);
             } catch(e) {
                 console.warn('NOT Affected exchangers with error', e, 'with', Exchangers[i]);
             }
