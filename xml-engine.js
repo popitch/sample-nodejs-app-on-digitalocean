@@ -10,7 +10,7 @@ const
     schema = require('./db.schema'),
       
     // short-hand
-    exchangerUpdatedAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.xmlUpdatedAt) || 0),
+    exchangerNotStartedUpdateAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.updatedAt) || 0),
     
     snifferUpAt = new Date;
 
@@ -242,7 +242,7 @@ dbConn.then(async (db) => {
             .filter(exch => exch.xml && exch.xmlVerified)
             .filter(exch => ! exch.xmlStartedAt)
             //.sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
-            .sortBy(exchangerUpdatedAt) /* O(N * logN) */
+            .sortBy(exchangerNotStartedUpdateAt) /* O(N * logN) */
             .value()[ 0 ]
     }
         
