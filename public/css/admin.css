@@ -11,10 +11,12 @@ a.admin-area-link {
     line-height: 1.6em;
     padding: 0.4em;
 }
-a.admin-area-link:hover,
+a.admin-area-link:hover {
+    background: #7dcde755;
+}
 a.admin-area-link_current {
-	/* font-weight: bold; */
     background: #7dcde799;
+    text-decoration: none;
 }
 
 form, table {
