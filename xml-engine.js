@@ -220,8 +220,8 @@ dbConn.then(async (db) => {
         });
         
         if (0 === N % 10 && touches.length > 0)
-            //console.log('tick update', 10 * touches.length, "pairs with rate ~",
-            //    Math.round(1000 * 100 / (+new Date - begints)), 'files.json per second');
+            console.log('JSON files update for', 10 * touches.length, "pairs with rate ~",
+                Math.round(1000 * 100 / (+new Date - begints)), 'files/sec');
         
         
         // too fast tick,
