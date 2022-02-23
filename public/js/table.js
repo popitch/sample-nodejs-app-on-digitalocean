@@ -1,6 +1,6 @@
 // repeatable version of $.getJSON(repeatTimes: number, ...)
 $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
-    const args = _.tail(arguments);
+    let args = _.tail(arguments);
     if (! _.isNumber(N)) {
         return getJSON.apply($, args); // 
     }
