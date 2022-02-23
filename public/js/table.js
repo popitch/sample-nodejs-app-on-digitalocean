@@ -4,11 +4,14 @@ $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
     if (! _.isNumber(N)) {
         return getJSON.apply($, args); // 
     }
-    return getJSON.apply($, _.tail(args))
-        .catch(e =>
-            console.warn(N + '.. getJSON(', args, ')  with', e) ||
-                --N > 0 && setTimeout(() => $.getJSON(N, url, done), 400)
-        );
+    args = _.tail(args);
+    return getJSON.apply($, args)
+        .catch(e => {
+            console.warn(N + '.. getJSON(', args, ') with', e);
+            if (--N > 0) {
+                setTimeout(() => $.getJSON.apply($, [N].concat(args)), 400);
+            }
+        });
 });
 
 const
