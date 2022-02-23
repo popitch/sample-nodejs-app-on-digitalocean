@@ -228,12 +228,12 @@ const
     },
     
     PAIRS = (() => {
-        const reload = () => $.getJSON(4, './cached/pairs.json', pairs),
+        const reload = () => ($.getJSON(4, './cached/pairs.json', pairs), pairs),
             pairs = _.extend(ko.observableArray(), { reload });
         
         setInterval(reload, 20 * 999); // ~15 seconds
         
-        return pairs;
+        return reload(pairs);
     })(),
     
     PAIRS_FROM = ko.computed(() => {
