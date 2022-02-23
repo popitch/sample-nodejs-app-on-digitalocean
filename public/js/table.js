@@ -228,7 +228,28 @@ const
     },
     
     PAIRS = (() => {
-        const reload = () => ($.getJSON(4, './cached/pairs.json', pairs), pairs),
+        const reload = (p) => {
+                // update pairs value with .selected screen-position restoration
+                $.getJSON(4, './cached/pairs.json', (pp) => {
+                    const reduce = (reducer, start) => $('.rates aside .selected').get().reduce(function(accum) { reducer.apply(this, arguments); return accum }, start),
+                        offsets = reduce((offsets, sel, i) => offsets[i] = $(sel).offset().top, []);
+                    
+                    pairs(pp); // <- render here
+                    
+                    reduce((offsets, sel, i) => {
+                        const offsetYDelta = $(sel).offset().top - offsets[i],
+                            $aside = $(sel).closest('aside');
+                        
+                        if (p !== pairs)
+                            debugger;
+                        
+                        if (offsetYDelta) {
+                            $aside.scrollTop( $aside.scrollTop() + offsetYDelta );
+                        }
+                    });
+                });
+                return pairs;
+            },
             pairs = _.extend(ko.observableArray(), { reload });
         
         setInterval(reload, 20 * 999); // ~15 seconds
