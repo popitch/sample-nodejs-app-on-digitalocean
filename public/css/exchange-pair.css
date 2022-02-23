@@ -166,6 +166,6 @@
 }
 .rates aside label:not(.disabled):hover sub,
 .rates aside label.selected sub {
-    color: #0d320e;
+    color: gray;
     font-weight: bolder;
 }

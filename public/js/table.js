@@ -1,15 +1,19 @@
-function getJSONpersist() {
-    const args = arguments;
-    return req(3);
-    function req(N) {
-        if (! N) return console.warn('...failed N times with', args);
-        return $.getJSON.apply(this, args).catch(() => req(N - 1));
+// repeatable version of $.getJSON(repeatTimes: number, ...)
+$.getJSON = _.wrap($.getJSON, function(getJSON, N) {
+    const args = _.tail(arguments);
+    if (! _.isNumber(N)) {
+        return getJSON.apply($, args); // 
     }
-}
-    
+    return getJSON.apply($, _.tail(args))
+        .catch(e =>
+            console.warn(N + '.. getJSON(', args, ')  with', e) ||
+                --N > 0 && setTimeout(() => $.getJSON(N, url, done), 400)
+        );
+});
+
 const
     EXCHANGERS = (list => {
-        const req = () => $.getJSON('./cached/exchangers.json').then(list).catch(e => req());
+        const req = () => $.getJSON(4, './cached/exchangers.json', list);
         return req() && list;
     })(
         ko.observableArray()
@@ -222,7 +226,7 @@ const
     
     PAIRS = (() => {
         const pairs = ko.observableArray();
-        $.getJSON('./cached/pairs.json', pairs);
+        $.getJSON(4, './cached/pairs.json', pairs);
         return pairs;
     })(),
     
