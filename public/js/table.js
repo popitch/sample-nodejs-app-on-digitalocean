@@ -229,7 +229,7 @@ const
     
     PAIRS = (() => {
         const reload = () => $.getJSON(4, './cached/pairs.json', pairs),
-            pairs = _.extend(_ko.observableArray(), { reload });
+            pairs = _.extend(ko.observableArray(), { reload });
         
         setInterval(reload, 20 * 999); // ~15 seconds
         
