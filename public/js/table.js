@@ -236,7 +236,7 @@ const
                     
                     pairs(pp); // <- render here
                     
-                    reduce((offsets, sel, i) => {
+                    reduce((__, sel, i) => {
                         const offsetYDelta = $(sel).offset().top - offsets[i],
                             $aside = $(sel).closest('aside');
                         
