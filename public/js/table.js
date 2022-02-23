@@ -240,10 +240,11 @@ const
                         const offsetYDelta = $(sel).offset().top - offsets[i],
                             $aside = $(sel).closest('aside');
                         
-                        if (p !== pairs)
-                            debugger;
+                        //if (p !== pairs)
+                        //    debugger;
                         
                         if (offsetYDelta) {
+                            console.log('offsetYDelta', offsetYDelta);
                             $aside.scrollTop( $aside.scrollTop() + offsetYDelta );
                         }
                     });
