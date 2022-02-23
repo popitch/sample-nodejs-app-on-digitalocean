@@ -1,3 +1,12 @@
+function getJSONpersist() {
+    const args = arguments;
+    return req(3);
+    function req(N) {
+        if (! N) return console.warn('...failed N times with', args);
+        return $.getJSON.apply(this, args).catch(() => req(N - 1));
+    }
+}
+    
 const
     EXCHANGERS = (list => {
         const req = () => $.getJSON('./cached/exchangers.json').then(list).catch(e => req());
