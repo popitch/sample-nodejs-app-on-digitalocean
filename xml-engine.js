@@ -53,7 +53,7 @@ const Cached = {
     
     putExchangers: () => {
         return Cached.putJson('exchangers', Exchangers.map(
-            exch => _.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
+            exch => exch.dataValues //_.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
         ));
     },
     
@@ -177,7 +177,7 @@ const Cached = {
 };
 
 async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
-    Exchangers = await require('./db').db.models.Exchanger.findAll({ where: { xmlVerified: true } });
+    Exchangers = await require('./db').db.models.Exchanger.findAll(/*{ where: { xmlVerified: true } }*/);
 
     // transcript date values
     Exchangers.forEach(exch => {
@@ -416,6 +416,7 @@ dbConn.then(async (db) => {
                 console.log('exch.save()', exch.updatedAt);
             } catch(e) {
                 console.warn('NOT Affected exchangers with error', e, 'with', exch/*Exchangers[i]*/);
+                return;
             }
             //*/
             //db.models.Exchanger.build(exch);
