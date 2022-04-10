@@ -3,14 +3,14 @@ const schema = require('./db.schema');
 const _ = require('lodash');
 
 // setup postgres
-//require('pg').types.setTypeParser(1114, stringValue => {
-//    return new Date(stringValue + '+0000');
-//    // e.g., UTC offset. Use any offset that you would like.
-//});
+require('pg').types.setTypeParser(1114, stringValue => {
+    return new Date(stringValue + '+0000');
+    // e.g., UTC offset. Use any offset that you would like.
+});
 
 // setup connection
 const 
-    dbConnString = process.env.DATABASE_URL + "&ssl=true",
+    dbConnString = process.env.DATABASE_URL,
     dbConnURL = new URL(dbConnString),
     
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
@@ -53,7 +53,9 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
     initialAutoIncrement: 1e6,
     tableName: 'exchangers',
     freezeTableName: true,
-});
+})
+.sync({ alter: true })
+;
 
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
@@ -63,7 +65,9 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     charset: 'UTF8',
     tableName: 'exchangeRates',
     freezeTableName: true,
-});
+})
+.sync({ alter: true })
+;
 
 sequelize.define('AggUser', schema.AggUser.fields, {
     indexes: schema.AggUser.indexes,
@@ -72,7 +76,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     tableName: 'aggUsers',
     freezeTableName: true,
 })
-//.sync({ alter: true })
+.sync({ alter: true })
 ;
 
 // create tables (aka db setup)
