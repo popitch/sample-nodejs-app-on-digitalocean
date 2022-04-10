@@ -53,7 +53,7 @@ const Cached = {
     
     putExchangers: () => {
         return Cached.putJson('exchangers', Exchangers.map(
-            exch => exch.dataValues //_.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
+            exch => _.omit(exch.dataValues, [/*"exUrlTmpl", */"xml"])
         ));
     },
     
@@ -177,7 +177,16 @@ const Cached = {
 };
 
 async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
-    Exchangers = await require('./db').db.models.Exchanger.findAll(/*{ where: { xmlVerified: true } }*/);
+    const Exchanger = await require('./db').db.models.Exchanger;
+    
+    Exchangers = Exchanger.findAll({ where: { xmlVerified: true } });
+    
+    if (! Exchangers.length) {
+        // setup Exchangers list (as initial value, bro)
+        const exchangersSetupData = await require('./db').setupData.exchangers;
+        
+        Exchangers = exchangersSetupData.forEach(one => new Exchanger(one));
+    }
 
     // transcript date values
     Exchangers.forEach(exch => {

@@ -10,7 +10,7 @@ require('pg').types.setTypeParser(1114, stringValue => {
 
 // setup connection
 const 
-    dbConnString = process.env.DATABASE_URL,
+    dbConnString = process.env[ "DATABASE_URL"],
     dbConnURL = new URL(dbConnString),
     
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
@@ -40,7 +40,7 @@ const
 // connect
 const
     connReady = sequelize.authenticate()
-        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env.DATABASE_URL))
+        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env [ "DATABASE_URL" ]))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
     
     connThen = async (then) => connReady.then(() => then(sequelize).catch(e => console.log('Connection level Error handled:', e)));
@@ -128,4 +128,9 @@ connThen(async (db) => {
 module.exports = {
     then: then => connThen(then),
     db: sequelize,
+    setupData: {
+        exchangers: JSON.parse(
+            process.env[ "SETUP_EXCHANGERS"]
+        ),
+    }
 };
