@@ -54,19 +54,17 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
     tableName: 'exchangers',
     freezeTableName: true,
 })
-.sync({ alter: true })
+.sync()
 ;
 
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
     timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
-    //createdAt: true,
-    //updatedAt: true,
     charset: 'UTF8',
     tableName: 'exchangeRates',
     freezeTableName: true,
 })
-.sync({ alter: true })
+.sync()
 ;
 
 sequelize.define('AggUser', schema.AggUser.fields, {
@@ -76,7 +74,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     tableName: 'aggUsers',
     freezeTableName: true,
 })
-.sync({ alter: true })
+.sync()
 ;
 
 // create tables (aka db setup)
@@ -85,13 +83,13 @@ connThen(async (db) => {
     
     
     /*
-    await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
+    ///////await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
     //*/
     
     /*/
-    await queryInterface.addColumn('exchangers', 'ru', schema.Exchanger.fields.description);
-    await queryInterface.addColumn('exchangers', 'en', schema.Exchanger.fields.description);
-    //await queryInterface.addColumn('exchangers', 'description', schema.Exchanger.fields.description);
+    ///////await queryInterface.addColumn('exchangers', 'ru', schema.Exchanger.fields.description);
+    ///////await queryInterface.addColumn('exchangers', 'en', schema.Exchanger.fields.description);
+    ///////await queryInterface.addColumn('exchangers', 'description', schema.Exchanger.fields.description);
     //*/
     
     /*
