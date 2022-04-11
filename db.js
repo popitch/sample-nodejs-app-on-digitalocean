@@ -90,7 +90,9 @@ connThen(async (db) => {
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
         const [exch, created] = await sequelize.models.Exchanger.findOrCreate({
             where: { id: exchData.id },
-            defaults: exchData,
+            defaults: _.extend(exchData, {
+                bcId: exchData.id,
+            }),
         });
         
         created && console.log('+ one exchanger');
