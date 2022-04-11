@@ -84,9 +84,10 @@ connThen(async (db) => {
     /** Setup
      * Initial exchanger list
      */
+    const INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
     let createdCount = 0;
     
-    _.each(process.env[ "INITIAL_EXCHANGERS" ], async (exchData) => {
+    _.each(INITIAL_EXCHANGERS, async (exchData) => {
         const [exch, created] = await sequelize.models.Exchanger.findOrCreate({
             where: { id: exchData.id },
             defaults: exchData,
