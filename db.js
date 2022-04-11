@@ -87,7 +87,7 @@ connThen(async (db) => {
     let createdCount = 0;
     
     _.each(process.env[ "INITIAL_EXCHANGERS" ], async (exchData) => {
-        const [exch, created] = await Exchanger.findOrCreate({
+        const [exch, created] = await sequelize.models.Exchanger.findOrCreate({
             where: { id: exchData.id },
             defaults: exchData,
         });
