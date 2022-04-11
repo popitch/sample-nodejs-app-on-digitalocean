@@ -92,6 +92,8 @@ connThen(async (db) => {
             defaults: exchData,
         });
         
+        created && console.log('+ one exchanger');
+        
         createdCount += created ? 1 : 0;
     });
     
