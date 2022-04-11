@@ -87,11 +87,10 @@ connThen(async (db) => {
     /** Setup
      * Initial exchanger list
      */
-    await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
-    
     const Exchanger = sequelize.models.Exchanger,
         presentedExchangers = await Exchanger.findAll({ where: { xmlVerified: true } }),
         INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
+    
     let createdCount = 0;
     
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
