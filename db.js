@@ -9,19 +9,19 @@ require('pg').types.setTypeParser(1114, stringValue => {
 });
 
 // setup connection
-const 
-    dbConnString = process.env[ "DATABASE_URL"],
-    dbConnURL = new URL(dbConnString),
-    
+const
+    DB_CONNECTION_URI = process.env[ "DB_CONNECTION_URI" ],
+    dbConnURL = new URL(DB_CONNECTION_URI),
+
     DB_CERTIFICATE = process.env[ "DB_CERTIFICATE" ],
-    
+
     sequelize = new sequelizemo.Sequelize(
         dbConnURL.pathname.substr(1), // database, "/defaultdb" => "defaultdb" ;^]
         dbConnURL.username,
         dbConnURL.password,
         connOpts = {
-            connectionString: dbConnString,
-        
+            connectionString: DB_CONNECTION_URI,
+            
             host: dbConnURL.hostname,
             port: dbConnURL.port,
             
@@ -40,13 +40,13 @@ const
 // connect
 const
     connReady = sequelize.authenticate()
-        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env [ "DATABASE_URL" ]))
+        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env["DATABASE_URL"]))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
-    
+
     connThen = async (then) => connReady.then(() => then(sequelize).catch(e => console.log('Connection level Error handled:', e)));
 
 // define models
-sequelize.define('Exchanger', schema.Exchanger.fields, {
+const Exchanger = sequelize.define('Exchanger', schema.Exchanger.fields, {
     indexes: schema.Exchanger.indexes,
     timestamps: true, // Adds createdAt and updatedAt timestamps to the model.
     charset: 'UTF8',
@@ -54,8 +54,8 @@ sequelize.define('Exchanger', schema.Exchanger.fields, {
     tableName: 'exchangers',
     freezeTableName: true,
 })
-.sync()
-;
+    .sync()
+    ;
 
 sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     indexes: schema.ExchangeRate.indexes,
@@ -64,8 +64,8 @@ sequelize.define('ExchangeRate', schema.ExchangeRate.fields, {
     tableName: 'exchangeRates',
     freezeTableName: true,
 })
-.sync()
-;
+    .sync()
+    ;
 
 sequelize.define('AggUser', schema.AggUser.fields, {
     indexes: schema.AggUser.indexes,
@@ -74,24 +74,39 @@ sequelize.define('AggUser', schema.AggUser.fields, {
     tableName: 'aggUsers',
     freezeTableName: true,
 })
-.sync()
-;
+    .sync()
+    ;
 
 // create tables (aka db setup)
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
+
+    /** Setup
+     * Initial exchanger list
+     */
+    let createdCount = 0;
     
+    _.each(process.env[ "INITIAL_EXCHANGERS" ], async (exchData) => {
+        const [exch, created] = await Exchanger.findOrCreate({
+            where: { id: exchData.id },
+            defaults: exchData,
+        });
+        
+        createdCount += created ? 1 : 0;
+    });
+    
+    console.log('Exchangers initial created count:', createdCount, '(thanks, bro)');
     
     /*
     ///////await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
     //*/
-    
+
     /*/
     ///////await queryInterface.addColumn('exchangers', 'ru', schema.Exchanger.fields.description);
     ///////await queryInterface.addColumn('exchangers', 'en', schema.Exchanger.fields.description);
     ///////await queryInterface.addColumn('exchangers', 'description', schema.Exchanger.fields.description);
     //*/
-    
+
     /*
     await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
     await queryInterface.createTable('exchangers', schema.Exchanger.fields);
@@ -116,10 +131,10 @@ connThen(async (db) => {
     });
     await queryInterface.addIndex('exchangeRates', schema.ExchangeRate.indexes[0]);
     //*/
-    
+
     console.log('Initial Exchangers:', await db.models.Exchanger.count({ logging: false }));
     console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
-    
+
     return db;
 }).catch(console.log);
 
@@ -130,7 +145,7 @@ module.exports = {
     db: sequelize,
     setupData: {
         exchangers: JSON.parse(
-            process.env[ "SETUP_EXCHANGERS"]
+            process.env["SETUP_EXCHANGERS"]
         ),
     }
 };
