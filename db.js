@@ -88,16 +88,18 @@ connThen(async (db) => {
      * Initial exchanger list
      */
     const Exchanger = sequelize.models.Exchanger,
+        presentedExchangers = await Exchanger.findAll({ where: { xmlVerified: true } }),
         INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
     let createdCount = 0;
     
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
-        if (await Exchanger.findOne({ where: { id: exchData.id } }) === null) {
+        //if (! _.find(presentedExchangers, exch => exch.id == exchData.id)) {
             exchData.bcId = exchData.id;
+            exchData.xmlVerified = !! exchData.xml;
             await new Exchanger(exchData).save();
             
             createdCount++;
-        }
+        //}
     });
     
     console.log('Exchangers initial created count:', createdCount, '(thanks, bro)');
