@@ -94,7 +94,6 @@ connThen(async (db) => {
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
         if (await Exchanger.findOne({ where: { id: exchData.id } }) === null) {
             exchData.bcId = exchData.id;
-            exchData.
             await new Exchanger(exchData).save();
             
             createdCount++;
