@@ -181,12 +181,14 @@ async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
     
     Exchangers = Exchanger.findAll({ where: { xmlVerified: true } });
     
+    /* its been do into db.js from currently
     if (! Exchangers.length) {
         // setup Exchangers list (as initial value, bro)
         const exchangersSetupData = await require('./db').setupData.exchangers;
         
         Exchangers = exchangersSetupData.forEach(one => new Exchanger(one));
     }
+    */
 
     // transcript date values
     Exchangers.forEach(exch => {

@@ -143,9 +143,9 @@ connThen(async (db) => {
 module.exports = {
     then: then => connThen(then),
     db: sequelize,
-    setupData: {
+    /*setupData: {
         exchangers: JSON.parse(
             process.env["SETUP_EXCHANGERS"]
         ),
-    }
+    }*/
 };
