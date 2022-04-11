@@ -43,7 +43,10 @@ const
         .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env["DATABASE_URL"]))
         .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
 
-    connThen = async (then) => connReady.then(() => then(sequelize).catch(e => console.log('Connection level Error handled:', e)));
+    connThen = async (then) => connReady.then(async () => {
+        return await then(sequelize)
+            .catch(e => console.log('Connection level Error handled:', e));
+    });
 
 // define models
 const Exchanger = sequelize.define('Exchanger', schema.Exchanger.fields, {
@@ -91,8 +94,9 @@ connThen(async (db) => {
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
         if (await Exchanger.findOne({ where: { id: exchData.id } }) === null) {
             exchData.bcId = exchData.id;
+            exchData.
             await new Exchanger(exchData).save();
-        
+            
             createdCount++;
         }
     });
