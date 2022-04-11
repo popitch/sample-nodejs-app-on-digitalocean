@@ -88,8 +88,11 @@ connThen(async (db) => {
      * Initial exchanger list
      */
     const Exchanger = sequelize.models.Exchanger,
-        presentedExchangers = await Exchanger.findAll({ where: { xmlVerified: true } }),
-        INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
+        presentedExchangers = await Exchanger.findAll(),
+        INITIAL_EXCHANGERS = JSON.parse( process.env[ "INITIAL_EXCHANGERS" ] );
+    
+    console.log('presentedExchangers:', presentedExchangers.length);
+    console.log('INITIAL_EXCHANGERS:', INITIAL_EXCHANGERS.length);
     
     let createdCount = 0;
     
