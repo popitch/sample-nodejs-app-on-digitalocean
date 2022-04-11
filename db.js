@@ -84,16 +84,15 @@ connThen(async (db) => {
     /** Setup
      * Initial exchanger list
      */
-    const INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
+    const Exchanger = sequelize.models.Exchanger,
+        INITIAL_EXCHANGERS = JSON.parse(process.env[ "INITIAL_EXCHANGERS" ]);
     let createdCount = 0;
     
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
-        const [exch, created] = await sequelize.models.Exchanger.findOrCreate({
-            where: { id: exchData.id },
-            defaults: _.extend(exchData, {
-                bcId: exchData.id,
-            }),
-        });
+        if (await Exchanger.findOne({ where: { id: exchData.id } }) === null) {
+            exchData.bcId = exchData.id;
+            await new Exchanger(exchData).save();
+        }
         
         created && console.log('+ one exchanger');
         
