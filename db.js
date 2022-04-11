@@ -94,8 +94,6 @@ connThen(async (db) => {
             await new Exchanger(exchData).save();
         }
         
-        created && console.log('+ one exchanger');
-        
         createdCount += created ? 1 : 0;
     });
     
