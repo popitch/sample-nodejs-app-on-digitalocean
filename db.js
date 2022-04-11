@@ -92,9 +92,9 @@ connThen(async (db) => {
         if (await Exchanger.findOne({ where: { id: exchData.id } }) === null) {
             exchData.bcId = exchData.id;
             await new Exchanger(exchData).save();
-        }
         
-        createdCount += created ? 1 : 0;
+            createdCount++;
+        }
     });
     
     console.log('Exchangers initial created count:', createdCount, '(thanks, bro)');
