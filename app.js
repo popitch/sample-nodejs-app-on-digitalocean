@@ -63,6 +63,7 @@ app.use(
         secure: true, // Only use cookies over https. wow! ok
     })
 );
+
 // to use session into views/*
 app.use((req, res, next) => {
     if (! res.locals.session) {
@@ -185,25 +186,6 @@ app.get('/admin/index', async (req, res) => {
 });
 });
 
-
-
-//function checkIsRoot(req)
-
-/*
-_.forEach({
-    exchanger: {
-        
-    },
-    user: {
-        
-    }
-}, (table, ID) => {
-    const LIST_ID = table.listId || ID + 's'
-        , LIST_LINK_NAME = table.listLinkName || 'admin.' + ID + 's'
-        , 
-        
-});
-//*/
 
 // GET /admin/table/users
 app.get('/admin/table/users', 'admin.users', async (req, res) => {

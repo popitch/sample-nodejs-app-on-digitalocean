@@ -7,12 +7,10 @@ const router = express.Router();
 //     res.render('index', { title: 'Express' });
 // });
 
-router.all('*', randomPage);
-
-function randomPage(req, res) {
+router.all('*', (req, res) => 
     res.render('table', {
-        title: 'Xyi',
-    });
-}
+        title: 'ya wwwol',
+    })
+);
 
 module.exports = router;
