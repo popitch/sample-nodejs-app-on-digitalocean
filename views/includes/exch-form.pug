@@ -1,5 +1,9 @@
 form#exchange-form
-    .column 
-        h2 РћС‚РґР°СЋ
-    .columnTo
-        h2 РџРѕР»СѓС‡Р°СЋ
+    table
+        tbody
+            tr
+                td(width="50%")
+                    | Отдаю
+                    select(name="from", value="BTC")
+                        option(value="BTC") Bitcoin
+                td Получаю
