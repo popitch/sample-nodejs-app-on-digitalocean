@@ -13,10 +13,7 @@ body {
  */
 .top-status-line {
     list-style-type: none;
-    font-family: Tahoma Arial;
-    font-size: 2em;
-    font-weight: bolder;
-    text-transform: uppercase;
+    padding: .3em;
     background: lightgray;
 }
 .top-status-line:after {

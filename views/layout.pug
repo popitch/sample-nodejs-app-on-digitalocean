@@ -9,6 +9,7 @@ html
         ul.top-status-line
             li
                 | Всего курсов:
-                div.value(text=aggregator.pairsCount)
+                div.value
+                    #{aggregator.pairsCount()}
         
         block content
