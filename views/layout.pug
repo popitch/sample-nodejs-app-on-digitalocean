@@ -2,14 +2,14 @@ doctype html
 
 html
     head
-        title= title
+        title= title | "EXNODE"
         link(rel='stylesheet', href='/css/common.css')
         
     body.site-layout
         ul.top-status-line
             li
                 | Всего курсов:
-                em.value #{aggregator.pairsCount()}
+                em.value= aggregator.pairsCount()
                 | Обменников:
                 em.value #{aggregator.exchangersCount()}
                 | Обновление:
