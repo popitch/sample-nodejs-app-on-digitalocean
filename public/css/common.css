@@ -53,7 +53,8 @@ body {
     padding: 0;
     overflow: hidden;
     background-color: #24890e;
-    border-radius: 0.4em;
+    border-bottom-left-radius: 0.4em;
+    border-top-left-radius: 0.4em;
 }
 
 .menu li {
@@ -86,7 +87,7 @@ footer {
 }
 
 
-/** form
+/** forms & tables
  */
 form {
 	display: inline-block;
