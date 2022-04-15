@@ -8,11 +8,11 @@ html
     body.site-layout
         ul.top-status-line
             li
-                | Обновление:
-                div.value #{aggregator.process().now}
-                | Обменников:
-                div.value #{aggregator.exchangersCount()}
                 | Всего курсов:
-                div.value #{aggregator.pairsCount()}
+                em.value #{aggregator.pairsCount()}
+                | Обменников:
+                em.value #{aggregator.exchangersCount()}
+                | Обновление:
+                em.value #{moment( aggregator.process().now ).fromNow()}
         
         block content

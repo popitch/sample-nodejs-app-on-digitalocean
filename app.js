@@ -69,8 +69,11 @@ app.use((req, res, next) => {
     if (! res.locals.session) {
         res.locals.session = req.session;
         
-        // machine status
+        // aggregator server status
         res.locals.aggregator = xmlRoratorEngine.aggregator;
+        
+        // moment.js
+        res.moment = require('moment');
     }
     next();
 });

@@ -28,7 +28,7 @@ body {
 	float: right;
 }
 .top-status-line li .value {
-	display: inline-block;
+	/* display: inline-block; */
     margin: 0 0.38em;
 	color: green;
 }
