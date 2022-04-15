@@ -68,6 +68,9 @@ app.use(
 app.use((req, res, next) => {
     if (! res.locals.session) {
         res.locals.session = req.session;
+        
+        // machine status
+        res.locals.aggregator = xmlRoratorEngine.aggregatorState;
     }
     next();
 });

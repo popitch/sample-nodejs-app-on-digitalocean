@@ -2,22 +2,41 @@ body {
 	font-family: Tahoma;
 }
 
-.page-layout {
+.site-layout {
   margin: auto;
   max-width: 1200px;
-  border: 3px solid green;
-  padding: 10px;
+  /* border: 3px solid green;
+  padding: 10px; */
+}
+
+/** top line
+ */
+.top-status-line {
+    list-style-type: none;
+    font-family: Tahoma Arial;
+    font-size: 2em;
+    font-weight: bolder;
+    text-transform: uppercase;
+    background: lightgray;
+}
+
+.top-status-line li {
+	float: right;
+}
+.top-status-line li .value {
+	display: inline-block;
+	color: cian;
 }
 
 /** logo
  */
 .logo {
     /* display: online-block; */
-	float: left;
+    float: left;
     font-family: Tahoma Arial;
     font-size: 2em;
     font-weight: bolder;
-	text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 /** menu

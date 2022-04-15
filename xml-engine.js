@@ -22,6 +22,10 @@ module.exports = {
     touchesAll: () => Cached.pairs.all(),
     ratesAll: () => Cached.pairs.all().flatMap(t => t.rates),
     ratesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
+    
+    aggregatorState: {
+        pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
+    },
 };
 
 // writer of /cached/(*).json
