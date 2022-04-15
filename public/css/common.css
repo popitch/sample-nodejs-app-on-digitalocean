@@ -78,6 +78,14 @@ body {
     background-color: #2ead13;
 }
 
+/** form#exchange-form
+ */
+#exchange-form {
+    display: flex;
+}
+#exchange-form .column {
+	flex: 50%;
+}
 
 /** footer
  */
