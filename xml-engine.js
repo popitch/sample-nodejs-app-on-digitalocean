@@ -12,10 +12,11 @@ const
     // short-hand
     exchangerNotStartedUpdateAt = (exch) => exch.xmlStartedAt ? Infinity : (+new Date(exch.updatedAt) || 0),
     
-    snifferUpAt = new Date;
+    AGG_START_AT = new Date;
 
 // exchangers all (it)
-let Exchangers;
+let Exchangers,
+    aggProcessState ={};
 
 // exports
 module.exports = {
@@ -23,9 +24,10 @@ module.exports = {
     ratesAll: () => Cached.pairs.all().flatMap(t => t.rates),
     ratesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
     
-    aggregatorState: {
+    aggregator: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
-        exchangersCount: () => Exchangers.length
+        exchangersCount: () => Exchangers.length,
+        process: () => aggProcessState,
     },
 };
 
@@ -74,8 +76,8 @@ const Cached = {
             };
         //});
         
-        return Cached.putJson('process', {
-            up: snifferUpAt,
+        return Cached.putJson('process', aggProcessState = {
+            up: AGG_START_AT,
             now: new Date,
             jsoncached: {
                 exchangers: Exchangers.length,

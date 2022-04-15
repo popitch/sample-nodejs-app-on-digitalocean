@@ -70,7 +70,7 @@ app.use((req, res, next) => {
         res.locals.session = req.session;
         
         // machine status
-        res.locals.aggregator = xmlRoratorEngine.aggregatorState;
+        res.locals.aggregator = xmlRoratorEngine.aggregator;
     }
     next();
 });
