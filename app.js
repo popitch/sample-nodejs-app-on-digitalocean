@@ -75,19 +75,25 @@ app.use((req, res, next) => {
 // setup cookies
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-app.use(session({ secret: "Your secret key will here" }));
+//app.use(session({ secret: "Your secret key will here" })); // :59
+
+
 
 // setup page routes //
 
 // GET /
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    //res.sendFile(__dirname + '/public/index.html');
+    
+    res.render('index', {
+        
+    });
 });
 
 // GET /login
 app.get('/login', (req, res) => {
     res.render('login', {
-        title: 'Вход'
+        title: 'Вход',
     });
 });
 

@@ -5,10 +5,12 @@ body {
 /** logo
  */
 .logo {
-    display: online-block;
+    /* display: online-block; */
 	float: left;
-	font-family: Arial Tahoma;
-	text-transform: capitalize;
+    font-family: Tahoma Arial;
+    font-size: 2em;
+    font-weight: bolder;
+	text-transform: uppercase;
 }
 
 /** menu
