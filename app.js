@@ -92,7 +92,7 @@ app.get('/', (req, res) => {
     //res.sendFile(__dirname + '/public/index.html');
     
     res.render('index', {
-        
+        title: 'Обмен валюты',
     });
 });
 

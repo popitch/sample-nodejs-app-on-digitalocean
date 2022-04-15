@@ -29,11 +29,11 @@ body {
 	float: right;
 }
 .top-status-line li .value {
-    margin: 0 0.38em 0 0.1em;
+    margin: 0 0.62em 0 0.2em;
 	color: green;
 }
 
-/** logo
+/** header logo
  */
 .logo {
     /* display: online-block; */
@@ -45,14 +45,15 @@ body {
     margin-right: 0.3em;
 }
 
-/** menu
+/** header menu
  */
 .menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #24890e;
+    border-radius: 0.4em;
 }
 
 .menu li {
@@ -68,13 +69,22 @@ body {
 }
 
 .menu li a:hover {
-    background-color: #111;
+    background-color: #2ead13;
 }
 
 .menu li.active a {
     color: white;
-    background-color: #111;
+    background-color: #2ead13;
 }
+
+
+/** footer
+ */
+footer {
+	min-height: 10em;
+	background: gray;
+}
+
 
 /** form
  */
