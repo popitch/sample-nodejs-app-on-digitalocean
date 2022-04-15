@@ -73,7 +73,7 @@ app.use((req, res, next) => {
         res.locals.aggregator = xmlRoratorEngine.aggregator;
         
         // moment.js
-        res.moment = require('moment');
+        res.locals.moment = require('moment');
     }
     next();
 });
