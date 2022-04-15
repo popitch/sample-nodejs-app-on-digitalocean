@@ -29,7 +29,8 @@ body {
 }
 .top-status-line li .value {
 	display: inline-block;
-	color: cian;
+    margin: 0 0.38em;
+	color: green;
 }
 
 /** logo
