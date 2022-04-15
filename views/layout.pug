@@ -8,6 +8,8 @@ html
     body.site-layout
         ul.top-status-line
             li
+                | Обменников:
+                div.value #{aggregator.exchangersCount()}
                 | Всего курсов:
                 div.value #{aggregator.pairsCount()}
         

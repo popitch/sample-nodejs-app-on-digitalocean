@@ -25,6 +25,7 @@ module.exports = {
     
     aggregatorState: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
+        exchangersCount: () => Exchangers.length
     },
 };
 
