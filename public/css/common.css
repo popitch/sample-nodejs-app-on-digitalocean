@@ -13,7 +13,10 @@ body {
  */
 .top-status-line {
     list-style-type: none;
-    padding: .3em;
+    display: inline-block;
+    width: 100%;
+    margin: 0 0.2em 0.2em;
+    line-height: 2em;
     background: lightgray;
 }
 .top-status-line:after {
