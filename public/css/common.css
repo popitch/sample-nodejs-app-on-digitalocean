@@ -19,6 +19,10 @@ body {
     text-transform: uppercase;
     background: lightgray;
 }
+.top-status-line:after {
+	display: block;
+	clear: both;
+}
 
 .top-status-line li {
 	float: right;
