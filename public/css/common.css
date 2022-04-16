@@ -37,10 +37,9 @@ body {
  */
 .logo {
     /* display: online-block; */
-    float: left; */
-    font-size: 2.5em;
+    float: left; 
+    font-size: 2.9em;
     line-height: 1em;
-    font-size: 2em;
     font-weight: bolder;
     text-transform: uppercase;
     margin-right: 0.3em;
@@ -84,8 +83,9 @@ body {
 #exchange-form {
     display: flex;
     padding: 1em;
-    -webkit-box-shadow: 2px 5px 16px 0px #0B325E, 5px 5px 5px -8px rgba(0,0,0,0); 
-    box-shadow: 2px 5px 16px 0px #0B325E, 5px 5px 5px -8px rgba(0,0,0,0);
+    -webkit-box-shadow: 2px 5px 16px 0px #000, 5px 5px 5px -8px rgba(0,0,0,0); 
+    box-shadow: 2px 5px 16px 0px #000, 5px 5px 5px -8px rgba(0,0,0,0);
+    font-size: 1.38em;
 }
 #exchange-form .column {
 	flex: 50%;
@@ -100,10 +100,10 @@ body {
 #exchange-form select {
     height: 2em;
     width: 100%;
+    padding: 0 1em;
     box-sizing: border-box;
     border-radius: 1em;
     border-width: 2px;
-    font-size: 1.5em;
 }
 
 /** footer
