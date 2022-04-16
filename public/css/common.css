@@ -105,9 +105,9 @@ body {
     font-size: 1.38em;
     box-shadow: 1px 1px 3px 0px #cfc;
 }
-#exchange-form input:focus,
-#exchange-form select:focus {
-    box-shadow: 1px 1px 5px 0px #9f9;
+#exchange-form input:focus, #exchange-form input:hover,
+#exchange-form select:focus, #exchange-form select:hover {
+    box-shadow: 1px 1px 7px 0px #9f9;
 }
 
 /** footer
