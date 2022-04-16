@@ -20,7 +20,7 @@ const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","B
 function pairsToCurrenciesFrom(pairs) {
     var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
-    return _.chain(pairs)
+    return lo.chain(pairs)
         .map((branch, from) => ({
             id: CURRENCY_ID_BY_SYMBOL[from],
             name: CURRENCY_NAME_BY_SYMBOL[from] || '"' + from + '"',
