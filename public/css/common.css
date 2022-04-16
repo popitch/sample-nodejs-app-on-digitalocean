@@ -102,7 +102,7 @@ body {
     padding: 0 1em;
     box-sizing: border-box;
     border-radius: 1em;
-    border-width: 2px;
+    border: 2px solid #b5b8b5;
     font-size: 1.11em;
 }
 
