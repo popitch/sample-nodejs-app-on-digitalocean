@@ -1,3 +1,5 @@
+const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
+
 // run xmlTractor = 
 const xmlEngine = require('./xml-engine');
 
@@ -6,41 +8,6 @@ const express = require('express'),
     app = express(),
     path = require('path'),
     _ = require('lodash');
-
-const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
-app.locals.basedir = __dirname; //path.join(__dirname, 'views');
-
-
-//const FormatString = require('./helpers/FormatString');
-_.extend(app.locals, _.extend({
-    _: _,
-},
-    require('./helpers/FormatString')
-));
-
-
-
-
-// common data accessors
-async function getSortedExchangerList() {
-    const Exchanger = require('./db').db.models.Exchanger;
-    
-    return _.chain(await Exchanger.findAll())
-        .map(ex => {
-            // js-shn dates
-            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
-                ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
-            });
-            return ex;
-        })
-        .sortBy([ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ])
-        .value()
-        .reverse();
-}
-
-
-
-
 
 // setup routes engine
 const router = new (require('named-routes'));
@@ -55,6 +22,10 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// setup cookies
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 // setup session
 const session = require('express-session');
 app.use(
@@ -65,7 +36,16 @@ app.use(
     })
 );
 
-// locals to use into views/*
+// app.locals (?)
+_.extend(app.locals, _.extend({
+    basedir: __dirname,
+},
+    require('./helpers/FormatString')
+));
+
+
+/** views locals
+ */
 app.use((req, res, next) => {
     if (! res.locals.session) {
         // session
@@ -85,21 +65,16 @@ app.use((req, res, next) => {
     next();
 });
 
-// setup cookies
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-//app.use(session({ secret: "Your secret key will here" })); // :59
 
-
-
-// setup page routes //
+/** setup page routes
+ */
 
 // GET /
 app.get('/', (req, res) => {
     //res.sendFile(__dirname + '/public/index.html');
     
     res.render('index', {
-        title: 'Курсы обмена криптовалюты',
+        title: 'Курсы обмена криптовалют',
     });
 });
 
@@ -428,3 +403,25 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+
+
+
+
+// common data accessors
+async function getSortedExchangerList() {
+    const Exchanger = require('./db').db.models.Exchanger;
+    
+    return _.chain(await Exchanger.findAll())
+        .map(ex => {
+            // js-shn dates
+            ['createdAt', 'updatedAt', 'xmlParsedAt', 'xmlStartedAt'].forEach(dateKey => {
+                ex[dateKey] = ex[dateKey] && new Date(Number(ex[dateKey]));
+            });
+            return ex;
+        })
+        .sortBy([ ex => ex.xmlStartedAt || ex.xmlParsedAt || ex.updatedAt || ex.createdAt, 'xmlVerified', 'xml', 'name' ])
+        .value()
+        .reverse();
+}
