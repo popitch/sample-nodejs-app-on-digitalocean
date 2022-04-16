@@ -83,9 +83,15 @@ body {
  */
 #exchange-form {
     display: flex;
+    padding: 1em;
+    -webkit-box-shadow: inset -1px 3px 8px 5px #1F87FF, 2px 5px 16px 0px #0B325E, 5px 5px 15px 5px rgba(0,0,0,0); 
+    box-shadow: inset -1px 3px 8px 5px #1F87FF, 2px 5px 16px 0px #0B325E, 5px 5px 15px 5px rgba(0,0,0,0);
 }
 #exchange-form .column {
 	flex: 50%;
+}
+#exchange-form .column:not(:last-child) {
+    padding-right: 1.5em;
 }
 #exchange-form .line {
 	margin-bottom: 1em;
@@ -93,7 +99,10 @@ body {
 #exchange-form input,
 #exchange-form select {
     height: 2em;
+    width: 100%;
+    box-sizing: border-box;
     border-radius: 1em;
+    border-width: 2px;
     font-size: 1.5em;
 }
 
