@@ -16,5 +16,5 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
         .line
             input(name="out", value="50000")
 
-block append scripts
+block prepend scripts
     script(src="/js/table.js?sniffer")
