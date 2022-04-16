@@ -59,7 +59,7 @@ app.use((req, res, next) => {
         
         // currency consts
         _.extend(res.locals,
-            require('./public/js/rate-symbols.js')
+            require('./public/js/rate-utils.js')
         );
     }
     next();
