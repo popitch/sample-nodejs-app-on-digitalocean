@@ -3,7 +3,8 @@ form#exchange-form
         h2 Отдаю
         .line
             select(name="from", value="BTC")
-                option(value="BTC") Bitcoin (BTC)
+              each currency in CURRENCY_ALL_LIST
+                option(value=currency.symbol) #{currency.name}
         .line
             input(name="in", value="0.02")
     .column

@@ -258,39 +258,9 @@ const
         return reload(pairs);
     })(),
     
-    PAIRS_FROM = ko.computed(() => {
-        return _.chain(PAIRS())
-            .map((branch, from) => ({
-                id: CURRENCY_ID_BY_SYMBOL[from],
-                name: CURRENCY_NAME_BY_SYMBOL[from] || '"' + from + '"',
-                symbol: from,
-                weight: _.reduce(branch, (s, w) => s + w, 0),
-            }))
-            .sortBy(p => - p.weight)
-            .value();
-    }, this, { deferEvaluation: true }),
+    PAIRS_FROM = ko.computed(() => pairsToCurrenciesFrom(PAIRS()), this, { deferEvaluation: true }),
     
-    PAIRS_TO = ko.computed(() => {
-        const tree = PAIRS(),
-            toAll = _.chain(tree).map(branch =>
-                _.map(branch, (w, to) => ({
-                    id: CURRENCY_ID_BY_SYMBOL[to],
-                    name: CURRENCY_NAME_BY_SYMBOL[to] || '"' + to + '"',
-                    symbol: to,
-                    weight: w,
-                }))
-            )
-            .flatten()
-            .value();
-        
-        return _.chain(toAll)
-            .groupBy('symbol')
-            .map((group, to) => _.extend(group[0], {
-                weight: group.reduce((w, to) => w + to.weight, 0),
-            }))
-            .sortBy(p => - p.weight)
-            .value();
-    }, this, { deferEvaluation: true }),
+    PAIRS_TO = ko.computed(() => pairsToCurrenciesTo(PAIRS()), this, { deferEvaluation: true }),
     
     /*
     CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],    
