@@ -103,11 +103,13 @@ body {
     border-radius: 1em;
     border: 2px solid #b5b8b5;
     font-size: 1.38em;
-    box-shadow: 1px 1px 3px 0px #cfc;
+    box-shadow: 1px 1px 3px 0px #c2f2b7;
+    border-color: #c2f2b7;
 }
 #exchange-form input:focus, #exchange-form input:hover,
 #exchange-form select:focus, #exchange-form select:hover {
-    box-shadow: 1px 1px 7px 0px #9f9;
+    box-shadow: 1px 1px 5px 0px #24890e;
+    border-color: #24890e;
 }
 
 /** footer
