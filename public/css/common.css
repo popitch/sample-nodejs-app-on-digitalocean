@@ -106,10 +106,13 @@ body {
     box-shadow: 1px 1px 2px 0px #c2f2b7;
     /* border-color: #c2f2b7; */
 }
-#exchange-form input:not(:not(:focus, :focus-within, :focus-visible, :hover)),
+#exchange-form input:not(:not(:focus, :hover)):not(:disabled),
 #exchange-form select:focus, #exchange-form select:hover {
     box-shadow: 1px 1px 5px 0px #24890e;
     border-color: #24890e;
+}
+#exchange-form input:disabled {
+    background: lightgray
 }
 
 /** footer
