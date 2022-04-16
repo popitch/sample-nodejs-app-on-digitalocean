@@ -1,3 +1,6 @@
+block prepend scripts
+    script(src="/js/table.js?sniffer")
+
 form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Отдаю
@@ -15,6 +18,3 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
                 option(value = currency.symbol, selected = (currency.symbol == "SBERRUB"))= currency.name
         .line
             input(name="out", value="50000")
-
-block prepend scripts
-    script(src="/js/table.js?sniffer")
