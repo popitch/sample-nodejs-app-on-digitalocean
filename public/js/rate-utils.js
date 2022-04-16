@@ -18,25 +18,25 @@ const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","B
     });
 
 function pairsToCurrenciesFrom(pairs) {
-    var _ = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
+    var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
     return _.chain(pairs)
         .map((branch, from) => ({
             id: CURRENCY_ID_BY_SYMBOL[from],
             name: CURRENCY_NAME_BY_SYMBOL[from] || '"' + from + '"',
             symbol: from,
-            weight: _.reduce(branch, (s, w) => s + w, 0),
+            weight: lo.reduce(branch, (s, w) => s + w, 0),
         }))
         .sortBy(p => - p.weight)
         .value();
 }
 
 function pairsToCurrenciesTo(pairs) {
-    var _ = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
+    var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
     const tree = pairs,
-        toAll = _.chain(tree).map(branch =>
-            _.map(branch, (w, to) => ({
+        toAll = lo.chain(tree).map(branch =>
+            lo.map(branch, (w, to) => ({
                 id: CURRENCY_ID_BY_SYMBOL[to],
                 name: CURRENCY_NAME_BY_SYMBOL[to] || '"' + to + '"',
                 symbol: to,
@@ -46,9 +46,9 @@ function pairsToCurrenciesTo(pairs) {
         .flatten()
         .value();
     
-    return _.chain(toAll)
+    return lo.chain(toAll)
         .groupBy('symbol')
-        .map((group, to) => _.extend(group[0], {
+        .map((group, to) => lo.extend(group[0], {
             weight: group.reduce((w, to) => w + to.weight, 0),
         }))
         .sortBy(p => - p.weight)
