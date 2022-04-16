@@ -59,7 +59,9 @@ app.use((req, res, next) => {
         
         // currencies consts
         _.extend(res.locals, {
-            getCurrencyPairs: () => require('fs').readFileSync('./public/cached/pairs.json'),
+            getCurrencyPairs: () => JSON.parse(
+                require('fs').readFileSync('./public/cached/pairs.json')
+            ),
         });
         _.extend(res.locals,
             require('./public/js/rate-utils.js'),
