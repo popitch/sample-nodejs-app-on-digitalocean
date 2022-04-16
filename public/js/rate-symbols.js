@@ -6,7 +6,16 @@ const CURRENCY_NAME_BY_SYMBOL = {
 
 const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","BTG":"184","ETH":"212","WETH":"218","ETC":"160","LTC":"99","XRP":"161","XMR":"149","DOGE":"115","MATIC":"138","DASH":"140","ZEC":"162","USDT":"208","USDC":"23","TUSD":"24","USDP":"189","DAI":"203","BUSD":"206","XEM":"173","REP":"174","NEO":"177","EOS":"178","MIOTA":"179","LSK":"180","ADA":"181","XLM":"182","TRX":"185","WAVES":"133","OMG":"48","XVG":"124","ZRX":"168","BNB":"19","ICX":"104","KMD":"134","BTT":"27","BAT":"61","ONT":"135","QTUM":"26","LINK":"197","ATOM":"198","XTZ":"175","DOT":"201","UNI":"202","RVN":"205","SOL":"82","VET":"8","SHIB":"210","ALGO":"216","MKR":"213","AVAX":"217","YFI":"220"},
 	CURRENCY_SYMBOL_BY_ID = {8: 'VET', 19: 'BNB', 23: 'USDC', 24: 'TUSD', 26: 'QTUM', 27: 'BTT', 43: 'BTC', 48: 'OMG', 61: 'BAT', 73: 'WBTC', 82: 'SOL', 99: 'LTC', 104: 'ICX', 115: 'DOGE', 124: 'XVG', 133: 'WAVES', 134: 'KMD', 135: 'ONT', 137: 'BSV', 138: 'MATIC', 140: 'DASH', 149: 'XMR', 160: 'ETC', 161: 'XRP', 162: 'ZEC', 168: 'ZRX', 172: 'BCH', 173: 'XEM', 174: 'REP', 175: 'XTZ', 177: 'NEO', 178: 'EOS', 179: 'MIOTA', 180: 'LSK', 181: 'ADA', 182: 'XLM', 184: 'BTG', 185: 'TRX', 189: 'USDP', 197: 'LINK', 198: 'ATOM', 201: 'DOT', 202: 'UNI', 203: 'DAI', 205: 'RVN', 206: 'BUSD', 208: 'USDT', 210: 'SHIB', 212: 'ETH', 213: 'MKR', 216: 'ALGO', 217: 'AVAX', 218: 'WETH', 220: 'YFI'},
-	CURRENCY_IDS = [43, 73, 172, 137, 184, 212, 218, 160, 99, 161, 149, 115, 138, 140, 162, 208, 23, 24, 189, 203, 206, 173, 174, 177, 178, 179, 180, 181, 182, 185, 133, 48, 124, 168, 19, 104, 134, 27, 61, 135, 26, 197, 198, 175, 201, 202, 205, 82, 8, 210, 216, 213, 217, 220, 211];
+	CURRENCY_IDS = [43, 73, 172, 137, 184, 212, 218, 160, 99, 161, 149, 115, 138, 140, 162, 208, 23, 24, 189, 203, 206, 173, 174, 177, 178, 179, 180, 181, 182, 185, 133, 48, 124, 168, 19, 104, 134, 27, 61, 135, 26, 197, 198, 175, 201, 202, 205, 82, 8, 210, 216, 213, 217, 220, 211],
+	
+	CURRENCY_ALL_LIST = CURRENCY_IDS.map(id => {
+        const symbol = CURRENCY_SYMBOL_BY_ID[id];
+        return {
+            id: id,
+            symbol: symbol,
+            name: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol,
+        };
+    });
 
 // flags
 const FLAG_BY_SYMBOL = {
@@ -59,13 +68,6 @@ if (typeof module !== 'undefined') {
         CURRENCY_SYMBOL_BY_ID: CURRENCY_SYMBOL_BY_ID,
         CURRENCY_IDS: CURRENCY_IDS,
         FLAG_BY_SYMBOL: FLAG_BY_SYMBOL,
-        CURRENCY_ALL_LIST: CURRENCY_IDS.map(id => {
-            const symbol = CURRENCY_SYMBOL_BY_ID[id];
-            return {
-                id: id,
-                symbol: symbol,
-                name: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol,
-            };
-        }),
+        CURRENCY_ALL_LIST: CURRENCY_ALL_LIST,
     };
 }
