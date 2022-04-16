@@ -295,7 +295,12 @@ dbConn.then(async (db) => {
             end('text', responseText.length);
 
             begin('parse');
-            const jso = convert.xml2js(responseText, { trim: true, compact: true });
+            let jso;
+            try {
+                jso = convert.xml2js(responseText, { trim: true, compact: true });
+            } catch(e) {
+                console.log('! Parse error happens', e.message);
+            };
             
             if (! jso || ! jso.rates || ! jso.rates.item) {
                 return xmlFinishError();
