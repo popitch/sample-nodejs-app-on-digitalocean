@@ -58,10 +58,10 @@ app.use((req, res, next) => {
         res.locals.moment = require('moment');
         
         // currencies consts
+        _.extend(res.locals, {
+            getCurrencyPairs: () => fs.readFileSync('./public/cached/pairs.json'),
+        });
         _.extend(res.locals,
-            {
-                getCurrencyPairs: () => fs.readFileSync('./public/cached/pairs.json'),
-            },
             require('./public/js/rate-utils.js'),
         );
     }
