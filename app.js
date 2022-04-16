@@ -3,15 +3,16 @@ const xmlEngine = require('./xml-engine');
 
 // app
 const express = require('express'),
-    app = express();
-
-// setup common things
-const path = require('path'),
+    app = express(),
+    path = require('path'),
     _ = require('lodash');
 
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 app.locals.basedir = __dirname; //path.join(__dirname, 'views');
 
+
+const FormatString = require('./helpers/FormatString');
+_.extend(app.locals, FormatString);
 
 
 
@@ -46,10 +47,6 @@ router.registerAppHelpers(app);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-
-const FormatString = require('./helpers/FormatString');
-_.extend(app.locals, FormatString);
-
 //app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -64,9 +61,10 @@ app.use(
     })
 );
 
-// to use session into views/*
+// locals to use into views/*
 app.use((req, res, next) => {
     if (! res.locals.session) {
+        // session
         res.locals.session = req.session;
         
         // aggregator server status
@@ -74,6 +72,11 @@ app.use((req, res, next) => {
         
         // moment.js
         res.locals.moment = require('moment');
+        
+        // currency consts
+        _.extend(res.locals,
+            require('public/js/rate-symbols.js')
+        );
     }
     next();
 });
@@ -92,7 +95,7 @@ app.get('/', (req, res) => {
     //res.sendFile(__dirname + '/public/index.html');
     
     res.render('index', {
-        title: 'Обмен валюты',
+        title: 'Курсы обмена криптовалюты',
     });
 });
 

@@ -50,3 +50,14 @@ const FLAG_BY_SYMBOL = {
         title: 'Холд при приеме средств',
     },
 };
+
+// module.exports
+if (typeof module !== 'undefined') {
+    module.exports = {
+        CURRENCY_NAME_BY_SYMBOL: CURRENCY_NAME_BY_SYMBOL,
+        CURRENCY_ID_BY_SYMBOL: CURRENCY_ID_BY_SYMBOL,
+        CURRENCY_SYMBOL_BY_ID: CURRENCY_SYMBOL_BY_ID,
+        CURRENCY_IDS: CURRENCY_IDS,
+        FLAG_BY_SYMBOL: FLAG_BY_SYMBOL,
+    };
+}

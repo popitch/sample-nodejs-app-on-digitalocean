@@ -82,8 +82,8 @@ body {
 #exchange-form {
     display: flex;
     padding: 1em;
-    -webkit-box-shadow: 2px 5px 16px 0px #000, 5px 5px 5px -8px rgba(0,0,0,0); 
-    box-shadow: 2px 5px 16px 0px #000, 5px 5px 5px -8px rgba(0,0,0,0);
+    -webkit-box-shadow: 1px 1px 9px 0px #000;
+    box-shadow: 1px 1px 9px 0px #000;
     font-size: 1.38em;
 }
 #exchange-form .column {
