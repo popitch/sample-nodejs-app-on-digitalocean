@@ -1,9 +1,11 @@
 form#exchange-form
-    table
-        tbody
-            tr
-                td(width="50%")
-                    | Отдаю
-                    select(name="from", value="BTC")
-                        option(value="BTC") Bitcoin
-                td Получаю
+    .column
+        h2= РћС‚РґР°СЋ
+        select(name="from", value="BTC")
+            option(value="BTC") Bitcoin (BTC)
+        input(name="in", value="0.02")
+    .column
+        h2= РџРѕР»СѓС‡Р°СЋ
+        select(name="to", value="SBERRUB")
+            option(value="SBERRUB") Sberbank RUB (SBERRUB)
+        input(name="out", value="50000")
