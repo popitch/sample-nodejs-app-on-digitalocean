@@ -1,5 +1,5 @@
 // run xmlTractor = 
-const xmlRoratorEngine = require('./xml-engine');
+const xmlEngine = require('./xml-engine');
 
 // app
 const express = require('express'),
@@ -70,7 +70,7 @@ app.use((req, res, next) => {
         res.locals.session = req.session;
         
         // aggregator server status
-        res.locals.aggregator = xmlRoratorEngine.aggregator;
+        res.locals.aggregator = xmlEngine.aggregator;
         
         // moment.js
         res.locals.moment = require('moment');
@@ -319,7 +319,7 @@ app.get('/admin/table/exchangers', 'admin.exchangers', async (req, res) => {
     res.render('admin/table/exchangers', {
         title: 'Обменники',
         exchList: await getSortedExchangerList(),
-        ratesByExchangerId: xmlRoratorEngine.ratesByExchangerId(),
+        ratesByExchangerId: xmlEngine.ratesByExchangerId(),
     });
 });
 
@@ -340,7 +340,7 @@ app.get('/admin/table/exchangers/:id', 'admin.exchanger_edit', async (req, res) 
     res.render('admin/table/exchanger_edit', {
         title: (exch.name || '<Новый>') + ' - Обменники',
         exch: exch,
-        ratesCount: ( xmlRoratorEngine.ratesByExchangerId()[ req.params.id ] || [] ).length,
+        ratesCount: ( xmlEngine.ratesByExchangerId()[ req.params.id ] || [] ).length,
         isNew
     });
 });

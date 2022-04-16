@@ -1,8 +1,10 @@
 doctype html
+- var 
 
 html
     head
-        title= (title ? title + ' — ' : '') + "EXNODE"
+        title= (title ? title + ' → ' : '') + "Exnode"
+        
         link(rel='stylesheet', href='/css/common.css', media="all")
         
     body.site-layout
@@ -28,3 +30,11 @@ html
         
         footer
             p Welcome to #{title}
+        
+        block scripts
+            script(src="//cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js")
+            script(src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js")
+            script(src="//knockoutjs.com/downloads/knockout-3.5.1.js")
+            
+            script(src="/js/format.js")
+            script(src="/js/rate-symbols.js")
