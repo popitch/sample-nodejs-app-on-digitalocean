@@ -1,0 +1,38 @@
+table
+    thead(data-bind="with: filter")
+        tr(data-bind="css: 'sort-dir_' + sortDir()")
+            th.rate-col.rate-service( data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }", style="color: transparent") ...
+            th.rate-col.rate-changer( data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')") Обменник
+            th.rate-col.rate-from(    data-bind="css: { 'sort-by': sortBy() === 'from' },    click: () => toSort('from')"   ) Отдаёте
+            th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
+            th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
+    
+    tbody(data-bind="foreach: rates.sortedDirectedFixedFloating">
+      //
+        <tr>
+            <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))">
+                <i title class="rate-flag" data-bind="
+                    css: 'rate-flag-' + flag,
+                    attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }
+                "></i>
+            </td>
+            
+            <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
+                <a href target="_blank" data-bind="
+                    text: name,
+                    attr: {
+                        href: exchangerExchangeUrl($parent, $data)
+                    }
+                "></a>
+            </td>
+            
+            <td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
+            
+            <td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
+            
+            <td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
+        </tr>
+    
+    tbody(data-bind="if: ! loading() && rates().length === 0")
+        tr
+            td(colspan="8") Нет данных для выбранного направления обмена.</td>
