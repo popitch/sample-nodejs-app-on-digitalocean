@@ -11,8 +11,12 @@ const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passw
 app.locals.basedir = __dirname; //path.join(__dirname, 'views');
 
 
-const FormatString = require('./helpers/FormatString');
-_.extend(app.locals, FormatString);
+//const FormatString = require('./helpers/FormatString');
+_.extend(app.locals, _.extend({
+    _: _,
+},
+    require('./helpers/FormatString')
+));
 
 
 
