@@ -7,7 +7,7 @@ table
             th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
-    tbody(data-bind="foreach: rates.sortedDirectedFixedFloating">
+    tbody(data-bind="foreach: rates.sortedDirectedFixedFloating")
       //
         <tr>
             <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))">
@@ -35,4 +35,4 @@ table
     
     tbody(data-bind="if: ! loading() && rates().length === 0")
         tr
-            td(colspan="8") Нет данных для выбранного направления обмена.</td>
+            td(colspan="8") Нет данных для выбранного направления обмена.
