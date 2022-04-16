@@ -104,6 +104,11 @@ body {
     border-radius: 1em;
     border: 2px solid #b5b8b5;
     font-size: 1.11em;
+    box-shadow: 1px 1px 3px 0px #cfc;
+}
+#exchange-form input:focus,
+#exchange-form select:focus {
+    box-shadow: 1px 1px 5px 0px #9f9;
 }
 
 /** footer
