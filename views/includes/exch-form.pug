@@ -1,11 +1,15 @@
 form#exchange-form
     .column
         h2= Отдаю
-        select(name="from", value="BTC")
+        .line
+            select(name="from", value="BTC")
             option(value="BTC") Bitcoin (BTC)
-        input(name="in", value="0.02")
+        .line
+            input(name="in", value="0.02")
     .column
         h2= Получаю
-        select(name="to", value="SBERRUB")
-            option(value="SBERRUB") Sberbank RUB (SBERRUB)
-        input(name="out", value="50000")
+        .line
+            select(name="to", value="SBERRUB")
+                option(value="SBERRUB") Sberbank RUB (SBERRUB)
+        .line
+            input(name="out", value="50000")
