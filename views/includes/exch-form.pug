@@ -3,7 +3,7 @@ form#exchange-form
         h2 Отдаю
         .line
             select(name="from", value="BTC")
-              each currency in CURRENCY_ALL_LIST
+              each currency in pairsToCurrenciesFrom( getCurrencyPairs() )
                 option(value=currency.symbol) #{currency.name}
         .line
             input(name="in", value="0.02")
@@ -11,7 +11,7 @@ form#exchange-form
         h2 Получаю
         .line
             select(name="to", value="SBERRUB")
-              each currency in CURRENCY_ALL_LIST
+              each currency in pairsToCurrenciesTo( getCurrencyPairs() )
                 option(value=currency.symbol) #{currency.name}
         .line
             input(name="out", value="50000")

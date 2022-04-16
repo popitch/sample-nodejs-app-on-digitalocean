@@ -8,7 +8,7 @@ const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","B
 	CURRENCY_SYMBOL_BY_ID = {8: 'VET', 19: 'BNB', 23: 'USDC', 24: 'TUSD', 26: 'QTUM', 27: 'BTT', 43: 'BTC', 48: 'OMG', 61: 'BAT', 73: 'WBTC', 82: 'SOL', 99: 'LTC', 104: 'ICX', 115: 'DOGE', 124: 'XVG', 133: 'WAVES', 134: 'KMD', 135: 'ONT', 137: 'BSV', 138: 'MATIC', 140: 'DASH', 149: 'XMR', 160: 'ETC', 161: 'XRP', 162: 'ZEC', 168: 'ZRX', 172: 'BCH', 173: 'XEM', 174: 'REP', 175: 'XTZ', 177: 'NEO', 178: 'EOS', 179: 'MIOTA', 180: 'LSK', 181: 'ADA', 182: 'XLM', 184: 'BTG', 185: 'TRX', 189: 'USDP', 197: 'LINK', 198: 'ATOM', 201: 'DOT', 202: 'UNI', 203: 'DAI', 205: 'RVN', 206: 'BUSD', 208: 'USDT', 210: 'SHIB', 212: 'ETH', 213: 'MKR', 216: 'ALGO', 217: 'AVAX', 218: 'WETH', 220: 'YFI'},
 	CURRENCY_IDS = [43, 73, 172, 137, 184, 212, 218, 160, 99, 161, 149, 115, 138, 140, 162, 208, 23, 24, 189, 203, 206, 173, 174, 177, 178, 179, 180, 181, 182, 185, 133, 48, 124, 168, 19, 104, 134, 27, 61, 135, 26, 197, 198, 175, 201, 202, 205, 82, 8, 210, 216, 213, 217, 220, 211],
 	
-	CURRENCY_NOT_ALL_LIST = CURRENCY_IDS.map(id => {
+	CURRENCY_ANY_LIST = CURRENCY_IDS.map(id => {
         const symbol = CURRENCY_SYMBOL_BY_ID[id];
         return {
             id: id,
@@ -98,7 +98,7 @@ const FLAG_BY_SYMBOL = {
     },
 };
 
-// module.exports
+// module.exports for SSR
 if (typeof module !== 'undefined') {
     module.exports = {
         CURRENCY_NAME_BY_SYMBOL: CURRENCY_NAME_BY_SYMBOL,
@@ -106,7 +106,8 @@ if (typeof module !== 'undefined') {
         CURRENCY_SYMBOL_BY_ID: CURRENCY_SYMBOL_BY_ID,
         CURRENCY_IDS: CURRENCY_IDS,
         FLAG_BY_SYMBOL: FLAG_BY_SYMBOL,
-        CURRENCY_ALL_LIST: CURRENCY_ALL_LIST,
+        
+        //CURRENCY_ANY_LIST: CURRENCY_ANY_LIST,
         
         pairsToCurrenciesFrom: pairsToCurrenciesFrom,
         pairsToCurrenciesTo: pairsToCurrenciesTo,
