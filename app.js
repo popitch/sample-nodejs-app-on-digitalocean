@@ -59,9 +59,10 @@ app.use((req, res, next) => {
         
         // currencies consts
         _.extend(res.locals,
-            require('./public/js/rate-utils.js'), {
+            {
                 getCurrencyPairs: () => fs.readFileSync('./public/cached/pairs.json'),
             },
+            require('./public/js/rate-utils.js'),
         );
     }
     next();
