@@ -97,13 +97,13 @@ connThen(async (db) => {
     let createdCount = 0;
     
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
-        //if (! _.find(presentedExchangers, exch => exch.id == exchData.id)) {
+        if (! _.find(presentedExchangers, exch => exch.id == exchData.id)) {
             exchData.bcId = exchData.id;
             exchData.xmlVerified = !! exchData.xml;
             await new Exchanger(exchData).save();
             
             createdCount++;
-        //}
+        }
     });
     
     console.log('Exchangers initial created count:', createdCount, '(thanks, bro)');
