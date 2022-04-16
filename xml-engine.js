@@ -26,6 +26,7 @@ module.exports = {
     
     aggregator: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
+        countTree: () => Cached.pairs.countTree(),
         exchangersCount: () => Exchangers.length,
         process: () => aggProcessState,
     },
@@ -98,6 +99,8 @@ const Cached = {
             DEFAULT_TOUCHED_TAIL_SIZE: 100,
             
             all: () => _.flatten(_.map(touchedTree, _.values)),
+            
+            countTree: () => Cached.pairs.mapTouchTree(touch => touch.rates.length),
             
             mapTouchTree: (iterator) => {
                 const result = {};
@@ -178,7 +181,7 @@ const Cached = {
                 return page;
             },
 
-            putPairsJson: () => Cached.putJson('pairs', Cached.pairs.mapTouchTree(touch => touch.rates.length)),
+            putPairsJson: () => Cached.putJson('pairs', Cached.pairs.countTree()),
         };
     })()
 };
