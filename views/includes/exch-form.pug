@@ -6,7 +6,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
               each currency in pairsToCurrenciesFrom( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == "BTC"))= currency.name
         .line
-            input(name="in", value="0.02", disabled=true)
+            input(name="in", value="0.02", disabled)
     .column
         h2 Получаю
         .line

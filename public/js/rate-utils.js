@@ -23,10 +23,11 @@ function pairsToCurrenciesFrom(pairs) {
     return lo.chain(pairs)
         .map((branch, from) => ({
             id: CURRENCY_ID_BY_SYMBOL[from],
-            name: CURRENCY_NAME_BY_SYMBOL[from] || '"' + from + '"',
+            name: CURRENCY_NAME_BY_SYMBOL[from] || from,
             symbol: from,
             weight: lo.reduce(branch, (s, w) => s + w, 0),
         }))
+        .sortBy('name')
         .sortBy(p => - p.weight)
         .value();
 }
@@ -51,6 +52,7 @@ function pairsToCurrenciesTo(pairs) {
         .map((group, to) => lo.extend(group[0], {
             weight: group.reduce((w, to) => w + to.weight, 0),
         }))
+        .sortBy('name')
         .sortBy(p => - p.weight)
         .value();
 }
