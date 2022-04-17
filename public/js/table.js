@@ -37,6 +37,7 @@ const
         to: "SBERRUB",
         in: 1,
         out: numberWithSpaces(3330303.3, 3),
+        amount: numberWithSpaces(303.3, 4),
     }, {
         exchangerId: 743,
         param: { percent: true }, 
@@ -44,6 +45,7 @@ const
         to: "SBERRUB",
         in: 1,
         out: numberWithSpaces(3366703.035, 3),
+        amount: numberWithSpaces(404.3045, 4),
     }],
     
     // mixed config
