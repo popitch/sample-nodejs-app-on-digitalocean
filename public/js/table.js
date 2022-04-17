@@ -29,6 +29,7 @@ const
         }
     })(),
     
+    // stub data for no db mode
     TABLE_STUB_DATA = [{
         exchangerId: 1,
         param: { card2card: true, manual: true },

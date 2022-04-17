@@ -11,4 +11,8 @@ block content
     include includes/exch-table.pug
 
 append scripts
+    script(type="html/template" id="number-currency.template")
+        strong(data-bind="text: value")
+        small(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
+        
     script(src="/js/table.js?sniffer&abc=def&gh=&ijkl")
