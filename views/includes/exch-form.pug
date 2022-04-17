@@ -2,7 +2,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Отдаю
         .line
-            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: from, optionsCaption: 'Отдаю...', optionsText: 'name', optionsValue: 'symbol'")
+            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: from, optionsCaption: 'Отдаю...', optionsText: 'name', optionsValue: 'symbol', valueAllowUnset: false")
               each currency in pairsToCurrenciesFrom( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == "BTC"))= currency.name
         .line
@@ -10,7 +10,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Получаю
         .line
-            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: to, optionsCaption: 'Получаю...', optionsText: 'name', optionsValue: 'symbol'")
+            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: to, optionsCaption: 'Получаю...', optionsText: 'name', optionsValue: 'symbol', valueAllowUnset: false")
               each currency in pairsToCurrenciesTo( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == "SBERRUB"))= currency.name
         .line
