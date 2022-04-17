@@ -27,7 +27,7 @@ module.exports = {
     aggregator: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
         countTree: () => Cached.pairs.countTree(),
-        exchangersCount: () => Exchangers.length,
+        exchangersCount: () => Exchangers ? Exchangers.length : 0,
         process: () => aggProcessState,
     },
 };
