@@ -32,6 +32,10 @@ table.rates#exchange-table
             <td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
         </tr>
     
+//
     tbody(data-bind="if: ! loading() && rates().length === 0")
         tr
-            td(colspan="8") Нет данных для выбранного направления обмена.
+            td(colspan="8")
+
+div(data-bind="if: ! loading() && rates().length === 0", style="display: none")
+    Нет данных для выбранного направления обмена
