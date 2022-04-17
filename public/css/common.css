@@ -1,5 +1,6 @@
 body {
-	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+	/* font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"; */
+	font-family: Source Sans Pro,Helvetica Neue,helvetica,arial,sans-serif,Helvetica,Arial;
 }
 
 .site-layout {
@@ -114,6 +115,13 @@ body {
 #exchange-form input:disabled {
     background: lightgray
 }
+
+/** table#exchange-table
+ */
+#exchange-table {
+	width: 100%;
+}
+
 
 /** footer
  */
