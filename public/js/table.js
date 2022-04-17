@@ -30,8 +30,10 @@ const
     })(),
     
     TABLE_STUB_DATA = [{
+        exchangerId: 1,
         param: { card2card: true, manual: true },
     }, {
+        exchangerId: 22,
         param: { percent: true }, 
     }],
     
