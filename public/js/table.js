@@ -29,6 +29,12 @@ const
         }
     })(),
     
+    TABLE_STUB_DATA = [{
+        param: { card2card: true, manual: true },
+    }, {
+        param: { percent: true }, 
+    }],
+    
     // mixed config
     PAIRS_PERSISTENCE_TIMES = 2, // 4
     EXCHS_PERSISTENCE_TIMES = 2, // 4
