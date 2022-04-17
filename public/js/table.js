@@ -360,6 +360,7 @@ const
             })
             .catch(e => {
                 //console.warn('wow, error', e);
+                exchangeRates.loading(false);
                 exchangeRates.rates([]);
                 more();
             });
