@@ -19,7 +19,7 @@ const
     TABLE_JS_CONFIG = (() => {
         const tableJs = [].find.call(document.getElementsByTagName('script'), (s) => s.src.match(/table\.js/));
         if (tableJs) {
-            const config = (tableJs.src.split('?') || '')
+            const config = (tableJs.src.split('?').slice(1).join('?') || '')
                 .split('&')
                 .filter(p => p)
                 .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true), {});
