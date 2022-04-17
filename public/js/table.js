@@ -22,7 +22,7 @@ const
             const config = (tableJs.src.split('?').slice(1).join('?') || '')
                 .split('&')
                 .filter(p => p)
-                .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true), {});
+                .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true, config), {});
             
             console.log('<script src="table.js">', tableJs, 'with params', config);
             return config;
