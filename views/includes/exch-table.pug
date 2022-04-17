@@ -37,5 +37,5 @@ table.rates#exchange-table
         tr
             td(colspan="8")
 
-div(data-bind="if: ! loading() && rates().length === 0", style="display: none")
+div(data-bind="if: ! loading() && rates().length === 0, visible: true", style="display: none")
     | Нет данных для выбранного направления обмена

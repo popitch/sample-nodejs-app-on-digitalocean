@@ -18,8 +18,15 @@ const
     // self-searchString config
     TABLE_JS_CONFIG = (() => {
         const tableJs = [].find.call(document.getElementsByTagName('script'), (s) => s.src.match(/table\.js/));
-        console.log('<script src="table.js">', tableJs);
-        return tableJs;
+        if (tableJs) {
+            const config = (tableJs.src.split('?') || '')
+                .split('&')
+                .filter(p => p)
+                .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true), {});
+            
+            console.log('<script src="table.js">', tableJs, 'with params', config);
+            return config;
+        }
     })(),
     
     // mixed config
