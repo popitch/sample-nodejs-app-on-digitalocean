@@ -101,10 +101,10 @@ const Cached = {
             all: () => _.flatten(_.map(touchedTree, _.values)),
             
             countTree: () =>
-                //Cached.pairs.all().length ?
-                    Cached.pairs.mapTouchTree(touch => touch.rates.length),
+                Cached.pairs.all().length ?
+                    Cached.pairs.mapTouchTree(touch => touch.rates.length)
                     // stub data
-                    //: JSON.parse( require('fs').readFileSync(Cached.DIR + 'pairs.json') ),
+                    : JSON.parse( require('fs').readFileSync(Cached.DIR + 'pairs.json') ),
             
             mapTouchTree: (iterator) => {
                 const result = {};
