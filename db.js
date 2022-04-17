@@ -40,8 +40,11 @@ const
 // connect
 const
     connReady = sequelize.authenticate()
-        .catch(() => console.warn('43: DB.. Unable to connect to the db', process.env["DATABASE_URL"]))
-        .then(() => console.log('44: DB.. Connection has been established successfully.')),
+        .catch((e) => console.warn('DB.. [catch] Unable to connect to the db', dbConnURL, 'with exception:', e))
+        .then(
+            () => console.log('DB.. [resolve] Connection has been established successfully.'),
+            () => console.warn('DB.. [reject] Unable to connect to the db', dbConnURL)
+        ),
 
     connThen = async (then) => connReady.then(async () => {
         return await then(sequelize)
