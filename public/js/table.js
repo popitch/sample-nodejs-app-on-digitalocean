@@ -7,7 +7,7 @@ $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
     args = _.tail(args);
     return getJSON.apply($, args)
         .catch(e => {
-            console.warn(N + '.. getJSON(', args, ') with', e);
+            // console.warn(N + '.. getJSON(', args, ') with', e);
             if (--N > 0) {
                 setTimeout(() => $.getJSON.apply($, [N].concat(args)), 400);
             }
