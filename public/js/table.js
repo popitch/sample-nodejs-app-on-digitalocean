@@ -45,7 +45,7 @@ const
         to: "SBERRUB",
         in: 1,
         out: numberWithSpaces(3366703.035, 3),
-        amount: numberWithSpaces(404.3045, 4),
+        amount: numberWithSpaces(2400.3045, 4),
     }],
     
     // mixed config

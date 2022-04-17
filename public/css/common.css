@@ -188,15 +188,16 @@ tr:hover .tr-hover_show { display: block }
 
 i.rate-flag {
     display: inline-block;
-    /* float: right; */
-    width: 1.06em;
-    height: 1em;
+    /* float: right; */ 
+    width: 1.35em;
+    height: 1.35em;
     border: 0px dotted black;
     border-radius: 50%;
-    line-height: 1em;
+    line-height: 1.25em;
     text-align: center;
     text-transform: capitalize;
     background: white;
+    /* white-space: nowrap; */
 }
 
 .rate-flag::before {

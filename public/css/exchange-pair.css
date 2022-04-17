@@ -93,11 +93,13 @@
 
 .rates td strong,
 .rates td .float {
+	display: inline;
     font-weight: bolder;
 }
 
 .rates td small,
 .rates td .currency {
+    display: inline;
 	font-size: .6em;
     color: gray;
 }
