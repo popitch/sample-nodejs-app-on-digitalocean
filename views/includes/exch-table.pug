@@ -13,7 +13,7 @@ table
                 <i title class="rate-flag" data-bind="
                 |    css: 'rate-flag-' + flag,
                 |    attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }
-                "></i>
+                |"></i>
             </td>
             
             <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
@@ -22,7 +22,7 @@ table
                 |    attr: {
                 |        href: exchangerExchangeUrl($parent, $data)
                 |    }
-                "></a>
+                |"></a>
             </td>
             
             <td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
