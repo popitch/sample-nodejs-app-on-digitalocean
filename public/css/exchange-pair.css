@@ -100,6 +100,7 @@
 .rates td small,
 .rates td .currency {
     display: inline;
+    margin-left: .6em;
 	font-size: .6em;
     color: gray;
 }

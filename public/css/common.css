@@ -198,6 +198,7 @@ i.rate-flag {
     text-transform: capitalize;
     background: white;
     /* white-space: nowrap; */
+    box-shadow: 1px 1px 9px 0px #c5c4c4;
 }
 
 .rate-flag::before {
