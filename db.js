@@ -40,12 +40,12 @@ const
 // connect
 const
     connReady = sequelize.authenticate()
-        .catch(console.warn.bind(console, 'DB...', 'Unable to connect to the db', process.env["DATABASE_URL"]))
-        .then(console.log.bind(console, 'DB...', 'Connection has been established successfully.')),
+        .catch(() => console.warn('43: DB.. Unable to connect to the db', process.env["DATABASE_URL"]))
+        .then(() => console.log('44: DB.. Connection has been established successfully.')),
 
     connThen = async (then) => connReady.then(async () => {
         return await then(sequelize)
-            .catch(e => console.log('Connection level Error handled:', e));
+            .catch(e => console.log('48: Connection level Error handled:', e));
     });
 
 // define models
