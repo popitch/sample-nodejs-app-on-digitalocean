@@ -33,9 +33,17 @@ const
     TABLE_STUB_DATA = [{
         exchangerId: 1,
         param: { card2card: true, manual: true },
+        from: "BTC",
+        to: "SBERRUB",
+        in: 1,
+        out: 3330303.3,
     }, {
-        exchangerId: 22,
+        exchangerId: 743,
         param: { percent: true }, 
+        from: "BTC",
+        to: "SBERRUB",
+        in: 1,
+        out: 3366703.035,
     }],
     
     // mixed config

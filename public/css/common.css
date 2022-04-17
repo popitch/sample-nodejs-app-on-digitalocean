@@ -40,10 +40,11 @@ body {
     text-transform: uppercase;
     font-family: monospace;
     font-weight: bolder;
-    font-size: 4.8em;
     
-    /* line-height: .8em; */
+    /* font-size: 4.8em;
+    line-height: .8em; */
     
+    font-size: 3.8em;
     line-height: .83em;
     font-family: poppins-bold,Arial,serif;
 }
