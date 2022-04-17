@@ -1,10 +1,13 @@
 extends layout
 
+append css
+    link(rel='stylesheet', href="/css/exchange-pair.css", media="all")
+
 block content
     h1= title
     
     include includes/exch-form.pug
-    
+    br
     include includes/exch-table.pug
 
 append scripts

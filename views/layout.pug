@@ -4,7 +4,8 @@ html
     head
         title= (title ? title + ' → ' : '') + "Exnode"
         
-        link(rel='stylesheet', href='/css/common.css', media="all")
+        block css
+            link(rel='stylesheet', href='/css/common.css', media="all")
         
     body.site-layout
         header

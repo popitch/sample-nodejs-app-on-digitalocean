@@ -8,7 +8,6 @@ table
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
     tbody(data-bind="foreach: rates.sortedDirectedFixedFloating")
-      //
         <tr>
             <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))">
                 <i title class="rate-flag" data-bind="
