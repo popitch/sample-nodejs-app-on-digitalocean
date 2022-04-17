@@ -36,14 +36,14 @@ const
         from: "BTC",
         to: "SBERRUB",
         in: 1,
-        out: 3330303.3,
+        out: numberWithSpaces(3330303.3, 3),
     }, {
         exchangerId: 743,
         param: { percent: true }, 
         from: "BTC",
         to: "SBERRUB",
         in: 1,
-        out: 3366703.035,
+        out: numberWithSpaces(3366703.035, 3),
     }],
     
     // mixed config

@@ -1,0 +1,14 @@
+{
+    "BTC": {
+        "SBERRUB": 2,
+        "ETH": 2
+    },
+    "ETH": {
+        "SBERRUB": 2,
+        "BTC": 2
+    },
+    "SBERRUB": {
+        "ETH": 2,
+        "BTC": 2
+    }
+}
