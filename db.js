@@ -42,13 +42,13 @@ const
     connReady = sequelize.authenticate()
         .catch((e) => console.warn('DB.. [catch] Unable to connect to the db', dbConnURL, 'with exception:', e))
         .then(
-            () => console.log('DB.. [resolve] Connection has been established successfully.'),
-            () => console.warn('DB.. [reject] Unable to connect to the db', dbConnURL)
+            (resolved) => console.log('DB.. [resolve] Connection has been established successfully. With result:', resolved),
+            (rejected) => console.warn('DB.. [reject] Unable to connect to the db', dbConnURL, 'with rejection:', rejected)
         ),
 
     connThen = async (then) => connReady.then(async () => {
         return await then(sequelize)
-            .catch(e => console.log('48: Connection level Error handled:', e));
+            .catch(e => console.log('connThen() [catch] Connection level Error handled:', e));
     });
 
 // define models
