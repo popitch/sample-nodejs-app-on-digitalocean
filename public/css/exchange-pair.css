@@ -102,8 +102,11 @@
     color: gray;
 }
 
-.rates tbody .rate-amount {
+.rates .rate-flags,
+.rates .rate-amount {
 	text-align: right;
+}
+.rates tbody .rate-amount {
 	font-size: .9em
 }
 
