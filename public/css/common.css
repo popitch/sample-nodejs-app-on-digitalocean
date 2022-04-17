@@ -37,11 +37,15 @@ body {
 .logo {
     float: left;
     margin-right: 0.13em;
-    line-height: .8em;
     text-transform: uppercase;
     font-family: monospace;
     font-weight: bolder;
     font-size: 4.8em;
+    
+    /* line-height: .8em; */
+    
+    line-height: .83em;
+    font-family: poppins-bold,Arial,serif;
 }
 
 /** header menu
@@ -125,7 +129,9 @@ body {
     font-family: Source Sans Pro,Helvetica Neue,helvetica,arial,sans-serif,Helvetica,Arial;
     font-size: 1.1em;
 }
-
+#exchange-table td:first-child {
+	width: 2em;
+}
 
 /** footer
  */
