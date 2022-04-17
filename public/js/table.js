@@ -15,7 +15,14 @@ $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
 });
 
 const
-    // config
+    // self-searchString config
+    TABLE_JS_CONFIG = (() => {
+        const tableJs = [].find.call(document.getElementsByTagName('script'), (s) => s.src.match(/table\.js/));
+        console.log('<script src="table.js">', tableJs);
+        return tableJs;
+    })(),
+    
+    // mixed config
     PAIRS_PERSISTENCE_TIMES = 2, // 4
     EXCHS_PERSISTENCE_TIMES = 2, // 4
     PAIRS_RENEW_INTERVAL = 1000 * 150, // 15 seconds
