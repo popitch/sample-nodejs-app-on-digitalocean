@@ -126,7 +126,7 @@ body {
 #exchange-table {
 	display: table;
     width: 100%;
-    box-shadow: 1px 1px 9px 0px #c5c4c4;
+    box-shadow: 0px 0px 4px 0px #c5c4c4;
     font-family: Source Sans Pro,Helvetica Neue,helvetica,arial,sans-serif,Helvetica,Arial;
     font-size: 1.1em;
 }
