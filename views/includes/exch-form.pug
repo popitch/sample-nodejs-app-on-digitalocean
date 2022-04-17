@@ -10,7 +10,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Получаю
         .line
-            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: to", optionsCaption: 'Получаю...', optionsText: 'name', optionsValue: 'symbol')
+            select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: to, optionsCaption: 'Получаю...', optionsText: 'name', optionsValue: 'symbol'")
               each currency in pairsToCurrenciesTo( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == "SBERRUB"))= currency.name
         .line
