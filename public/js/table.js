@@ -18,6 +18,7 @@ const
     // config
     PAIRS_PERSISTENCE_TIMES = 2, // 4
     EXCHS_PERSISTENCE_TIMES = 2, // 4
+    PAIRS_RENEW_INTERVAL = 1000 * 150, // 15 seconds
     
     EXCHANGERS = (list => {
         const req = () => $.getJSON(EXCHS_PERSISTENCE_TIMES, './cached/exchangers.json', list);
@@ -233,7 +234,9 @@ const
         const reload = (p) => {
                 // update pairs value with .selected screen-position restoration
                 $.getJSON(PAIRS_PERSISTENCE_TIMES, './cached/pairs.json', (pp) => {
-                    const reduce = (reducer, start) => $('.rates aside .selected').get().reduce(function(accum) { reducer.apply(this, arguments); return accum }, start),
+                    const reduce = (reducer, start) =>
+                                $('.rates aside .selected').get()
+                                    .reduce(function(accum) { reducer.apply(this, arguments); return accum }, start),
                         offsets = reduce((offsets, sel, i) => offsets[i] = $(sel).offset().top, []);
                     
                     pairs(pp); // <- render here
@@ -255,7 +258,7 @@ const
             },
             pairs = _.extend(ko.observableArray(), { reload });
         
-        setInterval(reload, 20 * 999); // ~15 seconds
+        setInterval(reload, PAIRS_RENEW_INTERVAL);
         
         return reload(pairs);
     })(),
