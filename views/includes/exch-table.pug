@@ -11,17 +11,17 @@ table
         <tr>
             <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))">
                 <i title class="rate-flag" data-bind="
-                    css: 'rate-flag-' + flag,
-                    attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }
+                |    css: 'rate-flag-' + flag,
+                |    attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }
                 "></i>
             </td>
             
             <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
                 <a href target="_blank" data-bind="
-                    text: name,
-                    attr: {
-                        href: exchangerExchangeUrl($parent, $data)
-                    }
+                |    text: name,
+                |    attr: {
+                |        href: exchangerExchangeUrl($parent, $data)
+                |    }
                 "></a>
             </td>
             
