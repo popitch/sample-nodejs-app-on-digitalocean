@@ -5,6 +5,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
             select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: from, optionsCaption: 'Отдаю...', optionsText: 'name', optionsValue: 'symbol', valueAllowUnset: true")
               each currency in pairsToCurrenciesFrom( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == "BTC"))= currency.name
+            div= JSON.stringify(pairsCountTree())
         .line
             input(name="in", value="0.02", disabled)
     .column
