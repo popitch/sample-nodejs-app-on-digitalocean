@@ -12,7 +12,7 @@ block content
 
 append scripts
     script(type="html/template" id="number-currency.template")
-        strong(data-bind="text: value")
-        small(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
+        .float(data-bind="text: value")
+        .currency(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
         
     script(src="/js/table.js?sniffer&abc=def&gh=&ijkl")

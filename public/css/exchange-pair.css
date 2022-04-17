@@ -27,32 +27,32 @@
     transition: background-color .2s/*, color .1s*/;
 }
 
-.rates table tr {
+.rates tr {
 	line-height: 2.1em;
 	cursor: pointer;
 }
 /*
-.rates table thead {
+.rates thead {
     background: white;
     position: sticky;
     top: 0;
 }
 */
 /*
-.rates table thead.sticking {
+.rates thead.sticking {
   box-shadow: 0 6px 10px 0   rgba(0, 0, 0, 0.14),
               0 1px 18px 0   rgba(0, 0, 0, 0.12),
               0 3px 5px -1px rgba(0, 0, 0, 0.4);
 }
 */
-.rates table thead tr {
+.rates thead tr {
 	font-size: 1.2em;
     line-height: 1.88em;
     border-bottom: 1px black solid;
     box-shadow: 6px 70px 36px -17px rgb(131 130 130 / 75%)
 }
 
-.rates table thead th {
+.rates thead th {
 	background: rgba(255,255,255,.96);
     position: sticky;
     top: 0;
@@ -61,10 +61,10 @@
     border-bottom: 1px solid #dbd9d9 !important
 }
 
-.rates table tbody tr {
+.rates tbody tr {
     color: black;
 }
-.rates table tbody tr:nth-child(odd){
+.rates tbody tr:nth-child(odd){
 	background: linear-gradient(to right,
 	    rgba(244,244,244,0),
 	    rgba(244,244,244,1) 5%,
@@ -74,33 +74,35 @@
 }
 
 /* .rates table thead tr, */
-.rates table tbody tr:hover {
+.rates tbody tr:hover {
 	/* color: white; */
 	background: #7dcde7;
 }
 
-.rates table th,
-.rates table td {
+.rates th,
+.rates td {
     padding: 0 12px; /* fixed padding for different font-size of thead/tbody */
     min-width: 8em;
     text-align: left;
     font-weight: normal;
 }
-.rates table th:first-child,
-.rates table td:first-child {
+.rates th:first-child,
+.rates td:first-child {
 	min-width: 1em;
 }
 
-.rates table td strong {
+.rates td strong,
+.rates td .float {
     font-weight: bolder;
 }
 
-.rates table td small {
+.rates td small,
+.rates td .currency {
 	font-size: .6em;
     color: gray;
 }
 
-.rates table .rate-amount {
+.rates tbody .rate-amount {
 	text-align: right;
 	font-size: .9em
 }
