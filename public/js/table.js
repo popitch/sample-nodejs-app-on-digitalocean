@@ -1,4 +1,4 @@
-// repeatable version of $.getJSON(repeatTimes: number, ...)
+// persist version of $.getJSON(repeatTimes: number, ...)
 $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
     let args = _.tail(arguments);
     if (! _.isNumber(N)) {
@@ -15,12 +15,14 @@ $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
 });
 
 const
+    // config
+    PAIRS_PERSISTENCE_TIMES = 2, // 4
+    EXCHS_PERSISTENCE_TIMES = 2, // 4
+    
     EXCHANGERS = (list => {
-        const req = () => $.getJSON(4, './cached/exchangers.json', list);
+        const req = () => $.getJSON(EXCHS_PERSISTENCE_TIMES, './cached/exchangers.json', list);
         return req() && list;
-    })(
-        ko.observableArray()
-    ),
+    })(ko.observableArray()),
     
     EXCHANGER_BY_ID = ko.computed(() => {
         const byId = {};
@@ -230,7 +232,7 @@ const
     PAIRS = (() => {
         const reload = (p) => {
                 // update pairs value with .selected screen-position restoration
-                $.getJSON(4, './cached/pairs.json', (pp) => {
+                $.getJSON(PAIRS_PERSISTENCE_TIMES, './cached/pairs.json', (pp) => {
                     const reduce = (reducer, start) => $('.rates aside .selected').get().reduce(function(accum) { reducer.apply(this, arguments); return accum }, start),
                         offsets = reduce((offsets, sel, i) => offsets[i] = $(sel).offset().top, []);
                     
@@ -274,7 +276,7 @@ const
     }),
     */
     
-    RENEW_DELAY = 3000, // ms
+    RENEW_DELAY = 7000, // ms
     
     UNITY_BY_PAIR = {},
     
