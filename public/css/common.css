@@ -1,12 +1,11 @@
 body {
-	/* font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"; */
-	font-family: Source Sans Pro,Helvetica Neue,helvetica,arial,sans-serif,Helvetica,Arial;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 
 .site-layout {
-	margin: auto;
-	/* max-width: 1200px; */
-	max-width: 960px;
+    margin: auto;
+    /* max-width: 1200px; */
+    max-width: 960px;
 }
 
 /** top line
@@ -21,16 +20,16 @@ body {
     background: lightgray;
 }
 .top-status-line:after {
-	display: block;
-	clear: both;
+    display: block;
+    clear: both;
 }
 
 .top-status-line li {
-	float: right;
+    float: right;
 }
 .top-status-line li .value {
     margin: 0 0.62em 0 0.2em;
-	color: green;
+    color: green;
 }
 
 /** header logo
@@ -87,13 +86,13 @@ body {
     box-shadow: 1px 1px 9px 0px #c5c4c4;
 }
 #exchange-form .column {
-	flex: 50%;
+    flex: 50%;
 }
 #exchange-form .column:not(:last-child) {
     padding-right: 1.5em;
 }
 #exchange-form .line {
-	margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 #exchange-form input,
 #exchange-form select {
@@ -116,29 +115,31 @@ body {
     background: lightgray
 }
 
+
 /** table#exchange-table
  */
 #exchange-table {
-	width: 100%;
+    width: 100%;
+    font-family: Source Sans Pro,Helvetica Neue,helvetica,arial,sans-serif,Helvetica,Arial;
 }
 
 
 /** footer
  */
 footer {
-	min-height: 10em;
-	background: gray;
+    min-height: 10em;
+    background: gray;
 }
 
 
 /** forms & tables
  */
 form {
-	display: inline-block;
+    display: inline-block;
 }
 form input, form button, form select {
-	padding: .3em;
-	border: 1px black solid;
+    padding: .3em;
+    border: 1px black solid;
 }
 
 table {
@@ -213,9 +214,9 @@ i.rate-flag {
 */
 
 .utf8-icon {
-	text-decoration: none;
-	/* font-size: 1.1em; */
+    text-decoration: none;
+    /* font-size: 1.1em; */
 }
 .utf8-icon_inline {
-	font-size: 1em;
+    font-size: 1em;
 }
