@@ -130,7 +130,7 @@ const
                 url: (() => {
                     const
                         //URL_DEFAULT = 'BTC→ETH↓to',
-                        URL_DEFAULT = 'BTC→SBERRUB↓to',
+                        //URL_DEFAULT = 'BTC→SBERRUB↓to',
                         URL_MATCHER = /^(\w+)→(\w+)(?:(↓|↑)(changer|from|to|amount))?$/,
                         
                         url = ko.computed({
@@ -146,7 +146,7 @@ const
                                 
                                 if (!matches) {
                                     console.warn('Bad URL given:', route, '=> to use default filter');
-                                    url(URL_DEFAULT); // use default
+                                    //url(URL_DEFAULT); // use default
                                     return;
                                 }
                                 
@@ -166,9 +166,9 @@ const
                     //url.subscribe(url => location.hash = url); // translate to #hash
                     
                     // init from URL #hash
-                    url(
-                        (location.hash || '#' + URL_DEFAULT).substr(1)
-                    );
+                    //url(
+                    //    (location.hash || '#' + URL_DEFAULT).substr(1)
+                    //);
                     
                     /*shabby/ initial
                     //from(localStorage.getItem('rates.currency.from') || 'BTC');
