@@ -2,7 +2,8 @@
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 
 // xmlTractor
-const xmlEngine = require('./xml-engine');
+const xmlEngine = require('./xml-engine'),
+    rateUtils = require('./public/js/rate-utils.js');
 
 /** app
  */
@@ -66,7 +67,7 @@ app.use((req, res, next) => {
             pairsCountTree: () => xmlEngine.aggregator.countTree(),
         });
         _.extend(res.locals,
-            require('./public/js/rate-utils.js'),
+            rateUtils,
         );
     }
     next();
@@ -111,7 +112,7 @@ app.get('/*-to-*', (req, res, next) => {
     console.log("Try to GET pair:", pair, '... go to=', TO);
     
     res.render('index', {
-        title: 'Обмен ' + (CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (CURRENCY_NAME_BY_SYMBOL[TO] || TO),
+        title: 'Обмен ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO),
         exchange: {
             form: {
                 from: FROM,

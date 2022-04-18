@@ -39,7 +39,7 @@ function pairsToCurrenciesTo(pairs) {
         toAll = lo.chain(tree).map(branch =>
             lo.map(branch, (w, to) => ({
                 id: CURRENCY_ID_BY_SYMBOL[to],
-                name: CURRENCY_NAME_BY_SYMBOL[to] || '"' + to + '"',
+                name: CURRENCY_NAME_BY_SYMBOL[to] || to,
                 symbol: to,
                 weight: w,
             }))
