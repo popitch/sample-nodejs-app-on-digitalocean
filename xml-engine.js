@@ -306,7 +306,7 @@ dbConn.then(async (db) => {
             try {
                 jso = convert.xml2js(responseText, { trim: true, compact: true });
             } catch(e) {
-                console.log('! Parse error happens', e.message);
+                console.log('! XML parse error, code:', e.code);
             };
             
             if (! jso || ! jso.rates || ! jso.rates.item) {
