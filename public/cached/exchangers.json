@@ -1,149 +1,8 @@
 [
     {
-        "id": 1013,
-        "bcId": 1013,
-        "name": "AvanChange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://avanchange.com/ru/?w={pid}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 540,
-        "bcId": 540,
-        "name": "CryptoPay24",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://cryptopay24.com/RU/{BIGSECRET4LITTLETEAM}?cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 772,
-        "bcId": 772,
-        "name": "CoinPayMaster",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://coinpaymaster.com/?r={pid}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 983,
-        "bcId": 983,
-        "name": "Bitality",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://bitality.cc/?r={pid}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 1050,
-        "bcId": 1050,
-        "name": "Kursov24",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://kursov24.com/Home/Index?cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 1033,
-        "bcId": 1033,
-        "name": "CosmoChanger",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://cosmochanger.cc/?r={pid}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 1060,
-        "bcId": 1060,
-        "name": "CryptoStrike",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://cryptostrike.org/{from-full}-na-{to-full}.html"
-    },
-    {
-        "id": 517,
-        "bcId": 517,
-        "name": "BaksMan",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://baksman.org/{from-full}-to-{to-full}.html"
-    },
-    {
-        "id": 622,
-        "bcId": 622,
-        "name": "ProstoCash",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://prostocash.com/{from-full}-na-{to-full}.html"
-    },
-    {
-        "id": 899,
-        "bcId": 899,
-        "name": "CoinShop24",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://coinshop24.org/exchange_{from-full}_to_{to-full}.html"
-    },
-    {
-        "id": 279,
-        "bcId": 279,
-        "name": "MChange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://mchange.net/{from-full}-na-{to-full}.html"
-    },
-    {
-        "id": 757,
-        "bcId": 757,
-        "name": "ChangeNow",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://changenow.io/ru/?cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 544,
-        "bcId": 544,
-        "name": "Банкомат",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://bankcomat.org/{from-full}-na-{to-full}.html"
-    },
-    {
         "id": 239,
+        "createdAt": "2022-04-11T14:00:29.691Z",
+        "updatedAt": "2022-04-18T20:02:55.524Z",
         "bcId": 239,
         "name": "E-Scrooge",
         "fullname": null,
@@ -151,21 +10,24 @@
         "ru": null,
         "en": null,
         "param": "{}",
-        "exUrlTmpl": "https://e-scrooge.is/RU/EXCHANGE2"
-    },
-    {
-        "id": 858,
-        "bcId": 858,
-        "name": "FixedFloat",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://fixedfloat.com/ru/?ref=88m4nbfa&cur_from={FROM}&cur_to={TO}"
+        "exUrlTmpl": "https://e-scrooge.is/RU/EXCHANGE2",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 520,
+                "fetch": 304,
+                "text": 27,
+                "parse": 189
+            },
+            "text": 612719
+        },
+        "xmlParsedAt": null
     },
     {
         "id": 942,
+        "createdAt": "2022-04-11T14:00:29.691Z",
+        "updatedAt": "2022-04-18T20:03:05.790Z",
         "bcId": 942,
         "name": "ExHub",
         "fullname": null,
@@ -173,10 +35,24 @@
         "ru": null,
         "en": null,
         "param": "{}",
-        "exUrlTmpl": "https://exhub.io/?from={FROM}&to={TO}"
+        "exUrlTmpl": "https://exhub.io/?from={FROM}&to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 93,
+                "fetch": 92,
+                "text": 1,
+                "parse": 0
+            },
+            "text": 162
+        },
+        "xmlParsedAt": null
     },
     {
         "id": 606,
+        "createdAt": "2022-04-11T14:00:29.692Z",
+        "updatedAt": "2022-04-18T20:03:11.199Z",
         "bcId": 606,
         "name": "CryptoMoney",
         "fullname": null,
@@ -184,241 +60,24 @@
         "ru": null,
         "en": null,
         "param": "{}",
-        "exUrlTmpl": "https://cryptomoney.pro/exchange_{from}_to_{to}/"
-    },
-    {
-        "id": 718,
-        "bcId": 718,
-        "name": "Platov",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://platov.co/?ref=bestchange&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 852,
-        "bcId": 852,
-        "name": "RamonCash",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://ramon.money/?ref={ref}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 1,
-        "bcId": 1,
-        "name": "SuperChange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://superchange.is/index.php?p={pliter}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 702,
-        "bcId": 702,
-        "name": "Papa-Change",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://papa-change.com/?cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 840,
-        "bcId": 840,
-        "name": "YoChange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://yochange.com/?ref={ref}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 618,
-        "bcId": 618,
-        "name": "24BestEx",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://24bestex.com/exchange_{FROM}_to_{TO}/"
-    },
-    {
-        "id": 405,
-        "bcId": 405,
-        "name": "OpenChange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://openchange.cash/ru/?direction={from}-{to}&referral_code=rid{rid}"
-    },
-    {
-        "id": 90,
-        "bcId": 90,
-        "name": "Ex-Money",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://ex-money.cc/{from-full}-na-{to-full}.html"
-    },
-    {
-        "id": 798,
-        "bcId": 798,
-        "name": "Quickex",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://quickex.io/ru?refId={ref}&subId=default&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 686,
-        "bcId": 686,
-        "name": "1Mile",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://1mile.co/ru?from={FROM}&to={TO}"
-    },
-    {
-        "id": 812,
-        "bcId": 812,
-        "name": "Ex-Bank",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://ex-bank.cc/?ref={ref}&cur_from={from}&cur_to={TO}"
-    },
-    {
-        "id": 955,
-        "bcId": 955,
-        "name": "AlfaBit",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://alfabit.exchange/?rid={pid}&cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 546,
-        "bcId": 546,
-        "name": "NetEx24",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": "{}",
-        "exUrlTmpl": "https://www.netex24.net/#/ru/?partner={pid}&source=154&target=104"
-    },
-    {
-        "id": 377,
-        "bcId": 377,
-        "name": "ExBox",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://exbox.org/?direction={from}-{to}&referral_code={referral_code}"
-    },
-    {
-        "id": 917,
-        "bcId": 917,
-        "name": "Micro-exchange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://micro-exchange.me/exchange_{FROM}_to_{TO}/"
-    },
-    {
-        "id": 743,
-        "bcId": 743,
-        "name": "Treddr",
-        "fullname": "Treddr",
-        "description": "123",
-        "ru": "",
-        "en": "",
-        "param": [],
-        "exUrlTmpl": "https://treddr.org/exchange-{FROM}_to_{TO}/?rid=2448"
-    },
-    {
-        "id": 1015,
-        "bcId": 1015,
-        "name": "ТочкаОбмена",
-        "fullname": "ТочкаОбмена",
-        "description": "description description 123123 !!!",
-        "ru": "",
-        "en": "",
-        "param": [],
-        "exUrlTmpl": "https://tochkaobmena.com/exchange-{FROM}_to_{TO}/?rid=3015"
-    },
-    {
-        "id": 821,
-        "bcId": 821,
-        "name": "ExchangeTeam",
-        "fullname": "ExchangeTeam's full name",
-        "description": "",
-        "ru": "",
-        "en": "",
-        "param": [],
-        "exUrlTmpl": "https://exchangeteam.cc/ru/direction/{from}-{to}/?referral_code={referral_code}"
-    },
-    {
-        "id": 989,
-        "bcId": 989,
-        "name": "CoinsBlack",
-        "fullname": "fff",
-        "description": "",
-        "ru": "",
-        "en": "",
-        "param": [],
-        "exUrlTmpl": "https://coins.black/xchange_{FROM}_to_{TO}/"
-    },
-    {
-        "id": 714,
-        "bcId": 714,
-        "name": "Top-Exchange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://top-exchange.com/?cur_from={FROM}&cur_to={TO}"
-    },
-    {
-        "id": 526,
-        "bcId": 526,
-        "name": "FastExchange",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://fastexchange.center/?cur_from={FROM}&cur_to={TO}"
+        "exUrlTmpl": "https://cryptomoney.pro/exchange_{from}_to_{to}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 393,
+                "fetch": 391,
+                "text": 1,
+                "parse": 1
+            },
+            "text": 78
+        },
+        "xmlParsedAt": null
     },
     {
         "id": 888,
+        "createdAt": "2022-04-11T14:00:29.708Z",
+        "updatedAt": "2022-04-18T20:04:36.068Z",
         "bcId": 888,
         "name": "GramBit",
         "fullname": null,
@@ -426,21 +85,33 @@
         "ru": null,
         "en": null,
         "param": [],
-        "exUrlTmpl": "https://grambit.biz/xchange_{FROM}_to_{TO}/"
-    },
-    {
-        "id": 430,
-        "bcId": 430,
-        "name": "CoinTransfer",
-        "fullname": null,
-        "description": null,
-        "ru": null,
-        "en": null,
-        "param": [],
-        "exUrlTmpl": "https://cointransfer.online/exchange_{FROM}_to_{TO}/"
+        "exUrlTmpl": "https://grambit.biz/xchange_{FROM}_to_{TO}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1738,
+                "fetch": 1092,
+                "text": 368,
+                "parse": 47,
+                "rates": 5,
+                "delete": 5,
+                "upsert": 196,
+                "de/touch": 23,
+                "null": null
+            },
+            "text": 207909,
+            "rates": 724,
+            "delete": 724,
+            "upsert": 724,
+            "de/touch": "0/724"
+        },
+        "xmlParsedAt": null
     },
     {
         "id": 473,
+        "createdAt": "2022-04-11T14:00:29.709Z",
+        "updatedAt": "2022-04-18T20:04:48.547Z",
         "bcId": 473,
         "name": "ImExchanger",
         "fullname": null,
@@ -448,10 +119,967 @@
         "ru": null,
         "en": null,
         "param": [],
-        "exUrlTmpl": "https://imexchanger.pro/ru/direction/{from}-{to}.html?referral_code=rid{rid}"
+        "exUrlTmpl": "https://imexchanger.pro/ru/direction/{from}-{to}.html?referral_code=rid{rid}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1271,
+                "fetch": 168,
+                "text": 36,
+                "parse": 193,
+                "rates": 59,
+                "delete": 101,
+                "upsert": 628,
+                "de/touch": 74,
+                "null": null
+            },
+            "text": 703871,
+            "rates": 2937,
+            "delete": 2891,
+            "upsert": 2891,
+            "de/touch": "0/2891"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1013,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:01:53.249Z",
+        "bcId": 1013,
+        "name": "AvanChange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://avanchange.com/ru/?w={pid}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 97,
+                "fetch": 90,
+                "text": 1,
+                "parse": 6
+            },
+            "text": 17362
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 983,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:02:08.573Z",
+        "bcId": 983,
+        "name": "Bitality",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://bitality.cc/?r={pid}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 139,
+                "fetch": 139,
+                "text": 0,
+                "parse": 0
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1033,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:02:13.680Z",
+        "bcId": 1033,
+        "name": "CosmoChanger",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://cosmochanger.cc/?r={pid}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 90,
+                "fetch": 90,
+                "text": 0,
+                "parse": 0
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1060,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:02:18.901Z",
+        "bcId": 1060,
+        "name": "CryptoStrike",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://cryptostrike.org/{from-full}-na-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 204,
+                "fetch": 168,
+                "text": 7,
+                "parse": 28
+            },
+            "text": 153487
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 622,
+        "createdAt": "2022-04-11T14:00:29.690Z",
+        "updatedAt": "2022-04-18T20:02:34.248Z",
+        "bcId": 622,
+        "name": "ProstoCash",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://prostocash.com/{from-full}-na-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 178,
+                "fetch": 178
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 858,
+        "createdAt": "2022-04-11T14:00:29.691Z",
+        "updatedAt": "2022-04-18T20:03:00.680Z",
+        "bcId": 858,
+        "name": "FixedFloat",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://fixedfloat.com/ru/?ref=88m4nbfa&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 140,
+                "fetch": 134,
+                "text": 2,
+                "parse": 4
+            },
+            "text": 17031
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 718,
+        "createdAt": "2022-04-11T14:00:29.692Z",
+        "updatedAt": "2022-04-18T20:03:16.291Z",
+        "bcId": 718,
+        "name": "Platov",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://platov.co/?ref=bestchange&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 74,
+                "fetch": 69,
+                "text": 2,
+                "parse": 3
+            },
+            "text": 13693
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 798,
+        "createdAt": "2022-04-11T14:00:29.695Z",
+        "updatedAt": "2022-04-18T20:03:50.229Z",
+        "bcId": 798,
+        "name": "Quickex",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://quickex.io/ru?refId={ref}&subId=default&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 203,
+                "fetch": 201,
+                "text": 0,
+                "parse": 2
+            },
+            "text": 34
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 546,
+        "createdAt": "2022-04-11T14:00:29.697Z",
+        "updatedAt": "2022-04-18T20:04:10.705Z",
+        "bcId": 546,
+        "name": "NetEx24",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://www.netex24.net/#/ru/?partner={pid}&source=154&target=104",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 145,
+                "fetch": 144,
+                "text": 0,
+                "parse": 1
+            },
+            "text": 166
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 917,
+        "createdAt": "2022-04-11T14:00:29.707Z",
+        "updatedAt": "2022-04-18T20:04:19.321Z",
+        "bcId": 917,
+        "name": "Micro-exchange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://micro-exchange.me/exchange_{FROM}_to_{TO}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 644,
+                "fetch": 528,
+                "text": 2,
+                "parse": 4,
+                "rates": 0,
+                "delete": 4,
+                "upsert": 75,
+                "de/touch": 31,
+                "null": null
+            },
+            "text": 20789,
+            "rates": 78,
+            "delete": 78,
+            "upsert": 78,
+            "de/touch": "0/78"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 743,
+        "createdAt": "2022-04-11T14:00:29.707Z",
+        "updatedAt": "2022-04-18T20:04:21.307Z",
+        "bcId": 743,
+        "name": "Treddr",
+        "fullname": "Treddr",
+        "description": "123",
+        "ru": "",
+        "en": "",
+        "param": [],
+        "exUrlTmpl": "https://treddr.org/exchange-{FROM}_to_{TO}/?rid=2448",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 448,
+                "fetch": 422,
+                "text": 1,
+                "parse": 1,
+                "rates": 0,
+                "delete": 3,
+                "upsert": 5,
+                "de/touch": 16,
+                "null": null
+            },
+            "text": 2543,
+            "rates": 10,
+            "delete": 10,
+            "upsert": 10,
+            "de/touch": "0/10"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 772,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:01:58.297Z",
+        "bcId": 772,
+        "name": "CoinPayMaster",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://coinpaymaster.com/?r={pid}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 31,
+                "fetch": 28,
+                "text": 1,
+                "parse": 2
+            },
+            "text": 5427
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 757,
+        "createdAt": "2022-04-11T14:00:29.690Z",
+        "updatedAt": "2022-04-18T20:02:44.759Z",
+        "bcId": 757,
+        "name": "ChangeNow",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://changenow.io/ru/?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 262,
+                "fetch": 179,
+                "text": 48,
+                "parse": 35
+            },
+            "text": 1044605
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1,
+        "createdAt": "2022-04-11T14:00:29.693Z",
+        "updatedAt": "2022-04-18T20:03:26.525Z",
+        "bcId": 1,
+        "name": "SuperChange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://superchange.is/index.php?p={pliter}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 106,
+                "fetch": 92,
+                "text": 5,
+                "parse": 9
+            },
+            "text": 28092
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 702,
+        "createdAt": "2022-04-11T14:00:29.694Z",
+        "updatedAt": "2022-04-18T20:03:37.735Z",
+        "bcId": 702,
+        "name": "Papa-Change",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://papa-change.com/?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1060,
+                "fetch": 277,
+                "text": 23,
+                "parse": 250,
+                "rates": 19,
+                "delete": 5,
+                "upsert": 435,
+                "de/touch": 40,
+                "null": null
+            },
+            "text": 1029784,
+            "rates": 1658,
+            "delete": 1110,
+            "upsert": 1110,
+            "de/touch": "0/1110"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 90,
+        "createdAt": "2022-04-11T14:00:29.694Z",
+        "updatedAt": "2022-04-18T20:03:41.417Z",
+        "bcId": 90,
+        "name": "Ex-Money",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://ex-money.cc/{from-full}-na-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 125,
+                "fetch": 125
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 405,
+        "createdAt": "2022-04-11T14:00:29.694Z",
+        "updatedAt": "2022-04-18T20:03:48.421Z",
+        "bcId": 405,
+        "name": "OpenChange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://openchange.cash/ru/?direction={from}-{to}&referral_code=rid{rid}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1981,
+                "fetch": 321,
+                "text": 43,
+                "parse": 326,
+                "rates": 43,
+                "delete": 33,
+                "upsert": 1076,
+                "de/touch": 81,
+                "null": null
+            },
+            "text": 888095,
+            "rates": 3691,
+            "delete": 3642,
+            "upsert": 3642,
+            "de/touch": "0/3642"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 377,
+        "createdAt": "2022-04-11T14:00:29.702Z",
+        "updatedAt": "2022-04-18T20:04:17.088Z",
+        "bcId": 377,
+        "name": "ExBox",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://exbox.org/?direction={from}-{to}&referral_code={referral_code}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1365,
+                "fetch": 204,
+                "text": 36,
+                "parse": 375,
+                "rates": 40,
+                "delete": 15,
+                "upsert": 597,
+                "de/touch": 53,
+                "null": null
+            },
+            "text": 775249,
+            "rates": 3220,
+            "delete": 3171,
+            "upsert": 3171,
+            "de/touch": "0/3171"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 821,
+        "createdAt": "2022-04-11T14:00:29.708Z",
+        "updatedAt": "2022-04-18T20:04:29.825Z",
+        "bcId": 821,
+        "name": "ExchangeTeam",
+        "fullname": "ExchangeTeam's full name",
+        "description": "",
+        "ru": "",
+        "en": "",
+        "param": [],
+        "exUrlTmpl": "https://exchangeteam.cc/ru/direction/{from}-{to}/?referral_code={referral_code}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1506,
+                "fetch": 282,
+                "text": 49,
+                "parse": 286,
+                "rates": 32,
+                "delete": 22,
+                "upsert": 764,
+                "de/touch": 61,
+                "null": null
+            },
+            "text": 825177,
+            "rates": 3424,
+            "delete": 3375,
+            "upsert": 3375,
+            "de/touch": "0/3375"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 686,
+        "createdAt": "2022-04-11T14:00:29.695Z",
+        "updatedAt": "2022-04-18T20:03:55.401Z",
+        "bcId": 686,
+        "name": "1Mile",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://1mile.co/ru?from={FROM}&to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 151,
+                "fetch": 144,
+                "text": 1,
+                "parse": 6
+            },
+            "text": 3896
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 955,
+        "createdAt": "2022-04-11T14:00:29.697Z",
+        "updatedAt": "2022-04-18T20:04:05.543Z",
+        "bcId": 955,
+        "name": "AlfaBit",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://alfabit.exchange/?rid={pid}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 69,
+                "fetch": 65,
+                "text": 2,
+                "parse": 2
+            },
+            "text": 4529
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 526,
+        "createdAt": "2022-04-11T14:00:29.708Z",
+        "updatedAt": "2022-04-18T20:04:32.736Z",
+        "bcId": 526,
+        "name": "FastExchange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://fastexchange.center/?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1310,
+                "fetch": 784,
+                "text": 21,
+                "parse": 47,
+                "rates": 6,
+                "delete": 4,
+                "upsert": 378,
+                "de/touch": 67,
+                "null": null
+            },
+            "text": 483922,
+            "rates": 902,
+            "delete": 902,
+            "upsert": 902,
+            "de/touch": "0/902"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 989,
+        "createdAt": "2022-04-11T14:00:29.708Z",
+        "updatedAt": "2022-04-18T20:04:40.262Z",
+        "bcId": 989,
+        "name": "CoinsBlack",
+        "fullname": "fff",
+        "description": "",
+        "ru": "",
+        "en": "",
+        "param": [],
+        "exUrlTmpl": "https://coins.black/xchange_{FROM}_to_{TO}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 2669,
+                "fetch": 226,
+                "text": 199,
+                "parse": 469,
+                "rates": 253,
+                "delete": 124,
+                "upsert": 1296,
+                "de/touch": 81,
+                "null": null
+            },
+            "text": 3569069,
+            "rates": 6102,
+            "delete": 5913,
+            "upsert": 5913,
+            "de/touch": "0/5913"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 714,
+        "createdAt": "2022-04-11T14:00:29.708Z",
+        "updatedAt": "2022-04-18T20:04:45.751Z",
+        "bcId": 714,
+        "name": "Top-Exchange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://top-exchange.com/?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 630,
+                "fetch": 198,
+                "text": 13,
+                "parse": 54,
+                "rates": 12,
+                "delete": 76,
+                "upsert": 235,
+                "de/touch": 22,
+                "null": null
+            },
+            "text": 485892,
+            "rates": 898,
+            "delete": 898,
+            "upsert": 898,
+            "de/touch": "0/898"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1050,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:02:03.417Z",
+        "bcId": 1050,
+        "name": "Kursov24",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://kursov24.com/Home/Index?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 100,
+                "fetch": 99,
+                "text": 0,
+                "parse": 0
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 899,
+        "createdAt": "2022-04-11T14:00:29.690Z",
+        "updatedAt": "2022-04-18T20:02:29.054Z",
+        "bcId": 899,
+        "name": "CoinShop24",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://coinshop24.org/exchange_{from-full}_to_{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 89,
+                "fetch": 86,
+                "text": 1,
+                "parse": 2
+            },
+            "text": 7793
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 544,
+        "createdAt": "2022-04-11T14:00:29.691Z",
+        "updatedAt": "2022-04-18T20:02:49.987Z",
+        "bcId": 544,
+        "name": "Банкомат",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://bankcomat.org/{from-full}-na-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 208,
+                "fetch": 208
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 840,
+        "createdAt": "2022-04-11T14:00:29.694Z",
+        "updatedAt": "2022-04-18T20:03:31.652Z",
+        "bcId": 840,
+        "name": "YoChange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://yochange.com/?ref={ref}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 105,
+                "fetch": 103,
+                "text": 1,
+                "parse": 1
+            },
+            "text": 1287
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 279,
+        "createdAt": "2022-04-11T14:00:29.690Z",
+        "updatedAt": "2022-04-18T20:02:39.470Z",
+        "bcId": 279,
+        "name": "MChange",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://mchange.net/{from-full}-na-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 207,
+                "fetch": 207
+            }
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 852,
+        "createdAt": "2022-04-11T14:00:29.693Z",
+        "updatedAt": "2022-04-18T20:03:21.402Z",
+        "bcId": 852,
+        "name": "RamonCash",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://ramon.money/?ref={ref}&cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 95,
+                "fetch": 91,
+                "text": 2,
+                "parse": 2
+            },
+            "text": 13686
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 618,
+        "createdAt": "2022-04-11T14:00:29.694Z",
+        "updatedAt": "2022-04-18T20:03:39.767Z",
+        "bcId": 618,
+        "name": "24BestEx",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://24bestex.com/exchange_{FROM}_to_{TO}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 408,
+                "fetch": 238,
+                "text": 24,
+                "parse": 29,
+                "rates": 2,
+                "delete": 3,
+                "upsert": 93,
+                "de/touch": 19,
+                "null": null
+            },
+            "text": 51556,
+            "rates": 206,
+            "delete": 206,
+            "upsert": 206,
+            "de/touch": "0/206"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 540,
+        "createdAt": "2022-04-11T14:00:29.689Z",
+        "updatedAt": "2022-04-18T20:01:45.696Z",
+        "bcId": 540,
+        "name": "CryptoPay24",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://cryptopay24.com/RU/{BIGSECRET4LITTLETEAM}?cur_from={FROM}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 462,
+                "fetch": 397,
+                "text": 8,
+                "parse": 57
+            },
+            "text": 191958
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 517,
+        "createdAt": "2022-04-11T14:00:29.690Z",
+        "updatedAt": "2022-04-18T20:02:23.947Z",
+        "bcId": 517,
+        "name": "BaksMan",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://baksman.org/{from-full}-to-{to-full}.html",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 26,
+                "fetch": 25,
+                "text": 1,
+                "parse": 0
+            },
+            "text": 934
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 430,
+        "createdAt": "2022-04-11T14:00:29.709Z",
+        "updatedAt": "2022-04-18T20:04:43.429Z",
+        "bcId": 430,
+        "name": "CoinTransfer",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": [],
+        "exUrlTmpl": "https://cointransfer.online/exchange_{FROM}_to_{TO}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 1519,
+                "fetch": 1428,
+                "text": 3,
+                "parse": 23,
+                "rates": 2,
+                "delete": 4,
+                "upsert": 37,
+                "de/touch": 21,
+                "null": null
+            },
+            "text": 52294,
+            "rates": 199,
+            "delete": 199,
+            "upsert": 199,
+            "de/touch": "0/199"
+        },
+        "xmlParsedAt": null
     },
     {
         "id": 658,
+        "createdAt": "2022-04-11T14:00:29.709Z",
+        "updatedAt": "2022-04-18T20:01:51.539Z",
         "bcId": 658,
         "name": "BtcTenge",
         "fullname": "fff",
@@ -459,6 +1087,77 @@
         "ru": "",
         "en": "",
         "param": [],
-        "exUrlTmpl": "https://btctenge.com/exchange-{from}-to-{to}/"
+        "exUrlTmpl": "https://btctenge.com/exchange-{from}-to-{to}/",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 703,
+                "fetch": 612,
+                "text": 17,
+                "parse": 7,
+                "rates": 2,
+                "delete": 4,
+                "upsert": 31,
+                "de/touch": 29,
+                "null": null
+            },
+            "text": 36982,
+            "rates": 139,
+            "delete": 138,
+            "upsert": 138,
+            "de/touch": "0/138"
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 812,
+        "createdAt": "2022-04-11T14:00:29.695Z",
+        "updatedAt": "2022-04-18T20:04:00.457Z",
+        "bcId": 812,
+        "name": "Ex-Bank",
+        "fullname": null,
+        "description": null,
+        "ru": null,
+        "en": null,
+        "param": "{}",
+        "exUrlTmpl": "https://ex-bank.cc/?ref={ref}&cur_from={from}&cur_to={TO}",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 37,
+                "fetch": 35,
+                "text": 1,
+                "parse": 1
+            },
+            "text": 2832
+        },
+        "xmlParsedAt": null
+    },
+    {
+        "id": 1015,
+        "createdAt": "2022-04-11T14:00:29.707Z",
+        "updatedAt": "2022-04-18T20:04:23.301Z",
+        "bcId": 1015,
+        "name": "ТочкаОбмена",
+        "fullname": "ТочкаОбмена",
+        "description": "description description 123123 !!!",
+        "ru": "",
+        "en": "",
+        "param": [],
+        "exUrlTmpl": "https://tochkaobmena.com/exchange-{FROM}_to_{TO}/?rid=3015",
+        "xmlVerified": true,
+        "xmlStartedAt": null,
+        "xmlStage": {
+            "ms": {
+                "all": 471,
+                "fetch": 470,
+                "text": 0,
+                "parse": 1
+            },
+            "text": 78
+        },
+        "xmlParsedAt": null
     }
 ]
