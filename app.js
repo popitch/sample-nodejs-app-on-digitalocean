@@ -82,6 +82,12 @@ app.get('/', (req, res) => {
     
     res.render('index', {
         title: 'Курсы обмена криптовалют',
+        exchange: {
+            form: {
+                from: "BTC",
+                to: "ETH",
+            }
+        }
     });
 });
 

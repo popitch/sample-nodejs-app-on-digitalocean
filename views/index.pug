@@ -6,14 +6,15 @@ append css
 block content
     h1= title
     
-    //include includes/exch-form.pug
-    +exchange-form("BTC", "SBERRUB")
+    include includes/exch-form.pug
+    
     br
+    
     include includes/exch-table.pug
 
 append scripts
     script(type="html/template" id="number-currency.template")
         .float(data-bind="text: value")
         .currency(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
-        
+    
     script(src="/js/table.js?sniffer&abc=def&gh=&ijkl")
