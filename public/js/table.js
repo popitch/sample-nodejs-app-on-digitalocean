@@ -132,8 +132,13 @@ const
                         URL_DEFAULT = 'BTC→SBERRUB↓to',
                         URL_MATCHER = /^(\w+)→(\w+)(?:(↓|↑)(changer|from|to|amount))?$/,
                         
-                        url = ko.computed({
-                            read: () => from() + '→' + to() + (sortBy() ? (sortDir() === 'desc' ? '↓' : '↑') + sortBy() : ''),
+                        url = ko.computed({ 
+                            read: () =>
+                                from().toLowerCase() + '-to-' + to().toLowerCase()
+                                    + '#' + (sortBy() ? (sortDir() === 'desc' ? '↓' : '↑') + sortBy() : ''),
+                            
+                            //read: () => from() + '→' + to() + (sortBy() ? (sortDir() === 'desc' ? '↓' : '↑') + sortBy() : ''),
+                            
                             write: (route) => {
                                 const matches = decodeURIComponent(route).match(URL_MATCHER);
                                 
@@ -152,7 +157,8 @@ const
                             },
                         });
                     
-                    url.subscribe(url => location.hash = url); // translate to #hash
+                    url.subscribe(url => location.href = url); // translate to /href#hash combo
+                    //url.subscribe(url => location.hash = url); // translate to #hash
                     
                     // init from URL #hash
                     url(
