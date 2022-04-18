@@ -151,10 +151,10 @@ const
                                 
                                 console.log('URL parsed with: from, to, dir, sort', matches);
                                 
-                                from(matches[1]);
-                                to(matches[2]);
-                                sortDir(matches[3] === '↓' ? 'desc' : 'asc');
                                 sortBy(matches[4]);
+                                sortDir(matches[3] === '↓' ? 'desc' : 'asc');
+                                to(matches[2]);
+                                from(matches[1]);
                             },
                             deferEvaluation: true,
                         });

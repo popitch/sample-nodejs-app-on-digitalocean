@@ -415,7 +415,7 @@ dbConn.then(async (db) => {
         function xmlFinishError(e) {
             xmlFinishUp(5000); // after fail, 9000 ms interval
             
-            console.warn('xml', (exch && exch.xml), 'with', e, 'ERROR at', (exch ? exch.xmlStage : '<no exchanger>'));
+            console.warn('! xml:', (exch && exch.xml), 'ERROR'/*, (exch ? exch.xmlStage : '<no exchanger>')*/);
         }
         
         async function xmlFinishUp(maxInterval, minDelay) {
