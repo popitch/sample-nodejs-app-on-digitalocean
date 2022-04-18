@@ -90,30 +90,40 @@ app.get('/', (req, res) => {
 });
 
 // GET ~ /BTC-to-SBERRUB
-app.get('/*-to-*', (req, res) => {
+app.get('/*-to-*', (req, res, next) => {
     const fromToTree = xmlEngine.aggregator.countTree(),
         pair = req.path.substr(1).split('-to-', 2);
     
-    console.log("Trying to GET request pair:", pair, '...');
+    console.log("Try to GET pair:", pair, '...');
     
-    for (var FROM in fromToTree) {
-        if (FROM.toLowerCase() === pair[0]) {
-            // branch found
-            for (var TO in fromToTree[FROM]) {
-                if (TO.toLowerCase() === pair[0]) {
-                    // leaf found
-                    console.log("Trying to GET request pair:", pair, '... ok, from', FROM, 'to', TO);
-                    
-                    return res.render('index', {
-                        title: 'Обмен ' + (CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (CURRENCY_NAME_BY_SYMBOL[TO] || TO),
-                        exchange: {
-                            form: {
-                                from: "BTC",
-                                to: "ETH",
-                            }
-                        }
-                    });
-                }
+    const FROM = findKeyByLowerKey(fromToTree, pair[0]);
+    if (! FROM) {
+        console.log('not found from=', FROM);
+        next();
+    }
+    console.log("Try to GET pair:", pair, '... from=', FROM);
+    
+    const TO = findKeyByLowerKey(fromToTree[FROM], pair[1]);
+    if (! TO) {
+        console.log('not found to=', TO);
+        next();
+    }
+    console.log("Try to GET pair:", pair, '... go to=', TO);
+    
+    res.render('index', {
+        title: 'Обмен ' + (CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (CURRENCY_NAME_BY_SYMBOL[TO] || TO),
+        exchange: {
+            form: {
+                from: FROM,
+                to: TO,
+            }
+        }
+    });
+    
+    function findKeyByLowerKey(hash, key) {
+        for (var KEY in hash) {
+            if (KEY.toLowerCase() === key) {
+                return KEY;
             }
         }
     }
