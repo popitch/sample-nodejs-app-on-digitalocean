@@ -6,7 +6,7 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
               each currency in pairsToCurrenciesFrom( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == exchange.form.from.symbol))= currency.name
             
-            //= JSON.stringify(pairsToCurrenciesFrom( pairsCountTree() ))
+            // #{ JSON.stringify( pairsToCurrenciesFrom(pairsCountTree()) ) }
         .line
             input(name="in", value="0.02", disabled)
     .column
@@ -16,6 +16,6 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
               each currency in pairsToCurrenciesTo( pairsCountTree() )
                 option(value = currency.symbol, selected = (currency.symbol == exchange.form.to.symbol))= currency.name
             
-            //= pairsToCurrenciesTo( pairsCountTree() )
+            // #{ JSON.stringify( pairsToCurrenciesTo(pairsCountTree()) ) }
         .line
             input(name="out", value="50000", disabled)
