@@ -211,8 +211,7 @@ async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
         exch.xmlStartedAt = null; // reset value at init! // exch.xmlStartedAt && new Date(Number(exch.xmlStartedAt) || exch.xmlStartedAt);
         exch.xmlParsedAt = exch.xmlParsedAt && new Date(Number(exch.xmlParsedAt) || exch.xmlParsedAt);
     });
-
-    console.log('..setup with', Exchangers.length, 'exchangers, right now');
+    //console.log('..setup with', Exchangers.length, 'exchangers, right now');
 }
 
 dbConn.then(async (db) => {
