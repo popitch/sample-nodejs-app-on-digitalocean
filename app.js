@@ -1,15 +1,19 @@
+// config
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
 
-// run xmlTractor = 
+// xmlTractor
 const xmlEngine = require('./xml-engine');
 
-// app
+/** app
+ */
 const express = require('express'),
     app = express(),
     path = require('path'),
     _ = require('lodash');
 
-// setup routes engine
+
+/** setup app engines
+ */
 const router = new (require('named-routes'));
 router.extendExpress(app);
 router.registerAppHelpers(app);
@@ -36,7 +40,7 @@ app.use(
     })
 );
 
-// app.locals (?)
+// app.locals (wat?)
 _.extend(app.locals, _.extend({
     basedir: __dirname,
 },
@@ -44,7 +48,7 @@ _.extend(app.locals, _.extend({
 ));
 
 
-/** views locals
+/** views .locals
  */
 app.use((req, res, next) => {
     if (! res.locals.session) {

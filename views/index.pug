@@ -6,7 +6,8 @@ append css
 block content
     h1= title
     
-    include includes/exch-form.pug
+    //include includes/exch-form.pug
+    +exchange-form("BTC", "SBERRUB")
     br
     include includes/exch-table.pug
 
