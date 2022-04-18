@@ -155,7 +155,7 @@ const
                                 sortDir(matches[3] === '↓' ? 'desc' : 'asc');
                                 sortBy(matches[4]);
                             },
-                        });
+                        }, null, { deferEvaluation: true });
                     
                     url.subscribe(url => location.href = url); // translate to /href#hash combo
                     //url.subscribe(url => location.hash = url); // translate to #hash
