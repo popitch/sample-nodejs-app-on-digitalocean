@@ -79,14 +79,17 @@ app.use((req, res, next) => {
 
 // GET /
 app.get('/', (req, res) => {
+    const FROM = "BTC", TO = "P24UAH";
+    
     res.render('index', {
         title: 'Курсы обмена криптовалют',
         exchange: {
             form: {
-                from: "BTC",
-                to: "ETH",
+                from: FROM,
+                to: TO,
             }
-        }
+        },
+        formQueryString: 'from=' + FROM + '&to=' + TO,
     });
 });
 
