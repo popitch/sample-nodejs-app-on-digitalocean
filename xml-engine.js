@@ -343,7 +343,7 @@ dbConn.then(async (db) => {
             end('rates', ratesBulk.length);
             
             if (exch.badRates.length) {
-                console.log('BAD RATES:', exch.badRates.length, '~', exch.badRates[0]);
+                console.log('! bad rates:', exch.badRates.length, '(from|to set no)');
             }
             
             // clear bulk without duplicates, to be updated
