@@ -90,7 +90,7 @@ app.get('/', (req, res) => {
 });
 
 // GET ~ /BTC-to-SBERRUB
-app.get('/*-to-*', (req, res, next) => {
+app.get('/*-to-*', (req, res) => {
     const fromToTree = xmlEngine.aggregator.countTree(),
         pair = req.path.substr(1).split('-to-', 2);
     
@@ -103,7 +103,8 @@ app.get('/*-to-*', (req, res, next) => {
                 if (TO.toLowerCase() === pair[0]) {
                     // leaf found
                     console.log("Trying to GET request pair:", pair, '... ok, from', FROM, 'to', TO);
-                    res.render('index', {
+                    
+                    return res.render('index', {
                         title: 'Обмен ' + (CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (CURRENCY_NAME_BY_SYMBOL[TO] || TO),
                         exchange: {
                             form: {
@@ -112,10 +113,8 @@ app.get('/*-to-*', (req, res, next) => {
                             }
                         }
                     });
-                    return;
                 }
             }
-            next();
         }
     }
 });
