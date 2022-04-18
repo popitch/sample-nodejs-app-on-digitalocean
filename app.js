@@ -111,16 +111,6 @@ app.get('/*-to-*', (req, res, next) => {
     }
     console.log("Try to GET pair:", pair, '... go to=', TO);
     
-    res.render('index', {
-        title: 'Обмен ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO),
-        exchange: {
-            form: {
-                from: FROM,
-                to: TO,
-            }
-        }
-    });
-    
     function findKeyByLowerKey(hash, key) {
         for (var KEY in hash) {
             if (KEY.toLowerCase() === key) {
@@ -128,6 +118,17 @@ app.get('/*-to-*', (req, res, next) => {
             }
         }
     }
+    
+    res.render('index', {
+        title: 'Обмен ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO),
+        exchange: {
+            form: {
+                from: FROM,
+                to: TO,
+            },
+        },
+        formQueryString: 'from=' + FROM + '&to=' + TO,
+    });
 });
 
 // GET /login

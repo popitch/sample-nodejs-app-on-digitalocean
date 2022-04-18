@@ -336,7 +336,7 @@ const
         
         exchangeRates.loading(true);
         ratesXHR = 
-        $.getJSON('./cached/' + from + '/' + to + '.json')
+        $.getJSON('/cached/' + from + '/' + to + '.json')
             .done(jso => {
                 const rates = jso.rates || [];
                 //console.log('rates', rates, 'as sample of', samples);
