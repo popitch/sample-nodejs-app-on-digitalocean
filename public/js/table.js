@@ -16,7 +16,7 @@ $.getJSON = _.wrap($.getJSON, function(getJSON, N) {
 
 const
     // self-searchString config
-    TABLE_JS_CONFIG = (() => {
+    jsConfig = (() => {
         const tableJs = [].find.call(document.getElementsByTagName('script'), (s) => s.src.match(/table\.js/));
         if (tableJs) {
             const config = (tableJs.src.split('?').slice(1).join('?') || '')
@@ -25,7 +25,7 @@ const
                 .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true, config), {});
             
             console.log('<script src="table.js">', tableJs, 'with params', config);
-            return config;
+            return (key, defaults) => config[key] || defaults;
         }
     })(),
     
@@ -94,12 +94,13 @@ const
     
     exchangeRates = {
         filter: (() => {
-            const from = ko.observable(),
-                to = ko.observable(),
+            const
+                from    = ko.observable(jsConfig('from')),
+                to      = ko.observable(jsConfig('to')),
                 from_to = ko.computed(() => (from() + '_to_' + to()).toLowerCase()),
                 
-                sortBy = ko.observable(),
-                sortDir = ko.observable();
+                sortBy  = ko.observable(jsConfig('sort')),
+                sortDir = ko.observable(jsConfig('dir'));
             
             from_to.subscribe(_.throttle(ft => {
                 //console.log('from_to =', ft);
