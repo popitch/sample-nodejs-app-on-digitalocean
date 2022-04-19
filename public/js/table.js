@@ -161,7 +161,12 @@ const
                         });
                     
                     url.subscribe(url => {
-                        if (url) location.href = url; // translate to /href#hash combo
+                        // translate to /href#hash combo
+                        //if (url) location.href = url; 
+                        history.pushState({},
+                            "Обмен " + (CURRENCY_NAME_BY_SYMBOL[from()] || from()) + 
+                            " на " + (CURRENCY_NAME_BY_SYMBOL[to()] || to()),
+                        url);
                     });
                     //url.subscribe(url => location.hash = url); // translate to #hash
                     
