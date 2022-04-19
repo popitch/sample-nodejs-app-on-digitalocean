@@ -94,7 +94,7 @@ const
     
     exchangeRates = {
         page: {
-            TITLE_TEMPL: _.template('Обмен ${from} на ${to}'),
+            TITLE_TEMPL: _.template('Обмен <%= from %> на <%= to %>'),
             title: ko.lazy(() => {
                 const to = exchangeRates.filter.to(),
                     from = exchangeRates.filter.from();

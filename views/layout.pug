@@ -2,7 +2,7 @@ doctype html
 
 html
     head
-        title(data-bind="text: exchangeRates.page.title + ' → Exnode'")= (title ? title + ' → ' : '') + "Exnode"
+        title(data-bind="text: exchangeRates.page.title() + ' → Exnode'")= (title ? title + ' → ' : '') + "Exnode"
         
         block css
             link(rel='stylesheet', href='/css/common.css', media="all")
