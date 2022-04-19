@@ -93,6 +93,14 @@ const
     },
     
     exchangeRates = {
+        page: {
+            TITLE_TEMPL: _.template('Обмен ${from} на ${to}'),
+            title: ko.lazy(() => exchangeRates.page.TITLE_TEMPL({
+                from: CURRENCY_NAME_BY_SYMBOL[from()] || from(),
+                to: CURRENCY_NAME_BY_SYMBOL[to()] || to(),
+            })),
+        },
+        
         filter: (() => {
             const
                 from    = ko.observable(jsConfig('from')),
@@ -151,7 +159,7 @@ const
                                     return;
                                 }
                                 
-                                console.log('URL parsed with: from, to, dir, sort', matches);
+                                console.log('URL parsed with: from, to, dir, by', matches);
                                 
                                 sortBy(matches[4]);
                                 sortDir(matches[3] === '↓' ? 'desc' : 'asc');
@@ -163,11 +171,11 @@ const
                     
                     url.subscribe(url => {
                         // translate to /href#hash combo
-                        //if (url) location.href = url; 
-                        history.pushState({},
-                            "Обмен " + (CURRENCY_NAME_BY_SYMBOL[from()] || from()) + 
-                            " на " + (CURRENCY_NAME_BY_SYMBOL[to()] || to()),
-                        url);
+                        if (!url) return;
+                         
+                        // location.href = url;
+                        
+                        history.pushState({}, exchangeRates.page.title(), url);
                     });
                     //url.subscribe(url => location.hash = url); // translate to #hash
                     

@@ -93,7 +93,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// GET ~ /BTC-to-SBERRUB
+// GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
     const fromToTree = xmlEngine.aggregator.countTree(),
         pair = req.path.substr(1).split('-to-', 2);
@@ -123,7 +123,10 @@ app.get('/*-to-*', (req, res, next) => {
     }
     
     res.render('index', {
-        title: 'Обмен ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM) + ' на ' + (rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO),
+        title: _.template('Обмен ${from} на ${to}')({
+            from: rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM,
+            to: rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO,
+        }),
         exchange: {
             form: {
                 from: FROM,
