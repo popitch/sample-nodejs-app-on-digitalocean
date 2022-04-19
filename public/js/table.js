@@ -95,10 +95,15 @@ const
     exchangeRates = {
         page: {
             TITLE_TEMPL: _.template('Обмен ${from} на ${to}'),
-            title: ko.lazy(() => exchangeRates.page.TITLE_TEMPL({
-                from: CURRENCY_NAME_BY_SYMBOL[from()] || from(),
-                to: CURRENCY_NAME_BY_SYMBOL[to()] || to(),
-            })),
+            title: ko.lazy(() => {
+                const to = exchangeRates.filter.to(),
+                    from = exchangeRates.filter.from();
+                
+                return exchangeRates.page.TITLE_TEMPL({
+                    from: CURRENCY_NAME_BY_SYMBOL[from] || from,
+                    to: CURRENCY_NAME_BY_SYMBOL[to] || to,
+                })
+            }),
         },
         
         filter: (() => {
