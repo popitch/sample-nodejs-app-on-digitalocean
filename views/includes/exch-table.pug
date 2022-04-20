@@ -8,7 +8,7 @@ table.rates#exchange-table
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
     tbody(data-bind="template: { 'rate-tr.template', foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating }")
-    for rate in exchange.ratesPage()
+    for rate in exchange.ratesPage
         tr
             td(class="rate-col rate-flags")
             for label in _.keys(rate.param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))
