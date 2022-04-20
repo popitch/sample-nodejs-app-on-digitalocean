@@ -3,15 +3,15 @@ extends layout
 append css
     link(rel='stylesheet', href="/css/exchange-pair.css", media="all")
 
+block pre-header
+    include includes/exch-form.pug
+
 block content
     h1(data-bind="text: exchangeRates.page.title")= title
     
     != '<!-- ' + JSON.stringify(exchange.form) + ' => ' + JSON.stringify(exchange.ratesPage) + '-->'
     
     include includes/exch-table.pug
-
-prepend content
-    include includes/exch-form.pug
 
 append scripts
     script(type="html/template" id="number-currency.template")
