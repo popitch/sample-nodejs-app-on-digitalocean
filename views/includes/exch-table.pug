@@ -12,7 +12,7 @@ table.rates#exchange-table
             tr
                 td(class="rate-col rate-flags")
                     for flag in Object.keys(rate.param).sort()
-                        i(title = rateUtils.FLAG_BY_SYMBOL[flag] && rateUtils.FLAG_BY_SYMBOL[flag].title || flag, class="rate-flag rate-flag-" + flag.substr(0, 1))
+                        i(title = FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag, class="rate-flag rate-flag-" + flag.substr(0, 1))
                 
                 td(class="rate-col rate-changer")
                     a(href = rateExchangerExchangeUrl(rate, getExchangerById(rate.exchangerId)), target="_blank")
