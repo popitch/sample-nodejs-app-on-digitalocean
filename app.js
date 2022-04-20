@@ -64,7 +64,8 @@ app.use((req, res, next) => {
         
         // currencies consts
         _.extend(res.locals, {
-            pairsCountTree: () => xmlEngine.aggregator.countTree(),
+            getCountTree: () => xmlEngine.getCountTree(),
+            getExchangerById: id => xmlEngine.getExchangerById(id),
         });
         _.extend(res.locals,
             rateUtils,
@@ -95,32 +96,37 @@ app.get('/', (req, res) => {
 
 // GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
-    const fromToTree = xmlEngine.aggregator.countTree(),
+    const countTree = xmlEngine.getCountTree(),
         pair = req.path.substr(1).split('-to-', 2);
     
     console.log("Try to GET pair:", pair, '...');
     
-    const FROM = findKeyByLowerKey(fromToTree, pair[0]);
-    if (! FROM) {
-        console.log('not found from=', FROM);
-        next();
-    }
-    console.log("Try to GET pair:", pair, '... from=', FROM);
-    
-    const TO = findKeyByLowerKey(fromToTree[FROM], pair[1]);
-    if (! TO) {
-        console.log('not found to=', TO);
-        next();
-    }
-    console.log("Try to GET pair:", pair, '... go to=', TO);
-    
-    function findKeyByLowerKey(hash, key) {
+    function findKeyByLowerCase(hash, lokey) {
         for (var KEY in hash) {
-            if (KEY.toLowerCase() === key) {
+            if (KEY.toLowerCase() === lokey) {
                 return KEY;
             }
         }
     }
+    
+    const FROM = findKeyByLowerCase(countTree, pair[0]);
+    if (! FROM) {
+        console.log('not found from=', FROM);
+        next();
+    }
+    console.log("Try to GET pair:", pair, '... from =', FROM);
+    
+    const TO = findKeyByLowerCase(countTree[FROM], pair[1]);
+    if (! TO) {
+        console.log('not found to=', TO);
+        next();
+    }
+    console.log("Try to GET pair:", pair, '... go to =', TO);
+    
+    const pageSize = countTree[FROM][TO];
+    
+    console.log("Try to GET pair:", pair, '... rates count =', pageSize);
+    
     
     res.render('index', {
         title: _.template('Обмен ${from} на ${to}')({
@@ -132,6 +138,7 @@ app.get('/*-to-*', (req, res, next) => {
                 from: FROM,
                 to: TO,
             },
+            ratesPage: xmlEngine.getRatesByFT(FROM, TO),
         },
         formQueryString: 'from=' + FROM + '&to=' + TO,
     });

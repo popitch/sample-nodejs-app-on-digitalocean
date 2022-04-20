@@ -7,30 +7,27 @@ table.rates#exchange-table
             th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
-    tbody(data-bind="foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating")
-        <tr>
-            <td class="rate-col rate-flags" data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))">
-                <i title class="rate-flag" data-bind="
-                |    css: 'rate-flag-' + flag,
-                |    attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }
-                |"></i>
-            </td>
-            
-            <td class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
-                <a href target="_blank" data-bind="
-                |    text: name,
-                |    attr: {
-                |        href: exchangerExchangeUrl($parent, $data)
-                |    }
-                |"></a>
-            </td>
-            
-            <td class="rate-col rate-from" data-bind="template: { name: 'number-currency.template', data: { value: $data['in'], symbol: $data['from'] } }"></td>
-            
-            <td class="rate-col rate-to" data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to'] } }"></td>
-            
-            <td class="rate-col rate-amount" data-bind="text: $data['amount']"></td>
-        </tr>
+    tbody(data-bind="template: { 'rate-tr.template', foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating }")
+        for rate in exchange.ratesPage()
+            tr
+                td(class="rate-col rate-flags")
+                    for label in _.keys(rate.param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))
+                        i(title = rateUtils.FLAG_BY_SYMBOL[flag] && rateUtils.FLAG_BY_SYMBOL[flag].title || label.flag, class='rate-flag rate-flag-' + label.flag)
+                
+                td(class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
+                - var exchanger = getExchangerById(exchangerId)
+                    a(href = rateExchangerExchangeUrl(rate, exchanger), target="_blank")= exchanger.name
+                
+                td.rate-col.rate-from
+                    = rate["in"]
+                    = CURRENCY_NAME_BY_SYMBOL[rate.from] || rate.from
+                
+                td.rate-col.rate-to
+                    = rate["out"]
+                    = CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to
+                
+                td.rate-col.rate-amount
+                    = rate["amount"]
 //
     tbody(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
         tr

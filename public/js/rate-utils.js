@@ -100,6 +100,28 @@ const FLAG_BY_SYMBOL = {
     },
 };
 
+// utils
+function rateExchangerExchangeUrl(rate, exch) {
+    const FROM = rate.from, TO = rate.to,
+        tr = {
+            FROM: FROM,
+            from: FROM.toLowerCase(),
+            TO: TO,
+            to: TO.toLowerCase(),
+            "from-full": "from-full ok",
+            "to-full": "to-full ok",
+            "rid": 'ANY_MORE_GET_PARAM_RID',
+            'referral_code': 'ANY_TOO_REFERRAL_CODE',
+        },
+        unknown = [],
+        url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, (full, key) => tr[key] || unknown.push(key));
+    
+    if (unknown.length > 0)
+        console.warn('exchangerExchangeUrl(): unknown parentesses {', unknown, '} in the url', url);
+    
+    return url;
+}
+
 // module.exports for SSR
 if (typeof module !== 'undefined') {
     module.exports = {
@@ -113,5 +135,7 @@ if (typeof module !== 'undefined') {
         
         pairsToCurrenciesFrom: pairsToCurrenciesFrom,
         pairsToCurrenciesTo: pairsToCurrenciesTo,
+        
+        rateExchangerExchangeUrl: rateExchangerExchangeUrl,
     };
 }

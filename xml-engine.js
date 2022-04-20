@@ -23,10 +23,12 @@ module.exports = {
     touchesAll: () => Cached.pairs.all(),
     ratesAll: () => Cached.pairs.all().flatMap(t => t.rates),
     ratesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
+    getCountTree: () => Cached.pairs.getCountTree(),
+    getRatesByFT: () => Cached.pairs.getRatesByFT(),
+    getExchangerById: (id) => _.find(Exchangers, exch => exch.id == id),
     
     aggregator: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
-        countTree: () => Cached.pairs.countTree(),
         exchangersCount: () => Exchangers ? Exchangers.length : 0,
         process: () => aggProcessState,
     },
@@ -100,7 +102,14 @@ const Cached = {
             
             all: () => _.flatten(_.map(touchedTree, _.values)),
             
-            countTree: () =>
+            getRatesByFT: (from, to) => {
+                return touchedTree[from]
+                    && touchedTree[from][to]
+                    && touchedTree[from][to].rates
+                    || [];
+            },
+            
+            getCountTree: () =>
                 Cached.pairs.all().length ?
                     Cached.pairs.mapTouchTree(touch => touch.rates.length)
                     // stub data
@@ -185,7 +194,7 @@ const Cached = {
                 return page;
             },
 
-            putPairsJson: () => Cached.putJson('pairs', Cached.pairs.countTree()),
+            putPairsJson: () => Cached.putJson('pairs', Cached.pairs.getCountTree()),
         };
     })()
 };
