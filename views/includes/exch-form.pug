@@ -32,15 +32,8 @@ aside.fixed.from(data-currency-list data-bind="\
             span(data-bind="text: name")
 
 script(type="html/template" id="from-currency.template")
-    <label data-bind="css: {\
-        selected: symbol === exchangeRates.filter.from(),\
-        disabled: symbol === exchangeRates.filter.to(),\
-    }">
-        <input type="radio" data-bind="\
-            value: symbol,\
-            checked: exchangeRates.filter.from,\
-            disable: symbol === exchangeRates.filter.filter.to(),\
-        "/>
+    <label data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }">
+        <input type="radio" data-bind="value: symbol, checked: exchangeRates.filter.from, disable: symbol === exchangeRates.filter.filter.to()"/>
         <span data-bind="text: name"></span>
         <sub data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]"></sub>
     </label>
@@ -57,15 +50,8 @@ aside.fixed.to(data-currency-list style="direction: rtl" data-bind="\
             span(data-bind="text: name")
 
 script(type="html/template" id="to-currency.template")
-    <label style="direction: ltr" data-bind="css: {\
-        selected: symbol === exchangeRates.filter.to(),\
-        disabled: symbol === exchangeRates.filter.from(),\
-    }">
+    <label data-bind="css: { selected: symbol === exchangeRates.filter.to(), disabled: symbol === exchangeRates.filter.from() }" style="direction: ltr">
         <sub data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]"></sub>
         <span data-bind="text: name"></span>
-        <input type="radio" data-bind="
-            value: symbol,
-            checked: exchangeRates.filter.to,
-            disable: symbol === exchangeRates.filter.from(),
-         "/>
+        <input type="radio" data-bind="value: symbol, checked: exchangeRates.filter.to, disable: symbol === exchangeRates.filter.from()"/>
     </label>
