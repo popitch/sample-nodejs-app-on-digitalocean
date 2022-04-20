@@ -11,7 +11,7 @@ table.rates#exchange-table
         for rate in exchange.ratesPage
             tr
                 td(class="rate-col rate-flags")
-                    for flag in Object.keys(rate.param).sort())
+                    for flag in Object.keys(rate.param).sort()
                         i(title = rateUtils.FLAG_BY_SYMBOL[flag] && rateUtils.FLAG_BY_SYMBOL[flag].title || flag, class="rate-flag rate-flag-" + flag.substr(0, 1))
                 
                 td(class="rate-col rate-changer")
