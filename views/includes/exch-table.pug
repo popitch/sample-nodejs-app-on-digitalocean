@@ -8,26 +8,26 @@ table.rates#exchange-table
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
     tbody(data-bind="template: { 'rate-tr.template', foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating }")
-        for rate in exchange.ratesPage()
-            tr
-                td(class="rate-col rate-flags")
-                    for label in _.keys(rate.param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))
-                        i(title = rateUtils.FLAG_BY_SYMBOL[flag] && rateUtils.FLAG_BY_SYMBOL[flag].title || label.flag, class='rate-flag rate-flag-' + label.flag)
-                
-                td(class="rate-col rate-changer" data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]">
-                - var exchanger = getExchangerById(exchangerId)
-                    a(href = rateExchangerExchangeUrl(rate, exchanger), target="_blank")= exchanger.name
-                
-                td.rate-col.rate-from
-                    = rate["in"]
-                    = CURRENCY_NAME_BY_SYMBOL[rate.from] || rate.from
-                
-                td.rate-col.rate-to
-                    = rate["out"]
-                    = CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to
-                
-                td.rate-col.rate-amount
-                    = rate["amount"]
+    for rate in exchange.ratesPage()
+        tr
+            td(class="rate-col rate-flags")
+            for label in _.keys(rate.param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))
+                i(title = rateUtils.FLAG_BY_SYMBOL[flag] && rateUtils.FLAG_BY_SYMBOL[flag].title || label.flag, class='rate-flag rate-flag-' + label.flag)
+            
+            td(class="rate-col rate-changer")
+                a(href = rateExchangerExchangeUrl(rate, getExchangerById(rate.exchangerId)), target="_blank")
+                    = exchanger.name
+            
+            td.rate-col.rate-from
+                = rate["in"]
+                = CURRENCY_NAME_BY_SYMBOL[rate.from] || rate.from
+            
+            td.rate-col.rate-to
+                = rate["out"]
+                = CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to
+            
+            td.rate-col.rate-amount
+                = rate["amount"]
 //
     tbody(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
         tr
