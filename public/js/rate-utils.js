@@ -117,7 +117,7 @@ function rateExchangerExchangeUrl(rate, exch) {
         url = exch.exUrlTmpl.replace(/\{([\w-]+)\}/g, (full, key) => tr[key] || unknown.push(key));
     
     if (unknown.length > 0)
-        console.warn('exchangerExchangeUrl(): unknown parentesses {', unknown, '} in the url', url);
+        console.warn('rateExchangerExchangeUrl(', rate, exch, '): unknown parentesses {', unknown, '} in the url', url);
     
     return url;
 }
