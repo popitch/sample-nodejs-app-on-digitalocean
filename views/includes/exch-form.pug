@@ -1,4 +1,4 @@
-form#exchange-form(data-bind="with: exchangeRates.filter")
+//form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Отдаю
         .line
@@ -19,3 +19,53 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
             // #{ JSON.stringify( pairsToCurrenciesTo(getCountTree()) ) }
         //.line
             input(name="out", value="50000", disabled)
+
+//- FROM
+aside.fixed.from(data-currency-list data-bind="\
+    template: { name: 'from-currency.template', foreach: PAIRS_FROM },\
+    event: exchangeRates.CURRENCY_LIST_EVENTS($element),\
+")
+    //- SSR from
+    for currency in pairsToCurrenciesFrom(getCountTree())
+        label(class=[ symbol === exchange.form.from && 'selected', symbol === exchange.form.to && 'disabled' ].filter(i=>i).join(' '))
+            input(type="radio" value=symbol checked=(symbol === exchange.form.from) disable=(symbol === exchange.form.to))
+            span(data-bind="text: name")
+
+script(type="html/template" id="from-currency.template")
+    <label data-bind="css: {\
+        selected: symbol === exchangeRates.filter.from(),\
+        disabled: symbol === exchangeRates.filter.to(),\
+    }">
+        <input type="radio" data-bind="\
+            value: symbol,\
+            checked: exchangeRates.filter.from,\
+            disable: symbol === exchangeRates.filter.filter.to(),\
+        "/>
+        <span data-bind="text: name"></span>
+        <sub data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]"></sub>
+    </label>
+
+//- TO
+aside.fixed.to(data-currency-list style="direction: rtl" data-bind="\
+    template: { name: 'to-currency.template', foreach: PAIRS_TO },
+    event: exchangeRates.CURRENCY_LIST_EVENTS($element)\
+")
+    //- SSR from
+    for currency in pairsToCurrenciesTo(getCountTree())
+        label(class=[ symbol === exchange.form.to && 'selected', symbol === exchange.form.from && 'disabled' ].filter(i=>i).join(' '))
+            input(type="radio" value=symbol checked=(symbol === exchange.form.to) disable=(symbol === exchange.form.from))
+            span(data-bind="text: name")
+
+script(type="html/template" id="to-currency.template")
+    <label style="direction: ltr" data-bind="css: {\
+        selected: symbol === exchangeRates.filter.to(),\
+        disabled: symbol === exchangeRates.filter.from(),\
+    }">
+        <sub data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]"></sub>
+        <span data-bind="text: name"></span>
+        <input type="radio" data-bind="
+            value: symbol,
+            checked: exchangeRates.filter.to,
+            disable: symbol === exchangeRates.filter.from(),
+         "/>
+    </label>

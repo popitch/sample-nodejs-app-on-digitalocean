@@ -85,7 +85,7 @@ body {
 /** form#exchange-form
  */
 #exchange-form {
-    display: flex;
+    display: none; /*flex;*/
     padding: 1em;
     -webkit-box-shadow: 1px 1px 9px 0px #c5c4c4;
     box-shadow: 1px 1px 9px 0px #c5c4c4;
