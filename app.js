@@ -83,10 +83,8 @@ app.get('/', (req, res) => {
     res.render('index', {
         title: 'Курсы обмена криптовалют',
         exchange: {
-            form: {
-                from: FROM,
-                to: TO,
-            }
+            form: { from: FROM, to: TO },
+            ratesPage: xmlEngine.getRatesByFT(FROM, TO),
         },
         formQueryString: 'from=' + FROM + '&to=' + TO,
     });
