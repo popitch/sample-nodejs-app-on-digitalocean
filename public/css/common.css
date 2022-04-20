@@ -138,6 +138,7 @@ body {
 /** footer
  */
 footer {
+	padding: 1em;
     min-height: 10em;
     background: gray;
 }
