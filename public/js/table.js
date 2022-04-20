@@ -95,6 +95,7 @@ const
                 sortBy  = ko.observable(jsConfig('by', sort[1] || 'from')),
                 sortDir = ko.observable(jsConfig('dir', sort[0] === '↓' ? 'desc' : 'asc'));
             
+            // subscribe to from|to change
             from_to.subscribe(_.throttle(ft => {
                 //console.log('from_to =', ft);
                 request();
@@ -367,8 +368,8 @@ const
                 exchangeRates.loading(false);
                 more();
             })
-            .catch(e => {
-                //console.warn('wow, error', e);
+            .catch((e) => {
+                console.warn('wow, error', e);
                 exchangeRates.loading(false);
                 exchangeRates.rates([]);
                 more();
