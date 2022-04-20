@@ -63,13 +63,11 @@ app.use((req, res, next) => {
         res.locals.moment = require('moment');
         
         // currencies consts
+        _.extend(res.locals, rateUtils);
         _.extend(res.locals, {
             getCountTree: () => xmlEngine.getCountTree(),
             getExchangerById: id => xmlEngine.getExchangerById(id),
         });
-        _.extend(res.locals,
-            rateUtils,
-        );
     }
     next();
 });

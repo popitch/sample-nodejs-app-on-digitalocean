@@ -3,19 +3,19 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
         h2 Отдаю
         .line
             select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: from, optionsCaption: 'Отдаю...', optionsText: 'name', optionsValue: 'symbol', valueAllowUnset: true")
-              each currency in pairsToCurrenciesFrom( pairsCountTree() )
+              each currency in pairsToCurrenciesFrom(getCountTree())
                 option(value = currency.symbol, selected = (currency.symbol == exchange.form.from))= currency.name
             
-            // #{ JSON.stringify( pairsToCurrenciesFrom(pairsCountTree()) ) }
+            // #{ JSON.stringify( pairsToCurrenciesFrom(getCountTree()) ) }
         .line
             input(name="in", value="0.02", disabled)
     .column
         h2 Получаю
         .line
             select(name="from", data-bind="options: pairsToCurrenciesTo(PAIRS()), value: to, optionsCaption: 'Получаю...', optionsText: 'name', optionsValue: 'symbol', valueAllowUnset: true")
-              each currency in pairsToCurrenciesTo( pairsCountTree() )
+              each currency in pairsToCurrenciesTo(getCountTree())
                 option(value = currency.symbol, selected = (currency.symbol == exchange.form.to))= currency.name
             
-            // #{ JSON.stringify( pairsToCurrenciesTo(pairsCountTree()) ) }
+            // #{ JSON.stringify( pairsToCurrenciesTo(getCountTree()) ) }
         .line
             input(name="out", value="50000", disabled)
