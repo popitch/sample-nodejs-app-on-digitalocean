@@ -10,7 +10,7 @@ table.rates#exchange-table
     tbody(style="color: transparent" data-bind="template: {\
         name: 'rate-tr.template',\
         foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating,\
-        style: "color: inherit"\
+        style: 'color: inherit'\
     }")
         //- SSR with result rates page
         for rate in exchange.ratesPage
