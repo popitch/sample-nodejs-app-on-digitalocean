@@ -23,8 +23,9 @@ module.exports = {
     touchesAll: () => Cached.pairs.all(),
     ratesAll: () => Cached.pairs.all().flatMap(t => t.rates),
     ratesByExchangerId: () => _.groupBy(Cached.pairs.all().flatMap(t => t.rates), 'exchangerId'),
+    
     getCountTree: () => Cached.pairs.getCountTree(),
-    getRatesByFT: () => Cached.pairs.getRatesByFT(),
+    getRatesByFT: (from, to) => Cached.pairs.getRatesByFT(from, to),
     getExchangerById: (id) => _.find(Exchangers, exch => exch.id == id),
     
     aggregator: {
