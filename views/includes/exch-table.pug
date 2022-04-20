@@ -15,7 +15,8 @@ table.rates#exchange-table
                         i(title = FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag, class="rate-flag rate-flag-" + flag.substr(0, 1))
                 
                 td(class="rate-col rate-changer")
-                    a(href = rateExchangerExchangeUrl(rate, getExchangerById(rate.exchangerId)), target="_blank")
+                    - var exchanger = getExchangerById(rate.exchangerId)
+                    a(href = rateExchangerExchangeUrl(rate, exchanger), target="_blank")
                         = exchanger.name
                 
                 td.rate-col.rate-from
