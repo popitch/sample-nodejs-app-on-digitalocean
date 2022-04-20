@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 
 // GET /
 app.get('/', (req, res) => {
-    const FROM = "BTC", TO = "P24UAH";
+    const FROM = "BTC", TO = "P24UAH"; // defaults
     
     res.render('index', {
         title: 'Курсы обмена криптовалют',
