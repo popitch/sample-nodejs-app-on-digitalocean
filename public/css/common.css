@@ -1,4 +1,5 @@
 body.site-layout {
+	display: block;
     margin: auto;
     /* max-width: 1200px; */
     max-width: 960px;
