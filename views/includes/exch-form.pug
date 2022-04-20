@@ -21,10 +21,7 @@
             input(name="out", value="50000", disabled)
 
 //- FROM
-aside.fixed.from(data-currency-list data-bind="\
-    template: { name: 'from-currency.template', foreach: PAIRS_FROM },\
-    event: exchangeRates.CURRENCY_LIST_EVENTS($element),\
-")
+aside.fixed.from(data-currency-list=true data-bind="template: { name: 'from-currency.template', foreach: PAIRS_FROM }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
     //- SSR from
     for currency in pairsToCurrenciesFrom(getCountTree())
         label(class=[ symbol === exchange.form.from && 'selected', symbol === exchange.form.to && 'disabled' ].filter(i=>i).join(' '))
@@ -39,11 +36,8 @@ script(type="html/template" id="from-currency.template")
     </label>
 
 //- TO
-aside.fixed.to(data-currency-list style="direction: rtl" data-bind="\
-    template: { name: 'to-currency.template', foreach: PAIRS_TO },
-    event: exchangeRates.CURRENCY_LIST_EVENTS($element)\
-")
-    //- SSR from
+aside.fixed.to(data-currency-list=true style="direction: rtl" data-bind="template: { name: 'to-currency.template', foreach: PAIRS_TO }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
+    //- SSR to
     for currency in pairsToCurrenciesTo(getCountTree())
         label(class=[ symbol === exchange.form.to && 'selected', symbol === exchange.form.from && 'disabled' ].filter(i=>i).join(' '))
             input(type="radio" value=symbol checked=(symbol === exchange.form.to) disable=(symbol === exchange.form.from))
