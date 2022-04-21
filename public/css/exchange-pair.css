@@ -103,7 +103,7 @@
     display: inline;
     margin-left: .6em;
 	font-size: .6em;
-    color: #bf6e20;
+    color: gray;/*ebanutso #bf6e20;*/
 }
 
 .rates .rate-flags,
