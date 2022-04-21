@@ -1,5 +1,5 @@
-<!--
-form#exchange-form(data-bind="with: exchangeRates.filter")
+//
+ form#exchange-form(data-bind="with: exchangeRates.filter")
     .column
         h2 Отдаю
         .line
@@ -20,7 +20,6 @@ form#exchange-form(data-bind="with: exchangeRates.filter")
             // #{ JSON.stringify( pairsToCurrenciesTo(getCountTree()) ) }
         //.line
             input(name="out", value="50000", disabled)
--->
 
 //- FROM
 aside.fixed.from(data-currency-list=true data-bind="template: { name: 'from-currency.template', foreach: PAIRS_FROM }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
