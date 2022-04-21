@@ -32,6 +32,8 @@ module.exports = {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
         exchangersCount: () => Exchangers ? Exchangers.length : 0,
         process: () => aggProcessState,
+        
+        oldestUpdatedAt: () => _.min(Exchangers.map(e => new Date(e.updatedAt))),
     },
 };
 
