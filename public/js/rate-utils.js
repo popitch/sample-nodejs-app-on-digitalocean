@@ -137,5 +137,7 @@ if (typeof module !== 'undefined') {
         pairsToCurrenciesTo: pairsToCurrenciesTo,
         
         rateExchangerExchangeUrl: rateExchangerExchangeUrl,
+        
+        currencyFN: (symbol) => CURRENCY_NAME_BY_SYMBOL[symbol] || symbol,
     };
 }

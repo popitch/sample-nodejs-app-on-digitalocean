@@ -9,7 +9,14 @@ block pre-header
 block content
     h1(data-bind="text: exchangeRates.page.title")= title
     
-    != '<!-- ' + JSON.stringify(exchange.form) + ' => ' + JSON.stringify(exchange.ratesPage) + '-->'
+    p
+        | На данной странице собран перечень обменных пунктов, работающих с обменом криптовалют по направлению #{currencyFN(exchange.form.from)} – #{currencyFN(exchange.form.to)}.
+        | Вы можете сортировать их по убыванию и возрастанию курса, резерву, рейтингу обменника на основе отзывов.
+        | Это поможет выбрать оптимальный курс, найти наиболее выгодное предложение.
+        | Информация регулярно обновляется, так что вы получаете свежие, актуальные сведения по данному направлению обмена.
+        | Все указанные обменники прошли тщательную проверку и подтвердили свою надежность на практике.
+    
+    //- != '<!-- ' + JSON.stringify(exchange.form) + ' => ' + JSON.stringify(exchange.ratesPage) + '-->'
     
     include includes/exch-table.pug
 
