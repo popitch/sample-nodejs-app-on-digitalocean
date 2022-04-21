@@ -60,7 +60,9 @@ app.use((req, res, next) => {
         res.locals.aggregator = xmlEngine.aggregator;
         
         // moment.js
-        res.locals.moment = require('moment').locale('ru');
+        res.locals.moment = require('moment');
+        import 'moment/locale/ru';  // without this line it didn't work
+        res.locals.moment.locale('ru');
         
         // currencies consts
         _.extend(res.locals, rateUtils);
