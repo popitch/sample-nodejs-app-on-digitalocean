@@ -1,0 +1,17 @@
+header
+    ul.top-status-line
+        li
+            | Всего курсов:
+            em.value= aggregator.pairsCount()
+            | Обменников:
+            em.value #{aggregator.exchangersCount()}
+            | Обновление:
+            em.value #{moment( aggregator.oldestUpdatedAt() ).fromNow()}
+    
+    div.logo Exnode
+    
+    ul.menu
+        li.active
+            a(href="/") Главная
+        //li
+            a(href="/table.html") Обмен валюты
