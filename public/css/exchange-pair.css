@@ -67,8 +67,8 @@
 .rates tbody tr:nth-child(odd){
 	background: linear-gradient(to right,
 	    rgba(244,244,244,0),
-	    rgba(244,244,244,1) 5%,
-	    rgba(244,244,244,1) 95%,
+	    rgb(136 220 49 / 52%) 5%,
+	    rgba(136 220 49 /70%) 100%,
 	    rgba(244,244,244,0)
     );
 }
