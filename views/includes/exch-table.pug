@@ -27,10 +27,12 @@ table.rates#exchange-table
                         = exchanger.name
                 
                 td.rate-col.rate-from
-                    = rate["in"] + ' ' + (CURRENCY_NAME_BY_SYMBOL[rate.from] || rate.from)
+                    .float= rate["in"]
+                    .currency= CURRENCY_NAME_BY_SYMBOL[rate.from] || rate.from
                 
                 td.rate-col.rate-to
-                    = rate["out"] + ' ' + (CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to)
+                    .float= rate["out"]
+                    .currency= CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to
                 
                 td.rate-col.rate-amount
                     = rate["amount"]
