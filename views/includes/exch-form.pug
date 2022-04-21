@@ -33,7 +33,7 @@ script(type="html/template" id="from-currency.template")
     label(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.from, disable: symbol === exchangeRates.filter.to()")
         span(data-bind="text: name")
-        sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
+        //sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
 
 //- TO
 aside.fixed.to(data-currency-list=true style="direction: rtl" data-bind="template: { name: 'to-currency.template', foreach: PAIRS_TO }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
@@ -45,6 +45,6 @@ aside.fixed.to(data-currency-list=true style="direction: rtl" data-bind="templat
 
 script(type="html/template" id="to-currency.template")
     label(data-bind="css: { selected: symbol === exchangeRates.filter.to(), disabled: symbol === exchangeRates.filter.from() }" style="direction: ltr")
-        sub(data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]")
+        //sub(data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]")
         span(data-bind="text: name")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.to, disable: symbol === exchangeRates.filter.from()")
