@@ -148,8 +148,12 @@ connThen(async (db) => {
 
     console.log('Initial Exchangers:', await db.models.Exchanger.count({ logging: false }));
     console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
-
-    return db;
+    
+    // warm up the cache
+    console.log('Warm up the cache...');
+    
+    
+    //return db;
 }).catch(console.log);
 
 
