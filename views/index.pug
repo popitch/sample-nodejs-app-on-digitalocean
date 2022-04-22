@@ -10,8 +10,8 @@ block content
     h1(data-bind="text: exchangeRates.page.title")= title
     
     p
-        | На данной странице собран перечень обменных пунктов, работающих с обменом криптовалют по направлению
-        strong(data-bind="text: currencyToName(exchangeRates.filter.from())")= currencyToName(exchange.form.from)
+        | На данной странице собран перечень обменных пунктов, работающих с обменом криптовалют по направлению 
+        strong(data-bind="text: currencyToName(exchangeRates.filter.from())")= currencyToName(exchange.form.from) 
         | – 
         strong(data-bind="text: currencyToName(exchangeRates.filter.to())")= currencyToName(exchange.form.to)
         | . Вы можете сортировать их по убыванию и возрастанию курса, резерву, рейтингу обменника на основе отзывов.
@@ -24,9 +24,9 @@ block content
     include includes/exch-table.pug
     
     h2 Это быстро и удобно
-    p Мы помогаем экономить время на поиск оптимального обменника, предоставляющего услуги по обмену криптовалюты
-        em(data-bind="text: currencyToName(exchangeRates.filter.from())")= currencyToName(exchange.form.from)
-        | на
+    p Мы помогаем экономить время на поиск оптимального обменника, предоставляющего услуги по обмену криптовалюты 
+        em(data-bind="text: currencyToName(exchangeRates.filter.from())")= currencyToName(exchange.form.from) 
+        | на 
         em(data-bind="text: currencyToName(exchangeRates.filter.to())")= currencyToName(exchange.form.to)
         | .
         | На данной странице вы можете получить всю необходимую информацию, быстро найти подходящий пункт и перейти на сайт по клику мышки.
