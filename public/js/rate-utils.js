@@ -133,6 +133,7 @@ function numberWithSpaces(x, fixed) {
     //return parts.map(p => p.replace(/\B(?=(\d{3})+(?!\d))/g, " ")).join(".");
 }
 
+const currencyToName = (symbol) => CURRENCY_NAME_BY_SYMBOL[symbol] || symbol;
 
 // module.exports for SSR
 if (typeof module !== 'undefined') {
@@ -152,6 +153,6 @@ if (typeof module !== 'undefined') {
         rateExchangerExchangeUrl: rateExchangerExchangeUrl,
         numberWithSpaces: numberWithSpaces,
         
-        currencyToName: (symbol) => CURRENCY_NAME_BY_SYMBOL[symbol] || symbol,
+        currencyToName: currencyToName,
     };
 }
