@@ -397,4 +397,10 @@ $(() => {
     request();
     ko.applyBindings(exchangeRates, document.head);
     ko.applyBindings(exchangeRates, document.body);
+    
+    // debug me
+    exchangeRates.rates.subscribe(a) {
+        if (! e.length)
+            console.log('exchangeRates.rates([]) happens');
+    }
 });
