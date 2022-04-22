@@ -297,9 +297,9 @@ function numberWithSpaces(x, fixed) {
     //return parts.map(p => p.replace(/\B(?=(\d{3})+(?!\d))/g, " ")).join(".");
 }
 
-const currencyToName = _.extend(
+const currencyToName = Object.assign(
     (symbol, options) => {
-        _.defaults(options, currencyToName.defaults);
+        Object.assign({}, currencyToName.defaults, options);
         
         let result = ('ru' === options.locale) && RU_CURRENCY_NAME_BY_SYMBOL[symbol];
         
