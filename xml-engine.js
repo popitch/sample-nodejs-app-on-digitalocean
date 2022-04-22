@@ -49,9 +49,7 @@ const Cached = {
             
             fs.mkdirSync(dir, /*0744,*/ { recursive: true });
         }
-        
         fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
-        
         return Cached;
     },
     

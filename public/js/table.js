@@ -24,7 +24,7 @@ const
                 .filter(p => p)
                 .reduce((config, pair) => (pair = pair.split('='), config[pair[0]] = pair[1] || true, config), {});
             
-            console.log('<script src="table.js">', tableJs, 'with params', config);
+            //console.log('<script src="table.js">', tableJs, 'with params', config);
             return (key, defaults) => config[key] || defaults;
         }
     })(),
