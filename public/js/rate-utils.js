@@ -299,7 +299,7 @@ function numberWithSpaces(x, fixed) {
 
 const currencyToName = Object.assign(
     (symbol, options) => {
-        Object.assign({}, currencyToName.defaults, options);
+        options = Object.assign({}, currencyToName.defaults, options);
         
         let result = ('ru' === options.locale) && RU_CURRENCY_NAME_BY_SYMBOL[symbol];
         
