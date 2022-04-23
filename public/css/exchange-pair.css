@@ -28,7 +28,7 @@
     color: transparent !important;
 }
 .rates * {
-    transition: background-color .62s, color .4s;
+    transition: background-color .62s, color .38s;
 }
 
 .rates td:empty {
