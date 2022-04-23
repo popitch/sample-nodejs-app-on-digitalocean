@@ -36,7 +36,7 @@ table.rates#exchange-table
                     .currency= CURRENCY_NAME_BY_SYMBOL[rate.to] || rate.to
                 
                 td.rate-col.rate-amount
-                    = rate["amount"]
+                    = Number(rate["amount"]).toFixed(4)
 //
     tbody(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
         tr
