@@ -265,7 +265,7 @@ const
                     
                     $cont.stop().animate({
                         scrollTop: selectedPosition - .38 * $cont.height()
-                            + $(document).scrollTop() // page scroll's pos
+                            - $(document).scrollTop() // page scroll's pos
                     }, 500, 'swing');
                     
                     //console.log(event ? event.type : 'initial', $selected[0], selectedPosition, '/', $cont.height());
