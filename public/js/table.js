@@ -396,8 +396,9 @@ $(() => {
     
     // debug me
     exchangeRates.rates.subscribe(a => {
+        console.log('exchangeRates.rates([', a.length, '])');
         if (! a.length)
-            console.log('exchangeRates.rates([]) happens');
+            console.warn('exchangeRates.rates([]) happens');
     });
     
     request();
