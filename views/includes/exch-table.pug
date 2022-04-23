@@ -1,4 +1,4 @@
-table.rates#exchange-table
+table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
     thead(data-bind="with: filter")
         tr(data-bind="css: 'sort-dir_' + sortDir()")
             th.rate-col.rate-service( data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }", style="color: transparent") ...
@@ -7,7 +7,7 @@ table.rates#exchange-table
             th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
-    tbody.initial(data-bind="template: { name: 'rate-tr.template', foreach: rates.sortedDirectedFixedFloating }, attr: { 'class': '' }")
+    tbody(data-bind="template: { name: 'rate-tr.template', foreach: rates.sortedDirectedFixedFloating }")
         //- SSR with result rates page
         for rate in exchange.ratesPage
             tr
