@@ -256,7 +256,9 @@ const
             
             function scroll(exchangeRates, event) {
                 leaveTimeout = setTimeout(() => {
-                    const $selected = $cont.find(':radio:checked').parent();
+                    const $selected = $cont.find(':radio:checked').parent(),
+                        pageYScrollPos = $(document).scrollTop() // page scroll's pos;
+                    
                     if (! $selected[0]) {
                         scroll(exchangeRates, event);
                         return;
@@ -264,8 +266,7 @@ const
                     const selectedPosition = $selected.offset().top + $cont.scrollTop();
                     
                     $cont.stop().animate({
-                        scrollTop: selectedPosition - .38 * $cont.height()
-                            - $(document).scrollTop() // page scroll's pos
+                        scrollTop: selectedPosition - .38 * $cont.height() - pageYScrollPos
                     }, 500, 'swing');
                     
                     //console.log(event ? event.type : 'initial', $selected[0], selectedPosition, '/', $cont.height());
