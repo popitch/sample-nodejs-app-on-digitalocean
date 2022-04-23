@@ -369,6 +369,8 @@ const
                 
                 exchangeRates.loading(false);
                 more();
+                
+                _.isFunction(done) && done();
             })
             .catch((e) => {
                 console.warn('wow, error', e);
@@ -403,7 +405,8 @@ $(() => {
             console.warn('exchangeRates.rates([]) happens');
     });
     
-    request();
-    ko.applyBindings(exchangeRates, document.head);
-    ko.applyBindings(exchangeRates, document.body);
+    request(() => {
+        ko.applyBindings(exchangeRates, document.head);
+        ko.applyBindings(exchangeRates, document.body);
+    });
 });
