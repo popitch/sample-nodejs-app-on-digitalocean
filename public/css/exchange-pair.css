@@ -26,6 +26,7 @@
 /* color transitions */
 .rates .initial * {
     color: transparent !important;
+    background-color: transparent !important;
 }
 .rates * {
     transition: background-color .62s, color .38s;
