@@ -15,6 +15,7 @@ table.rates#exchange-table
         }\
     ")
         //- SSR with result rates page
+        != '<!-- SSR load: ' + JSON.stringify(exchange.ratesPage) + ' -->'
         for rate in exchange.ratesPage
             tr
                 td(class="rate-col rate-flags")
