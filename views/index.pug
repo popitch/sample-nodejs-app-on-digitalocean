@@ -75,4 +75,4 @@ append scripts
             td.rate-col.rate-to(data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to']   } }")
             td.rate-col.rate-amount(data-bind="text: $data['amount']")
     
-    script(src = "/js/table.js?" + formQueryString)
+    script(src = "/js/table.js?" + formQueryString + '&ver=' + 0)
