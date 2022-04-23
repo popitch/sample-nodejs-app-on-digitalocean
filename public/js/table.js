@@ -228,12 +228,12 @@ const
             }, this, { deferEvaluation: true });
             
             // rates table
-            rates.table = ko.observableArray([]);
+            //rates.table = ko.observableArray([]);
             
             // "diff"-style replace
-            rates.sortedDirectedFixedFloating.subscribe(table => {
-                rates.table.splice.call(rates.table, [0, rates.table().length].concat(table));
-            }, this, { deferEvaluation: true });
+            //rates.sortedDirectedFixedFloating.subscribe(table => {
+            //    rates.table.splice.call(rates.table, [0, rates.table().length].concat(table));
+            //}, this, { deferEvaluation: true });
             
             return rates;
         })(),
