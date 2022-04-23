@@ -24,11 +24,11 @@
 }
 
 /* color transitions */
-.rates .initial * {
+.rates table.initial * {
     color: transparent !important;
     background-color: transparent !important;
 }
-.rates * {
+.rates table * {
     transition: background-color .62s, color .38s;
 }
 
