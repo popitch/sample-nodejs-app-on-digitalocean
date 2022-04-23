@@ -23,6 +23,10 @@
     border-spacing: 0;
 }
 
+/* color transitions */
+.rates .initial * {
+    color: transparent !important;
+}
 .rates * {
     transition: background-color .62s, color .4s;
 }

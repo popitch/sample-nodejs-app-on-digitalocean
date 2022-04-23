@@ -7,15 +7,8 @@ table.rates#exchange-table
             th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
-    tbody(style="color: transparent !important" data-bind="\
-        template: {\
-            name: 'rate-tr.template',\
-            foreach: /*TABLE_STUB_DATA ||*/ rates.sortedDirectedFixedFloating,\
-            style: 'color: inherit'\
-        }\
-    ")
+    tbody.initial(data-bind="template: { name: 'rate-tr.template', foreach: rates.sortedDirectedFixedFloating }, css: { initial: false } }")
         //- SSR with result rates page
-        != '<!-- SSR load: ' + JSON.stringify(exchange.ratesPage) + ' -->'
         for rate in exchange.ratesPage
             tr
                 td(class="rate-col rate-flags")
