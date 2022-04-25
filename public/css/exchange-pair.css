@@ -26,7 +26,9 @@
 /* color transitions */
 .rates table.initial * {
     color: transparent !important;
-    background-color: transparent !important;
+}
+.rates table.initial tr:nth-child(odd) {
+    background: transparent !important;
 }
 .rates table * {
     transition: background .42s, color .38s;
@@ -73,7 +75,7 @@
 .rates tbody tr {
     color: black;
 }
-.rates tbody tr:nth-child(odd){
+.rates tbody tr:nth-child(odd) {
 	background: linear-gradient(to right,
 		rgba(244,244,244,0),
 		rgb(136 220 49 / 20%) 5%,
@@ -175,10 +177,10 @@
     overflow-x: visible;
 }
 .rates aside label:not(.disabled):hover {
-	background-color: #c6e8f3;
+	background: #c6e8f3;
 }
 .rates aside label.selected {
-	background-color: #7dcde7;
+	background: #7dcde7;
 }
 .rates aside sub {
 	color: lightgray;
