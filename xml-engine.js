@@ -36,10 +36,16 @@ module.exports = {
         oldestUpdatedAt: () => _.min(Exchangers.map(e => new Date(e.updatedAt))),
     },
     
-    // to warm up rates cache
+    // to warm up rates cache (app init)
     warmUpRatesCache: async() => {
         const initialRates = await dbConn.db.models.ExchangeRate.findAll();
+        console.log('Warm up with rates JSON size:', JSON.stringify(initialRates).length);
+        
+        // touch to any initial rate => starts saving files to FS
         initialRates.map((rate) => Cached.pairs.touch(rate.from, rate.to, rate));
+        
+        // write (to fs) /cached/pairs.json etc.
+        Cached.putAll();
     },
 };
 
