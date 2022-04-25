@@ -152,8 +152,8 @@ connThen(async (db) => {
     // warm up the cache
     console.time('Warm up the rates file cache...');
     setTimeout(async() => {
-        const tractor = require('xml-engine');
-        await tractor.warmRatesUp();
+        const xmlEngine = require('./xml-engine');
+        await xmlEngine.warmRatesUp();
         console.timeEnd('Warm up the rates file cache...');
     });
     
