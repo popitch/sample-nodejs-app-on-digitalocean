@@ -23,15 +23,17 @@
     border-spacing: 0;
 }
 
-/* color transitions */
+/* initial transparent & transition  */
 .rates table.initial * {
     color: transparent !important;
+    box-shadow: none;
+    border-color: transparent;
 }
 .rates table.initial tr:nth-child(odd) {
     background: transparent !important;
 }
 .rates table * {
-    transition: background .42s, color .38s;
+    transition: background .42s, border-color .38s, color .38s;
 }
 
 .rates td:empty {
