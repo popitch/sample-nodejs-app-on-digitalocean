@@ -35,6 +35,11 @@ module.exports = {
         
         oldestUpdatedAt: () => _.min(Exchangers.map(e => new Date(e.updatedAt))),
     },
+    
+    // to warm up rates cache
+    warmRatesUp: async() => {
+        console.log('warm up rates cache here');
+    },
 };
 
 // writer of /cached/(*).json

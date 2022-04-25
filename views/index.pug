@@ -11,9 +11,11 @@ block content
     
     p
         | На данной странице собран перечень обменных пунктов, работающих с обменом криптовалют по направлению 
+        
         em(data-bind="text: currencyToName(exchangeRates.filter.from())")= currencyToName(exchange.form.from)
         |  – 
         em(data-bind="text: currencyToName(exchangeRates.filter.to())")= currencyToName(exchange.form.to)
+        
         | . Вы можете сортировать их по убыванию и возрастанию курса, резерву, рейтингу обменника на основе отзывов.
         | Это поможет выбрать оптимальный курс, найти наиболее выгодное предложение.
         | Информация регулярно обновляется, так что вы получаете свежие, актуальные сведения по данному направлению обмена.
@@ -27,9 +29,9 @@ block content
     p Мы помогаем экономить время на поиск оптимального обменника, 
         | предоставляющего услуги по обмену криптовалюты 
         
-        em(data-bind="text: currencyToName(exchangeRates.filter.from(), { locale: 'ru' })")= currencyToName(exchange.form.from)
+        em(data-bind="text: currencyToName(exchangeRates.filter.from(), { locale: 'ru' })")= currencyToName(exchange.form.from, { locale: 'ru' }))
         |  на 
-        em(data-bind="text: currencyToName(exchangeRates.filter.to(), { locale: 'ru' })")= currencyToName(exchange.form.to)
+        em(data-bind="text: currencyToName(exchangeRates.filter.to(), { locale: 'ru' })")= currencyToName(exchange.form.to, { locale: 'ru' }))
         
         | . На данной странице вы можете получить всю необходимую информацию, быстро найти подходящий пункт и перейти на сайт по клику мышки.
         | Это прекрасное решение как для новичков, только знакомящихся с обменом криптовалют в интернете, так и для тех, кто использует подобные сервисы постоянно и хочет найти самое выгодное предложение на данный момент.
