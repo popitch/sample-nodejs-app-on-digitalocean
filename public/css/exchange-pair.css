@@ -29,7 +29,7 @@
     background-color: transparent !important;
 }
 .rates table * {
-    transition: background-color .42s, color .38s;
+    transition: background .42s, color .38s;
 }
 
 .rates td:empty {
