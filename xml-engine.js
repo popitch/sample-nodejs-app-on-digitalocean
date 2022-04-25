@@ -38,7 +38,7 @@ module.exports = {
     
     // to warm up rates cache
     warmUpRatesCache: async() => {
-        const initialRates = await db.models.ExchangeRate.findAll();
+        const initialRates = await dbConn.db.models.ExchangeRate.findAll();
         initialRates.map((rate) => Cached.pairs.touch(rate.from, rate.to, rate));
     },
 };
