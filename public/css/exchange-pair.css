@@ -35,6 +35,9 @@
 .rates table * {
     transition: background .42s, border-color .38s, color .38s;
 }
+.rates table thead * {
+    transition: background .2s, border-color .2s, color .2s;
+}
 
 .rates td:empty {
 	color: transparent;
