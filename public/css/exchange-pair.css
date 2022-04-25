@@ -26,8 +26,8 @@
 /* initial transparent & transition  */
 .rates table.initial * {
     color: transparent !important;
-    box-shadow: none;
-    border-color: transparent;
+    box-shadow: none !important;
+    border-color: transparent !important;
 }
 .rates table.initial tr:nth-child(odd) {
     background: transparent !important;
