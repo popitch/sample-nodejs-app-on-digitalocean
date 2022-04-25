@@ -150,11 +150,11 @@ connThen(async (db) => {
     console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
     
     // warm up the cache
-    console.time('Warm up the rates file cache...');
+    console.time('Warm up the rate files cache...');
     setTimeout(async() => {
         const xmlEngine = require('./xml-engine');
-        await xmlEngine.warmRatesUp();
-        console.timeEnd('Warm up the rates file cache...');
+        await xmlEngine.warmUpRatesCache();
+        console.timeEnd('Warm up the rate files cache...');
     });
     
     //return db;
