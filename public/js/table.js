@@ -255,7 +255,8 @@ const
                         futureRows.forEach(futureRow => {
                             if (futureRow.pastRow) {
                                 while (rows()[index] !== futureRow.pastRow) {
-                                    console.log('mutable array: remove one by', index, 'with', rows()[index]);
+                                    console.log('mutable array: remove past one by', index, 'with', rows()[index]);
+                                    if (! rows()[index]) { debugger; return console.error('fkn mutable))'); }
                                     // remove past one
                                     rows.splice(index, 1);
                                 }
