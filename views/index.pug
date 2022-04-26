@@ -63,18 +63,4 @@ block content
     p Также просим сообщать через обратную связь о замеченных ошибках в расчетах. Это поможет нам сделать рейтинг обменных пунктов более функциональным и полезным для вас.
 
 append scripts
-    script(type="html/template" id="number-currency.template")
-        .float(data-bind="text: value")
-        .currency(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
-    
-    script(type="html/template" id="rate-tr.template")
-        tr
-            td.rate-col.rate-flags(data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))")
-                i.rate-flag(title data-bind="css: 'rate-flag-' + flag, attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }")
-            td.rate-col.rate-changer(data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]")
-                a(href target="_blank" data-bind="text: name, attr: { href: rateExchangerExchangeUrl($parent, $data) }")
-            td.rate-col.rate-from(data-bind="template: { name: 'number-currency.template', data: { value: $data['in'],  symbol: $data['from'] } }")
-            td.rate-col.rate-to(data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to']   } }")
-            td.rate-col.rate-amount(data-bind="text: $data['amount']")
-    
     script(src = "/js/table.js?" + formQueryString + '&ver=' + 0)

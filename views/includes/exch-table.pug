@@ -1,3 +1,19 @@
+//- ko templates
+script(type="html/template" id="rate-tr.template")
+    tr(data-bind="with: ko.unwrap($data)")
+        td.rate-col.rate-flags(data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))")
+            i.rate-flag(title data-bind="css: 'rate-flag-' + flag, attr: { title: FLAG_BY_SYMBOL[flag] && FLAG_BY_SYMBOL[flag].title || flag }")
+        td.rate-col.rate-changer(data-bind="with: EXCHANGER_BY_ID()[ exchangerId ]")
+            a(href target="_blank" data-bind="text: name, attr: { href: rateExchangerExchangeUrl($parent, $data) }")
+        td.rate-col.rate-from(data-bind="template: { name: 'number-currency.template', data: { value: $data['in'],  symbol: $data['from'] } }")
+        td.rate-col.rate-to(data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to']   } }")
+        td.rate-col.rate-amount(data-bind="text: $data['amount']")
+
+script(type="html/template" id="number-currency.template")
+    .float(data-bind="text: value")
+    .currency(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
+
+//- table
 table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
     thead(data-bind="with: filter")
         tr(data-bind="css: 'sort-dir_' + sortDir()")
@@ -7,7 +23,7 @@ table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
             th.rate-col.rate-to(      data-bind="css: { 'sort-by': sortBy() === 'to' },      click: () => toSort('to')"     ) Получаете
             th.rate-col.rate-amount(  data-bind="css: { 'sort-by': sortBy() === 'amount' },  click: () => toSort('amount')" ) Резерв
     
-    tbody(data-bind="template: { name: 'rate-tr.template', foreach: rates.sortedDirectedFixedFloating }")
+    tbody(data-bind="template: { name: 'rate-tr.template', foreach: rates.mutableRowsArray() /* .sortedDirectedFixedFloating */ }")
         //- SSR with result rates page
         for rate in exchange.ratesPage
             tr
