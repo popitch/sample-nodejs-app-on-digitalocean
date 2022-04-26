@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
     const FROM = "BTC", TO = "P24UAH"; // defaults
     
     res.render('index', {
-        title: 'Курсы обмена криптовалют',
+        title: 'Мониторинг обменников',
         exchange: {
             form: { from: FROM, to: TO },
             ratesPage: xmlEngine.getRatesByFT(FROM, TO),
