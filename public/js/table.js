@@ -245,6 +245,8 @@ const
                         return _.extend(ko.observable(data), { key, pastRow: rows()[pastIndex] });
                     });
                     
+                    console.log('mutation array: keys', futureRows.map((r) => [r.key, !!r.pastRow]));
+                    
                     if (0 === rows().length) {
                         // simple init
                         rows(futureRows);
