@@ -252,30 +252,37 @@ const
                         rows(futureRows);
                     }
                     else {*/
-                        // diff-styled replace rows with next array
-                        let index = 0;
-                        futureRows.forEach(futureRow => {
-                            if (futureRow.pastRow) {
-                                while (rows()[index] !== futureRow.pastRow) {
-                                    console.log('mutable array: remove past one by', index, 'with', rows()[index]);
-                                    if (! rows()[index]) { debugger; return console.error('fkn mutable))'); }
-                                    // remove past one
-                                    rows.splice(index, 1);
-                                }
-                                // here (rows()[index] === futureRow.pastRow)
-                                
-                                console.log('mutable array: replace current by', index, 'with', futureRow());
-                                // replace current one with next
-                                futureRow.pastRow(futureRow());
-                                index++;
+                    
+                    // diff-styled replace rows with next array
+                    let index = 0;
+                    futureRows.forEach(futureRow => {
+                        if (futureRow.pastRow) {
+                            while (rows()[index] !== futureRow.pastRow) {
+                                console.log('mutable array: remove past one by', index, 'with', rows()[index]);
+                                if (! rows()[index]) { debugger; return console.error('fkn mutable))'); }
+                                // remove past one
+                                rows.splice(index, 1);
                             }
-                            else {
-                                console.log('mutable array: insert new one by', index, 'with',futureRow());
-                                // insert new one
-                                rows.splice(index, 0, futureRow());
-                                index++;
-                            }
-                        });
+                            // here (rows()[index] === futureRow.pastRow)
+                            
+                            console.log('mutable array: replace current by', index, 'with', futureRow());
+                            // replace current one with next value
+                            futureRow.pastRow(futureRow());
+                            index++;
+                        }
+                        else {
+                            console.log('mutable array: insert new one by', index, 'with',futureRow());
+                            // insert new one
+                            rows.splice(index, 0, futureRow);
+                            index++;
+                        }
+                    });
+                    
+                    if (index < rows().length) {
+                        // remove rows tail
+                        rows.splice(index, rows().length - index);
+                    }
+                    
                     //}
                     
                     return rows;
