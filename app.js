@@ -93,8 +93,9 @@ app.get('/', (req, res) => {
     });
 });
 
-// GET /fag
+// GET /... (view only)
 app.get('/faq', (req, res) => res.render('faq'));
+app.get('/exchangers', (req, res) => res.render('exchangers'));
 
 // GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
