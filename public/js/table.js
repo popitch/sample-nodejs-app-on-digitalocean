@@ -400,9 +400,9 @@ $(() => {
     
     // debug me
     exchangeRates.rates.subscribe(a => {
-        console.log('exchangeRates.rates([', a.length, '])');
+        //console.log('exchangeRates.rates([', a.length, '])');
         if (! a.length)
-            console.warn('exchangeRates.rates([]) happens');
+            console.warn('exchangeRates.rates([ 0 ]) happens');
     });
     
     request(() => {

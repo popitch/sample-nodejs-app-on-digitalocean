@@ -33,7 +33,7 @@
     background: transparent !important;
 }
 .rates table * {
-    transition: background .42s, border-color .38s, color .38s;
+    transition: background .2s, border-color .2s, color .2s;
 }
 .rates table thead * {
     transition: background .2s, border-color .2s, color .2s;
