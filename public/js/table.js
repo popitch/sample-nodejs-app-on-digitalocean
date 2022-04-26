@@ -215,7 +215,7 @@ const
             );
             
             // sorted, directed and fixed floating point
-            rates.sortedDirectedFixedFloating = ko.computed(() => {
+            rates.sortedDirectedFixedFloating = ko.lazy(() => {
                 const mflby = rates.MAX_FRACTION_LENGTH_BY();
                 
                 return rates.sortedDirected()
@@ -225,15 +225,56 @@ const
                         amount: numberWithSpaces(rate["amount"], mflby["amount"]),
                         exchanger: EXCHANGER_BY_ID[rate.exchangerId],
                     }));
-            }, this, { deferEvaluation: true });
+            });
             
             // rates table
-            //rates.table = ko.observableArray([]);
-            
-            // "diff"-style replace
-            //rates.sortedDirectedFixedFloating.subscribe(table => {
-            //    rates.table.splice.call(rates.table, [0, rates.table().length].concat(table));
-            //}, this, { deferEvaluation: true });
+            rates.mutableArrayRows = (() => {
+                const rows = ko.observableArray([]);
+                let lastRowIndex = -1;
+                
+                rates.sortedDirectedFixedFloating.subscribe(futureRows => {
+                    futureRows = futureRows.map(data => {
+                        const key = [data.from, data.to, data.exchangerId].join(),
+                            pastIndex = _.findIndex(rows(), row => row.key === key, lastRowIndex + 1);
+                        
+                        if (-1 !== pastIndex) {
+                            lastRowIndex = pastIndex;
+                        }
+                        
+                        return _.extend(ko.observable(data), { key, pastRow: rows()[pastIndex] });
+                    });
+                    
+                    if (0 === rows().length) {
+                        // simple init
+                        rows(futureRows);
+                        makeRowByKey();
+                    }
+                    else {
+                        // diff-styled replace rows with next array
+                        let index = 0;
+                        futureRows.forEach(futureRow => {
+                            if (futureRow.pastRow) {
+                                while (rows()[index] !== futureRow.pastRow) {
+                                    // remove past one
+                                    rows.splice(index, 1);
+                                }
+                                // here (rows()[index] === futureRow.pastRow)
+                                
+                                // replace current one with next
+                                futureRow.pastRow(futureRow());
+                                index++;
+                            }
+                            else if () {
+                                // insert new one
+                                rows.splice(index, 0, futureRow);
+                                index++;
+                            }
+                        });
+                    }
+                });
+                    
+                return rows;
+            })();
             
             return rates;
         })(),
