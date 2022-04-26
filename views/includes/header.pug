@@ -11,11 +11,11 @@ header
     div.logo Exnode
     
     ul.menu
-        li.de-active
+        li(class=("/"===urlPath) && "active")
             a(href="/") Главная
-        li
+        li(class=("/faq"===urlPath) && "active")
             a(href="/faq") F.A.Q.
-        li
+        li(class=("/exchangers"===urlPath) && "active")
             a(href="/exchangers") Обменники
-        li
+        li(class=("/contacts"===urlPath) && "active")
             a(href="/contacts") Контакты

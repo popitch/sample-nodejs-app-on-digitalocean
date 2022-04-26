@@ -68,9 +68,12 @@ app.use((req, res, next) => {
         _.extend(res.locals, {
             getCountTree: () => xmlEngine.getCountTree(),
             getExchangerById: id => xmlEngine.getExchangerById(id),
+            getExchangerList: () => xmlEngine.getExchangerList(),
         });
         
         res.locals.lo = _;
+        
+        res.locals.urlPath = req.path
     }
     next();
 });
