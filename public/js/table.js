@@ -228,7 +228,8 @@ const
             
             // rates table
             rates.mutableRowsArray = (() => {
-                const rows = ko.observableArray([]);
+                const rows = ko.observableArray([]),
+                    __source = rows().map(_.clone);
                 
                 return ko.lazy(() => {
                     let lastRowIndex = -1;
@@ -245,7 +246,9 @@ const
                         return _.extend(ko.observable(data), { key, pastRow: rows()[pastIndex] });
                     });
                     
-                    console.log('mutation array: keys', futureRows.map((r) => [r.key, !!r.pastRow]));
+                    const __target = futureRows.map(ko.unwrap).map(_.clone);
+                    
+                    //console.log('mutation array: keys', futureRows.map((r) => [r.key, !!r.pastRow]));
                     
                     /*if (0 === rows().length) {
                         // simple init
