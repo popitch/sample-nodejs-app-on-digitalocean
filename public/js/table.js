@@ -264,7 +264,7 @@ const
                                 futureRow.pastRow(futureRow());
                                 index++;
                             }
-                            else if () {
+                            else {
                                 // insert new one
                                 rows.splice(index, 0, futureRow);
                                 index++;
