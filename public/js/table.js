@@ -265,7 +265,7 @@ const
                             }
                             // here (rows()[index] === futureRow.pastRow)
                             
-                            if (! _.isEqual(futureRow.pastRow(), utureRow())) {
+                            if (! _.isEqual(futureRow.pastRow(), futureRow())) {
                                 console.log('mutable array: replace current by', index, 'with', futureRow());
                                 // replace current one with next value
                                 futureRow.pastRow(futureRow());

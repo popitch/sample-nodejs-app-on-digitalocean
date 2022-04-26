@@ -92,6 +92,9 @@ app.get('/', (req, res) => {
     });
 });
 
+// GET /fag
+app.get('/faq', (req, res) => res.render('faq'));
+
 // GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
     const countTree = xmlEngine.getCountTree(),
