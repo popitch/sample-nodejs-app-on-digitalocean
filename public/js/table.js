@@ -265,9 +265,11 @@ const
                             }
                             // here (rows()[index] === futureRow.pastRow)
                             
-                            console.log('mutable array: replace current by', index, 'with', futureRow());
-                            // replace current one with next value
-                            futureRow.pastRow(futureRow());
+                            if (! _.isEqual(futureRow.pastRow(), utureRow())) {
+                                console.log('mutable array: replace current by', index, 'with', futureRow());
+                                // replace current one with next value
+                                futureRow.pastRow(futureRow());
+                            }
                             index++;
                         }
                         else {
