@@ -126,7 +126,7 @@ app.get('/*-to-*', (req, res, next) => {
     console.log("Try to GET pair:", pair, '... rates count =', pageSize);
     
     
-    res.render('index', {
+    res.render('pair', {
         title: _.template('Обмен ${from} на ${to}')({
             from: rateUtils.CURRENCY_NAME_BY_SYMBOL[FROM] || FROM,
             to: rateUtils.CURRENCY_NAME_BY_SYMBOL[TO] || TO,
