@@ -227,16 +227,14 @@ const
             });
             
             // rates table
-            rates.mutableArrayRows = (() => {
+            rates.mutableRowsArray = (() => {
                 const rows = ko.observableArray([]);
-                let lastRowIndex = -1;
                 
-                rates.sortedDirectedFixedFloating.subscribe(futureRows => {
-                    // skip first immediate firing
-                    if ('undefined' === typeof exchangeRates) return;
-                    
+                return ko.lazy(() => {
+                    let lastRowIndex = -1;
+                
                     // update futureRows
-                    futureRows = futureRows.map(data => {
+                    const futureRows = rates.sortedDirectedFixedFloating().map(data => {
                         const key = [data.from, data.to, data.exchangerId].join(),
                             pastIndex = _.findIndex(rows(), row => row.key === key, lastRowIndex + 1);
                         
@@ -257,25 +255,26 @@ const
                         futureRows.forEach(futureRow => {
                             if (futureRow.pastRow) {
                                 while (rows()[index] !== futureRow.pastRow) {
+                                    console.log('mutable array: remove one by', index, 'with', rows()[index]);
                                     // remove past one
                                     rows.splice(index, 1);
                                 }
                                 // here (rows()[index] === futureRow.pastRow)
                                 
+                                console.log('mutable array: replace current by', index, 'with', futureRow());
                                 // replace current one with next
                                 futureRow.pastRow(futureRow());
                                 index++;
                             }
                             else {
+                                console.log('mutable array: insert new one by', index, 'with',futureRow());
                                 // insert new one
-                                rows.splice(index, 0, futureRow);
+                                rows.splice(index, 0, futureRow());
                                 index++;
                             }
                         });
                     }
                 });
-                    
-                return rows;
             })();
             
             return rates;
