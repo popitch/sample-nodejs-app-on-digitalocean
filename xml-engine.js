@@ -27,6 +27,7 @@ module.exports = {
     getCountTree: () => Cached.pairs.getCountTree(),
     getRatesByFT: (from, to) => Cached.pairs.getRatesByFT(from, to),
     getExchangerById: (id) => _.find(Exchangers, exch => exch.id == id),
+    getExchangerList: () => Exchangers ? Exchangers.filter(exch => exch.xmlVerified) : [],
     
     aggregator: {
         pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,

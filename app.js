@@ -61,7 +61,6 @@ app.use((req, res, next) => {
         
         // moment.js
         res.locals.moment = require('moment');
-        //import 'moment/locale/ru';  // without this line it didn't work
         res.locals.moment.locale('ru');
         
         // currencies consts
@@ -70,6 +69,8 @@ app.use((req, res, next) => {
             getCountTree: () => xmlEngine.getCountTree(),
             getExchangerById: id => xmlEngine.getExchangerById(id),
         });
+        
+        res.locals.lo = _;
     }
     next();
 });
