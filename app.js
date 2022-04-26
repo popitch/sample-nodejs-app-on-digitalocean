@@ -94,9 +94,15 @@ app.get('/', (req, res) => {
 });
 
 // GET /... (view only)
-app.get('/faq', (req, res) => res.render('faq'));
-app.get('/exchangers', (req, res) => res.render('exchangers'));
-app.get('/contacts', (req, res) => res.render('contacts'));
+app.get('/faq', (req, res) => res.render('faq', {
+    title: "Вопросы и ответы",
+}));
+app.get('/exchangers', (req, res) => res.render('exchangers', {
+    title: "Список всех обменных пунктов",
+}));
+app.get('/contacts', (req, res) => res.render('contacts', {
+    title: "Как с нами связаться",
+}));
 
 // GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
