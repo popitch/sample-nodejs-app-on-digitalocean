@@ -247,11 +247,11 @@ const
                     
                     console.log('mutation array: keys', futureRows.map((r) => [r.key, !!r.pastRow]));
                     
-                    if (0 === rows().length) {
+                    /*if (0 === rows().length) {
                         // simple init
                         rows(futureRows);
                     }
-                    else {
+                    else {*/
                         // diff-styled replace rows with next array
                         let index = 0;
                         futureRows.forEach(futureRow => {
@@ -276,7 +276,9 @@ const
                                 index++;
                             }
                         });
-                    }
+                    //}
+                    
+                    return rows;
                 });
             })();
             
