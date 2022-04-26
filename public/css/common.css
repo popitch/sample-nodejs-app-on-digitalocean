@@ -139,9 +139,13 @@ body.site-layout {
 /** footer
  */
 footer {
+	display: flex;
 	padding: 1em;
     min-height: 10em;
     background: gray;
+}
+footer .column {
+    flex: 50%;
 }
 
 
