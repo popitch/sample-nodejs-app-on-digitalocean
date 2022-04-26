@@ -141,8 +141,8 @@ body.site-layout {
 footer {
 	display: flex;
 	padding: 1em;
-    min-height: 10em;
-    background: gray;
+    /* min-height: 10em; */
+    background: lightgray;
 }
 footer .column {
     flex: 50%;
