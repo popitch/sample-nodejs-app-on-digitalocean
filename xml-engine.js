@@ -57,8 +57,6 @@ const Cached = {
         const dir = Cached.DIR + name.split('/').slice(0, -1).join('/');
             
         if (! fs.existsSync(dir)) {
-            console.log('mkdir', dir);
-            
             fs.mkdirSync(dir, /*0744,*/ { recursive: true });
         }
         fs.writeFile(Cached.DIR + name + '.json', JSON.stringify(data, null, 4), _.noop);
@@ -215,7 +213,7 @@ const Cached = {
 async function awaitWhileDBGetMyXmlVerifiedExchangersStuff() {
     const Exchanger = require('./db').db.models.Exchanger;
     
-    Exchangers = await Exchanger.findAll({ where: { xmlVerified: true } });
+    Exchangers = await Exchanger.findAll({ where: { xmlVerified: true }, logging: false });
     
     /* its been do into db.js from currently
     if (! Exchangers.length) {
@@ -379,8 +377,6 @@ dbConn.then(async (db) => {
             // update db rates
             dbConn.then(async (db) => {
                 begin('delete');
-                //const exchangerIds = _.uniq(ratesBulkClean.map(r => r.exchangerId));
-                // console.log('delete `exchangeRate` where exchangerId in', exchangerIds);
                 const deleteCount = await db.models.ExchangeRate.destroy({ where: { exchangerId: exch.id }, logging: false });
                 end('delete', deleteCount);
                 
@@ -448,29 +444,11 @@ dbConn.then(async (db) => {
             
             // update db with Exchangers
             try {
-                /*
-                for (var i = 0; i < Exchangers.length; i++) {
-                    const affectedExchangers = await db.models.Exchanger
-                        .bulkCreate([ Exchangers[i] ], {
-                            validate: true,
-                            //updateOnDuplicate: _.keys(schema.Exchanger.fields),
-                                //[ "xmlStartedAt", "xmlStage", "xmlParsedAt" ],
-                            logging: false,
-                        });
-            
-                    affectedExchangers.length &&
-                        console.warn('Affected exchanger', Exchangers[i]);
-                }
-                */
                 await exch.save();
-                
-                console.log('exch.save()', exch.updatedAt);
             } catch(e) {
-                console.warn('NOT Affected exchangers with error', e, 'with', exch/*Exchangers[i]*/);
+                console.warn('NOT Affected exchangers with error', e, 'with', exch);
                 return;
             }
-            //*/
-            //db.models.Exchanger.build(exch);
             
             // fix cached
             Cached.putAll();
