@@ -188,7 +188,7 @@ const
                 MAX_FRACTION_LENGTH_FIELDS = ['from', 'to', 'amount'];
             
             // sorted by
-            rates.sortedDirected = ko.computed(() => {
+            rates.sortedDirected = ko.lazy(() => {
                 const sorter = exchangeRates.filter.sorter(),
                     dir = exchangeRates.filter.sortDir(),
                     sorted = _.sortBy(rates(), sorter);
@@ -196,11 +196,11 @@ const
                 //console.log('dir', dir);
                 
                 return dir === 'desc' ? sorted.reverse() : sorted;
-            }, this, { deferEvaluation: true });
+            });
             
             // max frac len by key
-            rates.MAX_FRACTION_LENGTH_BY = ko.computed(
-                () => MAX_FRACTION_LENGTH_FIELDS
+            rates.MAX_FRACTION_LENGTH_BY = ko.lazy(() =>
+                MAX_FRACTION_LENGTH_FIELDS
                     .reduce((mflby, key) => {
                         mflby[key] = _.max(
                             rates()
@@ -210,8 +210,7 @@ const
                                 .map(s => (s || '').length)
                         );
                         return mflby;
-                    }, {}),
-                this, { deferEvaluation: true }
+                    }, {})
             );
             
             // sorted, directed and fixed floating point
@@ -233,6 +232,10 @@ const
                 let lastRowIndex = -1;
                 
                 rates.sortedDirectedFixedFloating.subscribe(futureRows => {
+                    // skip first immediate firing
+                    if ('undefined' === typeof exchangeRates) return;
+                    
+                    // update futureRows
                     futureRows = futureRows.map(data => {
                         const key = [data.from, data.to, data.exchangerId].join(),
                             pastIndex = _.findIndex(rows(), row => row.key === key, lastRowIndex + 1);
@@ -247,7 +250,6 @@ const
                     if (0 === rows().length) {
                         // simple init
                         rows(futureRows);
-                        makeRowByKey();
                     }
                     else {
                         // diff-styled replace rows with next array
