@@ -228,11 +228,11 @@ const
             
             // rates table
             rates.mutableRowsArray = (() => {
-                const rows = ko.observableArray([]),
-                    __source = rows().map(_.clone);
+                const rows = ko.observableArray([]);
                 
                 return ko.lazy(() => {
-                    let lastRowIndex = -1;
+                    let lastRowIndex = -1,
+                        __source = rows().map(_.clone);
                 
                     // update futureRows
                     const futureRows = rates.sortedDirectedFixedFloating().map(data => {
