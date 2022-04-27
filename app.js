@@ -74,6 +74,11 @@ app.use((req, res, next) => {
         res.locals.lo = _;
         
         res.locals.urlPath = req.path
+        
+        // config vars
+        _.extend(res.locals, {
+            SITE_DOMAIN: "Site.co",
+        });
     }
     next();
 });
