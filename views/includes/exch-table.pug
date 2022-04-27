@@ -1,4 +1,4 @@
-//- ko templates
+//- table templates
 script(type="html/template" id="rate-tr.template")
     tr(data-bind="with: ko.unwrap($data)")
         td.rate-col.rate-flags(data-bind="foreach: _.keys(param).sort().map(p => ({ liter: p.substr(0, 1), flag: p }))")
@@ -9,9 +9,11 @@ script(type="html/template" id="rate-tr.template")
         td.rate-col.rate-to(data-bind="template: { name: 'number-currency.template', data: { value: $data['out'], symbol: $data['to']   } }")
         td.rate-col.rate-amount(data-bind="text: $data['amount']")
 
+
 script(type="html/template" id="number-currency.template")
     .float(data-bind="text: value")
     .currency(data-bind="text: CURRENCY_NAME_BY_SYMBOL[symbol] || symbol")
+
 
 //- table
 table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
@@ -54,3 +56,27 @@ table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
 
 div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
     | Нет данных для выбранного направления обмена
+
+
+//- Popular pairs with selected pair
+script(type="html/template" id="pair-link-row.template")
+    .a(href data-bind="\
+        attr: {\
+            href: '/' + from.toLowerCase() + '-to-' + to.toLowerCase()\
+        },\
+        text: currencyToName(from) + ' → ' + currencyToName(to)\
+    ")
+
+div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), to: exchangeRates.filter.to() }")
+    .div(style="flex: 50%" data-bind="\
+        template: {\
+            name: 'pair-link-row.template',\
+            foreach: pairsToCurrenciesTo(PAIRS(), from).slice(0, 5).map(cu => ({ from, to: cu.symbol }))\
+        }\
+    ")
+    .div(style="flex: 50%" data-bind="\
+        template: {\
+            name: 'pair-link-row.template',\
+            foreach: pairsToCurrenciesFrom(PAIRS(), to).slice(0, 5).map(cu => ({ from: cu.symbol, to }))\
+        }\
+    ")
