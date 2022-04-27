@@ -1,14 +1,35 @@
+//- Можно рассмотреть ссылки на соц сети если планируются, faq, контакты 
+//-   и самые популярные пары
+//- Внешние ссылки только на соцсети проекта в ноиндекс и ноуфоллоу
 footer
     .column
-        p
-            a(href="/faq") F.A.Q.
-        p
-            a(href="/exchangers") Обменники
-        p
-            a(href="/contacts") Контакты
+        h4 Обменять Bitcoin на другие валюты
+        .
+            a(href="/btc-to-eth#↓to")     Bitcoin (BTC) → Ethereum (ETH)
+        .
+            a(href="/btc-to-cardrub#↓to") Bitcoin (BTC) → Visa/MasterCard RUB
+        .
+            a(href="/btc-to-p24uah#↓to")  Bitcoin (BTC) → Приват 24 (UAH)
+        .
+            a(href="/btc-to-qwrub#↓to")   Bitcoin (BTC) → QIWI RUB
+        .
+            a(href="/btc-to-tcsbrub#↓to") Bitcoin (BTC) → Тинькофф
     
     .column(style="text-align: right")
-        p
-            a(href="/btc-to-sberrub") Bitcoin (BTC) на Сбербанк
-        p
-            a(href="/p24uah-to-eth#↑from") Приват 24 UAH на Ethereum (ETH)
+        h4 Получить Сбербанк за другие валюты
+        .
+            a(href="/btc-to-sberrub#↓to")      Bitcoin (BTC) → Сбербанк
+        .
+            a(href="/p24uah-to-sberrub#↓to") Приват 24 (UAH) → Сбербанк
+        .
+            a(href="/eth-to-sberrub#↓to")     Ethereum (ETH) → Сбербанк
+        .
+            a(href="/xmr-to-sberrub#↓to")       Monero (XMR) → Сбербанк
+        .
+            a(href="/ltc-to-sberrub#↓to")     Litecoin (LTC) → Сбербанк
+    
+    .(style="text-align: justify")
+        a(href="/faq") F.A.Q.
+        a(href="/exchangers") Обменники
+        a(href="/contacts") Контакты
+        .(style="display: inline-block; width: 100%")

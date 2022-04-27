@@ -181,10 +181,10 @@ const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","B
         };
     });
 
-function pairsToCurrenciesFrom(pairs) {
+function pairsToCurrenciesFrom(pairsTree) {
     var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
-    return lo.chain(pairs)
+    return lo.chain(pairsTree)
         .map((branch, from) => ({
             id: CURRENCY_ID_BY_SYMBOL[from],
             name: CURRENCY_NAME_BY_SYMBOL[from] || from,
@@ -196,11 +196,11 @@ function pairsToCurrenciesFrom(pairs) {
         .value();
 }
 
-function pairsToCurrenciesTo(pairs) {
+function pairsToCurrenciesTo(pairsTree) {
     var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
-    const tree = pairs,
-        toAll = lo.chain(tree).map(branch =>
+    const toAll = lo.chain(pairsTree)
+        .map(branch =>
             lo.map(branch, (w, to) => ({
                 id: CURRENCY_ID_BY_SYMBOL[to],
                 name: CURRENCY_NAME_BY_SYMBOL[to] || to,
