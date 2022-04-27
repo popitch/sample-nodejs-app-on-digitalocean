@@ -260,11 +260,11 @@ const
                     futureRows.forEach((futureRow, index) => {
                         if (futureRow.pastRow) {
                             while (rows()[index] !== futureRow.pastRow) {
-                                if (index < row().length) {
+                                if (index < rows().length) {
                                     console.log('mutable: push one', index, '->', futureRow());
                                     // push new one to end
                                     rows.push(futureRow);
-                                    break;
+                                    return;
                                 }
                                 console.log('mutable: remove past one', index, '->', ko.unwrap(rows()[index]));
                                 if (! rows()[index]) { debugger; return console.error('fkn mutable))'); }
