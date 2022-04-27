@@ -60,21 +60,23 @@ div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'in
 
 //- Popular pairs with selected pair
 script(type="html/template" id="pair-link-row.template")
-    .a(href data-bind="\
-        attr: {\
-            href: '/' + from.toLowerCase() + '-to-' + to.toLowerCase()\
-        },\
-        text: currencyToName(from) + ' → ' + currencyToName(to)\
-    ")
+    div
+        a(href data-bind="\
+            attr: {\
+                href: '/' + from.toLowerCase() + '-to-' + to.toLowerCase()\
+            },\
+            text: currencyToName(from) + ' → ' + currencyToName(to)\
+        ")
 
 div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), to: exchangeRates.filter.to() }")
-    .div(style="flex: 50%" data-bind="\
+    div(style="text: center") Популярные у обменников направления обмена:
+    div(style="flex: 50%" data-bind="\
         template: {\
             name: 'pair-link-row.template',\
             foreach: pairsToCurrenciesTo(PAIRS(), from).slice(0, 5).map(cu => ({ from, to: cu.symbol }))\
         }\
     ")
-    .div(style="flex: 50%" data-bind="\
+    div(style="flex: 50%; text-align: right" data-bind="\
         template: {\
             name: 'pair-link-row.template',\
             foreach: pairsToCurrenciesFrom(PAIRS(), to).slice(0, 5).map(cu => ({ from: cu.symbol, to }))\
