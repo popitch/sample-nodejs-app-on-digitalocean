@@ -181,7 +181,7 @@ const CURRENCY_ID_BY_SYMBOL = {"BTC":"43","WBTC":"73","BCH":"172","BSV":"137","B
         };
     });
 
-function pairsToCurrenciesFrom(pairsTree) {
+function pairsToCurrenciesFrom(pairsTree, filterTo) {
     var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
     return lo.chain(pairsTree)
@@ -189,17 +189,17 @@ function pairsToCurrenciesFrom(pairsTree) {
             id: CURRENCY_ID_BY_SYMBOL[from],
             name: CURRENCY_NAME_BY_SYMBOL[from] || from,
             symbol: from,
-            weight: lo.reduce(branch, (s, w) => s + w, 0),
+            weight: filterTo ? lo.reduce(branch, (s, w) => s + w, 0) : (branch[filterTo] || 0),
         }))
         .sortBy('name')
         .sortBy(p => - p.weight)
         .value();
 }
 
-function pairsToCurrenciesTo(pairsTree) {
+function pairsToCurrenciesTo(pairsTree, filterFrom) {
     var lo = 'undefined' !== typeof _ ? _ : require('lodash'); // for SSR
     
-    const toAll = lo.chain(pairsTree)
+    const toAll = lo.chain(filterFrom ? pairsTree[filterFrom] ? [ pairsTree[filterFrom] ] : [] : pairsTree)
         .map(branch =>
             lo.map(branch, (w, to) => ({
                 id: CURRENCY_ID_BY_SYMBOL[to],
