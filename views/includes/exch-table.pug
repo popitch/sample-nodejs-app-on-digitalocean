@@ -77,7 +77,7 @@ div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), 
         }\
     ")
         //- SSR
-        for cu in pairsToCurrenciesTo(PAIRS(), exchange.form.from).slice(0, 5).map(cu => ({ from: exchange.form.from, to: cu.symbol }))
+        for cu in pairsToCurrenciesTo(getCountTree(), exchange.form.from).slice(0, 5).map(cu => ({ from: exchange.form.from, to: cu.symbol }))
             div
                 a(href='/' + from.toLowerCase() + '-to-' + to.toLowerCase())= currencyToName(from) + ' → ' + currencyToName(to)
     
@@ -88,6 +88,6 @@ div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), 
         }\
     ")
         //- SSR
-        for cu in pairsToCurrenciesFrom(PAIRS(), exchange.form.to).slice(0, 5).map(cu => ({ from: cu.symbol, to: exchange.form.to }))
+        for cu in pairsToCurrenciesFrom(getCountTree(), exchange.form.to).slice(0, 5).map(cu => ({ from: cu.symbol, to: exchange.form.to }))
             div
                 a(href='/' + from.toLowerCase() + '-to-' + to.toLowerCase())= currencyToName(from) + ' → ' + currencyToName(to)
