@@ -3,11 +3,11 @@ header
         li
             | Всего курсов: 
             em.value= numberWithSpaces(aggregator.ratesCount())
-            | , направлений: 
+            |, направлений: 
             em.value= numberWithSpaces(aggregator.pairsCount())
-            | , обменников: 
+            |, обменников: 
             em.value= aggregator.exchangersCount()
-            | , обновлено: 
+            |, обновлено: 
             em.value(title=moment( aggregator.oldestUpdatedAt() ))= moment(aggregator.oldestUpdatedAt()).fromNow()
     
     div.logo= SITE_NAME
