@@ -68,7 +68,8 @@ script(type="html/template" id="pair-link-row.template")
             text: currencyToName(from) + ' → ' + currencyToName(to)\
         ")
 
-div(style="text: center") Популярные (у обменников) направления обмена:
+div(style="text-align: center") Популярные (у обменников) направления обмена:
+
 div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), to: exchangeRates.filter.to() }")
     div(style="flex: 50%" data-bind="\
         template: {\
