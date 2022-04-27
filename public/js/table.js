@@ -289,7 +289,7 @@ const
                     const tailSize = rows().length - futureRows.length
                     if (tailSize > 0) {
                         // remove old tail
-                        rows.splice(index, tailSize);
+                        rows.splice(futureRows.length, tailSize);
                     }
                     
                     //}
