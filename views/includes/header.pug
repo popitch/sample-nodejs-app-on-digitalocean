@@ -1,12 +1,14 @@
 header
     ul.top-status-line
         li
-            | Всего курсов:
-            em.value= aggregator.pairsCount()
-            | Обменников:
-            em.value #{aggregator.exchangersCount()}
-            | Обновление:
-            em.value(title=moment( aggregator.oldestUpdatedAt() )) #{moment( aggregator.oldestUpdatedAt() ).fromNow()}
+            | Всего курсов: 
+            em.value= numberWithSpaces(aggregator.ratesCount())
+            | , направлений: 
+            em.value= numberWithSpaces(aggregator.pairsCount())
+            | , обменников: 
+            em.value= aggregator.exchangersCount()
+            | , обновлено: 
+            em.value(title=moment( aggregator.oldestUpdatedAt() ))= moment(aggregator.oldestUpdatedAt()).fromNow()
     
     div.logo= SITE_NAME
     

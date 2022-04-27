@@ -30,7 +30,8 @@ module.exports = {
     getExchangerList: () => Exchangers ? Exchangers.filter(exch => exch.xmlVerified) : [],
     
     aggregator: {
-        pairsCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
+        ratesCount: () => Cached.pairs.all().flatMap(t => t.rates).length,
+        pairsCount: () => Cached.pairs.all().length,
         exchangersCount: () => Exchangers ? Exchangers.length : 0,
         process: () => aggProcessState,
         
