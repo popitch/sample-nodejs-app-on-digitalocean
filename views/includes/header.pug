@@ -3,10 +3,13 @@ header
         li
             | Всего курсов 
             em.value= numberWithSpaces(aggregator.ratesCount()) 
+        li
             | Направлений 
             em.value= numberWithSpaces(aggregator.pairsCount()) 
+        li
             | Обменников 
             em.value= aggregator.exchangersCount() 
+        li
             | Обновлено 
             em.value(title=moment( aggregator.oldestUpdatedAt() ))= moment(aggregator.oldestUpdatedAt()).fromNow()
     
