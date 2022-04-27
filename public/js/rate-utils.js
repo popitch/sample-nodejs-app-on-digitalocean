@@ -189,7 +189,7 @@ function pairsToCurrenciesFrom(pairsTree, filterTo) {
             id: CURRENCY_ID_BY_SYMBOL[from],
             name: CURRENCY_NAME_BY_SYMBOL[from] || from,
             symbol: from,
-            weight: filterTo ? lo.reduce(branch, (s, w) => s + w, 0) : (branch[filterTo] || 0),
+            weight: filterTo ? (branch[filterTo] || 0) : lo.reduce(branch, (s, w) => s + w, 0),
         }))
         .sortBy('name')
         .sortBy(p => - p.weight)
