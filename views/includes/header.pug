@@ -8,7 +8,7 @@ header
             | Обновление:
             em.value #{moment( aggregator.oldestUpdatedAt() ).fromNow()}
     
-    div.logo Exnode
+    div.logo= SITE_NAME
     
     ul.menu
         li(class=("/"===urlPath) && "active")

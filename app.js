@@ -77,7 +77,8 @@ app.use((req, res, next) => {
         
         // config vars
         _.extend(res.locals, {
-            SITE_DOMAIN: "Site.co",
+            SITE_DOMAIN: "Excho.com",
+            SITE_NAME: "Excho",
         });
     }
     next();
