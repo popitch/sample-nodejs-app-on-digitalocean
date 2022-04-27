@@ -92,8 +92,8 @@ const
                 from_to = ko.computed(() => (from() + '_to_' + to()).toLowerCase()),
                 
                 sort = decodeURIComponent(location.hash.substr(1)).split(/\b/),
-                sortBy  = ko.observable(jsConfig('by', sort[1] || 'from')),
-                sortDir = ko.observable(jsConfig('dir', sort[0] === '↓' ? 'desc' : 'asc'));
+                sortBy  = ko.observable(jsConfig('by', sort[1] || 'to')), // last val is defaults
+                sortDir = ko.observable(jsConfig('dir', sort[0] === '↑' ? 'asc' : 'desc')); // last val is defaults
             
             // subscribe to from|to change
             from_to.subscribe(_.throttle(ft => {
