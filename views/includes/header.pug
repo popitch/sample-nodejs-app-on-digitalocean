@@ -6,7 +6,7 @@ header
             | Обменников:
             em.value #{aggregator.exchangersCount()}
             | Обновление:
-            em.value #{moment( aggregator.oldestUpdatedAt() ).fromNow()}
+            em.value(title=moment( aggregator.oldestUpdatedAt() )) #{moment( aggregator.oldestUpdatedAt() ).fromNow()}
     
     div.logo= SITE_NAME
     
