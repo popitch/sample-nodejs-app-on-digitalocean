@@ -76,10 +76,11 @@ p {
 
 .menu li a {
     display: block;
-    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-weight: 600;
+    color: white;
 }
 
 .menu li a:hover {
