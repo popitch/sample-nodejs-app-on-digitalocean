@@ -57,6 +57,9 @@ app.use((req, res, next) => {
         // session
         res.locals.session = req.session;
         
+        // user
+        res.locals.signInUser = () => res.locals.session.user;
+        
         // aggregator server status
         res.locals.aggregator = xmlEngine.aggregator;
         
