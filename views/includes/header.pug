@@ -16,11 +16,14 @@ header
     div.logo= SITE_NAME
     
     ul.menu
-        li(class=("/"===urlPath) && "active")
+        li(class=("/"===urlPath)           && "active")
             a(href="/") Главная
-        li(class=("/faq"===urlPath) && "active")
+        li(class=("/faq"===urlPath)        && "active")
             a(href="/faq") F.A.Q.
         li(class=("/exchangers"===urlPath) && "active")
             a(href="/exchangers") Обменники
-        li(class=("/contacts"===urlPath) && "active")
+        li(class=("/contacts"===urlPath)   && "active")
             a(href="/contacts") Контакты
+        
+        li(class=("/login"===urlPath)      && "active" style="float: right")
+            a(href="/login") ✔️Вход
