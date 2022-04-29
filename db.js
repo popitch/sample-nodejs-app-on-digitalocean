@@ -87,8 +87,7 @@ sequelize.define('AggUser', schema.AggUser.fields, {
 connThen(async (db) => {
     const queryInterface = db.getQueryInterface();
 
-    /** Setup
-     * Initial exchanger list
+    /** Setup initial exchanger list from ENV data
      */
     const Exchanger = sequelize.models.Exchanger,
         presentedExchangers = await Exchanger.findAll(),
@@ -98,7 +97,6 @@ connThen(async (db) => {
     console.log('INITIAL_EXCHANGERS:', INITIAL_EXCHANGERS.length);
     
     let createdCount = 0;
-    
     _.each(INITIAL_EXCHANGERS, async (exchData) => {
         if (! _.find(presentedExchangers, exch => exch.id == exchData.id)) {
             exchData.bcId = exchData.id;
@@ -108,44 +106,10 @@ connThen(async (db) => {
             createdCount++;
         }
     });
-    
     console.log('Exchangers initial created count:', createdCount, '(thanks, bro)');
     
-    /*
-    ///////await queryInterface.addColumn('aggUsers', 'exchangerId', schema.AggUser.fields.exchangerId);
-    //*/
-
-    /*/
-    ///////await queryInterface.addColumn('exchangers', 'ru', schema.Exchanger.fields.description);
-    ///////await queryInterface.addColumn('exchangers', 'en', schema.Exchanger.fields.description);
-    ///////await queryInterface.addColumn('exchangers', 'description', schema.Exchanger.fields.description);
-    //*/
-
-    /*
-    await queryInterface.dropTable('exchangers', { onDelete: 'cascade' });
-    await queryInterface.createTable('exchangers', schema.Exchanger.fields);
-    await queryInterface.addConstraint('exchangers', {
-        fields: ['bcId'],
-        type: 'unique',
-        name: 'exchanger_bcId_unique_constraints',
-    });
-    await queryInterface.addConstraint('exchangers', {
-        fields: ['name'],
-        type: 'unique',
-        name: 'exchanger_name_unique_constraints',
-    });
-    
-    /*
-    await queryInterface.dropTable('exchangeRates', { onDelete: 'cascade' });
-    await queryInterface.createTable('exchangeRates', schema.ExchangeRate.fields);
-    await queryInterface.addConstraint('exchangeRates', {
-        fields: schema.ExchangeRate.indexes[0].fields,
-        type: 'unique',
-        name: 'exchanger_pair_unique_constraints',
-    });
-    await queryInterface.addIndex('exchangeRates', schema.ExchangeRate.indexes[0]);
-    //*/
-
+    /**
+     */
     console.log('Initial Exchangers:', await db.models.Exchanger.count({ logging: false }));
     console.log('Initial Rates:', await db.models.ExchangeRate.count({ logging: false }));
     
