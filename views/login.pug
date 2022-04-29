@@ -5,8 +5,15 @@ block content
 
     form.login(action = "/login" method = "POST")
         //input(name = "target" type = "hidden" value="view")
-        input.login(name = "login" type = "text" required placeholder = "Login" value="root")
-        input.passwd(name = "password" type = "password" required placeholder = "Password")
-        button(type = "Submit") Войти
+        div Логин
+        div
+            input.login(name="login" type="text" required placeholder = "Login" value="root")
+        
+        div Пароль
+        div
+            input.passwd(name = "password" type = "password" required placeholder = "Password")
+        
+        div
+            button(type = "Submit") Войти
     
     script document.querySelector('input.passwd').focus()
