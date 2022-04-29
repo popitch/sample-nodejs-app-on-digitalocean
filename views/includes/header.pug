@@ -28,7 +28,7 @@ header
         if signInUser()
             li(style="float: right")
                 strong.user-name #{ session.user.login } 
-                a(href="/logout" style="text-decoration: none")! &times;
+                a(href="/logout" style="text-decoration: none") x
         else
             li(class=("/login"===urlPath) && "active" style="float: right")
                 a(href="/login") ✔️ Вход
