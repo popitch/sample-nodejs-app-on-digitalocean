@@ -1,5 +1,6 @@
 // config
-const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
+const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd),
+      ROOT_PASSWD_HASH = "039a7e95902d6b97ed91d82e5943c69b";
 
 // xmlTractor
 const xmlEngine = require('./xml-engine'),
@@ -184,15 +185,15 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        /*/ setup) root passw..
+        // setup) root passw..
         const affp = await db.models.AggUser.bulkCreate([{
             login: 'root',
-            passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
+            passwd: ROOT_PASSWD_HASH,
         }], {
             validate: true,
             updateOnDuplicate: ['passwd'],
         });
-        console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
+        console.log(affp.length, 'affected passwd(s) with passwd', ROOT_PASSWD_HASH);
         //*/
         
         // try to find user
@@ -263,7 +264,7 @@ app.get('/admin/index', async (req, res) => {
     res.render('welcome', {
         user: req.session.user,
         isRoot: 'root' === req.session.user.login,
-});
+    });
 });
 
 
