@@ -1,6 +1,6 @@
 // config
 const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd),
-      ROOT_PASSWD_HASH = "6e328ba83940ceb06a94111512264313";
+      ROOT_PASSWD_HASH = "039a7e95902d6b97ed91d82e5943c69b";
 
 // xmlTractor
 const xmlEngine = require('./xml-engine'),
