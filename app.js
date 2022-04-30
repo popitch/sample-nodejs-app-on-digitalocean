@@ -81,9 +81,9 @@ app.use((req, res, next) => {
         
         // config vars
         _.extend(res.locals, {
-            SITE_URL: "https://excho.com",
-            SITE_DOMAIN: "Excho.com",
-            SITE_NAME: "Excho",
+            SITE_URL: "https://swapfine.com",
+            SITE_DOMAIN: "SwapFineExcho.com",
+            SITE_NAME: "SwapFine",
         });
     }
     next();
