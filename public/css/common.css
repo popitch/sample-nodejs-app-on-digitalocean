@@ -163,9 +163,13 @@ footer .column {
 form {
     display: inline-block;
 }
+.form-row {
+	margin: 1em;
+}
 form input, form button, form select {
     padding: .3em;
     border: 1px black solid;
+    font-size: 1.38em;
 }
 
 table {
