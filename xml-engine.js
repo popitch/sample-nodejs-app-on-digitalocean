@@ -331,6 +331,7 @@ dbConn.then(async (db) => {
             }
             catch(e) {
                 console.warn('! XML parse error, code:', e);
+                _.map(e, (v, k) => e[k] = v.toString()); // destroy circularity
                 exch.xmlStage["parseError"] = e;
                 exch.save();
             }
