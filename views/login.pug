@@ -2,11 +2,18 @@ extends layout
 
 block content
     h1 #{title}
-
-    form.login(action = "/login" method = "POST")
-        //input(name = "target" type = "hidden" value="view")
-        input.login(name = "login" type = "text" required placeholder = "Login" value="root")
-        input.passwd(name = "password" type = "password" required placeholder = "Password")
-        button(type = "Submit") Войти
     
-    script document.querySelector('input.passwd').focus()
+    form.login(action = "/login" method = "POST" style="margin: 0 auto")
+        //input(name = "target" type = "hidden" value="view")
+        .form-row Логин
+        .form-row
+            input.login(name="login" type="text" required placeholder = "Login" value="")
+        
+        .form-row Пароль
+        .form-row
+            input.passwd(name = "password" type = "password" required placeholder = "Password" value="")
+        
+        .form-row
+            button(type = "Submit") Войти
+    
+    script document.querySelector('input.login').focus()

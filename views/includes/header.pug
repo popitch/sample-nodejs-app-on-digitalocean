@@ -1,26 +1,34 @@
 header
     ul.top-status-line
         li
-            | Всего курсов 
-            em.value= numberWithSpaces(aggregator.ratesCount()) 
-        li
-            | Направлений 
-            em.value= numberWithSpaces(aggregator.pairsCount()) 
-        li
-            | Обменников 
-            em.value= aggregator.exchangersCount() 
-        li
             | Обновлено 
             em.value(title=moment( aggregator.oldestUpdatedAt() ))= moment(aggregator.oldestUpdatedAt()).fromNow()
+        li
+            | Курсы 
+            em.value= numberWithSpaces(aggregator.ratesCount()) 
+        li
+            | Направления 
+            em.value= numberWithSpaces(aggregator.pairsCount()) 
+        li
+            | Обменники 
+            em.value= aggregator.exchangersCount() 
     
     div.logo= SITE_NAME
     
     ul.menu
-        li(class=("/"===urlPath) && "active")
+        li(class=("/"         === urlPath) && "active")
             a(href="/") Главная
-        li(class=("/faq"===urlPath) && "active")
+        li(class=("/faq"===urlPath)        && "active")
             a(href="/faq") F.A.Q.
         li(class=("/exchangers"===urlPath) && "active")
             a(href="/exchangers") Обменники
-        li(class=("/contacts"===urlPath) && "active")
+        li(class=("/contacts"===urlPath)   && "active")
             a(href="/contacts") Контакты
+        
+        if signInUser()
+            li(style="float: right")
+                strong.user-name #{ session.user.login } 
+                a(href="/logout" style="text-decoration: none") x
+        else
+            li(class=("/login"===urlPath) && "active" style="float: right")
+                a(href="/login") ✔️ Вход

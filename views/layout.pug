@@ -2,7 +2,7 @@ doctype html
 
 html
     head
-        title(data-bind="text: exchangeRates.page.title() + ' → Exnode'")= (title ? title + ', обменять по лучшему курсу — ' : '') + SITE_NAME
+        title(data-bind="text: exchangeRates.page.title() + ' → " + SITE_NAME + "'")= (title ? title + ', обменять по лучшему курсу — ' : '') + SITE_NAME
         
         meta(name="description" content=title + " по самому выгодному курсу в России, надежные и безопасные обменники на " + SITE_DOMAIN)
         

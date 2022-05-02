@@ -79,7 +79,6 @@ p {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-weight: 600;
     color: white;
 }
 
@@ -90,6 +89,7 @@ p {
 .menu li.active a {
     color: white;
     background-color: #2ead13;
+    font-weight: 600;
 }
 
 /** form#exchange-form
@@ -163,9 +163,13 @@ footer .column {
 form {
     display: inline-block;
 }
+.form-row {
+	margin: 1em;
+}
 form input, form button, form select {
     padding: .3em;
     border: 1px black solid;
+    font-size: 1.38em;
 }
 
 table {

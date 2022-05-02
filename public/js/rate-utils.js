@@ -294,7 +294,7 @@ function numberWithSpaces(x, fixed) {
     
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     return parts.map(p => p).join(".");
-    //return parts.map(p => p.replace(/\B(?=(\d{3})+(?!\d))/g, " ")).join(".");
+    //return parts.map(p => p.replace(/\B(?=(\d{3})+(?!\d))/g, " ")).join(" .");
 }
 
 const currencyToName = Object.assign(

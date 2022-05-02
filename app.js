@@ -1,5 +1,6 @@
 // config
-const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd);
+const PASSWD_HASH_FN = (passwd) => require('md5')(process.env.PASSWD_SIL + passwd),
+      ROOT_PASSWD_HASH = "039a7e95902d6b97ed91d82e5943c69b";
 
 // xmlTractor
 const xmlEngine = require('./xml-engine'),
@@ -56,6 +57,9 @@ app.use((req, res, next) => {
         // session
         res.locals.session = req.session;
         
+        // user
+        res.locals.signInUser = () => res.locals.session.user;
+        
         // aggregator server status
         res.locals.aggregator = xmlEngine.aggregator;
         
@@ -77,9 +81,9 @@ app.use((req, res, next) => {
         
         // config vars
         _.extend(res.locals, {
-            SITE_URL: "https://excho.com",
-            SITE_DOMAIN: "Excho.com",
-            SITE_NAME: "Excho",
+            SITE_URL: "https://swapfine.com",
+            SITE_DOMAIN: "fwapfine.com",
+            SITE_NAME: "SwapFine",
         });
     }
     next();
@@ -184,15 +188,15 @@ app.post('/login', async (req, res) => {
     try {
         const { db } = require('./db');
         
-        /*/ setup) root passw..
+        // setup) root passw..
         const affp = await db.models.AggUser.bulkCreate([{
             login: 'root',
-            passwd: PASSWD_HASH_FN(process.env.PASSWD_ROOT),
+            passwd: ROOT_PASSWD_HASH,
         }], {
             validate: true,
             updateOnDuplicate: ['passwd'],
         });
-        console.log(affp.length, 'affected passwd(s) with passwd', PASSWD_HASH_FN(process.env.PASSWD_ROOT));
+        console.log(affp.length, 'affected passwd(s) with passwd', ROOT_PASSWD_HASH);
         //*/
         
         // try to find user
@@ -263,7 +267,7 @@ app.get('/admin/index', async (req, res) => {
     res.render('welcome', {
         user: req.session.user,
         isRoot: 'root' === req.session.user.login,
-});
+    });
 });
 
 
