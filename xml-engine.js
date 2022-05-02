@@ -130,6 +130,7 @@ const Cached = {
             
             mapTouchTree: (iterator) => {
                 const result = {};
+                
                 for (let from in touchedTree) {
                     const touchedBranch = touchedTree[from];
                     result[from] = result[from] || {};
@@ -138,6 +139,7 @@ const Cached = {
                         result[from][to] = iterator(touch);
                     }
                 }
+                
                 return result;
             },
             
@@ -326,9 +328,12 @@ dbConn.then(async (db) => {
             let jso;
             try {
                 jso = convert.xml2js(responseText, { trim: true, compact: true });
-            } catch(e) {
-                console.log('! XML parse error, code:', e.code);
-            };
+            }
+            catch(e) {
+                console.warn('! XML parse error, code:', e);
+                exch.xmlStage["parseError"] = e;
+                exch.save();
+            }
             
             if (! jso || ! jso.rates || ! jso.rates.item) {
                 return xmlFinishError();
