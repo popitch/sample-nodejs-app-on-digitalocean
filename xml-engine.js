@@ -334,6 +334,12 @@ dbConn.then(async (db) => {
                 _.map(e, (v, k) => e[k] = v.toString()); // destroy circularity
                 exch.xmlStage["parseError"] = e;
                 e["parseSource"] = exch["xml"];
+                e["XML parse error count"] = _.countBy(
+                    Exchangers.filter(ex => !!ex.xmlVerified),
+                    (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError),
+                    0
+                );
+                console.log("XML parse error count:", e["XML parse error count"]);
                 exch.save();
             }
             
