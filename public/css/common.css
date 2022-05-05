@@ -51,7 +51,7 @@ p {
     margin-right: .5em;
     text-transform: uppercase;
     font-family: monospace;
-    font-weight: bolder;
+    /* font-weight: bolder; */
     
     /* font-size: 4.8em;
     line-height: .8em; */
@@ -70,8 +70,8 @@ p {
     overflow: hidden;
     /* background-color: #24890e; */
     background-color: #328120;
-    border-bottom-left-radius: 0.4em;
-    border-top-left-radius: 0.4em;
+    border-bottom-left-radius: 0.2em;
+    border-top-left-radius: 0.2em;
 }
 
 .menu li {
