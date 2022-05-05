@@ -1,10 +1,12 @@
 //- FROM
-aside.fixed.from(data-currency-list=true data-bind="template: { name: 'from-currency.template', foreach: PAIRS_FROM }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
+aside.fixed.from
+    label.sticky-head(style="font-size: 1.2em") Отдаете...
     //- SSR from
-    for currency in pairsToCurrenciesFrom(getCountTree())
-        label(class=[ symbol === exchange.form.from && 'selected', symbol === exchange.form.to && 'disabled' ].filter(i=>i).join(' '))
-            input(type="radio" value=symbol checked=(symbol === exchange.form.from) disable=(symbol === exchange.form.to))
-            span(data-bind="text: name")
+    div( data-currency-list=true data-bind="template: { name: 'from-currency.template', foreach: PAIRS_FROM }, event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
+        for currency in pairsToCurrenciesFrom(getCountTree())
+            label(class=[ symbol === exchange.form.from && 'selected', symbol === exchange.form.to && 'disabled' ].filter(i=>i).join(' '))
+                input(type="radio" value=symbol checked=(symbol === exchange.form.from) disable=(symbol === exchange.form.to))
+                span(data-bind="text: name")
 
 script(type="html/template" id="from-currency.template")
     label(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }")

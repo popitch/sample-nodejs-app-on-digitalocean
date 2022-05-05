@@ -18,7 +18,7 @@ script(type="html/template" id="number-currency.template")
 //- table
 table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
     thead(data-bind="with: filter")
-        tr(data-bind="css: 'sort-dir_' + sortDir()")
+        tr.sticky-head(data-bind="css: 'sort-dir_' + sortDir()")
             th.rate-col.rate-service( data-bind="style: { color: $parent.loading() ? 'black' : 'transparent' }", style="color: transparent") ...
             th.rate-col.rate-changer( data-bind="css: { 'sort-by': sortBy() === 'changer' }, click: () => toSort('changer')") Обменник
             th.rate-col.rate-from(    data-bind="css: { 'sort-by': sortBy() === 'from' },    click: () => toSort('from')"   ) Отдаёте
