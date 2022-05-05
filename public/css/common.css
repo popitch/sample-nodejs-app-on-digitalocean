@@ -23,7 +23,8 @@ p {
     margin: 0 0em 0.2em;
     padding: 0;
     line-height: 2em;
-    background: lightgray;
+    /* background: lightgray; */
+    background: white;
 }
 .top-status-line:after {
     display: block;
@@ -38,7 +39,8 @@ p {
     padding: 0 5px;
     color: green;
     font-style: normal;
-    border: 1px solid #78787873;
+    /* border: 1px solid #78787873; */
+    border: 1px solid #78787838;
 }
 
 /** header logo
@@ -65,7 +67,8 @@ p {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #24890e;
+    /* background-color: #24890e; */
+    background-color: #328120;
     border-bottom-left-radius: 0.4em;
     border-top-left-radius: 0.4em;
 }
