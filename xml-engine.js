@@ -340,11 +340,10 @@ dbConn.then(async (db) => {
                 console.warn('! XML parse error:', e);
                 
                 exch.xmlStage["parseError"] = e;
-                e["parseSource"] = exch["xml"];
+                e["xml"] = exch["xml"];
                 e["XML parse error count"] = _.countBy(
                     Exchangers.filter(ex => !!ex.xmlVerified),
-                    (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError),
-                    0
+                    (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError)
                 );
                 
                 console.log("!!! XML parse error count:", e["XML parse error count"]);
