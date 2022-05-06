@@ -339,7 +339,7 @@ dbConn.then(async (db) => {
                     (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError),
                     0
                 );
-                console.log("XML parse error count:", e["XML parse error count"]);
+                console.log("!!! XML parse error count:", e["XML parse error count"]);
                 exch.save();
             }
             
