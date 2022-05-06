@@ -333,7 +333,7 @@ dbConn.then(async (db) => {
                 e = _.reduce(e, (e, v, k) => (e[k] = v.toString(), e), {}); // destroy circularity
                 for (var line = e.note && e.note.replace(/^[\s\S]*Line: (\d+)[\s\S]*$/i, '$1'); line; ) {
                     const lines = responseText.split(/\n/g);
-                    e.line = line + '/' + lines.length;
+                    e.line = line + ':   /' + lines.length;
                     e.code = '\n\t' + lines.slice(line - 1, line + 2).map((l, n) => (line - 1 + n) + ': ' + l).join('\n\t');
                     break;
                 }
@@ -341,12 +341,12 @@ dbConn.then(async (db) => {
                 
                 exch.xmlStage["parseError"] = e;
                 e["xml"] = exch["xml"];
-                e["XML parse error count"] = _.countBy(
+                e["XML parse error counts"] = _.countBy(
                     Exchangers.filter(ex => !!ex.xmlVerified),
                     (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError)
                 );
                 
-                console.log("!!! XML parse error count:", e["XML parse error count"]);
+                console.log("!!! XML parse error count:", e["XML parse error counts"]);
                 exch.save();
             }
             
