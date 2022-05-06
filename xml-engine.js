@@ -332,7 +332,7 @@ dbConn.then(async (db) => {
             catch(e) {
                 e = _.reduce(e, (e, v, k) => (e[k] = v.toString(), e), {}); // destroy circularity
                 for (var line = e.note && e.note.replace(/^[\s\S]*Line: (\d+)[\s\S]*$/i, '$1'); line; ) {
-                    const lines = responseText.split('\n');
+                    const lines = responseText.split(/\n/g);
                     e.line = line + '/' + lines.length;
                     e.code = lines[line - 1]; // lines usually starts from 1, but in reality from 0
                     break;
