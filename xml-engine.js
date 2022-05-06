@@ -331,7 +331,13 @@ dbConn.then(async (db) => {
             }
             catch(e) {
                 e = _.reduce(e, (e, v, k) => (e[k] = v.toString(), e), {}); // destroy circularity
-                console.warn('! XML parse error, code:', e);
+                for (var line = e.note && e.note.replace(/^[\s\S]*Line: (\d+)[\s\S]*$/i, '$1'); line; ) {
+                    const lines = responseText.split('\n');
+                    e.line = line + '/' + lines.length;
+                    e.code = lines[line - 1]; // lines usually starts from 1, but in reality from 0
+                    break;
+                }
+                console.warn('! XML parse error:', e);
                 
                 exch.xmlStage["parseError"] = e;
                 e["parseSource"] = exch["xml"];
