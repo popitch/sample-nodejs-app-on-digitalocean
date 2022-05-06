@@ -49,13 +49,17 @@ table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
                 
                 td.rate-col.rate-amount
                     = Number(rate["amount"]).toFixed(4)
+
+//- provide loading/loaded states
 //
     tbody(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
         tr
             td(colspan="8") Нет данных для выбранного направления обмена
 
-div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
+div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }" style="text-align: center")
     | Нет данных для выбранного направления обмена
+
+div(data-bind="visible: ! rates().length && loading()" style="display: none") ...
 
 
 //- Popular pairs with selected pair
@@ -80,7 +84,7 @@ div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), 
     ")
         //- SSR
         for cu in pairsToCurrenciesTo(getCountTree(), exchange.form.from).slice(0, 5).map(cu => ({ from: exchange.form.from, to: cu.symbol }))
-            div
+            p
                 a(href='/' + cu.from.toLowerCase() + '-to-' + cu.to.toLowerCase())= currencyToName(cu.from) + ' → ' + currencyToName(cu.to)
     
     div(style="flex: 50%; text-align: right" data-bind="\
@@ -91,5 +95,5 @@ div(style="display: flex" data-bind="with: { from: exchangeRates.filter.from(), 
     ")
         //- SSR
         for cu in pairsToCurrenciesFrom(getCountTree(), exchange.form.to).slice(0, 5).map(cu => ({ from: cu.symbol, to: exchange.form.to }))
-            div
+            p
                 a(href='/' + cu.from.toLowerCase() + '-to-' + cu.to.toLowerCase())= currencyToName(cu.from) + ' → ' + currencyToName(cu.to)
