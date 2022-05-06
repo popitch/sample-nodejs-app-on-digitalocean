@@ -330,8 +330,9 @@ dbConn.then(async (db) => {
                 jso = convert.xml2js(responseText, { trim: true, compact: true });
             }
             catch(e) {
+                e = _.reduce(e, (e, v, k) => (e[k] = v.toString(), e), {}); // destroy circularity
                 console.warn('! XML parse error, code:', e);
-                _.map(e, (v, k) => e[k] = v.toString()); // destroy circularity
+                
                 exch.xmlStage["parseError"] = e;
                 e["parseSource"] = exch["xml"];
                 e["XML parse error count"] = _.countBy(
@@ -339,6 +340,7 @@ dbConn.then(async (db) => {
                     (count, ex) => count + (!!ex.xmlStage && !!ex.xmlStage.parseError),
                     0
                 );
+                
                 console.log("!!! XML parse error count:", e["XML parse error count"]);
                 exch.save();
             }
