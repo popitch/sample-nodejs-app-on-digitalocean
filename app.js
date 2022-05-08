@@ -121,10 +121,12 @@ app.get('/contacts', (req, res) => res.render('contacts', {
 // GET ~ /btc-to-xvg#↓amount
 app.get('/*-to-*', (req, res, next) => {
     const countTree = xmlEngine.getCountTree(),
-        pair = req.path.substr(1).split('-to-', 2);
+        pair = req.path.substr(1).split('-to-', 2),
+        
+        log = (...args) => console.log('GET /*-to-*:', ...args);
     
-    console.log("Try to GET pair:", pair, '...');
-    
+    log("Try to GET pair:", pair, '...');
+     
     function findKeyByLowerCase(hash, lokey) {
         for (var KEY in hash) {
             if (KEY.toLowerCase() === lokey) {
@@ -135,21 +137,21 @@ app.get('/*-to-*', (req, res, next) => {
     
     const FROM = findKeyByLowerCase(countTree, pair[0]);
     if (! FROM) {
-        console.log('not found from=', FROM);
+        log('not found from=', FROM);
         next();
     }
-    console.log("Try to GET pair:", pair, '... from =', FROM);
+    log("Try to GET pair:", pair, '... from =', FROM);
     
     const TO = findKeyByLowerCase(countTree[FROM], pair[1]);
     if (! TO) {
-        console.log('not found to=', TO);
+        log('not found to=', TO);
         next();
     }
-    console.log("Try to GET pair:", pair, '... go to =', TO);
+    log("Try to GET pair:", pair, '... go to =', TO);
     
     const pageSize = countTree[FROM][TO];
     
-    console.log("Try to GET pair:", pair, '... rates count =', pageSize);
+    log("Try to GET pair:", pair, '... rates count =', pageSize);
     
     
     res.render('pair', {
