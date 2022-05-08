@@ -232,7 +232,10 @@ const
                 
                 return ko.lazy(() => {
                     let lastRowIndex = -1,
-                        __source = rows().map(_.clone);
+                        __source = rows().map(_.clone),
+                        
+                        NOW = (d=new Date, ('0' + d.getMinutes()).substr(-2) + ':' + ('0' + d.getSeconds()).substr(-2)),
+                        log = (...args) => console.log(NOW, ...args);
                 
                     // update futureRows
                     const futureRows = rates.sortedDirectedFixedFloating().map(data => {
@@ -261,12 +264,12 @@ const
                         if (futureRow.pastRow) {
                             while (rows()[index] !== futureRow.pastRow) {
                                 if (index < rows().length) {
-                                    console.log('mutable: push one', index, '->', futureRow());
+                                    log('mutable: push one', index, '->', futureRow());
                                     // push new one to end
                                     rows.push(futureRow);
                                     return;
                                 }
-                                console.log('mutable: remove past one', index, '->', ko.unwrap(rows()[index]));
+                                log('mutable: remove past one', index, '->', ko.unwrap(rows()[index]));
                                 if (! rows()[index]) { debugger; return console.error('fkn mutable))'); }
                                 // remove past one
                                 rows.splice(index, 1);
@@ -274,13 +277,13 @@ const
                             // here (rows()[index] === futureRow.pastRow)
                             
                             if (! _.isEqual(ko.unwrap(futureRow.pastRow), futureRow())) {
-                                console.log('mutable: replace', index, '->', futureRow());
+                                log('mutable: replace', index, '->', futureRow());
                                 // replace current one with next value
                                 futureRow.pastRow(futureRow());
                             }
                         }
                         else {
-                            console.log('mutable: insert new one', index, '->', futureRow());
+                            log('mutable: insert new one', index, '->', futureRow());
                             // insert new one
                             rows.splice(index, 0, futureRow);
                         }
@@ -357,8 +360,8 @@ const
                         //    debugger;
                         
                         if (offsetYDelta) {
-                            console.log('offsetYDelta', offsetYDelta);
-                            $aside.scrollTop( $aside.scrollTop() + offsetYDelta );
+                        //console.log('offsetYDelta', offsetYDelta);
+                            $aside.scrollTop($aside.scrollTop() + offsetYDelta);
                         }
                     });
                 });
