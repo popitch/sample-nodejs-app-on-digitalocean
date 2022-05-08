@@ -334,9 +334,10 @@ dbConn.then(async (db) => {
                 for (var line = e.note && e.note.replace(/^[\s\S]*Line: (\d+)[\s\S]*$/i, '$1'); line; ) {
                     const lines = responseText.split(/\n/g);
                     e.line = line + ':   /' + lines.length;
-                    e.code = '\n\t' + lines.slice(line - 1).slice(0, 3)
+                    e.code = '\n    ' + lines.slice(line - 1).slice(0, 3)
                             .map(l => l.substr(0, 40) + ' (' + l.length + ')')
-                            .map((l, n) => (line - 1 + n) + ': ' + l).join('\n\t');
+                            .map((l, n) => (line - 1 + n) + ': ' + l)
+                            .join('\n  ');
                     break;
                 }
                 console.warn('! XML parse error:', e);

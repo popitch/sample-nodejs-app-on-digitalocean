@@ -142,14 +142,14 @@ app.get('/*-to-*', (req, res, next) => {
     }
     log("Try to GET pair:", pair, '... from =', FROM);
     
-    const TO = findKeyByLowerCase(countTree[FROM], pair[1]);
+    const TO = findKeyByLowerCase(countTree[FROM], pair[1]) || findKeyByLowerCase(countTree, pair[1]);
     if (! TO) {
         log('not found to=', TO);
         next();
     }
     log("Try to GET pair:", pair, '... go to =', TO);
     
-    const pageSize = countTree[FROM][TO];
+    const pageSize = countTree[FROM][TO] || 0;
     
     log("Try to GET pair:", pair, '... rates count =', pageSize);
     
