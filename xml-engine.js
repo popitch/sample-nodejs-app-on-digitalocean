@@ -335,6 +335,7 @@ dbConn.then(async (db) => {
                     const lines = responseText.split(/\n/g);
                     e.line = line + ':   /' + lines.length;
                     e.code = '\n\t' + lines.slice(line - 1).slice(0, 3)
+                            .map(l => l.substr(0, 40) + ' (' + l.length + ')')
                             .map((l, n) => (line - 1 + n) + ': ' + l).join('\n\t');
                     break;
                 }
