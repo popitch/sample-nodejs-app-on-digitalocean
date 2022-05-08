@@ -49,7 +49,7 @@ p {
 .logo {
     float: left;
     margin-right: .5em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-family: monospace;
     /* font-weight: bolder; */
     
@@ -59,6 +59,7 @@ p {
     font-size: 3.8em;
     line-height: .83em;
     font-family: poppins-bold,Arial,serif;
+    color: #d0f1ae;
 }
 
 /** header menu
