@@ -11,13 +11,11 @@ html
         
         // Global site tag (gtag.js) - Google Analytics
         script(async src="https://www.googletagmanager.com/gtag/js?id=G-9LGYWXRF0P")
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-        
-            gtag('config', 'G-9LGYWXRF0P');
-        </script>
+        script
+            | window.dataLayer = window.dataLayer || [];
+            | function gtag(){dataLayer.push(arguments);}
+            | gtag('js', new Date());
+            | gtag('config', 'G-9LGYWXRF0P');
     
     body.site-layout.rates
         block pre-header
