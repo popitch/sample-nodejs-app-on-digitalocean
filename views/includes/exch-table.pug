@@ -56,10 +56,9 @@ table.rates#exchange-table.initial(data-bind="attr: { 'class': '' }")
         tr
             td(colspan="8") Нет данных для выбранного направления обмена
 
-div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }" style="text-align: center")
+div(data-bind="style: { color: loading() || rates().length ? 'transparent' : 'inherit' }")
     | Нет данных для выбранного направления обмена
-
-div(data-bind="visible: ! rates().length && loading()" style="display: none") ...
+    //div(data-bind="text: loading() ? '...' : ''" style="text-align: center")
 
 
 //- Popular pairs with selected pair
