@@ -433,17 +433,16 @@ const
                         return rate;
                     })
                 );
-                
+            })
+            .catch(e => {
+                console.warn('wow, error', e);
+                exchangeRates.rates([]);
+            })
+            .always(() => {
                 exchangeRates.loading(false);
                 more();
                 
                 _.isFunction(done) && done();
-            })
-            .catch((e) => {
-                console.warn('wow, error', e);
-                exchangeRates.loading(false);
-                exchangeRates.rates([]);
-                more();
             });
         
         // renew request
