@@ -8,6 +8,16 @@ html
         
         block css
             link(rel='stylesheet', href='/css/common.css', media="all")
+        
+        // Global site tag (gtag.js) - Google Analytics
+        script(async src="https://www.googletagmanager.com/gtag/js?id=G-9LGYWXRF0P")
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+        
+            gtag('config', 'G-9LGYWXRF0P');
+        </script>
     
     body.site-layout.rates
         block pre-header
@@ -28,13 +38,3 @@ html
         // preload data //...
         
         script(src="/js/rate-utils.js")
-        
-        // Global site tag (gtag.js) - Google Analytics
-        script(async src="https://www.googletagmanager.com/gtag/js?id=G-9LGYWXRF0P")
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-        
-            gtag('config', 'G-9LGYWXRF0P');
-        </script>
