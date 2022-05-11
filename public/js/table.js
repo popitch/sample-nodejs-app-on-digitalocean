@@ -262,6 +262,16 @@ const
                                         row[key] = value;
                                 });
                             }
+                            function value() {
+                                return {
+                                    from: row.from,
+                                    to: row.to,
+                                    exchangerId: row.exchangerId,
+                                    in: row.in(),
+                                    out: row.out(),
+                                    amount: row.amount(),
+                                };
+                            }
                             
                             return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update, value });
                         });
