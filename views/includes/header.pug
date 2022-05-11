@@ -13,7 +13,7 @@ header
             | Обменники 
             em.value= aggregator.exchangersCount() 
     
-    a.logo(href='/')= SITE_NAME
+    a.logo(href='/' title=title || 'Мониторинг обменников')= SITE_NAME
     
     ul.menu
         li(class=("/"         === urlPath) && "active")

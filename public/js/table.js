@@ -246,7 +246,22 @@ const
                             lastRowIndex = pastIndex;
                         }
                         
-                        return _.extend(ko.observable(data), { key, pastRow: rows()[pastIndex] });
+                        return _.extend(
+                            ko.observable(_.extend(
+                                _.clone(data), {
+                                    in: ko.observable(data["in"]),
+                                    out: ko.observable(data["out"]),
+                                    amount: ko.observable(data["amount"]),
+                                    update: (data) => {
+                                        _.each(data, (value, key) => {
+                                            if (ko.isObservable(this[key])) this[key](value);
+                                            else this[key] = value;
+                                        });
+                                    },
+                                },
+                            )),
+                            { key, pastRow: rows()[pastIndex] }
+                        );
                     });
                     
                     const __target = futureRows.map(ko.unwrap).map(_.clone);
@@ -275,11 +290,13 @@ const
                                 rows.splice(index, 1);
                             }
                             // here (rows()[index] === futureRow.pastRow)
+                            const row = rows()[index];
                             
-                            if (! _.isEqual(ko.unwrap(futureRow.pastRow), futureRow())) {
+                            if (! _.isEqual(ko.unwrap(row/*futureRow.pastRow*/), futureRow())) {
                                 log('mutable: replace', index, '->', futureRow());
                                 // replace current one with next value
-                                futureRow.pastRow(futureRow());
+                                row/*futureRow.pastRow*/.update(futureRow());
+                                //futureRow.pastRow(futureRow());
                             }
                         }
                         else {
