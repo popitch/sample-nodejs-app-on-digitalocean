@@ -249,9 +249,7 @@ const
                             }
                             
                             // mutable observable row
-                            const
-                                value = () => _.mapObject(row, value => _.isFunction(value) ? ko.isObservable(value) ? value() : undefined : value),
-                                row = _.clone(data);
+                            const row = _.clone(data);
                             MUTABLE_KEYS.forEach(key => row[key] = ko.observable(data[key]));
                             
                             function update(data) {
@@ -262,7 +260,7 @@ const
                                         row[key] = value;
                                 });
                             }
-                            function value() {
+                            function rowValue() {
                                 return {
                                     from: row.from,
                                     to: row.to,
@@ -273,7 +271,7 @@ const
                                 };
                             }
                             
-                            return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update, value });
+                            return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update, value: rowValue });
                         });
                     
                     const __target = futureRows.map(ko.unwrap).map(_.clone);
