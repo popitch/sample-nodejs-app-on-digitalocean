@@ -246,22 +246,21 @@ const
                             lastRowIndex = pastIndex;
                         }
                         
-                        return _.extend(
-                            ko.observable(_.extend(
-                                _.clone(data), {
-                                    in: ko.observable(data["in"]),
-                                    out: ko.observable(data["out"]),
-                                    amount: ko.observable(data["amount"]),
-                                    update: (data) => {
-                                        _.each(data, (value, key) => {
-                                            if (ko.isObservable(this[key])) this[key](value);
-                                            else this[key] = value;
-                                        });
-                                    },
-                                },
-                            )),
-                            { key, pastRow: rows()[pastIndex] }
-                        );
+                        // mutable observable row
+                        const row = _.extend(_.clone(data), {
+                            in: ko.observable(data["in"]),
+                            out: ko.observable(data["out"]),
+                            amount: ko.observable(data["amount"]),
+                        });
+                        
+                        function update(data) {
+                            _.each(data, (value, key) => {
+                                if (ko.isObservable(row[key])) row[key](value);
+                                //else row[key] = value;
+                            });
+                        }
+                        
+                        return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update });
                     });
                     
                     const __target = futureRows.map(ko.unwrap).map(_.clone);
