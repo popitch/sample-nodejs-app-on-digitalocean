@@ -249,18 +249,21 @@ const
                             }
                             
                             // mutable observable row
-                            const row = _.clone(data);
+                            const
+                                value = () => _.mapObject(row, value => _.isFunction(value) ? ko.isObservable(value) ? value() : undefined : value),
+                                row = _.clone(data);
                             MUTABLE_KEYS.forEach(key => row[key] = ko.observable(data[key]));
                             
                             function update(data) {
                                 _.each(data, (value, key) => {
                                     if (ko.isObservable(row[key]))
                                         row[key]( ko.unwrap(value) );
-                                    //else row[key] = value;
+                                    else
+                                        row[key] = value;
                                 });
                             }
                             
-                            return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update });
+                            return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update, value });
                         });
                     
                     const __target = futureRows.map(ko.unwrap).map(_.clone);
@@ -291,7 +294,7 @@ const
                             // here (rows()[index] === futureRow.pastRow)
                             const row = rows()[index];
                             
-                            if (! _.isEqual(ko.unwrap(row/*futureRow.pastRow*/), futureRow())) {
+                            if (! _.isEqual(row.value(), futureRow.value())) {
                                 log('mutable: replace', index, '->', futureRow());
                                 // replace current one with next value
                                 row/*futureRow.pastRow*/.update(futureRow());
