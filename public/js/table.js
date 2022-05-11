@@ -238,30 +238,30 @@ const
                         log = (...args) => console.log(NOW, ...args);
                 
                     // update futureRows
-                    const futureRows = rates.sortedDirectedFixedFloating().map(data => {
-                        const key = [data.from, data.to, data.exchangerId].join(),
-                            pastIndex = _.findIndex(rows(), row => row.key === key, lastRowIndex + 1);
-                        
-                        if (-1 !== pastIndex) {
-                            lastRowIndex = pastIndex;
-                        }
-                        
-                        // mutable observable row
-                        const row = _.extend(_.clone(data), {
-                            in: ko.observable(data["in"]),
-                            out: ko.observable(data["out"]),
-                            amount: ko.observable(data["amount"]),
+                    const
+                        MUTABLE_KEYS = ["in", "out", "amount"],
+                        futureRows = rates.sortedDirectedFixedFloating().map(data => {
+                            const key = [data.from, data.to, data.exchangerId].join(),
+                                pastIndex = _.findIndex(rows(), row => row.key === key, lastRowIndex + 1);
+                            
+                            if (-1 !== pastIndex) {
+                                lastRowIndex = pastIndex;
+                            }
+                            
+                            // mutable observable row
+                            const row = _.clone(data);
+                            MUTABLE_KEYS.forEach(key => row[key] = ko.observable(data[key]));
+                            
+                            function update(data) {
+                                _.each(data, (value, key) => {
+                                    if (ko.isObservable(row[key]))
+                                        row[key]( ko.unwrap(value) );
+                                    //else row[key] = value;
+                                });
+                            }
+                            
+                            return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update });
                         });
-                        
-                        function update(data) {
-                            _.each(data, (value, key) => {
-                                if (ko.isObservable(row[key])) row[key](value);
-                                //else row[key] = value;
-                            });
-                        }
-                        
-                        return _.extend(ko.observable(row), { key, pastRow: rows()[pastIndex], update });
-                    });
                     
                     const __target = futureRows.map(ko.unwrap).map(_.clone);
                     
