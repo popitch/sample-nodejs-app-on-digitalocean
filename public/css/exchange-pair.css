@@ -191,8 +191,11 @@
 .rates aside .currency:not(.disabled):hover {
 	background: #c6e8f3;
 }
-.rates aside .currency.selected {
+.rates aside .selected {
 	background: #7dcde7;
+}
+.rates aside .selected .currency-name {
+    font-weight: bolder;
 }
 .rates aside sub {
 	color: lightgray;
