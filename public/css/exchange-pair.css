@@ -157,8 +157,8 @@
     position: fixed;
     width: 14em;
     max-height: 100%;
-    overflow-x: visible;
-    overflow-y: scroll;
+    /* overflow-x: visible;
+    overflow-y: scroll; */
 }
 .rates aside.fixed:not(:hover) {
     -ms-overflow-style: none;  /* IE and Edge */
@@ -176,6 +176,7 @@
 	right: 0;
 	text-align: right;
 }
+.rates aside .sticky-head,
 .rates aside .currency {
     display: block;
     padding: 0.5em;

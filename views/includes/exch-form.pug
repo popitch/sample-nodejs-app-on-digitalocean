@@ -1,12 +1,12 @@
 //- FROM
-aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: rtl")
+aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: ltr")
     label.sticky-head(style="font-size: 1.2em; font-weight: bolder; border-bottom: 1px solid silver;") Отдаете
     //- SSR from
     <!--ko template: { name: 'from-currency.template', foreach: PAIRS_FROM }-->
         for cu in pairsToCurrenciesFrom(getCountTree())
             label.currency(class=[cu.symbol === exchange.form.from && 'selected', cu.symbol === exchange.form.to && 'disabled'].filter(i=>i).join(' '))
                 input(type="radio" value=cu.symbol checked=(cu.symbol === exchange.form.from) disable=(cu.symbol === exchange.form.to))
-                span.currency-name(data-bind="text: name")= cu.name
+                span.currency-name(data-bind="text: name")= cu.name.replace(/\(?[A-Z]+\)?/g, '')
                 span.currency-symbol= cu.symbol
     <!--/ko-->
 
@@ -18,15 +18,15 @@ script(type="html/template" id="from-currency.template")
         //sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
 
 //- TO
-aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: rtl")
+aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: ltr")
     label.sticky-head(style="font-size: 1.2em; font-weight: bolder; border-bottom: 1px solid silver;") Получаете
     //- SSR to
     <!--ko template: { name: 'to-currency.template', foreach: PAIRS_TO }-->
         for cu in pairsToCurrenciesTo(getCountTree())
             label.currency(class=[cu.symbol === exchange.form.to && 'selected', cu.symbol === exchange.form.from && 'disabled'].filter(i=>i).join(' '))
-                input(type="radio" value=cu.symbol checked=(cu.symbol === exchange.form.to) disable=(cu.symbol === exchange.form.from))
-                span.currency-name(data-bind="text: name")= cu.name
+                span.currency-name(data-bind="text: name")= cu.name.replace(/\(?[A-Z]+\)?/g, '')
                 span.currency-symbol= cu.symbol
+                input(type="radio" value=cu.symbol checked=(cu.symbol === exchange.form.to) disable=(cu.symbol === exchange.form.from))
     <!--/ko-->
 
 script(type="html/template" id="to-currency.template")
