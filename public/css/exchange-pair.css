@@ -176,23 +176,34 @@
 	right: 0;
 	text-align: right;
 }
-.rates aside label {
+.rates aside .currency {
     display: block;
     padding: 0.5em;
     white-space: nowrap;
     overflow-x: visible;
 }
-.rates aside label:not(.disabled):hover {
+.rates aside .currency:after {
+	content: ' ';
+	display: block;
+	clear: both;
+}
+.rates aside .currency:not(.disabled):hover {
 	background: #c6e8f3;
 }
-.rates aside label.selected {
+.rates aside .currency.selected {
 	background: #7dcde7;
 }
 .rates aside sub {
 	color: lightgray;
 }
-.rates aside label:not(.disabled):hover sub,
-.rates aside label.selected sub {
+.rates aside .currency:not(.disabled):hover sub,
+.rates aside .currency.selected sub {
     color: gray;
     font-weight: bolder;
+}
+.rates aside .currency-name {
+    font-size: 1em;
+}
+.rates aside .currency-symbol {
+    float: right;
 }
