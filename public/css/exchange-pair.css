@@ -169,7 +169,7 @@
 }
 
 .rates aside.from {
-	left: 0;
+	right: 15em;
 	text-align: left;
 }
 .rates aside.to {

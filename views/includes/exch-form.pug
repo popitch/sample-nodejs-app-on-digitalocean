@@ -1,5 +1,5 @@
 //- FROM
-aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)")
+aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: rtl")
     label.sticky-head(style="font-size: 1.2em; font-weight: bolder; border-bottom: 1px solid silver;") Отдаете
     //- SSR from
     <!--ko template: { name: 'from-currency.template', foreach: PAIRS_FROM }-->
@@ -10,7 +10,7 @@ aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENC
     <!--/ko-->
 
 script(type="html/template" id="from-currency.template")
-    label(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }")
+    label(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }" style="direction: ltr")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.from, disable: symbol === exchangeRates.filter.to()")
         span(data-bind="text: name")
         //sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
