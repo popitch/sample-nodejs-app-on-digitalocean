@@ -179,6 +179,7 @@
 .rates aside label {
     display: block;
     padding: 0.5em;
+    padding-left: .1em;
     white-space: nowrap;
     overflow-x: visible;
 }
@@ -193,9 +194,6 @@
 .rates aside .selected {
 	background: #7dcde7;
 }
-.rates aside .selected .currency-name {
-    font-weight: bolder;
-}
 .rates aside sub {
 	color: lightgray;
 }
@@ -207,6 +205,10 @@
 .rates aside .currency-name {
     float: left;
     font-size: .9em;
+}
+.rates aside .selected .currency-name {
+    font-weight: bolder;
+    font-size: .96em;
 }
 .rates aside .currency-symbol {
     float: right;
