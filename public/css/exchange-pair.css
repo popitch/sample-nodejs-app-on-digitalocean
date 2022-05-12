@@ -157,8 +157,8 @@
     position: fixed;
     width: 15em;
     max-height: 100%;
-    /* overflow-x: visible; */
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .rates aside.fixed:not(:hover) {
     -ms-overflow-style: none;  /* IE and Edge */
@@ -207,6 +207,7 @@
 }
 .rates aside .currency-name {
     float: left;
+    font-size: .9em;
 }
 .rates aside .currency-symbol {
     float: right;
