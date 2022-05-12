@@ -13,7 +13,7 @@ aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENC
 script(type="html/template" id="from-currency.template")
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }" style="direction: ltr")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.from, disable: symbol === exchangeRates.filter.to()")
-        span.currency-name(data-bind="text: name.replace(\/\\(?.*\\)?$\/g, '')")
+        span.currency-name(data-bind="text: name.replace(\/\\(?[A-Z]+\\)?$\/g, '')")
         span.currency-symbol(data-bind="text: symbol")
         //sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
 
@@ -32,6 +32,6 @@ aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_
 script(type="html/template" id="to-currency.template")
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.to(), disabled: symbol === exchangeRates.filter.from() }" style="direction: ltr")
         //sub(data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]")
-        span.currency-name(data-bind="text: name.replace(\/\\(?.*\\)?$\/g, '')")
+        span.currency-name(data-bind="text: name.replace(\/\\(?[A-Z]+\\)?$\/g, '')")
         span.currency-symbol(data-bind="text: symbol")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.to, disable: symbol === exchangeRates.filter.from()")
