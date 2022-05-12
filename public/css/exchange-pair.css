@@ -208,6 +208,6 @@
 .rates aside .currency-symbol {
     float: right;
 }
-.rates aside input:radio {
+.rates aside .currency input[type="radio"] {
 	display: none;
 }
