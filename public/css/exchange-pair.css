@@ -151,14 +151,14 @@
 .rates aside {
     position: absolute;
     width: 13em;
-    /* overflow-x: visible; */
+    overflow-x: visible;
 }
 .rates aside.fixed {
     position: fixed;
     width: 14em;
     max-height: 100%;
-    /* overflow-x: visible;
-    overflow-y: scroll; */
+    /* overflow-x: visible; */
+    overflow-y: scroll;
 }
 .rates aside.fixed:not(:hover) {
     -ms-overflow-style: none;  /* IE and Edge */
@@ -203,8 +203,11 @@
     font-weight: bolder;
 }
 .rates aside .currency-name {
-    font-size: 1em;
+    float: left;
 }
 .rates aside .currency-symbol {
     float: right;
+}
+.rates aside input:radio {
+	display: none;
 }

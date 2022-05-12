@@ -25,8 +25,8 @@ aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_
         for cu in pairsToCurrenciesTo(getCountTree())
             label.currency(class=[cu.symbol === exchange.form.to && 'selected', cu.symbol === exchange.form.from && 'disabled'].filter(i=>i).join(' '))
                 span.currency-name(data-bind="text: name")= cu.name.replace(/\(?[A-Z]+\)?/g, '')
-                span.currency-symbol= cu.symbol
                 input(type="radio" value=cu.symbol checked=(cu.symbol === exchange.form.to) disable=(cu.symbol === exchange.form.from))
+                span.currency-symbol= cu.symbol
     <!--/ko-->
 
 script(type="html/template" id="to-currency.template")
