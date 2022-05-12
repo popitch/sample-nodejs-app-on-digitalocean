@@ -24,7 +24,8 @@ html
         
         block content
         
-        include includes/footer.pug
+        if ! excludeFooter
+            include includes/footer.pug
     
     block scripts
         // libs

@@ -174,6 +174,7 @@ app.get('/*-to-*', (req, res, next) => {
 app.get('/login', (req, res) => {
     res.render('login', {
         title: 'Вход',
+        excludeFooter: true,
     });
 });
 

@@ -318,7 +318,7 @@ const
                     
                     const tailSize = rows().length - futureRows.length
                     if (tailSize > 0) {
-                        log('mutable: remove tail with wize', tailSize);
+                        log('mutable: remove tail with size', tailSize);
                         // remove old tail
                         rows.splice(futureRows.length, tailSize);
                     }
