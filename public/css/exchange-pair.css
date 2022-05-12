@@ -155,7 +155,7 @@
 }
 .rates aside.fixed {
     position: fixed;
-    width: 14em;
+    width: 15em;
     max-height: 100%;
     /* overflow-x: visible; */
     overflow-y: scroll;
@@ -169,7 +169,7 @@
 }
 
 .rates aside.from {
-	right: 15em;
+	right: 16.5em;
 	text-align: left;
 }
 .rates aside.to {
