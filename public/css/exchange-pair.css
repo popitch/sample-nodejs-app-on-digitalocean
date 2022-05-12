@@ -176,8 +176,7 @@
 	right: 0;
 	text-align: right;
 }
-.rates aside .sticky-head,
-.rates aside .currency {
+.rates aside label {
     display: block;
     padding: 0.5em;
     white-space: nowrap;
