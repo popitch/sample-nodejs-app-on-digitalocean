@@ -404,7 +404,7 @@ const
                 }].concat(members);
             })
             .sortBy(g => {
-                return g[0].order;
+                return g[0].group.order;
             })
             .flatten()
             .value();
