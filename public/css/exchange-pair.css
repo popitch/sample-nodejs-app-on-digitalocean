@@ -160,10 +160,12 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+.rates aside.fixed,
 .rates aside.fixed:not(:hover) {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+.rates aside.fixed::-webkit-scrollbar,
 .rates aside.fixed:not(:hover)::-webkit-scrollbar {
     display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
