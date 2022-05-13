@@ -392,11 +392,11 @@ const
         return gid;
     };
 
-console.log('Currencies FROM by gid:', _.groupBy(pairsToCurrenciesFrom(PAIRS()), findCurrencyGroupId));
-console.log('Currencies TO by gid:', _.groupBy(pairsToCurrenciesTo(PAIRS()), findCurrencyGroupId));
+console.log('Currencies FROM with gid:', pairsToCurrenciesFrom(PAIRS()).map(findCurrencyGroupId));
+console.log('Currencies TO with gid:', pairsToCurrenciesTo(PAIRS()).map(findCurrencyGroupId));
 
 
-// module.exports for SSR
+// module.exports for SSR   
 if (typeof module !== 'undefined') {
     module.exports = {
         CURRENCY_NAME_BY_SYMBOL,
