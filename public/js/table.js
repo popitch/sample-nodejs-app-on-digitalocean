@@ -402,9 +402,9 @@ const
         return reload(pairs);
     })(),
     
-    PAIRS_FROM = ko.computed(() => pairsToCurrenciesFrom(PAIRS()), this, { deferEvaluation: true }),
+    CURRENCIES_FROM = ko.computed(() => pairsToCurrenciesFrom(PAIRS()), this, { deferEvaluation: true }),
     
-    PAIRS_TO = ko.computed(() => pairsToCurrenciesTo(PAIRS()), this, { deferEvaluation: true }),
+    CURRENCIES_TO = ko.computed(() => pairsToCurrenciesTo(PAIRS()), this, { deferEvaluation: true }),
     
     /*
     CURRENCY_SYMBOLS = ['KodGARANTEX', 'CARDRUB', 'BTC', 'SBERRUB', 'ACRUB', 'TCSBRUB', 'TBRUB', 'P24UAH', 'USDTTRC20', 'USDTERC', 'PMUSD', 'MONOBUAH', 'WHTBTUSDT', 'CARDUAH', 'USDTBEP20', 'YAMRUB', 'PRRUB', 'ETH', 'GRNTXRUB', 'QWRUB'],    

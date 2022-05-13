@@ -2,7 +2,7 @@
 aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: rtl")
     label.sticky-head(style="font-size: 1.2em; font-weight: bolder; border-bottom: 1px solid silver;") Отдаете
     //- SSR from
-    <!--ko template: { name: 'from-currency.template', foreach: PAIRS_FROM }-->
+    <!--ko template: { name: 'from-currency.template', foreach: groupUnionCurrenciesByGroup(CURRENCIES_FROM()) }-->
         for cu in pairsToCurrenciesFrom(getCountTree())
             label.currency(class=[cu.symbol === exchange.form.from && 'selected', cu.symbol === exchange.form.to && 'disabled'].filter(i=>i).join(' '))
                 input(type="radio" value=cu.symbol checked=(cu.symbol === exchange.form.from) disable=(cu.symbol === exchange.form.to))
@@ -11,17 +11,22 @@ aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENC
     <!--/ko-->
 
 script(type="html/template" id="from-currency.template")
+    <!-- ko if: $data.group -->
+    label.sticky-group(style="text-transform: uppercase" data-bind="text: group.name")
+    <!-- /ko -->
+    <!-- ko ifnot: $data.group -->
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }" style="direction: ltr")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.from, disable: symbol === exchangeRates.filter.to()")
         span.currency-name(data-bind="text: name.replace(\/\\(?[A-Z]+\\)?$\/g, '')")
         span.currency-symbol(data-bind="text: symbol")
         //sub(data-bind="text: PAIRS()[ symbol ][ exchangeRates.filter.to() ]")
+    <!-- /ko -->
 
 //- TO
 aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_LIST_EVENTS($element)" style="direction: rtl")
     label.sticky-head(style="font-size: 1.2em; font-weight: bolder; border-bottom: 1px solid silver;") Получаете
     //- SSR to
-    <!--ko template: { name: 'to-currency.template', foreach: PAIRS_TO }-->
+    <!--ko template: { name: 'to-currency.template', foreach: groupUnionCurrenciesByGroup(CURRENCIES_TO()) }-->
         for cu in pairsToCurrenciesTo(getCountTree())
             label.currency(class=[cu.symbol === exchange.form.to && 'selected', cu.symbol === exchange.form.from && 'disabled'].filter(i=>i).join(' '))
                 span.currency-name(data-bind="text: name")= cu.name.replace(/\(?[A-Z]+\)?$/, '')
@@ -30,8 +35,13 @@ aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_
     <!--/ko-->
 
 script(type="html/template" id="to-currency.template")
+    <!-- ko if: $data.group -->
+    label.sticky-group(style="text-transform: uppercase" data-bind="text: group.name")
+    <!-- /ko -->
+    <!-- ko ifnot: $data.group -->
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.to(), disabled: symbol === exchangeRates.filter.from() }" style="direction: ltr")
         //sub(data-bind="text: PAIRS()[ exchangeRates.filter.from() ][ symbol ]")
         span.currency-name(data-bind="text: name.replace(\/\\(?[A-Z]+\\)?$\/g, '')")
         span.currency-symbol(data-bind="text: symbol")
         input(type="radio" data-bind="value: symbol, checked: exchangeRates.filter.to, disable: symbol === exchangeRates.filter.from()")
+    <!-- /ko -->

@@ -390,6 +390,18 @@ const
         }
         
         return gid;
+    },
+    groupUnionCurrenciesByGroup = (currencies) => {
+        return _.chain(currencies)
+            .groupBy(findCurrencyGroupId)
+            .map((members, gid) => {
+                const group = _.findWhere(EXDIR_GROUPS, { id: Number(gid) });
+                return [{
+                    group: group || { name: 'Иное' }
+                }].concat(members);
+            })
+            .flatten()
+            .value();
     };
 
 if (typeof PAIRS !== 'undefined') { // front only
