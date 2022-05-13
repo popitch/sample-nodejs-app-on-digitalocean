@@ -403,7 +403,9 @@ const
                     group: group || { Name: 'Иное' }
                 }].concat(members);
             })
-            .sortBy(g => g[0].order)
+            .sortBy(g => {
+                return g[0].order;
+            })
             .flatten()
             .value();
     };
