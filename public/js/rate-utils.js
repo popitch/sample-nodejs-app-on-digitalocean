@@ -325,73 +325,75 @@ const
 
 /** Enreachment of old CURRENCIES <--and--> new EXDIRS
  */
-const clearName = (name, symbol, strict) => {
-    name = name.replace(new RegExp('\\s*\\(?' + symbol + '\\)?$'), '').replace(/\s*\(\w+\)$/, '');
-    if (strict === false) {
-        name = name.replace(/(\S)\s+\w+$/, '$1');
-    }
-    name = name .replace(/[\-\s\)\(]/g, '').toLowerCase();
-    return name;
-}
-const currenciesByGid = _.groupBy(pairsToCurrenciesFrom(PAIRS()), cu => {
-    //console.log('find...', cu.name, cu.symbol, '=>', clearName(cu.name, cu.symbol));
-    let exd;
-    
-    // Name
-    cu.name = CURRENCY_NAME_BY_SYMBOL[cu.symbol] || cu.name;
-    trying('Name',               clearName(cu.name, cu.symbol),         exd => clearName(exd.Name, exd.SIGN || exd.symbol));
-    trying('Name, not strict',   clearName(cu.name, cu.symbol, false),  exd => clearName(exd.Name, exd.SIGN || exd.symbol, false));
-
-    // ru
-    cu.Название = RU_CURRENCY_NAME_BY_SYMBOL[cu.symbol] || cu.name;
-    trying('Name, ru',                clearName(cu.Название, cu.symbol),         exd => clearName(exd.Name, exd.SIGN || exd.symbol));
-    trying('Name, ru, not strict',    clearName(cu.Название, cu.symbol, false),  exd => clearName(exd.Name, exd.SIGN || exd.symbol, false));
-
-    // Short
-    trying('Short',              clearName(cu.name, cu.symbol),         exd => clearName(exd.Short, exd.SIGN || exd.symbol));
-    trying('Short, not strict',  clearName(cu.name, cu.symbol, false),  exd => clearName(exd.Short, exd.SIGN || exd.symbol, false));
-    
-    trying('Short, ru',               clearName(cu.Название, cu.symbol),         exd => clearName(exd.Short, exd.SIGN || exd.symbol));
-    trying('Short, ru, not strict',   clearName(cu.Название, cu.symbol, false),  exd => clearName(exd.Short, exd.SIGN || exd.symbol, false));
-
-    let gid = exd && exd.gid;
-    if (gid === null) gid = 'M777A2';
-    
-    if (gid) {
-        cu.gid = gid;
-    }
-
-    if (exd) {
-        cu.id = exd.id;
-        exd.SIGN = cu.symbol;
-    }
-    else {
-        //console.error('group not found by', exd);
-    }
-
-    function trying(condName, nameText, exd2text) {
-        if (exd && exd.gid || exd && exd.gid === null) return;
-            
-        exd = _.filter(EXDIRS, exd => nameText === exd2text(exd));
-        
-        if (!exd.length) {
-            //console.warn(nameText, cu.symbol, '[', condName, '] not found');
-            exd = NaN;
+const
+    clearName = (name, symbol, strict) => {
+        name = name.replace(new RegExp('\\s*\\(?' + symbol + '\\)?$'), '').replace(/\s*\(\w+\)$/, '');
+        if (strict === false) {
+            name = name.replace(/(\S)\s+\w+$/, '$1');
         }
-        else if (exd.length > 1) {
-            //console.warn(nameText, cu.symbol, '[', condName, '] found > 1', exd.map(exd => clearName(exd.Name, exd.symbol)));
-            exd = NaN;
+        name = name .replace(/[\-\s\)\(]/g, '').toLowerCase();
+        return name;
+    },
+    findCurrencyGroupId = (cu) => {
+        //console.log('find...', cu.name, cu.symbol, '=>', clearName(cu.name, cu.symbol));
+        let exd;
+        
+        // Name
+        cu.name = CURRENCY_NAME_BY_SYMBOL[cu.symbol] || cu.name;
+        trying('Name',               clearName(cu.name, cu.symbol),         exd => clearName(exd.Name, exd.SIGN || exd.symbol));
+        trying('Name, not strict',   clearName(cu.name, cu.symbol, false),  exd => clearName(exd.Name, exd.SIGN || exd.symbol, false));
+    
+        // ru
+        cu.Название = RU_CURRENCY_NAME_BY_SYMBOL[cu.symbol] || cu.name;
+        trying('Name, ru',                clearName(cu.Название, cu.symbol),         exd => clearName(exd.Name, exd.SIGN || exd.symbol));
+        trying('Name, ru, not strict',    clearName(cu.Название, cu.symbol, false),  exd => clearName(exd.Name, exd.SIGN || exd.symbol, false));
+    
+        // Short
+        trying('Short',              clearName(cu.name, cu.symbol),         exd => clearName(exd.Short, exd.SIGN || exd.symbol));
+        trying('Short, not strict',  clearName(cu.name, cu.symbol, false),  exd => clearName(exd.Short, exd.SIGN || exd.symbol, false));
+        
+        trying('Short, ru',               clearName(cu.Название, cu.symbol),         exd => clearName(exd.Short, exd.SIGN || exd.symbol));
+        trying('Short, ru, not strict',   clearName(cu.Название, cu.symbol, false),  exd => clearName(exd.Short, exd.SIGN || exd.symbol, false));
+    
+        let gid = exd && exd.gid;
+        if (gid === null) gid = 'M777A2';
+        
+        if (gid) {
+            cu.gid = gid;
+        }
+    
+        if (exd) {
+            cu.id = exd.id;
+            exd.SIGN = cu.symbol;
         }
         else {
-            exd = exd[0];
-            //console.log(nameText, cu.symbol, 'found', exd);
+            //console.error('group not found by', exd);
         }
-    }
     
-    return gid;
-});
+        function trying(condName, nameText, exd2text) {
+            if (exd && exd.gid || exd && exd.gid === null) return;
+                
+            exd = _.filter(EXDIRS, exd => nameText === exd2text(exd));
+            
+            if (!exd.length) {
+                //console.warn(nameText, cu.symbol, '[', condName, '] not found');
+                exd = NaN;
+            }
+            else if (exd.length > 1) {
+                //console.warn(nameText, cu.symbol, '[', condName, '] found > 1', exd.map(exd => clearName(exd.Name, exd.symbol)));
+                exd = NaN;
+            }
+            else {
+                exd = exd[0];
+                //console.log(nameText, cu.symbol, 'found', exd);
+            }
+        }
+        
+        return gid;
+    };
 
-console.log('currenciesByGid:', currenciesByGid);
+console.log('Currencies FROM by gid:', _.groupBy(pairsToCurrenciesFrom(PAIRS()), findCurrencyGroupId));
+console.log('Currencies TO by gid:', _.groupBy(pairsToCurrenciesTo(PAIRS()), findCurrencyGroupId));
 
 
 // module.exports for SSR
