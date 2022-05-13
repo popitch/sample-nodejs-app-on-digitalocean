@@ -12,7 +12,7 @@ aside.fixed.from(data-currency-list=true data-bind="event: exchangeRates.CURRENC
 
 script(type="html/template" id="from-currency.template")
     <!-- ko if: $data.group -->
-    label.sticky-group(style="text-transform: uppercase" data-bind="text: group.name")
+    label.sticky-group(style="text-transform: uppercase; font-weight: bolder" data-bind="text: group.Name")
     <!-- /ko -->
     <!-- ko ifnot: $data.group -->
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.from(), disabled: symbol === exchangeRates.filter.to() }" style="direction: ltr")
@@ -36,7 +36,7 @@ aside.fixed.to(data-currency-list=true data-bind="event: exchangeRates.CURRENCY_
 
 script(type="html/template" id="to-currency.template")
     <!-- ko if: $data.group -->
-    label.sticky-group(style="text-transform: uppercase" data-bind="text: group.name")
+    label.sticky-group(style="text-transform: uppercase; font-weight: bolder" data-bind="text: group.Name")
     <!-- /ko -->
     <!-- ko ifnot: $data.group -->
     label.currency(data-bind="css: { selected: symbol === exchangeRates.filter.to(), disabled: symbol === exchangeRates.filter.from() }" style="direction: ltr")

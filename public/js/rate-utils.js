@@ -397,7 +397,7 @@ const
             .map((members, gid) => {
                 const group = _.findWhere(EXDIR_GROUPS, { id: Number(gid) });
                 return [{
-                    group: group || { name: 'Иное' }
+                    group: group || { Name: 'Иное' }
                 }].concat(members);
             })
             .flatten()
