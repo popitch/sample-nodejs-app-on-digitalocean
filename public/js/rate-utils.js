@@ -395,7 +395,7 @@ const
         return _.chain(currencies)
             .groupBy(findCurrencyGroupId)
             .map((members, gid) => {
-                const group = _.findWhere(EXDIR_GROUPS, { id: Number(gid) });
+                const group = _.findWhere(EXDIR_GROUPS, { id: Number(gid) || gid });
                 return [{
                     group: group || { Name: 'Иное' }
                 }].concat(members);
