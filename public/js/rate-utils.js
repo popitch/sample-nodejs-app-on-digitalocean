@@ -400,7 +400,7 @@ const
             .map((members, gid) => {
                 const group = _.findWhere(EXDIR_GROUPS, { id: Number(gid) || gid });
                 return [{
-                    group: group || { Name: 'Иное' }
+                    group: group || { Name: 'Иное', order: 1e9 }
                 }].concat(members);
             })
             .sortBy(g => {
