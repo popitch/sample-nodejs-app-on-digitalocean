@@ -83,7 +83,7 @@ const
                     to: CURRENCY_NAME_BY_SYMBOL[to] || to,
                 })
             }),
-            inited: ko.observable(false),
+            pageInited: false,
         },
         
         filter: (() => {
@@ -503,6 +503,6 @@ $(() => {
         ko.applyBindings(exchangeRates, document.head);
         ko.applyBindings(exchangeRates, document.body);
         
-        exchangeRates.page.inited(true);
+        exchangeRates.page.pageInited = true;
     });
 });
