@@ -4,7 +4,6 @@ html
     head(data-bind="with: page")
         title(data-bind="text: title() && pageInited ? title() + ' → " + SITE_NAME + "' : $element.innerText")= (title ? title + ', обменять по лучшему курсу — ' : '') + SITE_NAME
         
-        
         meta(name="description" content=title + " по самому выгодному курсу в России, надежные и безопасные обменники на " + SITE_DOMAIN)
         
         block css
