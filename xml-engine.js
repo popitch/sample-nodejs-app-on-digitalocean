@@ -95,7 +95,7 @@ const Cached = {
         return Cached.putJson('process', aggProcessState = {
             up: AGG_START_AT,
             now: new Date,
-            jsoncached: {
+            cached: {
                 exchangers: Exchangers.length,
                 rates: pairsAll.reduce((sum, touch) => sum + touch.rates.length, 0),
                 pairs: Cached.pairs.processReport(),
@@ -103,8 +103,15 @@ const Cached = {
             db: dbReport,
             node: {
                 mem: process.memoryUsage(),
-            }
+            },
+            extra: Cached._processExtra,
         });
+    },
+    
+    _processExtra: {},
+    setProcessExtra: (extra) => {
+        Object.assign(Cached._processExtra, extra || {});
+        Cached.putProcessReport();
     },
     
     pairs: (() => {
@@ -286,12 +293,19 @@ dbConn.then(async (db) => {
         // reload its my sheet stuff
         await awaitWhileDBGetMyXmlVerifiedExchangersStuff();
         
-        return _.chain(Exchangers)
+        const oldy = _.chain(Exchangers)
             .filter(exch => exch.xml && exch.xmlVerified)
             .filter(exch => ! exch.xmlStartedAt)
             //.sort((a,b) => exchangerUpdatedAt(a) - exchangerUpdatedAt(b)) /* O(N * logN) */ [ 0 ]
             .sortBy(exchangerNotStartedUpdateAt) /* O(N * logN) */
-            .value()[ 0 ]
+            .value()
+            [0];
+        
+        Cached.setProcessExtra({
+            lastRequestedExchanger: oldy
+        });
+        
+        return oldy;
     }
         
     // request older exchanger's XML + deffered self calling (queue)
